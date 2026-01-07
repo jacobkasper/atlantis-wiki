@@ -1,0 +1,57 @@
+---
+title: "Mini Development Initial Notes"
+author: "Unknown User (hep016)"
+---
+
+#### Mini Development
+
+The mini development will be put on hold while we load the Atlantis parameters (no data) into the Ecodatabase. Bec and Brian will work on generating content that Mike can load into the database while Mark will work to develop a par generator.
+
+We need to capture as much information as possible able the parameters including the units, possible values and comments. We are aiming for the Mini to be an independent tool that people can use to create Atlantis input files without any additional documentation.  
+We may potentially need to be able to store quite large document blobs in the database. It might be good to add some additional functionality to the Mini so that uses can click on a help page for each parameter and find lots of information.
+
+One challenge we have yet to solve is logic. For example if a group is a vertebrate then we need to include the isShark, isMammal flags. If the group is invertebrate we don't need to do this.
+
+The first step in the GUI process will be to define the functional groups. Once these are defined we will be able to auto generate the par files. The other option is to simply create the par files without the functional group stuff and have the mini business layer code handle this.   
+No matter what we are going to have to have some business logic code somewhere. We could try to get this logic into some sort of generic format like the par files or the database but i think we should put this in a business layer logic section of the mini.
+
+OK. So the par generator should have the following functionality:  
+Depending on the database content it would either do the following:  
+For each par file to be generated:
+- If the database stores the group names and group descriptions then it does a query to get all of the groups and group descriptions. It then gets all of the parameters in the group and generates the required line of parameter information.
+- If this is not stored in the database, it will be in the code or a config file.
+
+As we are going to have to write code to check that the input files are valid. Can we do this by changing the input files to XML and having a DTD to check the structure. If we could do this Atlantis could use the same method to check that its input files are valid. This would remove the need to check the input files as the are loaded. The question is can we create a dtd that contains all of the logic that we need.   
+Also if we do this can we use xslt to create the par files?
+
+Time to check how complex a DTD can be. DTD does not provide that sort of level but xslt might.
+
+What we really want to do for say the biology file is loop over each of the functional groups. Based on the groups properties we need to search for a set of parameters. If these are not found then we want to exit.
+
+Once we have this we can simplify the atlantis code significantly as we could get rid of all the error checking code. We could just search for all parameters as use default values if no value is found.
+
+The question is what is the best format for the input files to be in. Should we move over to xml? If we do this we will need to be able to convert existing input files into xml so an additional tool will be required. It will be very similar to the existing fileConversion code so thats not that much work. And the existing input parsing code will handle a change to xml well.
+
+OK. The final plan for this is for bec to write a generic library that Atlantis and the Mini can call to check for parameter dependencies. Not sure how this is going to work yet, but i will somehow build a dependency matrix that can be checked.
+
+In atlantis we will basically call the lib to find any parameters that are dependent on a given parameter. These will then be either read in or the presence of this parameter will be checked. One issue we will have is
+
+Mini:  
+For each parameter (A), register listeners with any parameters (B) that this parameter is dependent on. When parameter B changes state then parameter A will work out if it still need to be active.
+
+So i will need to find out what parameters (B) parameter A is dependent on.
+
+Atlantis:
+
+I can just do the same thing. The issue will be that i will have to check the loaded values before working out if a parameter is read. The other option is i could read in all parameters that are dependent on a parameter when that one is read in. For example when a functional group is defined as active then all parameters associated with that group are read in. This would be reasonably simple but super slow.   
+I think i will have to keep doing things like i am at the moment. When we start reading in a group of parameters a check is made to see which ones we have to read in - similar to what is going to happen in the mini.   
+So the only bit that can be the same is the parameter dependency. The challenge is working out how the lib can return useful information that can be used to check the values of any parameters that a parameter is dependent on.
+
+I can't think of anyway that i can do this. I need to think about it a bit more.
+
+#### Bugs that need fixing/additional functionality:
+- When a file is saved there needs to be some sort of dialog/message to the user to indicate that the save was successful.
+- Need to be able to support a saveAs operation.
+- Need some error checking on the input file. If a value should be an integer but a string is read in should it spit a message and quit or show a warning?
+- We want to remove the svae buttons from the main page. I think these are added by default.
+- Need to check the format of the par files. At present they will just die if the format is wrong.

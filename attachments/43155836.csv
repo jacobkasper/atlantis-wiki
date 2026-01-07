@@ -1,0 +1,330 @@
+Planktiv_S_Fish1_Nums,Small Planktivores
+Planktiv_S_Fish2_Nums,Small Planktivores
+Planktiv_S_Fish3_Nums,Small Planktivores
+Planktiv_S_Fish4_Nums,Small Planktivores
+Planktiv_S_Fish5_Nums,Small Planktivores
+Planktiv_S_Fish6_Nums,Small Planktivores
+Planktiv_S_Fish7_Nums,Small Planktivores
+Planktiv_S_Fish8_Nums,Small Planktivores
+Planktiv_S_Fish9_Nums,Small Planktivores
+Planktiv_S_Fish10_Nums,Small Planktivores
+Planktiv_O_Fish1_Nums,Canary Rockfish
+Planktiv_O_Fish2_Nums,Canary Rockfish
+Planktiv_O_Fish3_Nums,Canary Rockfish
+Planktiv_O_Fish4_Nums,Canary Rockfish
+Planktiv_O_Fish5_Nums,Canary Rockfish
+Planktiv_O_Fish6_Nums,Canary Rockfish
+Planktiv_O_Fish7_Nums,Canary Rockfish
+Planktiv_O_Fish8_Nums,Canary Rockfish
+Planktiv_O_Fish9_Nums,Canary Rockfish
+Planktiv_O_Fish10_Nums,Canary Rockfish
+Planktiv_L_Fish1_Nums,Large Planktivores
+Planktiv_L_Fish2_Nums,Large Planktivores
+Planktiv_L_Fish3_Nums,Large Planktivores
+Planktiv_L_Fish4_Nums,Large Planktivores
+Planktiv_L_Fish5_Nums,Large Planktivores
+Planktiv_L_Fish6_Nums,Large Planktivores
+Planktiv_L_Fish7_Nums,Large Planktivores
+Planktiv_L_Fish8_Nums,Large Planktivores
+Planktiv_L_Fish9_Nums,Large Planktivores
+Planktiv_L_Fish10_Nums,Large Planktivores
+Pisciv_S_Fish1_Nums,Large Demersal Predators
+Pisciv_S_Fish2_Nums,Large Demersal Predators
+Pisciv_S_Fish3_Nums,Large Demersal Predators
+Pisciv_S_Fish4_Nums,Large Demersal Predators
+Pisciv_S_Fish5_Nums,Large Demersal Predators
+Pisciv_S_Fish6_Nums,Large Demersal Predators
+Pisciv_S_Fish7_Nums,Large Demersal Predators
+Pisciv_S_Fish8_Nums,Large Demersal Predators
+Pisciv_S_Fish9_Nums,Large Demersal Predators
+Pisciv_S_Fish10_Nums,Large Demersal Predators
+Pisciv_D_Fish1_Nums,Large Flatfish
+Pisciv_D_Fish2_Nums,Large Flatfish
+Pisciv_D_Fish3_Nums,Large Flatfish
+Pisciv_D_Fish4_Nums,Large Flatfish
+Pisciv_D_Fish5_Nums,Large Flatfish
+Pisciv_D_Fish6_Nums,Large Flatfish
+Pisciv_D_Fish7_Nums,Large Flatfish
+Pisciv_D_Fish8_Nums,Large Flatfish
+Pisciv_D_Fish9_Nums,Large Flatfish
+Pisciv_D_Fish10_Nums,Large Flatfish
+Pisciv_T_Fish1_Nums,Large Pelagic Predators
+Pisciv_T_Fish2_Nums,Large Pelagic Predators
+Pisciv_T_Fish3_Nums,Large Pelagic Predators
+Pisciv_T_Fish4_Nums,Large Pelagic Predators
+Pisciv_T_Fish5_Nums,Large Pelagic Predators
+Pisciv_T_Fish6_Nums,Large Pelagic Predators
+Pisciv_T_Fish7_Nums,Large Pelagic Predators
+Pisciv_T_Fish8_Nums,Large Pelagic Predators
+Pisciv_T_Fish9_Nums,Large Pelagic Predators
+Pisciv_T_Fish10_Nums,Large Pelagic Predators
+Pisciv_B_Fish1_Nums,Salmon
+Pisciv_B_Fish2_Nums,Salmon
+Pisciv_B_Fish3_Nums,Salmon
+Pisciv_B_Fish4_Nums,Salmon
+Pisciv_B_Fish5_Nums,Salmon
+Pisciv_B_Fish6_Nums,Salmon
+Pisciv_B_Fish7_Nums,Salmon
+Pisciv_B_Fish8_Nums,Salmon
+Pisciv_B_Fish9_Nums,Salmon
+Pisciv_B_Fish10_Nums,Salmon
+Mesopel_M_Fish1_Nums,Hake
+Mesopel_M_Fish2_Nums,Hake
+Mesopel_M_Fish3_Nums,Hake
+Mesopel_M_Fish4_Nums,Hake
+Mesopel_M_Fish5_Nums,Hake
+Mesopel_M_Fish6_Nums,Hake
+Mesopel_M_Fish7_Nums,Hake
+Mesopel_M_Fish8_Nums,Hake
+Mesopel_M_Fish9_Nums,Hake
+Mesopel_M_Fish10_Nums,Hake
+Mesopel_N_Fish1_Nums,Sablefish
+Mesopel_N_Fish2_Nums,Sablefish
+Mesopel_N_Fish3_Nums,Sablefish
+Mesopel_N_Fish4_Nums,Sablefish
+Mesopel_N_Fish5_Nums,Sablefish
+Mesopel_N_Fish6_Nums,Sablefish
+Mesopel_N_Fish7_Nums,Sablefish
+Mesopel_N_Fish8_Nums,Sablefish
+Mesopel_N_Fish9_Nums,Sablefish
+Mesopel_N_Fish10_Nums,Sablefish
+Benthopel_Fish1_Nums,Deep Vertical Migrators
+Benthopel_Fish2_Nums,Deep Vertical Migrators
+Benthopel_Fish3_Nums,Deep Vertical Migrators
+Benthopel_Fish4_Nums,Deep Vertical Migrators
+Benthopel_Fish5_Nums,Deep Vertical Migrators
+Benthopel_Fish6_Nums,Deep Vertical Migrators
+Benthopel_Fish7_Nums,Deep Vertical Migrators
+Benthopel_Fish8_Nums,Deep Vertical Migrators
+Benthopel_Fish9_Nums,Deep Vertical Migrators
+Benthopel_Fish10_Nums,Deep Vertical Migrators
+Demersal_S_Fish1_Nums,Midwater Rockfish
+Demersal_S_Fish2_Nums,Midwater Rockfish
+Demersal_S_Fish3_Nums,Midwater Rockfish
+Demersal_S_Fish4_Nums,Midwater Rockfish
+Demersal_S_Fish5_Nums,Midwater Rockfish
+Demersal_S_Fish6_Nums,Midwater Rockfish
+Demersal_S_Fish7_Nums,Midwater Rockfish
+Demersal_S_Fish8_Nums,Midwater Rockfish
+Demersal_S_Fish9_Nums,Midwater Rockfish
+Demersal_S_Fish10_Nums,Midwater Rockfish
+Demersal_D_Fish1_Nums,Deep Misc Fish
+Demersal_D_Fish2_Nums,Deep Misc Fish
+Demersal_D_Fish3_Nums,Deep Misc Fish
+Demersal_D_Fish4_Nums,Deep Misc Fish
+Demersal_D_Fish5_Nums,Deep Misc Fish
+Demersal_D_Fish6_Nums,Deep Misc Fish
+Demersal_D_Fish7_Nums,Deep Misc Fish
+Demersal_D_Fish8_Nums,Deep Misc Fish
+Demersal_D_Fish9_Nums,Deep Misc Fish
+Demersal_D_Fish10_Nums,Deep Misc Fish
+Demersal_B_Fish1_Nums,Shallow Small Rockfish
+Demersal_B_Fish2_Nums,Shallow Small Rockfish
+Demersal_B_Fish3_Nums,Shallow Small Rockfish
+Demersal_B_Fish4_Nums,Shallow Small Rockfish
+Demersal_B_Fish5_Nums,Shallow Small Rockfish
+Demersal_B_Fish6_Nums,Shallow Small Rockfish
+Demersal_B_Fish7_Nums,Shallow Small Rockfish
+Demersal_B_Fish8_Nums,Shallow Small Rockfish
+Demersal_B_Fish9_Nums,Shallow Small Rockfish
+Demersal_B_Fish10_Nums,Shallow Small Rockfish
+Demersal_DC_Fish1_Nums,Deep Small Rockfish
+Demersal_DC_Fish2_Nums,Deep Small Rockfish
+Demersal_DC_Fish3_Nums,Deep Small Rockfish
+Demersal_DC_Fish4_Nums,Deep Small Rockfish
+Demersal_DC_Fish5_Nums,Deep Small Rockfish
+Demersal_DC_Fish6_Nums,Deep Small Rockfish
+Demersal_DC_Fish7_Nums,Deep Small Rockfish
+Demersal_DC_Fish8_Nums,Deep Small Rockfish
+Demersal_DC_Fish9_Nums,Deep Small Rockfish
+Demersal_DC_Fish10_Nums,Deep Small Rockfish
+Demersal_O_Fish1_Nums,Deep Large Rockfish
+Demersal_O_Fish2_Nums,Deep Large Rockfish
+Demersal_O_Fish3_Nums,Deep Large Rockfish
+Demersal_O_Fish4_Nums,Deep Large Rockfish
+Demersal_O_Fish5_Nums,Deep Large Rockfish
+Demersal_O_Fish6_Nums,Deep Large Rockfish
+Demersal_O_Fish7_Nums,Deep Large Rockfish
+Demersal_O_Fish8_Nums,Deep Large Rockfish
+Demersal_O_Fish9_Nums,Deep Large Rockfish
+Demersal_O_Fish10_Nums,Deep Large Rockfish
+Demersal_E_Fish1_Nums,Misc. Nearshore Demersal
+Demersal_E_Fish2_Nums,Misc. Nearshore Demersal
+Demersal_E_Fish3_Nums,Misc. Nearshore Demersal
+Demersal_E_Fish4_Nums,Misc. Nearshore Demersal
+Demersal_E_Fish5_Nums,Misc. Nearshore Demersal
+Demersal_E_Fish6_Nums,Misc. Nearshore Demersal
+Demersal_E_Fish7_Nums,Misc. Nearshore Demersal
+Demersal_E_Fish8_Nums,Misc. Nearshore Demersal
+Demersal_E_Fish9_Nums,Misc. Nearshore Demersal
+Demersal_E_Fish10_Nums,Misc. Nearshore Demersal
+Demersal_P_Fish1_Nums,English sole
+Demersal_P_Fish2_Nums,English sole
+Demersal_P_Fish3_Nums,English sole
+Demersal_P_Fish4_Nums,English sole
+Demersal_P_Fish5_Nums,English sole
+Demersal_P_Fish6_Nums,English sole
+Demersal_P_Fish7_Nums,English sole
+Demersal_P_Fish8_Nums,English sole
+Demersal_P_Fish9_Nums,English sole
+Demersal_P_Fish10_Nums,English sole
+Demersal_F_Fish1_Nums,Small Flatfish
+Demersal_F_Fish2_Nums,Small Flatfish
+Demersal_F_Fish3_Nums,Small Flatfish
+Demersal_F_Fish4_Nums,Small Flatfish
+Demersal_F_Fish5_Nums,Small Flatfish
+Demersal_F_Fish6_Nums,Small Flatfish
+Demersal_F_Fish7_Nums,Small Flatfish
+Demersal_F_Fish8_Nums,Small Flatfish
+Demersal_F_Fish9_Nums,Small Flatfish
+Demersal_F_Fish10_Nums,Small Flatfish
+Pisciv_O_Fish1_Nums,Migrating Birds
+Pisciv_O_Fish2_Nums,Migrating Birds
+Pisciv_O_Fish3_Nums,Migrating Birds
+Pisciv_O_Fish4_Nums,Migrating Birds
+Pisciv_O_Fish5_Nums,Migrating Birds
+Pisciv_O_Fish6_Nums,Migrating Birds
+Pisciv_O_Fish7_Nums,Migrating Birds
+Pisciv_O_Fish8_Nums,Migrating Birds
+Pisciv_O_Fish9_Nums,Migrating Birds
+Pisciv_O_Fish10_Nums,Migrating Birds
+Shark_D1_Nums,Large Demersal Sharks
+Shark_D2_Nums,Large Demersal Sharks
+Shark_D3_Nums,Large Demersal Sharks
+Shark_D4_Nums,Large Demersal Sharks
+Shark_D5_Nums,Large Demersal Sharks
+Shark_D6_Nums,Large Demersal Sharks
+Shark_D7_Nums,Large Demersal Sharks
+Shark_D8_Nums,Large Demersal Sharks
+Shark_D9_Nums,Large Demersal Sharks
+Shark_D10_Nums,Large Demersal Sharks
+Shark_P1_Nums,Misc. Pelagic Sharks
+Shark_P2_Nums,Misc. Pelagic Sharks
+Shark_P3_Nums,Misc. Pelagic Sharks
+Shark_P4_Nums,Misc. Pelagic Sharks
+Shark_P5_Nums,Misc. Pelagic Sharks
+Shark_P6_Nums,Misc. Pelagic Sharks
+Shark_P7_Nums,Misc. Pelagic Sharks
+Shark_P8_Nums,Misc. Pelagic Sharks
+Shark_P9_Nums,Misc. Pelagic Sharks
+Shark_P10_Nums,Misc. Pelagic Sharks
+Shark_B1_Nums,Small Demersal Sharks
+Shark_B2_Nums,Small Demersal Sharks
+Shark_B3_Nums,Small Demersal Sharks
+Shark_B4_Nums,Small Demersal Sharks
+Shark_B5_Nums,Small Demersal Sharks
+Shark_B6_Nums,Small Demersal Sharks
+Shark_B7_Nums,Small Demersal Sharks
+Shark_B8_Nums,Small Demersal Sharks
+Shark_B9_Nums,Small Demersal Sharks
+Shark_B10_Nums,Small Demersal Sharks
+SkateRay1_Nums,Skates and Rays
+SkateRay2_Nums,Skates and Rays
+SkateRay3_Nums,Skates and Rays
+SkateRay4_Nums,Skates and Rays
+SkateRay5_Nums,Skates and Rays
+SkateRay6_Nums,Skates and Rays
+SkateRay7_Nums,Skates and Rays
+SkateRay8_Nums,Skates and Rays
+SkateRay9_Nums,Skates and Rays
+SkateRay10_Nums,Skates and Rays
+Seabird1_Nums,Surface Seabirds
+Seabird2_Nums,Surface Seabirds
+Seabird3_Nums,Surface Seabirds
+Seabird4_Nums,Surface Seabirds
+Seabird5_Nums,Surface Seabirds
+Seabird6_Nums,Surface Seabirds
+Seabird7_Nums,Surface Seabirds
+Seabird8_Nums,Surface Seabirds
+Seabird9_Nums,Surface Seabirds
+Seabird10_Nums,Surface Seabirds
+Penguin1_Nums,Diving Seabirds
+Penguin2_Nums,Diving Seabirds
+Penguin3_Nums,Diving Seabirds
+Penguin4_Nums,Diving Seabirds
+Penguin5_Nums,Diving Seabirds
+Penguin6_Nums,Diving Seabirds
+Penguin7_Nums,Diving Seabirds
+Penguin8_Nums,Diving Seabirds
+Penguin9_Nums,Diving Seabirds
+Penguin10_Nums,Diving Seabirds
+Pinniped1_Nums,Pinnipeds
+Pinniped2_Nums,Pinnipeds
+Pinniped3_Nums,Pinnipeds
+Pinniped4_Nums,Pinnipeds
+Pinniped5_Nums,Pinnipeds
+Pinniped6_Nums,Pinnipeds
+Pinniped7_Nums,Pinnipeds
+Pinniped8_Nums,Pinnipeds
+Pinniped9_Nums,Pinnipeds
+Pinniped10_Nums,Pinnipeds
+Whale_Baleen1_Nums,Baleen Whales
+Whale_Baleen2_Nums,Baleen Whales
+Whale_Baleen3_Nums,Baleen Whales
+Whale_Baleen4_Nums,Baleen Whales
+Whale_Baleen5_Nums,Baleen Whales
+Whale_Baleen6_Nums,Baleen Whales
+Whale_Baleen7_Nums,Baleen Whales
+Whale_Baleen8_Nums,Baleen Whales
+Whale_Baleen9_Nums,Baleen Whales
+Whale_Baleen10_Nums,Baleen Whales
+Whale_Tooth1_Nums,Toothed Whales
+Whale_Tooth2_Nums,Toothed Whales
+Whale_Tooth3_Nums,Toothed Whales
+Whale_Tooth4_Nums,Toothed Whales
+Whale_Tooth5_Nums,Toothed Whales
+Whale_Tooth6_Nums,Toothed Whales
+Whale_Tooth7_Nums,Toothed Whales
+Whale_Tooth8_Nums,Toothed Whales
+Whale_Tooth9_Nums,Toothed Whales
+Whale_Tooth10_Nums,Toothed Whales
+Reptile1_Nums,Transient Orcas
+Reptile2_Nums,Transient Orcas
+Reptile3_Nums,Transient Orcas
+Reptile4_Nums,Transient Orcas
+Reptile5_Nums,Transient Orcas
+Reptile6_Nums,Transient Orcas
+Reptile7_Nums,Transient Orcas
+Reptile8_Nums,Transient Orcas
+Reptile9_Nums,Transient Orcas
+Reptile10_Nums,Transient Orcas
+Dugong1_Nums,Sea Otters
+Dugong2_Nums,Sea Otters
+Dugong3_Nums,Sea Otters
+Dugong4_Nums,Sea Otters
+Dugong5_Nums,Sea Otters
+Dugong6_Nums,Sea Otters
+Dugong7_Nums,Sea Otters
+Dugong8_Nums,Sea Otters
+Dugong9_Nums,Sea Otters
+Dugong10_Nums,Sea Otters
+Shark_C1_Nums,Pacific Ocean Perch
+Shark_C2_Nums,Pacific Ocean Perch
+Shark_C3_Nums,Pacific Ocean Perch
+Shark_C4_Nums,Pacific Ocean Perch
+Shark_C5_Nums,Pacific Ocean Perch
+Shark_C6_Nums,Pacific Ocean Perch
+Shark_C7_Nums,Pacific Ocean Perch
+Shark_C8_Nums,Pacific Ocean Perch
+Shark_C9_Nums,Pacific Ocean Perch
+Shark_C10_Nums,Pacific Ocean Perch
+Demersal_M_Fish1_Nums,Bocaccio
+Demersal_M_Fish2_Nums,Bocaccio
+Demersal_M_Fish3_Nums,Bocaccio
+Demersal_M_Fish4_Nums,Bocaccio
+Demersal_M_Fish5_Nums,Bocaccio
+Demersal_M_Fish6_Nums,Bocaccio
+Demersal_M_Fish7_Nums,Bocaccio
+Demersal_M_Fish8_Nums,Bocaccio
+Demersal_M_Fish9_Nums,Bocaccio
+Demersal_M_Fish10_Nums,Bocaccio
+Whale_Small1_Nums,Widow Rockfish
+Whale_Small2_Nums,Widow Rockfish
+Whale_Small3_Nums,Widow Rockfish
+Whale_Small4_Nums,Widow Rockfish
+Whale_Small5_Nums,Widow Rockfish
+Whale_Small6_Nums,Widow Rockfish
+Whale_Small7_Nums,Widow Rockfish
+Whale_Small8_Nums,Widow Rockfish
+Whale_Small9_Nums,Widow Rockfish
+Whale_Small10_Nums,Widow Rockfish

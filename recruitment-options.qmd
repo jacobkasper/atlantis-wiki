@@ -1,0 +1,89 @@
+---
+title: "Recruitment Options"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+### Recruitment Options
+
+### Local Recruitment Options:
+
+This options is set using the local recruit parameter in the biology input file.
+
+##### Larval Dispersion
+
+The larval dispersion recruitment allows recruitment based on larval dispersion connectivity matrices.  
+For species where you want to use larval dispersion to calculate the spatial distribution of recruits the species should use fixed_linear_recruit recruitment (set flagrecruit to 12 in the input file). This selects a density independent recruit production.   
+The larval dispersion local recruitment option should then be selected.
+
+**For example for versions prior to v6656:**
+
+flaglocalrecruitFPL 3
+
+would turn on larval dispersion local recruitment for FPL.
+
+**For versions from v6656 onward**
+
+Set RecruitType in the groups.csv to 3
+
+**Defining the distribution**
+
+The spatial distribution of the recruits is then based on a connectivity matrix that is read in from a netcdf file specified in the forcing file ( put it under Recruitment_enviro_forcing or the salinity forcing files):
+
+#Larval dispersion data  
+use_larvalfiles 1 # 1 = use larval files, 0 = don't use larval files.  
+rewind_larval 1 # if 1 then the data is looped - else it continues to use the last years data   
+Larval0.name /media/My Passport/AtlantisRunFiles/runFiles/trunk/AMS/inputs/larval/LarvalDispersal.nc
+
+This is not a compulsory addition to the forcing file if the larval_dispersion option is not selected. I fyou have set the local recruit option to larval dispersion (3) then you must add these parameters to your forcing input file.
+
+[Sample forcing file with the larval dispersion parameters added](attachments/43157273.prm)
+
+Each timestep the function Total_Verts_And_Migration is called to calculate the migration and recruitment dates and values of each species. This function calculates the 2D spatial distribution of species and stores the values in bm->recruit_hdistrib.
+
+A function called Larval_Dispersal is called for each species where the local recruit option is set to larval_dispersal.
+
+Larval Dispersal is also called from initPopulations at model start up to initialise the bm->larvaldistrib array based on the initial bm->recruit_hdistrib values.
+
+#### Generating the Connectivity netCDF file
+
+The structure of the new larval netcdf file is:
+
+netcdf LarvalDispersal {  
+dimensions:  
+t = UNLIMITED ; // (1 currently)  
+d = 71 ; //donor box  
+r = 71 ; //recip box  
+variables:  
+double FPL_Connnectivity(t, d, r) ;  
+FPL_Connnectivity:long_name = "Connectivity of FPL" ;  
+double t(t) ;  
+t:units = "years since 1990-01-01 00:00:00 +10" ;  
+t:long_name = "Time" ;
+
+global attributes:  
+:title = "AMS Larval Distribution" ;
+
+If you have a text file that contains information in the following format you should be able to just paste it into a cdf file and use ncgen to generate a netcdf file.
+
+The easiest way is to create a comma separated file (csv) file for each relevant functional group.  
+This csv file will have a row for each donor box (that supply larvae) and a column for each recipient box (that receive them). The csv file used to generate the attached sample connectivity netcdf file is attached [here](attachments/43157274.csv).
+
+To create the cdf file from your csv file simply copy the actual matrix values (not the box ids) for each functional group into the cdf file. Then use ncgen to pack the cdf file into a netcdf file.
+
+So you will end up with a matrix in your netcdf file FPL_Connnectivity(t, d, r). Assuming you have N boxes in your model then the first N values in your array will be the values going from donor box 0 into each of the N recipient boxes. The next N values will be going from donor box 1 into the N recipient boxes and so forth.
+
+The netcdf file can specify values for each calendar year of the model run. If the rewind parameter is set to 1 then the data is rewound when the end of the data set is reached - so it loops the data. If rewind is set to 0 it will just continue to use the data from the last year.
+
+There are sample [netcdf](attachments/43156946.nc) and [cdf](attachments/43156944.cdf) files attached to this wiki page as examples.
+
+You can also specify connectivity matrices for more than one groups in the NC file. See attached examples [netcdf](attachments/43157683.nc) and [cdf](attachments/43157685.cdf)
+
+**Questions**
+
+1. Should we quit if the user has selected local recruitment option 3 (larval dispersion) but the flagrecuit option is not density independent?
+
+2. At present the connectivity matrix values read in are based on calendar year not recruitment year. We might have a need to change this.
+
+**Possible Future Changes**  
+1. Allow multiple larval dispersion input netcdf files.  
+2. Allow for connectivity matrices to be specified based on recruitment years rather than calendar years.

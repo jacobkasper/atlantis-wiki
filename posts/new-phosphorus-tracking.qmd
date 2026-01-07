@@ -1,0 +1,206 @@
+---
+title: "New Phosphorus tracking"
+date: "2013-05-02"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+There is now functionality in Atlantis to track the ratio of P:N:C in in group.
+
+### Turn P:N:C tracking off:
+
+In most models, certainly new models, it is recommended that you turn this functionality off.
+
+To do this add the following to your run.prm file:
+
+trackAtomicRatio 0
+
+This will turn this tracking off.
+
+### Turn P:N:C tracking on:
+
+Most of this functionality is untested and its expected that some changes will need to be made once its properly testing in an Atlantis model.
+
+**Changes to run.prm file:**
+
+trackAtomicRatio 1
+
+**Changes to biology.prm file:**
+
+The following seem to be good default values for the SETas training model:
+
+# Phosphorus values.
+
+RTOP 0.005 #rates of transformation from available nutrient forms to available forms in days-1
+
+# Inorganic carbon exchange rate
+
+  
+K_Lc 0.5
+
+# max phosphorus uptake rate per day - read in for each primary producer.
+
+  
+P_uptake_PL 0.5
+  
+P_uptake_PS 0.5
+  
+P_uptake_DF 0.5
+  
+P_uptake_MB 0.5
+  
+P_uptake_MA 0.5
+  
+P_uptake_SG 0.5
+
+# max carbon uptake rate per day - read in for each primary producer.
+
+  
+C_uptake_PL 0.5
+  
+C_uptake_PS 0.5
+  
+C_uptake_DF 0.5
+  
+C_uptake_MB 0.5
+  
+C_uptake_MA 0.5
+  
+C_uptake_SG 0.5
+
+# affinity coefficient for phosphorus uptake mechanism - read in for each primary producer.
+
+  
+P_scale_uptake_PL 0.318e-03
+  
+P_scale_uptake_PS 0.518e-03
+  
+P_scale_uptake_DF 0.518e-03
+  
+P_scale_uptake_MA 0.518e-03
+  
+P_scale_uptake_SG 0.518e-03
+
+# affinity coefficient for carbon uptake mechanism - read in for each primary producer.
+
+  
+C_scale_uptake_PL 0.318e-03
+  
+C_scale_uptake_PS 0.518e-03
+  
+C_scale_uptake_DF 0.518e-03
+  
+C_scale_uptake_MA 0.518e-03
+  
+C_scale_uptake_SG 0.518e-03
+
+# internal phosphorus concentration factor - read in for each primary producer.
+
+  
+P_concp_PL 0.250e6
+  
+P_concp_PS 0.250e6
+  
+P_concp_DF 0.250e6
+  
+P_concp_MB 0.250e6
+  
+P_concp_MA 0.250e6
+  
+P_concp_SG 0.250e6
+
+# internal carbon concentration factor - read in for each primary producer.
+
+  
+C_concp_PL 0.250e6
+  
+C_concp_PS 0.250e6
+  
+C_concp_DF 0.250e6
+  
+C_concp_MB 0.250e6
+  
+C_concp_MA 0.250e6
+  
+C_concp_SG 0.250e6
+
+# Min quota of phosphorus in primary producer cells in moles/mg dry weight
+
+  
+PSA_min_PL 1.6e-08
+  
+PSA_min_PS 1.6e-08
+  
+PSA_min_DF 1.6e-08
+  
+PSA_min_MB 1.6e-08
+  
+PSA_min_MA 1.6e-08
+  
+PSA_min_SG 1.6e-08
+
+# Min quota of carbon in primary producer cells in moles/mg dry weight
+
+  
+C_min_PL 1.6e-08
+  
+C_min_PS 1.6e-08
+  
+C_min_DF 1.6e-08
+  
+C_min_MB 1.6e-08
+  
+C_min_MA 1.6e-08
+  
+C_min_SG 1.6e-08
+
+# Phytoplankton respiration rate per second.
+
+  
+Phyto_Resp_Rate_PL 0.05
+  
+Phyto_Resp_Rate_PS 0.05
+  
+Phyto_Resp_Rate_DF 0.05
+  
+Phyto_Resp_Rate_MB 0.05
+  
+Phyto_Resp_Rate_MA 0.05
+  
+Phyto_Resp_Rate_SG 0.05
+
+KP_PL 10 Half-sat const for PL growth on Phosphorus mg P m-3 10
+  
+KP_PS 8 Half-sat const for PS growth on Phosphorus mg P m-3 4
+  
+KP_DF 30 Half-sat const for DF growth on Phosphorus mg P m-3 30
+  
+KP_MA 10 Half-sat const for MA growth on Phosphorus mg P m-3 20
+  
+KP_SG 5 Half-sat const for SG growth on Phosphorus mg P m-3 5
+  
+KP_MB 200 Half-sat const for MB growth on Phosphorus mg P m-3 200
+
+Remember that the group codes used (eg PL, PS, DF) will depend on the group codes you have defined in your functional group input file. Primary producer groups are groups with the following group types;
+
+SM_PHY, LG_PHY, PHYTOBEN, MICROPHTYBENTHOS, DINOFLAG, SEAGRASS
+
+**Initial Conditions Input File:**
+
+You will need to add a tracer to your initial conditions netcdf file for each group and cohort to track the P:N ratio and the C:N ratio. The best option for working out what you need to add is to have a look at the sample files.
+
+You will also need to add a tracer for TOP, Carbon, Phosphorus and CO2.
+
+**Sample Files:**
+
+**CSIRO Users:**
+
+**[sample files](https://svnserv.csiro.au/svn/atlantis/runFiles/trunk/SETas_model_New_P/)**
+
+**External Users:**
+
+**[sample files](https://svnserv.csiro.au/svn/ext/atlantis/runFiles/trunk/SETas_model_New_P/)**
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

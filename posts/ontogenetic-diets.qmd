@@ -1,0 +1,18 @@
+---
+title: "Ontogenetic diets"
+date: "2013-05-01"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+In Atlantis in addition to the juvenile and adult prey matrices you can read in more fine scale feeding (i.e. values per age class) for the feeding of age structured groups on biomass pools (e.g. p_ZMFDD with 10 values, one for each of the 10 age classes). If you don't need such finely resolved feeding information (and in most cases you won't) then in biol.prm
+
+flag_fine_ontogenetic_diets 0
+
+If you do want them then
+
+flag_fine_ontogenetic_diets 1
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

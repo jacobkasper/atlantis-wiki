@@ -1,0 +1,332 @@
+---
+title: "Read in forcing data for tracers"
+date: "2016-09-22"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+There is now functionality to read in files to overload tracer values within Atlantis. This functionality was requested by modellers in the states to force the oxygen tracer within Atlantis. It has since been extended so that any tracer in the water column, sediments or epibenthic layer can be forced (i.e. read in from an external file).
+
+If you don't want to use the functionality then no changes are required.
+
+If you do want to use this functionality then you will need to follow this example. Example files have been added to the
+[sample Atlantis files](https://wiki.csiro.au/display/Atlantis/Sample+input+files)
+.
+
+This example is for the SETas model overloading the Oxygen and Light tracers. The following is added to the forcing.prm input file 'VMPA_setas_force_fish_Oxygen.prm'.
+
+use_force_tracers 1
+
+# The number of tracers to search for in the files and the names of those tracers.
+
+  
+nforceTracers 2
+
+# And array of the tracer names, the 2 is the nforceTracers then the next line is the names of each of the tracers.
+
+tracerNames 2
+  
+Oxygen Light
+
+# Now the actual files. Can have more than one tracer in a file. So you can just build a single netcdf file containing all of the tracers you want to force.
+
+# You might want to split the files into multiple smaller files if they start to get over 1G. The 'nFiles' option allows you to specify more than one forcing file similar to how you can have more than one temperature forcing file. Note: you need to say whether you want to rewind the file (and repeat it) if the file runs out before the end of the run and you need to say what proportional weighting to give the tracer value (i.e. if you want to replace the local Atlantis value complete then use a weighting of 1.0, an average of Atlantis and the input value is 0.5 and a value close to zero is weighted towards the Atlantis generated value.
+
+Oxygen_nFiles 1
+  
+Oxygen_File0.name inputs/forcisets/SETAS_VMPAoxygen.nc
+  
+Oxygen_rewind 0
+  
+Oxygen_wgt_coefft 1.0
+
+Light_nFiles 1
+  
+Light_File0.name inputs/forcisets/SETAS_VMPAoxygen.nc
+  
+Light_rewind 0
+  
+Light_wgt_coefft 1.0
+
+Note that both of the tracers are stored in the one file in this case (you can have one variable per file, but its often easier to generate the files drawing multiple variables into one file from another model, like a biogeochemistry model)
+
+### Structure of the netcdf files:
+
+Again this example is for the SETas model, forcing the Oxygen and Light tracers in box 1, layer 0.  This example file can be found in the inputs/forcisets folder.
+
+netcdf SETAS_VMPAoxygen {
+  
+dimensions:
+  
+t = UNLIMITED ; // (4 currently)
+  
+b = 11 ;
+  
+z = 7 ;
+  
+variables:
+  
+double t(t) ;
+  
+t:units = "seconds since 1983-01-01 00:00:00 +10" ;
+  
+t:dt = 864000. ;
+  
+double Oxygen(t, b, z) ;
+  
+Oxygen:_FillValue = -999.;
+  
+Oxygen:missing_value = -999.;
+  
+Oxygen:valid_min = 1.;
+  
+Oxygen:valid_max = 300.;
+  
+Oxygen:units = "mg O2 m-3" ;
+
+double Light(t, b, z) ;
+  
+Light:_FillValue = -999.;
+  
+Light:missing_value = -999.;
+  
+Light:valid_min = 1.;
+  
+Light:valid_max = 300.;
+  
+Light:units = " "
+
+// global attributes:
+  
+:title = "trivial" ;
+  
+:geometry = "VMPA_setas.bgm" ;
+  
+:parameters = "" ;
+  
+data:
+
+t = 0, 864000, 1728000, 2592000;
+  
+  
+Oxygen =
+  
+_, _, _, _, _, _, _,
+  
+10, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+100, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+200, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+300, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _;
+  
+  
+  
+Light =
+  
+_, _, _, _, _, _, _,
+  
+10, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+100, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+200, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+300, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _,
+  
+_, _, _, _, _, _, _;
+  
+}
+
+### Important things to note:
+
+double Oxygen(t, b, z) ;
+  
+Oxygen:_FillValue = -999.;
+  
+Oxygen:missing_value = -999.;
+  
+Oxygen:valid_min = 1.;
+  
+Oxygen:valid_max = 300.;
+  
+Oxygen:units = "mg O2 m-3" ;
+
+In the above example i have only set values for the box/layer that we want to set. The rest of the values are '_' values which means they are the fill values. In this example the fill value is -999. (note the dot on the end of this is used to indicate a floating point number instead of an integer. This is the same as -999.0)
+
+There is an attribute called 'missing_value' which in this case is the same as the fill value. When Atlantis reads in the forcing data it ignores all data points that are equal to the missing value. So in this example the oxygen values will only be set for box 1 and layer 0. All other box/layer values will be unchanged.
+
+The other new attributes are the valid_min and valid_max. These are used by Atlantis to check that the values being read in are within the specified range. If your tracer values are outside of this range, but not equal to the missing_value Atlantis will generate a warning and quit.
+
+The units of the tracer variables must match the tracer units provided in the initial conditions netcdf file. If the units don't match Atlantis will generate an error and quit.
+
+t = 0, 864000, 1728000, 2592000;
+
+You will note that the temporal resolution of this example is 10 days (t:dt = 864000. ; = 86400*10, where 86400 is the number of seconds in a day). The time differences between each timestep must be constant and match the dt value set but they do not have to match the dt of your Atlantis model. For example you could have a timestep in your Atlantis model of 24 hours (86400 seconds) but provide forcing data in these files as yearly data (365 days = 31536000 seconds).
+
+The data is not interpolated between timesteps. If required we could add this functionality but we have elected to keep this quite simple for now and assume that all data processing can happen separate to Atlantis.
+
+The last point to make is that these files will not rewind once they have reached the last timestep. At this point it will just continue to use the last data value in the forcing file.  For example in the above example the last data point is at day 30 and the oxygen value at this time is 300. If you were to do a 40 day run the oxygen value used would still be 300.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

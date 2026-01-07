@@ -1,0 +1,21 @@
+---
+title: "flag_report_water_detritus - Include detritus in water column in reporting."
+date: "2013-06-26"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+flag_report_water_detritus
+
+Flag indicating whether to report detritus in the water column as well as in the sediment. Traditionally Atlantis has only reported detritus in the sediment.
+
+Typically set to 0.
+
+POSSIBLE SETTINGS:
+0=do not include water column detritus in reporting. 1=do include detritus in the water column.
+
+This effects the biomass summary values written to your log files as well as your BiomIndx.txt output files.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

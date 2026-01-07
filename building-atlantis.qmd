@@ -1,0 +1,21 @@
+---
+title: "Building Atlantis"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+You need to build Atlantis on the machine (or operating system) where you will be running it. Directions for building on the different operating systems can be found on the pages below (also listed in the tree panel on the left of the page)
+- [Building using docker](building-using-docker.qmd)
+- [Building under linux](building-under-linux.qmd)
+- [Building under mac](building-under-mac.qmd)
+- [Building under windows](building-under-windows.qmd)
+- [Building under CentOS](building-under-centos.qmd)
+- [Building under cygwin](building-under-cygwin.qmd)
+- [Using the Intel Complier](using-the-intel-compiler.qmd)
+
+## Handling so of the common compiler errors
+- Page:
+
+  [What to do if a compiler setting is causing a compile error](/display/Atlantis/What+to+do+if+a+compiler+setting+is+causing+a+compile+error)
+- Page:
+
+  [How to handle "unrecognized command line option"](/pages/viewpage.action?pageId=1498252587)

@@ -1,0 +1,94 @@
+---
+title: "Hydro files - format description"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+The format of the hydro dynamic files can seem complicated but the boil down to the amount of water being moved from each layer of each box to each potential destination.
+
+The easiest way to remember is to put yourself in the perspective of the computer code (I know warped but it is effective)
+
+The read in loops work in the following way
+
+for (t_id = 0; t_id < num_t; t_id++)
+
+     for (box_id = 0; box_id < num_boxes; box_id++)
+
+            for (layer_id = 0; layer_id < num_layers; layer_id++)
+
+                  for (dest_id = 0; dest_id < num_dest; dest_id++)
+
+So they start with 0 and iterate up to the max number for each index. The logic behind what this means for the layout of the file is then
+
+[![](attachments/413965819.png)](attachments/413965819.png)
+
+An example file layout when there are 4 time steps, 2 boxes, 2 layers and 3 destinations is then
+
+![](attachments/413965818.png)
+
+Or for those who like codes and numbers
+
+T0-B0-Z0-K0 T0-B0-Z0-K1 T0-B0-Z0-K2
+
+T0-B0-Z1-K0 T0-B0-Z1-K1 T0-B0-Z1-K2
+
+T0-B1-Z0-K0 T0-B1-Z0-K1 T0-B1-Z0-K2
+
+T0-B1-Z1-K0 T0-B1-Z1-K1 T0-B1-Z1-K2
+
+T1-B0-Z0-K0 T1-B0-Z0-K1 T1-B0-Z0-K2
+
+T1-B0-Z1-K0 T1-B0-Z1-K1 T1-B0-Z1-K2
+
+T1-B1-Z0-K0 T1-B1-Z0-K1 T1-B1-Z0-K2
+
+T1-B1-Z1-K0 T1-B1-Z1-K1 T1-B1-Z1-K2
+
+T2-B0-Z0-K0 T2-B0-Z0-K1 T2-B0-Z0-K2
+
+T2-B0-Z1-K0 T2-B0-Z1-K1 T2-B0-Z1-K2
+
+T2-B1-Z0-K0 T2-B1-Z0-K1 T2-B1-Z0-K2
+
+T2-B1-Z1-K0 T2-B1-Z1-K1 T2-B1-Z1-K2
+
+T3-B0-Z0-K0 T3-B0-Z0-K1 T3-B0-Z0-K2
+
+T3-B0-Z1-K0 T3-B0-Z1-K1 T3-B0-Z1-K2
+
+T3-B1-Z0-K0 T3-B1-Z0-K1 T3-B1-Z0-K2
+
+T3-B1-Z1-K0 T3-B1-Z1-K1 T3-B1-Z1-K2
+
+e.g.
+
+1.25, 0.42, 2.03,
+
+7.34, 2.18, 8.66,
+
+9.65, 0.57, 4.7,
+
+7.91, -1.8, 7.25,
+
+7.19, 0.56, -0.48,
+
+6.62, -0.26, 9.13,
+
+2.1, 4.14, 2.2,
+
+9.03, 1.92, 5.03,
+
+1.48, 5.15, 9.36,
+
+9.59, 3.61, 1.87,
+
+4.61, 5.77, 5.66,
+
+7.02, 4.05, 9.11,
+
+5.96, 3.86, 9.43,
+
+4.78, 9.88, 5.45,
+
+7.12, 3.24, -0.45,
+
+4.4, 6.05, 9.77,

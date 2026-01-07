@@ -1,0 +1,34 @@
+---
+title: "Atlantis Parameter Files"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+## Parameter Files - Formats and Descriptions
+
+Descriptions of all of the different parameter files used by Atlantis
+
+[Initial Conditions NetCDF File](initial-conditions-netcdf-file.qmd)
+
+#### PRM files
+
+[Run Input File](run-input-file.qmd)   
+ [Biology Input File](biology-input-file.qmd)   
+ [Physics Input File](physics-input-file.qmd)   
+ [Force Input File](force-input-file.qmd)   
+ Economics Input File   
+ [Fisheries Input File](fisheries-input-file.qmd)   
+ Assessment Input File
+
+#### CSV Files
+
+[Functional Group Definition File](functional-group-definition-file.qmd)
+
+[Fishery Definition File](fishery-definition-file.qmd)
+
+#### NetCDF files
+
+[Forcing Files](forcing-files.qmd)
+
+#### BGM Input file
+
+[Box geometry (bgm map) file](atlantis-bgm-files.qmd)

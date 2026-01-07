@@ -1,0 +1,40 @@
+---
+title: "Atlantis Summit"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+**![](attachments/193889456.jpg)**
+
+In December 2015 we held the first ever Atlantis summit - the original page can be found [here](http://atlantis.cmar.csiro.au/www/en/atlantis/Atlantis-Summit.qmd) but given how much the web changes through time we're replicating the important content here. The [flyer explaining why the summit was held](attachments/193889464.pdf) is also available.
+
+The sub-pages of this section contain the talks and notes on the meeting. Below is the intent and background.
+
+## Main Meeting
+
+**Workshop Background**
+
+Many places have committed to doing Ecosystem-based management (EBM). An important part of doing EBM is the judicious use of ecosystem models. Ecosystem models require further testing and skill evaluation before they become more widely adopted in a marine resource management context. Yet the pace of their development and growth of their application warrants formal examination.
+
+One such large, end-to-end ecosystem model is Atlantis. End-to-end models like Atlantis model the full suite of marine ecosystem dynamics, uses, management, and feedbacks thereto. Atlantis is designed as one of the very few modelling platforms that can handle “sunlight to fish markets and everything in between,” particularly linking biophysical ROM-ecology with anthropogenic modules to interface with socio-economic facets of a marine ecosystem. The uniqueness of Atlantis is that it is multisector, modular, has multiple functional forms a user can choose, and is designed particularly to address system-level Management Strategy Evaluation. Yet what the Atlantis platform needs is further development, testing and evaluation of its myriad modular approaches.
+
+Here we propose to hold the first ever Atlantis Summit. There are numerous general ecosystem modelling meetings and workshops that explore some facets germane to Atlantis model development. Other modelling platforms (e.g. EwE, SS3, Osmose, ROMS) have had specific symposia or workshops. Thus, now that the Atlantis platform has similarly matured, what we aim is to have a gathering of the Atlantis modelling community.
+
+The objectives of the summit include: help nascent Atlantis modelling efforts get up and running more quickly via dedicated time working through those models and training sessions; develop a heightened sense of community among Atlantis users and programmers by providing a forum to discuss Atlantis issues; swap best practices and tips for using and developing Atlantis, particularly developing further a “user’s manual” of best practices and identifying which modules need to be updated; establish and test Atlantis models from various ecosystems under common and consistent scenarios; provide broader feedback to the E2E and general ecosystem modelling communities; and understand the capabilities and limitations of Atlantis for contributing to global initiatives such as FISH-MIP (a global fisheries model Intercomparison exercise that will inform future IPCC assessments).
+
+**Symposium conveners:** Jason Link, Beth Fulton, Erik Olsen
+
+**Scientific Steering Committee (SC):** Rebecca Gorton, Marie Savina, Ingrid van Putten, Tony Smith, Mariska Weijerman, Robert Gamble, Isaac Kaplan, Sarah Gaichas, Phil Levin, Gavin Fay, Cam Ainsworth, Howard Townsend, Mette Mauritzen, Cecilie Hansen, Erik Olsen, Jason Link, Beth Fulton
+
+## Atlantis Summit Meeting Details
+
+**The agenda**
+
+The agenda for the summit was like most things Atlantis very dynamic with last minute changes, but the rough content is captured in the attached [agenda](attachments/193889463.pdf).
+
+**The format**
+
+Each day of the summit will have morning coffee at approximately 10:30-10:45, lunch at around 12-1 and afternoon tea at about 3-3:15. For each session of the Summit, the aim is to speak on the topic via extant examples while simultaneously demonstrating tools and packages, identifying best practices, and thinking about synthesis products.
+
+**Pre-summit Workshop**
+
+A pre-Summit Workshop on developing common and consistent testing scenarios for use of Atlantis as an operating model in an MSE context will run 4-6 December 2015 at the same location (this pre-summit will have a primarily US LMR context). More details will be available soon.

@@ -1,0 +1,39 @@
+---
+title: "Fishing"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+### Imposed Catch
+
+This is used when the flagimposecatch_ value for the given fishery/species is not 0.  
+The following options are supported:
+
+1 - Global   
+2 - Spatially Explicit  
+3 - Stock associated  
+4 - Adjacent cells
+
+The fishing catch values are read in from provided TS files.
+
+### Fishing Mortality
+
+This is used when flagF is true for the fishery/species.
+
+Fished Biomass = mFC * mFC_brokenStick_scale * mpa_scale * mFC_scale * Biomass
+
+**mFC_brokenStick_scale**
+
+Apply any broken stick scaling. This scaler is calculated at the start of each year based on the fishing levels from the previous year.
+
+**mpa_scale**  
+Where MPA_scale is set to the MPA status of the current cell if '_flagmpa' is set to 1 for that fishery.
+
+**mFC_scale**  
+If the 'flagchangeF' value is set to true in the input file then the fishing mortality values can change over time. This scaling is then controlled using the following values:
+
+'_mFC_changes' - The number of changes in mFC for the group over each fishery.  
+'mFCchange_start_' - The day from the run start that the mFC change starts.  
+'mFCchange_period_' - The period over which the change occurs.  
+'mFCchange_mult_' - The multiplication factor applied.
+
+### Dynamic Catch

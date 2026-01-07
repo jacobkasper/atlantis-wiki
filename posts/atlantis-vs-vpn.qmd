@@ -1,0 +1,34 @@
+---
+title: "Atlantis VS VPN"
+date: "2008-11-20"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Beth has consistantly had issue running Atlantis while VPN is running. I'm trying to track this issue down.
+  
+Running a 50 day aims run with VPN on - not connected. NO issues.
+
+OK - with VPN on i got an assertion failed. VPN has also killed the music playing on my laptop - which is not a good sign.
+
+Trying Process Explorer (
+<http://technet.microsoft.com/en-au/sysinternals/bb896653.aspx)to>
+track down the issues. I've not used this before, not sure its going to be of much help but it looks nice.
+
+Attempting to run Atlantis through valgrind. Its crashing with
+  
+valgrind: m_mallocfree.c:442 (bszW_to_pszW): Assertion 'pszW >= 0' failed.
+  
+which means that atlantis is killing valgrind. Trying to track these bugs down.
+
+OK. these are slowly being traced. Mostly due to silly memory things. Good to get these sorted out.
+
+Valgrind call params are:
+
+valgrind -v --leak-check=full --log-file=ValgrindOut
+
+OK. The majority of the errors are sorted. There is lots of memory thats not freed and i will trace this down over the next few weeks but i want to see what happens with this new code and vpn. Code checked in and running under windows. It still dies. More checking to do then. I'll do a longer run over night and see what it says then. Not that worried about the model not freeing memory when it finishes - more that its stomping on other processes memory while running.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

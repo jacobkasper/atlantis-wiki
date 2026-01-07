@@ -1,0 +1,31 @@
+---
+title: "Changed Handling of Reproduction Parameters"
+date: "2022-11-16"
+author: "Fulton, Beth (Environment, Hobart)"
+version: "6656"
+---
+
+**Version: 6656**
+
+We've had to change how we handle the recruitment and reproduction flags
+
+flaglocalrecruit has now been removed from the prm file read-in. Instead we have moved this functionality to ExternalReproduction and RecruitType in the groups.csv file
+
+Set ExternalReproduction to 0 if the group spawns within the model domain, 1 if outside.
+
+For RecruitType
+
+0 = independent distribution (use recruit_hdistrib)
+
+1 = at parental locations
+
+2 = external (into Migration Array)
+
+3 = using a forced larval dispersal matrix
+
+4 = salmonid lifestyle where recruit into the model before then migrating out again as a juvenile (returning later as an adult)
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

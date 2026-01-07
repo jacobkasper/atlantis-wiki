@@ -1,0 +1,330 @@
+---
+title: "Calling R from Atlantis - Stock Assessment and TAC setting"
+date: "2023-01-30"
+author: "Fulton, Beth (Environment, Hobart)"
+version: "6669"
+---
+
+**Version: 6669**
+
+We have added the capacity to call R-based assessments live from Atlantis. It will run the assessment, wait for completion, and continue. Depending on which R option the parameters needed differ a little.
+
+### Compiling
+
+To enable the code inside Atlantis during the compile steps instead of running
+
+configure
+
+run
+
+configure --enable-rassesslink
+
+Then you need to add the path to your R library in to the PreRules.am file
+
+Look for the line that says
+
+# For the R links
+
+You will see the message that says
+
+# A working R installation is required.
+
+# R must have been built with the '--enable-R-shlib' option enabled to provide the R shared library
+
+# Ensure the R_HOME environment variable is set appropriately
+
+#
+
+# R_HOME = $(shell R RHOME)
+
+# on Ubuntu Linux
+
+# R_HOME = /usr/lib/R
+
+# R_BASE = /usr/lib/R
+
+# on OS X
+
+R_BASE = /Library/Frameworks/R.framework/Resources
+
+R_HOME = /Library/Frameworks/R.framework/Resources
+
+AM_CFLAGS += -I$(R_BASE)/include -I/usr/share/R/include
+
+LIBS += -L$(R_BASE)/lib -lR
+
+You can see here the mac version active but if you are on Linux you will need to switch it to what is appropriate on your machine - the most likely Linux version is also listed
+
+If you still can’t compile look at the cran site on making R extensions as that is likely one of the best sites for saying where to look for your R code folder
+
+During January I will find a way to make it compilable without R if you don't want that functionality
+
+### If you are only worried abut parameters you need to add for your existing run to work then you need
+
+*Harvest.prm*
+
+## Multispecies rules and flags – flag indicating using Multispecies Harvest Strategy code
+
+useMultispAssess 0
+
+## Redus related parameters – flag to indicate using Redus_R Harvest Control Rule
+
+usingRedus_R_HCR 0
+
+*Assess.prm*
+
+## RAssess related flags – to do with using R based assessment calls (originally Gadget but also DLM and SAM)
+
+UsingRAssess 0
+
+## Close kin parameters
+
+nTotSamps 0
+
+first_sy 0
+
+last_sy 0
+
+first_dy 0
+
+Nscale 0
+
+ThreshPercLost 0
+
+samp_power 0
+
+a_ck_thresh 0
+
+a_ck_thresh2 0
+
+a_ck_scalar 0
+
+a_ck_scalar2 0
+
+thresh_mat 0
+
+HSP_false_neg_loss_rate 0
+
+## Multispecies assessment parameters
+
+MULTISPestNspecies 0
+
+MULTISPestRBCaverage 1.0
+
+Nmetiers 1
+
+MaxCritConvergeValue 0.001
+
+ConvergeThresh 0.001
+
+*For each functional group each of these parameters is required - replace XXX with functional group code*
+
+# Length sub-sample size for the assessment –
+
+LFSSlim_XXX 0
+
+# Age sub-sample size for the assessment – for each functional group
+
+AFSSlim_XXX 0
+
+# Number of surveys in assessment  – for each functional group
+
+NumSurvey_XXX 0
+
+# Number of blocks in the assessment – for each functional group
+
+NblockPattern_XXX 0
+
+# Block defining regime shift
+
+SRBlock_XXX 0
+
+# Year where recruitment deviation kicks in within the assessment
+
+assRecDevMinYear_XXX 0
+
+### If you want to use the R based assessments
+
+There are a few options at present
+
+1. Using useMultispAssess set to 1 - this will do multi-species assessments (Beth will add more details in 2023)
+2. Using usingRedus_R_HCR set to 1 - ask Holly Perryman for Redus details
+3. UsingRAssess set to 1 - this will call an R script from the assessment code of Atlantis, this is the most generic form currently available
+
+#### UsingRAssess
+
+There are two options under this part of the code. Either to have a system() call trigger standard R script to complete the assessment (RAssessRuseScript set to 1) or to have Atlantis call specific R commands with live memory exchange (RAssessRuseScript set to 0). The live memory calls are more cybersecure as it is harder to write anything malicious into the R script, but for the average user it is much easier to use the option RAssessRuseScript set to 1 and use standard R scripts. If you do want use direct source calls from c the code currently assumes the R function involved has the following format
+
+doRAssess <- function(infile, outfile, outdir)
+
+In both cases it is assumed the R code generates the TAC value and outputs it to a file which Atlantis then reads in. Beth is happy to modify that (e.g. having it directly handed back by a memory read if using lie memory option), you just need to ask for that code to be added (you will need to let Beth know exactly what form is needed).
+
+Note that you can use different R scripts for different species. These need to be sitting in the same directory as the prm files.
+
+To identify species subject to an R-based TAC estimation set isTAC to 2 in groups.csv file. Then add the parameters to the harvest.prm and assess.prm files listed below (an example of how to set the parameter ls given after that, sorry it is not 100% easy due to a quirk in the way Atlantis reads in strings at present but we will try to make this simpler in future).
+
+*Harvest.prm*
+
+## Multispecies rules and flags – flag indicating using Multispecies Harvest Strategy code
+
+useMultispAssess 0
+
+## Redus related parameters – flag to indicate using Redus_R Harvest Control Rule
+
+usingRedus_R_HCR 0
+
+*Assess.prm*
+
+## RAssess related flags – to do with using R based assessment calls (originally Gadget but also DLM and SAM) - some example values shown please put in what makes sense for you
+
+UsingRAssess 1                                    # If using R assessments (1) or not (0)
+
+RAssessSpringSurveyDay 30              # Day of year when spring survey occurs
+
+RAssessAutumnSurveyDay 240        # Day of year when autumn survey occurs
+
+RAssessFisheryID 1                            # Which fishery using for info in the R assessments
+
+RAssessFixedM 1                                 # Whether using fixed M
+
+RAssessRefYear 2015                         # Reference year for R assessments
+
+RAssessRuseScript 0  # Whether using system() call to R (1) or using embedded R calls (0)
+
+RassessColDelimiter ;  # The column delimiter for the RAssess input files (e.g. ; or ,)
+
+RAssessRinName RAssessinput.csv   # Base name of RAssess input files (functional group names will be appended)
+
+RAssessRoutName Rassess.out       # Base name of RAssess output files (functional group names will be appended)
+
+NumRAssessScriptNames  1            # number of RAssess scripts to call – possible to have different ones for different functional groups
+
+RAssessRscriptName0 Rassess.R      # Script name for first RAssess R script
+
+# If using RAssessRuseScript 1 can only have a single Rscript in play with all the relevant function calls in it
+
+*For each functional group each need to identify which Rscript will be used (using the number from the Name list immediately above) - replace XXX with functional group code*
+
+# Which R assessment script to use for the assessment:
+
+whichRAssess_XXX
+
+##### *Example*
+
+For this example lets say we have 2 base assessment types to run
+
+AgeStruct.R and SurplusProd.R
+
+For species FDB and FDE we will run AgeStruct.R and for species FPS, FPL and FDC we will run SurplusProd.R. Species BD, BC, ZL and FPO have no R-based assessments running
+
+So in groups.csv file isTAC would be set to 2 for FDB, FDE, FPS, FPL and FDC. For the other species isTAC could be 1 if using a non-R way of providing a TAC or 0 if not under TAC management.
+
+In the Assess.prm parameter file the parameters would be
+
+UsingRAssess 1                                    # Using R assessments
+
+RAssessSpringSurveyDay 30              # Day of year when spring survey occurs
+
+RAssessAutumnSurveyDay 240        # Day of year when autumn survey occurs
+
+RAssessFisheryID 5                            # As using catches from fishery 5 in the R assessment
+
+RAssessFixedM 1                                 # Whether using fixed M estimates
+
+RAssessRefYear 2010                         # Reference year for R assessments
+
+RAssessRuseScript 1  # Whether using system() call to R (1) or using embedded R calls (0)
+
+RassessColDelimiter ,  # The column delimiter for the RAssess input files (e.g. ; or ,)
+
+RAssessRinName RAssessinput.csv   # Base name of RAssess input files
+
+RAssessRoutName Rassess.out         # Base name of RAssess output files
+
+NumRAssessScriptNames  2
+
+RAssessRscriptName0 AgeStruct.R
+
+RAssessRscriptName1 SurplusProd.R
+
+# Which R assessment script to use for the assessment:
+
+whichRAssess_FDB 0
+
+whichRAssess_FDE 0
+
+whichRAssess_FPS 1
+
+whichRAssess_FPL 1
+
+whichRAssess_FDC 1
+
+whichRAssess_FPO -1
+
+whichRAssess_BD -1
+
+whichRAssess_ZL -1
+
+whichRAssess_BC -1
+
+This will then expect to find the following R files in the same directory as the prm files.
+
+FDB_AgeStruct.R
+
+FDE_AgeStruct.R
+
+FPS_SurplusProd.R
+
+FPL_SurplusProd.R
+
+FDC_SurplusProd.R
+
+These files will need to be tailored to read in the appropriate species specific input files which will have the following names
+
+FDB_RAssessinput.csv
+
+FDE_RAssessinput.csv
+
+FPS_RAssessinput.csv
+
+FPL_RAssessinput.csv
+
+FDC_RAssessinput.csv
+
+The format of the input.csv file will be to have the following columns
+
+|  |  |
+| --- | --- |
+| year | Calendar year (model run year + RAssessRefYear) |
+| age | in years |
+| catch | total catch (in numbers at age) |
+| catch_length | mean length at age in the catch in cm |
+| catch_weight | mean weight at age in the catch in grams |
+| survey_spring | area swept abundance by age |
+| stock_weight | weight at age, in grams |
+| survey_length | length at age in cm |
+| maturity | proportion mature by age |
+| survey_autumn | area swept abundance by age |
+| M | natural mortality rate (can be a fixed parameter or dynamic estimate from within Atlantis) |
+| total_landings | in tonnes |
+
+You will also need to set the working directory in each R file (using setwd()) so that it is expecting to be reading from and to the output directory where all the Atlantis output is going.
+
+The script will also need to dump the TAC to a file with the species appropriate name so if for FDB Atlantis will be looking for the file FDB Rassess.out which has the format of header row and then value of TAC in tonnes - like the following
+
+TAC
+
+420
+
+## Troubleshooting
+
+On a Mac if it is not recognising the call to R via the command line you need to run the following lines in the terminal window where Atlantis will be running:
+
+export DYLD_LIBRARY_PATH=/Library/Frameworks/R.framework/Resources/lib
+
+export R_HOME=/Library/Frameworks/R.framework/Resources
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

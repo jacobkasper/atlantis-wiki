@@ -1,0 +1,55 @@
+---
+title: "Using the Intel Compiler"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+### Under windows
+
+Once you have installed the complier you need to change your path to include the location of the intel complier DLLs.
+
+### Under linux:
+
+Once installed you need to edit the /etc/ld.so.conf file.
+
+sudo gedit /etc/ld.so.conf
+
+then add   
+/opt/intel/cc/10.1.018/lib  
+to this file, save and close.  
+Then run ldconfig as root,   
+sudo ldconfig.
+
+This "should" get rid of any error when running Atlantis compiled with teh Intel C compiler.
+
+Changing the makefiles:
+
+You will need to change the PreRules.am file. You will need to edit out (place a '#' in front of) the   
+#OPT += -msse2 -mfpmath=sse  
+line. And change CC = gcc to CC = icpc.
+
+Change the warn options to the following:
+
+WARN =  
+#WARN += -Wall -Wextra  
+WARN += -Wno-pointer-arith  
+#WARN += -Wstrict-prototypes  
+WARN += -Wno-unused-parameter
+
+make clean  
+make all.
+
+### Comparision to other compliers.
+
+From what i can see the Intel compiler increases the speed of running Atlantis under both Windows and Linux.   
+A bit of time bench marking has been done:
+
+| Op System | Compiler | Run Length | Run Time (sec) |
+| --- | --- | --- | --- |
+| Bec Laptop - Windows | Intel | 50 | 265 |
+| Bec Laptop - Windows | VC++ | 50 | 263 |
+| Bec Laptop - Linux | gcc | 50 |
+| Bec Laptop - Linux | Intel |
+
+### Differences in output
+
+My hope is that using the intel compiler on both windows and linux will reduce the difference in model output on these two platforms. So i'm going to test it on the same hardwar - ie my Laptop using the intel compiler and then compare the resuling outputs.

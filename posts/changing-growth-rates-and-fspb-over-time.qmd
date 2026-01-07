@@ -1,0 +1,324 @@
+---
+title: "Changing growth rates and FSPB over time"
+date: "2011-03-03"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Non-Compulsory functionality has been added to allow model users to vary the vertebrate growth rates and FSPB rates over time.
+
+### Growth Rate scaling
+
+The scaled growth rate is calculated each time step based on the value read in from the time series. The scaling from the TS file is applied to the original growth value (mum) in the biology file, the scaling is NOT accumulative.
+
+So the new scaled mum rate is:
+
+Scaled_mum = original_mum * scaling_from_ts_file;
+
+This new scaled growth rate is used for all calculations in the Atlantis model.
+
+**Specifying the scaling file**
+  
+The scaling TS file is specified in the force.prm file in the following manner:
+
+GrowthRateChange GrowthChange.ts
+
+**TS file structure**
+
+The structure of the ts file is as follows:
+
+# Changes in group growth rate. Simple test file.
+
+  
+#
+  
+## COLUMNS 3
+
+  
+##
+  
+## COLUMN1.name Time
+
+  
+## COLUMN1.long_name Time
+
+  
+## COLUMN1.units days since 2000-01-01 00:00:00 +10
+
+  
+## COLUMN1.missing_value 0
+
+  
+##
+  
+## COLUMN2.name FMM_0
+
+  
+## COLUMN2.long_name FMM_0
+
+  
+## COLUMN2.units scalar
+
+  
+## COLUMN2.missing_value 0
+
+  
+##
+  
+## COLUMN3.name FMM_1
+
+  
+## COLUMN3.long_name FMM_1
+
+  
+## COLUMN3.units scalar
+
+  
+## COLUMN3.missing_value 0
+
+  
+1 1 1
+  
+2 0.9 0.9
+  
+3 0.8 0.8
+  
+4 0.7 0.7
+  
+10 0.1 0.1
+
+This will result in the following growth rates. This information will be printed to the log file if you set debug to 25 (debug_mum) in the run.prm file.
+
+Time: 1.500000e+00, Growth Rate FMM:0 - 5.000000e+00 scaled by 9.500000e-01. Final growth rate = 4.750000e+00
+  
+Time: 1.500000e+00, Growth Rate FMM:1 - 2.000000e+00 scaled by 9.500000e-01. Final growth rate = 1.900000e+00
+  
+Time: 2.000000e+00, Growth Rate FMM:0 - 5.000000e+00 scaled by 9.000000e-01. Final growth rate = 4.500000e+00
+  
+Time: 2.000000e+00, Growth Rate FMM:1 - 2.000000e+00 scaled by 9.000000e-01. Final growth rate = 1.800000e+00
+  
+Time: 2.500000e+00, Growth Rate FMM:0 - 5.000000e+00 scaled by 8.500000e-01. Final growth rate = 4.250000e+00
+  
+Time: 2.500000e+00, Growth Rate FMM:1 - 2.000000e+00 scaled by 8.500000e-01. Final growth rate = 1.700000e+00
+  
+Time: 3.000000e+00, Growth Rate FMM:0 - 5.000000e+00 scaled by 8.000000e-01. Final growth rate = 4.000000e+00
+  
+Time: 3.000000e+00, Growth Rate FMM:1 - 2.000000e+00 scaled by 8.000000e-01. Final growth rate = 1.600000e+00
+  
+Time: 3.500000e+00, Growth Rate FMM:0 - 5.000000e+00 scaled by 7.500000e-01. Final growth rate = 3.750000e+00
+  
+Time: 3.500000e+00, Growth Rate FMM:1 - 2.000000e+00 scaled by 7.500000e-01. Final growth rate = 1.500000e+00
+  
+Time: 4.000000e+00, Growth Rate FMM:0 - 5.000000e+00 scaled by 7.000000e-01. Final growth rate = 3.500000e+00
+  
+Time: 4.000000e+00, Growth Rate FMM:1 - 2.000000e+00 scaled by 7.000000e-01. Final growth rate = 1.400000e+00
+  
+Time: 4.500000e+00, Growth Rate FMM:0 - 5.000000e+00 scaled by 6.500000e-01. Final growth rate = 3.250000e+00
+  
+Time: 4.500000e+00, Growth Rate FMM:1 - 2.000000e+00 scaled by 6.500000e-01. Final growth rate = 1.300000e+00
+  
+Time: 5.000000e+00, Growth Rate FMM:0 - 5.000000e+00 scaled by 6.000000e-01. Final growth rate = 3.000000e+00
+  
+Time: 5.000000e+00, Growth Rate FMM:1 - 2.000000e+00 scaled by 6.000000e-01. Final growth rate = 1.200000e+00
+  
+Time: 5.500000e+00, Growth Rate FMM:0 - 5.000000e+00 scaled by 5.500000e-01. Final growth rate = 2.750000e+00
+  
+Time: 5.500000e+00, Growth Rate FMM:1 - 2.000000e+00 scaled by 5.500000e-01. Final growth rate = 1.100000e+00
+  
+Time: 6.000000e+00, Growth Rate FMM:0 - 5.000000e+00 scaled by 5.000000e-01. Final growth rate = 2.500000e+00
+  
+Time: 6.000000e+00, Growth Rate FMM:1 - 2.000000e+00 scaled by 5.000000e-01. Final growth rate = 1.000000e+00
+  
+Time: 6.500000e+00, Growth Rate FMM:0 - 5.000000e+00 scaled by 4.500000e-01. Final growth rate = 2.250000e+00
+  
+Time: 6.500000e+00, Growth Rate FMM:1 - 2.000000e+00 scaled by 4.500000e-01. Final growth rate = 9.000000e-01
+  
+Time: 7.000000e+00, Growth Rate FMM:0 - 5.000000e+00 scaled by 4.000000e-01. Final growth rate = 2.000000e+00
+  
+Time: 7.000000e+00, Growth Rate FMM:1 - 2.000000e+00 scaled by 4.000000e-01. Final growth rate = 8.000000e-01
+  
+Time: 7.500000e+00, Growth Rate FMM:0 - 5.000000e+00 scaled by 3.500000e-01. Final growth rate = 1.750000e+00
+  
+Time: 7.500000e+00, Growth Rate FMM:1 - 2.000000e+00 scaled by 3.500000e-01. Final growth rate = 7.000000e-01
+  
+Time: 8.000000e+00, Growth Rate FMM:0 - 5.000000e+00 scaled by 3.000000e-01. Final growth rate = 1.500000e+00
+  
+Time: 8.000000e+00, Growth Rate FMM:1 - 2.000000e+00 scaled by 3.000000e-01. Final growth rate = 6.000000e-01
+  
+Time: 8.500000e+00, Growth Rate FMM:0 - 5.000000e+00 scaled by 2.500000e-01. Final growth rate = 1.250000e+00
+  
+Time: 8.500000e+00, Growth Rate FMM:1 - 2.000000e+00 scaled by 2.500000e-01. Final growth rate = 5.000000e-01
+  
+Time: 9.000000e+00, Growth Rate FMM:0 - 5.000000e+00 scaled by 2.000000e-01. Final growth rate = 1.000000e+00
+  
+Time: 9.000000e+00, Growth Rate FMM:1 - 2.000000e+00 scaled by 2.000000e-01. Final growth rate = 4.000000e-01
+  
+Time: 9.500000e+00, Growth Rate FMM:0 - 5.000000e+00 scaled by 1.500000e-01. Final growth rate = 7.500000e-01
+  
+Time: 9.500000e+00, Growth Rate FMM:1 - 2.000000e+00 scaled by 1.500000e-01. Final growth rate = 3.000000e-01
+
+So you can see the linear interpolation between the values specified at time 4 and 10. You could use this to slowly change the value over time. For example if you used the following:
+
+1 1 1
+  
+10 0.1 0.1
+
+The scalars will decrease linearly between 1 and 0.1 between day 1 and day 10.
+
+### FSPB Changes:
+
+The FSPB changes allows
+**additions**
+to the FSPB value for all cohorts for each vertebrate group each time step.
+  
+If the FSPB value is greater than 1.0 after the addition then it is capped at 1.0.
+
+So updated FSBP rate is calculate at each time step:
+
+update_FSPB_rate = original_FSPB_rate + value_from_ts_file;
+
+NOTE: The value will be added to the original FSPB value in the biology input file. The additions are not accumulative.
+
+**Specifying the TS file**
+  
+The TS file is specified in the force.prm file in the following manner:
+
+FSPBChange FSPBChangeSimple.ts
+
+**TS file structure**
+
+# Changes in group FSPB rate. Simple test file.
+
+  
+#
+  
+## COLUMNS 4
+
+  
+##
+  
+## COLUMN1.name Time
+
+  
+## COLUMN1.long_name Time
+
+  
+## COLUMN1.units days since 2000-01-01 00:00:00 +10
+
+  
+## COLUMN1.missing_value 0
+
+  
+##
+  
+## COLUMN2.name FMM_0
+
+  
+## COLUMN2.long_name FMM_0
+
+  
+## COLUMN2.units scalar
+
+  
+## COLUMN2.missing_value 0
+
+  
+##
+  
+## COLUMN3.name FMM_1
+
+  
+## COLUMN3.long_name FMM_1
+
+  
+## COLUMN3.units scalar
+
+  
+## COLUMN3.missing_value 0
+
+  
+##
+  
+## COLUMN4.name FMM_2
+
+  
+## COLUMN4.long_name FMM_2
+
+  
+## COLUMN4.units scalar
+
+  
+## COLUMN4.missing_value 0
+
+  
+##
+  
+1 0 0 0
+  
+1.5 0.2 0.1 0.1
+  
+2 0.4 0.2 0.2
+  
+2.5 0.5 0.2 0.2
+  
+3 0.8 0.2 0.2
+  
+3.5 1.0 0.2 0.2
+
+If you set the debug option in the run.prm file to 26 (debug_FSPB) then the following will be written to the log file to help you tune this option:
+
+Time: 1.500000e+00, FSPB Rate FMM:0 - 0.000000e+00 with 2.000000e-01 added. Final FSPB rate = 2.000000e-01
+  
+Time: 1.500000e+00, FSPB Rate FMM:1 - 9.000000e-01 with 1.000000e-01 added. Final FSPB rate = 1.000000e+00
+  
+Time: 1.500000e+00, FSPB Rate FMM:2 - 1.000000e+00 with 1.000000e-01 added. Final FSPB rate = 1.000000e+00
+  
+Time: 2.000000e+00, FSPB Rate FMM:0 - 0.000000e+00 with 4.000000e-01 added. Final FSPB rate = 4.000000e-01
+  
+Time: 2.000000e+00, FSPB Rate FMM:1 - 9.000000e-01 with 2.000000e-01 added. Final FSPB rate = 1.000000e+00
+  
+Time: 2.000000e+00, FSPB Rate FMM:2 - 1.000000e+00 with 2.000000e-01 added. Final FSPB rate = 1.000000e+00
+  
+Time: 2.500000e+00, FSPB Rate FMM:0 - 0.000000e+00 with 5.000000e-01 added. Final FSPB rate = 5.000000e-01
+  
+Time: 2.500000e+00, FSPB Rate FMM:1 - 9.000000e-01 with 2.000000e-01 added. Final FSPB rate = 1.000000e+00
+  
+Time: 2.500000e+00, FSPB Rate FMM:2 - 1.000000e+00 with 2.000000e-01 added. Final FSPB rate = 1.000000e+00
+  
+Time: 3.000000e+00, FSPB Rate FMM:0 - 0.000000e+00 with 8.000000e-01 added. Final FSPB rate = 8.000000e-01
+  
+Time: 3.000000e+00, FSPB Rate FMM:1 - 9.000000e-01 with 2.000000e-01 added. Final FSPB rate = 1.000000e+00
+  
+Time: 3.000000e+00, FSPB Rate FMM:2 - 1.000000e+00 with 2.000000e-01 added. Final FSPB rate = 1.000000e+00
+  
+Time: 3.500000e+00, FSPB Rate FMM:0 - 0.000000e+00 with 1.000000e+00 added. Final FSPB rate = 1.000000e+00
+  
+Time: 3.500000e+00, FSPB Rate FMM:1 - 9.000000e-01 with 2.000000e-01 added. Final FSPB rate = 1.000000e+00
+  
+Time: 3.500000e+00, FSPB Rate FMM:2 - 1.000000e+00 with 2.000000e-01 added. Final FSPB rate = 1.000000e+00
+
+Again the values are linearly interpolated through time so you can change the value slowly over a year using the following:
+  
+1 0 0 0
+  
+365 1.0 0.2 0.2
+
+**General Note**
+  
+After the last value in the input TS file the model will use the last value for the rest of the model run. So if you wanted the model to stop scaling the growth rate or stop adding to the FSBP value you need to implicitly set that value.
+
+In the growth rate example you could use the following:
+  
+1 1 1
+  
+10 0.1 0.1
+  
+10.5 1.0 1.0
+
+This would scale the growth rate values between times 1-10 and then stop the scaling from time 10.5 onwards.
+  
+If you were to provide a scaling value of '0.0' then that would have the effect to setting the growth rate to 0.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

@@ -1,0 +1,284 @@
+---
+title: "Contaminants in Atlantis"
+author: "Lovindeer, Raisha (University of British Columbia)"
+---
+
+### Latest update v 6708
+
+### Defining Contaminants
+
+The definitions of contaminant tracers are added to the run.prm files.  
+If you want to add a single Arsenic tracer you would add the following:  
+   
+#Set to 1 to track contaminants and 0 to not  
+track_contaminants 1 # The number of contaminants to read in  
+num_contaminants 1
+
+# Whether you need to check the contaminant fluxes (for the debugging or calibration of the contaminant model components)  
+
+flag_contam_sanity_check 1  
+  
+#An array of space separated contaminant names. Atlantis will search for tracers with these names in the initial conditions file.  
+#The number after contaminant names is the number of contaminant names to read in - same as other array definitions in the prm files.  
+contaminant_names 1  
+Arsenic  
+# The units of the contaminants. Again a space seperated array.   
+
+contaminant_units 1  
+As/m^3
+
+### Reading in Contaminants
+
+Continuing with the Arsenic example, Atlantis will expect the following tracer to be defined in the initial conditions model:
+
+double Arsenic(t, b, z) ;  
+Arsenic:bmtype = "tracer" ;  
+Arsenic:units = "As/m^3" ;  
+Arsenic:long_name = "Amount of Arsenic" ;
+
+Arsenic:sumtype = 1 ;  
+Arsenic:dtype = 0 ;  
+Arsenic:inwc = 0 ;  
+Arsenic:insed = 0 ;  
+Arsenic:dissol = 0 ;  
+Arsenic:decay = 0. ;  
+Arsenic:partic = 0 ;  
+Arsenic:_FillValue = 0. ;
+
+NOTE: this needs to be changed to allow for passive and non-passive contaminants. For passive contaminants mark inwc, insed, dissol and passive as 1.
+
+In addition to the "raw contaminant" tracer additional tracer entries must be added for each biological group to represent the contamination of that group. For a biomass pool group that lives in the water column (e.g. squid) or sediment this would involve cloning the entry for that group and **(a)** inserting the name of the contaminant after the group name - e.g. see the following example:
+
+double Squid_Arsenic(t, b, z) ;  
+Squid_Arsenic:units = "mg m-3" ;  
+Squid_Arsenic:_FillValue = 0. ;  
+Squid_Arsenic:long_name = "Squid Arsenic" ;  
+Squid_Arsenic:bmtype = "tracer" ;  
+Squid_Arsenic:dtype = 0 ;  
+Squid_Arsenic:sumtype = 0 ;  
+Squid_Arsenic:inwc = 1 ;  
+Squid_Arsenic:insed = 0 ;  
+Squid_Arsenic:dissol = 0 ;  
+Squid_Arsenic:decay = 0. ;  
+Squid_Arsenic:partic = 1 ;  
+Squid_Arsenic:fill.value = 0. ;  
+Squid_Arsenic:passive = 0 ;  
+Squid_Arsenic:svel = 0. ;  
+Squid_Arsenic:xvel = 0. ;  
+Squid_Arsenic:psize = 1. ;  
+Squid_Arsenic:b_dens = 1. ;  
+Squid_Arsenic:i_conc = 1. ;
+
+and **(b)** creating another cloned tracer that records the proportion of the population (per cell) that is contaminated - e,g:
+
+double Squid_Prop_Arsenic(t, b, z) ;  
+Squid_Prop_Arsenic:units = "proportion" ;  
+Squid_Prop_Arsenic:_FillValue = 0. ;  
+Squid_Prop_Arsenic:long_name = "Squid Proportion with Arsenic" ;  
+Squid_Prop_Arsenic:bmtype = "tracer" ;  
+Squid_Prop_Arsenic:dtype = 0 ;  
+Squid_Prop_Arsenic:sumtype = 0 ;  
+Squid_Prop_Arsenic:inwc = 1 ;  
+Squid_Prop_Arsenic:insed = 0 ;  
+Squid_Prop_Arsenic:dissol = 0 ;  
+Squid_Prop_Arsenic:decay = 0. ;  
+Squid_Prop_Arsenic:partic = 1 ;  
+Squid_Prop_Arsenic:fill.value = 0. ;  
+Squid_Prop_Arsenic:passive = 0 ;  
+Squid_Prop_Arsenic:svel = 0. ;  
+Squid_Prop_Arsenic:xvel = 0. ;  
+Squid_Prop_Arsenic:psize = 1. ;  
+Squid_Prop_Arsenic:b_dens = 1. ;  
+Squid_Prop_Arsenic:i_conc = 1. ;
+
+For epibenthic biomass pool groups make similar changes but clone the (t,b) dimensioned tracer for the relevant group instead.
+
+For age structured groups each age group will need it's own entry - for example for small pelagic fish this is what the entries would look like for age class one but you would need entries of this form for each age class in the model:
+
+double Small_pelagic_fish1_Arsenic(t, b, z) ;  
+Small_pelagic_fish1_Arsenic:units = "mg m-3" ;  
+Small_pelagic_fish1_Arsenic:_FillValue = 0. ;  
+Small_pelagic_fish1_Arsenic:long_name = "Arsenic in Small_pelagic_fish cohort 1" ;  
+Small_pelagic_fish1_Arsenic:bmtype = "tracer" ;  
+Small_pelagic_fish1_Arsenic:dtype = 0 ;  
+Small_pelagic_fish1_Arsenic:sumtype = 0 ;  
+Small_pelagic_fish1_Arsenic:inwc = 1 ;  
+Small_pelagic_fish1_Arsenic:insed = 0 ;  
+Small_pelagic_fish1_Arsenic:dissol = 0 ;  
+Small_pelagic_fish1_Arsenic:decay = 0. ;  
+Small_pelagic_fish1_Arsenic:partic = 1 ;  
+Small_pelagic_fish1_Arsenic:fill.value = 0. ;  
+Small_pelagic_fish1_Arsenic:passive = 0 ;  
+Small_pelagic_fish1_Arsenic:svel = 0. ;  
+Small_pelagic_fish1_Arsenic:xvel = 0. ;  
+Small_pelagic_fish1_Arsenic:psize = 1. ;  
+Small_pelagic_fish1_Arsenic:b_dens = 1. ;  
+Small_pelagic_fish1_Arsenic:i_conc = 1. ;
+
+double Small_pelagic_fish1_Prop_Arsenic(t, b, z) ;  
+Small_pelagic_fish1_Prop_Arsenic:units = "proportion" ;  
+Small_pelagic_fish1_Prop_Arsenic:_FillValue = 0. ;  
+Small_pelagic_fish1_Prop_Arsenic:long_name = "Arsenic in Small_pelagic_fish cohort 1" ;  
+Small_pelagic_fish1_Prop_Arsenic:bmtype = "tracer" ;  
+Small_pelagic_fish1_Prop_Arsenic:dtype = 0 ;  
+Small_pelagic_fish1_Prop_Arsenic:sumtype = 0 ;  
+Small_pelagic_fish1_Prop_Arsenic:inwc = 1 ;  
+Small_pelagic_fish1_Prop_Arsenic:insed = 0 ;  
+Small_pelagic_fish1_Prop_Arsenic:dissol = 0 ;  
+Small_pelagic_fish1_Prop_Arsenic:decay = 0. ;  
+Small_pelagic_fish1_Prop_Arsenic:partic = 1 ;  
+Small_pelagic_fish1_Prop_Arsenic:fill.value = 0. ;  
+Small_pelagic_fish1_Prop_Arsenic:passive = 0 ;  
+Small_pelagic_fish1_Prop_Arsenic:svel = 0. ;  
+Small_pelagic_fish1_Prop_Arsenic:xvel = 0. ;  
+Small_pelagic_fish1_Prop_Arsenic:psize = 1. ;  
+Small_pelagic_fish1_Prop_Arsenic:b_dens = 1. ;  
+Small_pelagic_fish1_Prop_Arsenic:i_conc = 1. ;
+
+### **Injecting Contaminants**
+
+For each contaminant tracer Atlantis must be provided with a forcing netcdf file. These can be all contained in a single netcdf file or with separate files per tracer. This functionality is documented at [Read in forcing data for tracers](https://confluence.csiro.au/pages/viewpage.action?pageId=43155672)
+
+For this example the following is added to the forcing prm file:
+
+use_force_tracers 1
+
+# The number of tracers to search for in the files and the names of those tracers.   
+
+nforceTracers 1  
+tracerNames 1  
+Arsenic
+
+# Now the actual files. Can have more than one tracer in a file.  
+
+Arsenic_nFiles 1  
+Arsenic_File0.name inputs/forcisets/SETAS_VMPAArsenic.nc  
+Arsenic_rewind 0  
+Arsenic_File0.use_resets 0  #determines whether the values in Atlantis are reset or added to existing values
+
+A sample forcing file is attached to this page. This example is to replicate a single spill in a single box/layer into the model. This is assuming that the contaminant will be spread around the model using the existing transport model within Atlantis.
+
+### Functional response and documentation
+
+The groups within Atlantis take up contaminants either through contact, general uptake or through consumption. This is still a work in progress and is slowly being documented - a summary of the relevant equations are available for download.
+
+Some of the relevant parameters (which would need to be added to the prm file for this working example) and processes are:
+
+| Flag (parameter) | Meaning |
+| --- | --- |
+| flag_dissolved_pollutants | Flag indicating whether the contaminants are dissolved and transmitted in excretion (1) or not (0) |
+| flag_contamMortModel | Flag indicating whether top use the simple mortality model from Laender et al 2008 (1) or compound model from InVitro (0) |
+| flag_contamInteractModel | Flag indicating - No contaminant interactions (0), Additive interactions (1), Multiplicative interactions (2), Most limiting contaminant dominates (3) |
+| flag_contamGrowthModel | Flag indicating - No growth effects of contaminants (0), InVitro representation (1), logistic model (2) |
+| flag_contamMove | Flag indicating the avoidance scalar used - 0 = none, 1 = knife-edge, 2 = sigmoidal, 3 = left shoulder flat top |
+| flag_contamOnlyAmplify | Flag indicating whether the interacting contaminants can only amplify (1) or can buffer/negate each other too (0) |
+| flag_contamMinTemp | Flag indicating the minimum temperature to consider in contaminants relationships that involve temperature corrections (if the realised temperature is lower this minimum value is used instead) |
+
+*Other relevant parameters:*
+
+Contaminants can also affect movement. There is the potential for mobile species (defined by the *VerticallyMigrates* and *HorizontallyMigrates* settings for the species in the f*unctional_groups.csv* file) to avoid the contaminants. It is not always appropriate biomass pool groups to show this behaviour so to turn it off set **biopools_dodge_contam** 0 in the *biology.prm*.
+
+# Coefficient indicating degree of dissolubility of the material (used if flag_dissolved_pollutants is set to 1, and determined for each contaminant - 1 all, 0 none)  
+
+Arsenic_dissolv_coefft 0
+
+# Half life in seconds. We could change this to days etc if required.  
+
+Arsenic_half_life 259200
+
+# Temperature dependent - Flag indicating whether the contaminant effect is temperature dependent  
+
+Arsenic_temp_depend 0
+
+# Flag to indicate whether uptake of contaminants back out of detritus is allowed (1) or not (0)  
+
+flag_detritus_contam 0
+
+For each group the following is required:
+
+# Uptake model  
+
+FPS_Arsenic_uptake_option 1
+
+There are currently two options for uptake:
+
+1. Linear uptake (parameter is in parts/sec)
+
+     
+   ![](equations/latex7611588900596348593.png)  (10.2)
+
+   where *C*  *a,t*  is the concentration of the contaminant in an agent at time *t*; *C*  *c,t*  is the concentration in the water column (or sediments) and 
+   ![](equations/latex16120493329047981374.png)  is the species specific contaminant uptake rate.
+2. Richards Sigmoidal uptake (from equation 4 in [Brisbin et al, 1990](https://doi.org/10.1002/etc.5620090203)) with the constant phi representing the Richards number (m), ranging from 0 to 1 (default is 0.99)
+
+   ![](equations/latex714392070728904338.png)  (10.2)
+3. InVitro Sigmoidal uptake – this is ideal for representing interactions with a toxin that has no effect until a critical concentration is reached  
+   ![](equations/latex7101818572584951400.png) (10.3)
+
+#Uptake rate (per day -  will be converted to per second inside code).   
+FPS_Arsenic_uptake_rate 5e-07
+
+# Instant dose contact mortality rate  
+FPS_Arsenic_InstantDoseMortality 0.01  
+  
+# The concentration that will kill 100% of the population.   
+
+FPS_Arsenic_LD100 1000  
+  
+# The concentration that will kill 50% of the population.   
+
+FPS_Arsenic_LD50 100  
+  
+# The number of seconds that it takes to kill 50% of the population. Not 100% sure about this - based on Invitro code which is not documented.   
+
+FPS_Arsenic_TimeToLD50 100
+
+# The concentration where animals will begin avoiding the substance  
+
+FPS_Arsenic_avoid 60
+
+# The constant used in the avoidance curve (for when there is a slow Gaussian tail to the response rather than a knife edge cut off)  
+
+FPS_Arsenic_K_avoid 2
+
+#### Growth effects
+
+Growth effects due to contamination can also be represented using the following parameters. For each species and each contaminant add
+
+#The tissue contaminant level where growth effects start  
+The FPS_Arsenic_GrowthThresh 10
+
+#The size of the growth effect (as a scalar)  
+The FPS_Arsenic_GrowthEffect 0.9
+
+**Fishery management options**
+
+If contaminants are functional in the model then fisheries closures can be triggered. T
+
+In the harvest.prm the following parameters are required
+
+# Kind of closures due to contaminants - 0 = none, 1 = set day, 2 = based on concentration in functional groups
+
+flag_contam_fisheries_mgmt to 1
+
+# Day the closure begins
+
+contam_fishery_closure_day 10
+
+# Period of the closure (in days)
+
+contam_fishery_closure_period 730
+
+#The boxes effected by the closure - this vector has as many entries as there are boxes in the model. Let's say there are 10 boxes for this example. f the box is closed due to the contaminant set the value for the cell to 1.0, leave it as 0.0 if the box remains open.
+
+ContamClosed   10
+
+0 1 0 0 0 1 1 0 0 0
+
+# For concentration based closures use this flag to say whether only immediate box is closed (0) or if adjacent boxes are are also closed.
+
+contam_fishery_closure_option 0
+
+# When using the concentration based closures then the trheshold level for each contaminant s required
+
+Arsenic_fishery_thresh_level      1.0e4

@@ -1,0 +1,31 @@
+---
+title: "Inter-species dependency of stock recruitment"
+date: "2015-05-14"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+To represent potential interactions (e.g. feeding) during the larval phase inter-species dependency has been added for the recruitment of age structured functional groups. This allows for representation of herring consuming larval cod etc.
+
+The following parameters need to be added to the biol.prm file
+
+intersp_depend_recruit_FXX   # This define whether the group FXX recruitment is scaled by the biomass of another species (0 = no, 1 = linear scalar, 2 = inverse scalar)
+
+intersp_depend_sp_FXX         # This is the ID of the species that the recruitment of FXX is dependent upon
+
+intersp_depend_scale_FXX    # The scalar applied
+
+If
+intersp_depend_recruit_FXX is set to 1 then the recruitment of FXX is scaled by
+
+intersp_depend_scale_FXX * totbiom_of _
+intersp_depend_sp_FXX
+
+If
+intersp_depend_recruit_FXX is set to 2 then the recruitment of FXX is scaled by
+
+intersp_depend_scale_FXX / totbiom_of _intersp_depend_sp_FXX
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

@@ -1,0 +1,32 @@
+---
+title: "Adding continues"
+date: "2008-10-27"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+OK. I did a 350 day run and the results are the same. I have to think that the Eat bug was having a significant effect. The problem with going to long double is that the code is much slower. I'm having a play with the Intel complier which will make it much faster but for some reason i keep getting very different netcdf output files. I think these bugs are because i have still got some crap values in the netcdf files.
+
+porosity should be written out as double not long double.
+
+Having another check of the output when double is used instead of long double. As i have fixed a number of bugs i thought it would be good to check the results just in case these bugs were causing the issues. It would be nice to be able o use double as the code runs much faster when doubles are used. I'm not getting any differences. This is great.
+
+Ok. I need to look into the order that things are added in. hmm. I have tried this using the invert types and i get a difference. If i order them in exactly the same order i get the same values.
+
+Have removed the spPREYid = (int *)i_alloc1d(nprey); array.
+
+Ok. Going to do a long run 450 days. If this is ok i will commit the code and then move back to the pwn and jpwn issues.
+  
+OK. no inv_id values are used in the ecology lib. Nice.
+
+Getting a core dump at 365 days still. Checking the netcdf files are correct.
+
+OK thats sorted now. I want to clean up the functional group data structures. These have got very ugly.
+
+I want to change the invert type of DC from LAB_DET to CARRION.
+  
+Also want to change prey_Avail to no longer require that DLsed, MBsed and DR sed are passed.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

@@ -1,0 +1,18 @@
+---
+title: "KUP, KLP and KDEP"
+date: "2008-11-05"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+As requested i have changed the biology input code to read in values for KUP, KLP and KDEP for each functional group.
+  
+I have added these species parameters to the ecol_readSpeciesParam function so these are read in as per the rest of the species parameters. I have also got rid of the invertProps KDEP value - these are just treated as normal species parameters now.
+
+This means that the input files need to change quite a lot. I have added these changes to the input file change page on this wiki.
+  
+This new code has passed a 50day ams test.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

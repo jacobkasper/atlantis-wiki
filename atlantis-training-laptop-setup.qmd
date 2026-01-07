@@ -1,0 +1,61 @@
+---
+title: "Atlantis Training Laptop Setup"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+## Atlantis Training
+
+### Laptop Setup
+
+We required 10 identical laptops for the Atlantis training workshop in Hobart Feb 15th- 18th 2011.
+
+Software Installed:
+
+DIVE - contact Gary Carroll or Uwe Rosebrock  
+ QGIS  
+ Visual Studio 2008  
+ R  
+ NetCDF
+
+Other stuff:
+
+Atlantis code checked out  
+ AtlantisNCGen code checked out  
+ SETas_model - model run files  
+ Sample shapefiles for Mike Fuller  
+ Excel spreadsheets from Beth Fulton
+
+This was all installed onto the master laptop #1 and then a clone was taken using clonezilla. This was then installed onto each of the other 9 laptops.
+
+Clone Process:
+
+This is really based on the following:
+
+<http://techtalkplus.blogspot.com/2008/08/using-sysprep-clonezilla.html>  
+ 1. Run sysprep
+
+Select the OOBE and generalise options. You want the machine to shutdown once sysprep is done.
+
+If you get a scary fatal error message try the following: <http://social.technet.microsoft.com/Forums/el-GR/w7itproinstall/thread/425bd101-8a87-488c-b2e2-9f2f8113a0d9>
+
+<http://option9.blogspot.com/2009/06/getting-around-windows-rearm-limit-with.html>
+
+I had to change the following reg settings:
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsNT\CurrentVersion\SoftwareProtectionPlatform\SkipRearm
+- set this to 1.
+
+and:  
+ GeneralizationState under HKEY_LOCAL_MACHINE\SYSTEM\Setup\Status\SysprepStatus to 7
+
+Then this worked. Thankfully.
+
+You may still find that the machine doesn't boot in the out-of-box-experience mode, getting stuck in a boot loop. This is apparently caused by non-MS virus checkers; you should probably disable those before running sysprep, and re-enabling when doing the initial setup post-clone.
+
+2. Run clonezilla.
+
+Start up your machine and change the boot menu to boot to DVD first. Make sure you have got the Clonezilla DVD loaded and ready to go (Start up post sysprep takes a while so you want to clone properly the first time)
+
+Follow these instructions:
+
+<http://arga.wordpress.com/2010/04/24/how-to-properly-clone-a-windows-7-system-partition-with-clonezilla/>

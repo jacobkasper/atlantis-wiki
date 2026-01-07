@@ -1,0 +1,131 @@
+---
+title: "Icelandic model. Vertebrate not reproducing."
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+**Problem description:**
+
+FMI is a vertebrate group that is not reproducing. What is going wrong?
+
+**Answer:**
+
+This is just a copy of an email i sent to Erla to explain how i traced a problem in her model.
+
+---
+
+I have made some progress on FMI group in your model. Sorry this is quite a rambling email but i though i should step you through how i hunted down the problem. Probably best to read the email while looking at the code.   
+  
+As you will see i was on the wrong track at the start but i thought it was good to keep the full notes as it might help you go through some of the code in the future if you need to.   
+  
+If you want the quick answer you need to change your flaglocalrecruitFMI to 2 as this is a group that recruits outside of the model.  
+  
+flaglocalrecruitFMI 2 0  
+  
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  
+Here i was assuming that recruitment was happening inside the model for this group as i didn't know it was a migrating group.   
+  
+You have set the horizontal distribution of recruits to 0 for all boxes:  
+  
+  
+FMI_recruit_hdistrib  53  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  
+  
+You have set:  
+  
+flaglocalrecruitFMI 0 0  
+  
+So the code is using these values from your biology file. If i change this to:  
+  
+FMI_recruit_hdistrib  53  
+0 0 0 0 0 0.02415 0.03856 0.28068 0 0 0 0 0 0 0.00271 0.0024 0.00223 0.00834 0.00309 0 0 0.00577 0.10048 0.24416 0 0.00061 0 0 0 0 0.25387 0 0.00621 0.00703 0.0046 0.00277 0.00243 0.00991 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  
+  
+  
+I get some recruitment but its still very small.   
+  
+  
+Code change to figure out this problem was in  atdemography.c function Find_Final_Recruit_Distribtuion at line 1577 . I added the following:  
+  
+                        if(species == 8)  
+                        //if (do_debug && (species == bm->which_check))  
+                                fprintf(llogfp,"Time: %e, %s box%d-%d ngene: %d, qid: %d, num_rec: %e (Bulkrecruits: %e, enviro_scalar: %e, vdistrib: %e, hdistrib: %e)\n",  
+                                        bm->dayt, FunctGroupArray[species].groupCode, bm->current_box, wclayer, ngene, qid, EMBRYO[species].num_recruits[bm->current_box][wclayer][ngene][qid], EMBRYO[species].BulkRecruits[ngene], enviro_scalar, vertdistrib, bm->recruit_hdistrib[ngene][bm->current_box][species]);  
+  
+  
+This printed out values like:  
+  
+Time: 2.700000e+01, FMI box4-3 ngene: 0, qid: 0, num_rec: 0.000000e+00 (Bulkrecruits: 3.597753e-15, enviro_scalar: 1.000000e+00, vdistrib: 3.000000e-01, hdistrib: 0.000000e+00)  
+  
+for all boxes. So the hdistrb value was that problem.  
+  
+The next thing is to work out why the bulk recruits value is so small.  
+  
+I added the following code to atdemography.c at line 1214:  
+  
+                        if(species == 8){  
+                                fprintf(bm->logFile, "Box %d, layer %d, temprec = %e\n", bm->current_box, bm->current_layer, temprec);  
+                                fprintf(bm->logFile, "recSTOCK[species][stock_id] = %e\n",recSTOCK[species][stock_id]);  
+                                fprintf(bm->logFile, "BHalpha_sp = %e\n", BHalpha_sp);  
+  
+                                fprintf(bm->logFile, "bm->totfishpop[species] = %e\n", bm->totfishpop[species]);  
+                                fprintf(bm->logFile, "EMBRYO[species].Larvae[stock_id][ngene][qid] = %e\n", EMBRYO[species].Larvae[stock_id][ngene][qid]);  
+                                fprintf(bm->logFile, "stock_prop[species][stock_id] = %e\n", stock_prop[species][stock_id]);  
+  
+                        }  
+  
+This prints out values like:  
+  
+  
+Box 1, layer 3, temprec = 3.597753e-15  
+recSTOCK[species][stock_id] = 1.000000e+00  
+BHalpha_sp = 3.630000e+10  
+bm->totfishpop[species] = 3.947368e+13  
+EMBRYO[species].Larvae[stock_id][ngene][qid] = 2.524487e-11  
+stock_prop[species][stock_id] = 6.451493e+00  
+  
+So you can see the EMBRYO[species].Larvae[stock_id][ngene][qid]  value is very small. So again tracing through the code to work out why this is so small.  The function Ecology_Find_Embryoes() sets the EMBRYO[species].Larvae[stock_id][ngene][qid]  value but in this case using BevHolt_recruit the TotSpawn value is calculated in Ecology_Do_Internal_Age_Structured_Spawning(). All these functions are in atdemography.c code in atecology.  
+  
+  
+Here we have around line 1020:  
+  
+  
+                /* Animals in this box spawn */  
+                step1 = Ecology_Age_Structured_Spawn(species, KSPA_sp, FSP_sp, VERTinfo[species][cohort][SN_id],  
+                                VERTinfo[species][cohort][RN_id], FunctGroupArray[species].scaled_FSPB[cohort], llogfp);  
+                EMBRYO[species].IndSpawn[cohort] = FunctGroupArray[species].scaled_FSPB[cohort] * step1;  
+......  
+  
+                EMBRYO[species].TotSpawn[recieve_ngene] += EMBRYO[species].IndSpawn[cohort] * VERTinfo[species][cohort][DEN_id];  
+  
+Here VERTinfo is an array holding the tracers for each group. So VERTinfo[species][cohort][DEN_id] is numbers in the current box.  
+  
+You will see below this code there is a fprintf statement - i change the if statement to be:  
+  
+  
+                if(species == 8){  
+                //if (do_debug && (bm->which_check == species)) {  
+                        fprintf(llogfp, "Time: %e, %s , cohort %d, Box %d, layer %d, TotSpawn: %e, IndSpawn[%d]: %e, DEN: %e, FSPB: %e, SN: %e, RN: %e, FSP: %e, KSPA: %e step1: %e\n", bm->dayt,  
+                                        FunctGroupArray[species].groupCode,cohort, bm->current_box, bm->current_layer, EMBRYO[species].TotSpawn[recieve_ngene], cohort, EMBRYO[species].IndSpawn[cohort], VERTinfo[species][cohort][DEN_id],  
+                                        FunctGroupArray[species].scaled_FSPB[cohort], VERTinfo[species][cohort][SN_id], VERTinfo[species][cohort][RN_id], FSP_sp, KSPA_sp, step1);  
+                }  
+  
+This printed out values like:  
+  
+Time: 2.600000e+01, FMI , cohort 1, Box 24, layer 1, TotSpawn: 1.898110e-13, IndSpawn[1]: 0.000000e+00, DEN: 1.000000e-16, FSPB: 0.000000e+00, SN: 5.300000e+01, RN: 1.400000e+02, FSP: 2.760000e-01, KSPA: 6.400000e+00 step1: 4.654220e+01  
+  
+All boxes were like this. You can see the DEM value is very small - so there are no numbers of this group.   
+  
+Which made me think that perhaps this is a recruiting group and so should be flag as doing external recruitment. yes is the problem:  
+  
+You have this group migrating out of the model at day 258 and then returning at day 60.   
+  
+If i change:  
+  
+flaglocalrecruitFMI 0 0  
+  
+to :  
+  
+flaglocalrecruitFMI 2   
+  
+OK. Made that change and i'm now getting recruits - if you turn on flag_age_output in your run.prm file you will get an file called OutputNoFishAgeBiomIndx.txt which contains total biomass per cohort for each group. Same units as the BiomIndx.txt file - the groups are just broken down per cohort as well. Here you can see the first cohort for FMI drops at day 53 when aging occurs then jumps again on day 54 when recruitment happens.  
+  
+At present i'm not getting any yoy data written out for this group - i'll have a chat to Beth about why this is happening.

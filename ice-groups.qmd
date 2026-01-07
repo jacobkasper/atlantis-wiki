@@ -1,0 +1,23 @@
+---
+title: "Ice groups"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+The following new group types are present in the ice:
+
+ICE_BACT:  
+ICE_DIATOMS: //(diatoms)  
+ICE_MIXOTROPHS: //(dinoflagellates)  
+ICE_ZOOBIOTA: //(small zooplankton)
+
+The best way to look at the relevant process code;
+
+ICE_BACT ->Ice_Bacteria_Process()
+
+ICE_DIATOMS->Phytoplankton_Process()
+
+ICE_MIXOTROPHS -> Dinoflag_Process()
+
+ICE_ZOOBIOTA -> Invert_Consumers_Process();
+
+Most of these functions execute code based on the habitat so look out for the ICE_BASED section of the code.

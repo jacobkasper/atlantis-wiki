@@ -1,0 +1,244 @@
+---
+title: "Input Files Changes"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+##### Below is a list of miscellaneous input parameter additions that were made early on in code development. Anyone looking for recent parameter additions should look in the blogs section of the wiki.
+
+##### 14-jan-2010
+
+Fishing input file:
+
+flagfishBD 0 1=fishing of deposit feeders, 0=off 0  
+ flagfishMA 0 1=fishing of macroalgae, 0=off 0
+
+flag_access_thru_wc_BD 0 1=can access deposit feeders through the water column, 0=no 0  
+ flag_access_thru_wc_MA 0 1=can access macroalgae through the water column, 0=no 0
+
+FC_caseZL 33  
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FC_caseZG 33  
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FC_caseBFS 33  
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FC_caseBFD 33  
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FC_caseBFF 33  
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FC_caseBG 33  
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FC_caseBMS 33  
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FC_caseBMD 33  
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FC_caseBML 33  
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FC_caseCEP 33  
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FC_casePWN 33  
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FC_caseBC 33  
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FC_caseBD 33  
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FC_caseMB 33  
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FC_caseMA 33  
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FC_caseSG 33  
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+##### 07-jan-2010
+
+**Efficiency Values**
+
+There should now be EDR and EDL values for all invertebrates. I was going to default the values to 0 but its too easy to miss that they should be set for some groups. In the AMS model the values should be:
+
+1. Assimilation efficiency of invertebrate consumers on labile detritus  
+    EDL_BB 0.5 Assim efficiency of sediment bacteria on labile detritus 0.5   
+    EDL_BD 0.15 Assim efficiency of deposit feeder on labile detritus 0.002 - 0.3   
+    EDL_BC 0.0 Assim efficiency of benthic carnivores on labile detritus 0.0 - 0.1   
+    EDL_BO 0.18 Assim efficiency of meiobenthos on labile detritus 0.002 - 0.3   
+    EDL_BG 0.2 Assim efficiency of benthic grazer on labile detritus 0.12 - 0.25  
+    EDL_BMS 0.12 Assim efficiency of shallow macrozoobenthos on labile detritus 0.1 - 0.2  
+    EDL_BML 0.12 Assim efficiency of megazoobenthos on labile detritus 0.1 - 0.2  
+    EDL_BMD 0.12 Assim efficiency of deep macrozoobenthos on labile detritus 0.1 - 0.2  
+    EDL_BFS 0.2 Assim efficiency of shallow filter feeder on labile detritus 0.1 - 0.45   
+    EDL_BFF 0.2 Assim efficiency of other filter feeder on labile detritus 0.1 - 0.45   
+    EDL_BFD 0.2 Assim efficiency of deep filter feeder on labile detritus 0.1 - 0.45   
+    EDL_ZS 0.0 Assim efficiency of microzooplankton on labile detritus 0.0 - 0.2  
+    EDL_ZM 0.12 Assim efficiency of large zooplankton on labile detritus 0.12 - 0.25  
+    EDL_ZL 0.0 Assim efficiency of large zooplankton on labile detritus 0.0 - 0.2  
+    EDL_ZG 0.1 Assim efficiency of getlatinous zooplankton on labile detritus 0.1 - 0.25  
+    EDL_PB 0.5 Assim efficiency of pelagic bacteria on labile detritus 0.5   
+    EDL_CEP 0.0 Assim efficiency of cephalopods on labile detritus 0.0 - 0.2  
+    EDL_PWN 0.0 Assim efficiency of prawns on labile detritus 0.0 - 0.2  
+    EDL_DF 0.0  
+    EDL_MA 0.0  
+    EDL_MB 0.0  
+    EDL_SG 0.0  
+    EDL_PL 0.0  
+    EDL_PS 0.0
+
+1. Assimilation efficiency of invertebrate consumers on refractory detritus  
+    EDR_ZS 0.05 Assim efficiency of microzooplankton on refractory detritus 0.001 - 0.1  
+    EDR_ZM 0.03 Assim efficiency of meso-zooplankton on refractory detritus 0.001 - 0.1  
+    EDR_ZL 0.02 Assim efficiency of large zooplankton on refractory detritus 0.001 - 0.1   
+    EDR_ZG 0.02 Assim efficiency of gelatinous zooplank on refractory detritus 0.001 - 0.1   
+    EDR_PB 0.25 Assim efficiency of pelagic bacteria on refractory detritus 0.25  
+    EDR_BB 0.25 Assim efficiency of sediemnt bacteria on refractory detritus 0.25  
+    EDR_BD 0.08 Assim efficiency of deposit feeder on refractory detritus 0.001 - 0.15  
+    EDR_BO 0.08 Assim efficiency of meiobenth on refractory detritus 0.001 - 0.15   
+    EDR_BC 0.0 Assim efficiency of carnivorous infauna on refractory detritus 0.0 - 0.1  
+    EDR_CEP 0.0 Assim efficiency of cephalopods on refractory detritus 0.0 - 0.1  
+    EDR_PWN 0.0 Assim efficiency of prawns on refractory detritus 0.0 - 0.1  
+    EDR_BFS 0.0 Assim efficiency of shallow filter feeders on refractory det. 0.0 - 0.1  
+    EDR_BFD 0.0 Assim efficiency of deep filter feeders on refractory detritus 0.0 - 0.1  
+    EDR_BFF 0.0 Assim efficiency of other filter feeders on refractory detritus 0.0 - 0.1  
+    EDR_BML 0.0 Assim efficiency of megazoobenthos on refractory detritus 0.0 - 0.1  
+    EDR_BMD 0.0 Assim efficiency of deep macrozoobenthos on refractory detritus 0.0 - 0.1  
+    EDR_BMS 0.0 Assim efficiency of shallow macrozoobenthos on refractory det. 0.0 - 0.1  
+    EDR_BG 0.0 Assim efficiency of benthic grazers on refractory detritus 0.0 - 0.1  
+    EDR_DF 0.1  
+    EDR_MA 0.0  
+    EDR_MB 0.0  
+    EDR_SG 0.0  
+    EDR_PL 0.0  
+    EDR_PS 0.0
+
+**Age structured prey values**
+
+#Flag to indicate that the group uses age structured prey.  
+ age_structured_prey_FVD 1  
+ age_structured_prey_FVV 1  
+ age_structured_prey_FVS 1  
+ age_structured_prey_FVB 1  
+ age_structured_prey_FVT 1  
+ age_structured_prey_FVO 1  
+ age_structured_prey_FMM 1  
+ age_structured_prey_FDD 1  
+ age_structured_prey_FDS 1  
+ age_structured_prey_FDB 1  
+ age_structured_prey_FDC 1  
+ age_structured_prey_FDO 1  
+ age_structured_prey_FDE 1  
+ age_structured_prey_FDF 1  
+ age_structured_prey_SHB 1  
+ age_structured_prey_SHD 1  
+ age_structured_prey_SHC 1  
+ age_structured_prey_SHP 1  
+ age_structured_prey_SHR 1  
+ age_structured_prey_FPL 0  
+ age_structured_prey_FPO 0  
+ age_structured_prey_FPS 0
+
+age_structured_prey_FBP 0  
+ age_structured_prey_FMN 0  
+ age_structured_prey_FDM 0  
+ age_structured_prey_FDP 0  
+ age_structured_prey_SSK 0  
+ age_structured_prey_SB 0  
+ age_structured_prey_SP 0  
+ age_structured_prey_PIN 0  
+ age_structured_prey_REP 0  
+ age_structured_prey_WHB 0  
+ age_structured_prey_WHS 0  
+ age_structured_prey_WHT 0  
+ age_structured_prey_WDG 0
+
+##### 15-jun-2009
+
+**Efficiency Values**
+
+Added efficiency values for invertebrate for Plants.   
+ All consumer invertebrates should have a value.
+- DF - The DF group was using the E_ value for plants and EDR. The ELD value was over written with 0.
+- Users need to change the EDR and E_Plant values to the value they were using FLAG_E and set the FLAG_EDL to 0.0.
+- SED_EP_FF and MOB_EP_OTHER groups were using 0.0 for the EDR value. This value is now rad in from the input file and should be 0.0;
+- ED_EP_OTHER the E1 value was forced to 0.0, the E_1 value in the input file was used for E_PLANT, and the E4 value was forced to 0.0. The new code uses the values in the input files. So you should change your input files to use the E_BG value for EPLANT_BG, and set the E_BG E_EDR values to 0.0.
+
+##### 16-Jun-2009
+
+**init_scalar**
+- I have had to change the init_scaler array in the run file to have num_tot_sp values.
+
+so it was:
+
+1. Multiplicative scalr for vertebrate initial densities (as read-in from cdf file)  
+    init_scalar 35  
+    0.25 1 0.75 1 0.67 1 1 0.8 1 1 1 1 1 1 0.3 1 1 1 1 0.28 1 0.5 0.8 0.2 1 0.3 1.2 1 0.7 1 0.135 1 1 1 1
+
+and it becomes _ the invert values are just padded with 0's.:
+
+1. Multiplicative scalr for vertebrate initial densities (as read-in from cdf file)  
+    init_scalar 62  
+    0.25 1 0.75 1 0.67 1 1 0.8 1 1 1 1 1 1 0.3 1 1 1 1 0.28 1 0.5 0.8 0.2 1 0.3 1.2 1 0.7 1 0.135 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+##### 06-07-2009
+
+I have had to make some assumptions about the functional group codes.  
+ When the user specifies these using the functional group input file it will assume that they are capitals. This allows me to parse the input files easily.
+
+##### 13-09-2010
+
+The detritus groups must be last in the functional group input file.
+
+The fstat input file has been adjusted slightly.
+
+##### 7-12-2010
+
+min and max depth values.  
+ The old biology input files have the following input values:
+
+1. Benthic depth stratification markers  
+    Bmindepth 150 Minimum depth deep benthic groups found at 150  
+    Bmaxdepth 250 Maximum depth shallow benthic groups fount at 250
+
+Bmindepth is used as the min depth for BFFguild_id, BFDguild_id and BMDguild_id.  
+ BmaxDepth is used as the max depth for BFSguild_id, BMLguild_id and BMSguild_id.
+
+The new code removes these assumptions. If you want the same output you need to use the following:
+
+BFF_mindepth 150  
+ BFD_mindepth 150  
+ BMD_mindepth 150  
+ BFS_mindepth 0  
+ BML_mindepth 0  
+ BMS_mindepth 0
+
+BFS_maxdepth 250  
+ BML_maxdepth 250  
+ BMS_maxdepth 250  
+ BFF_maxdepth 5000  
+ BFD_maxdepth 5000  
+ BMD_maxdepth 5000
+
+##### 24-02-2011
+
+BMDmax 0
+
+##### 07-06-2011
+
+Have created some code to convert the input files. Will finish this once the economics output is the same.
+
+Also once a model is running with the new code check the warnings to make sure no arrays are filling to the end when they shouldn't be.
+
+##### 4-Feb-2018
+
+**init_scalar**
+- This will now apply scalars to biomass pools as well as vertebrate numbers (but not detritus).

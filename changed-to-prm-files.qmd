@@ -1,0 +1,110 @@
+---
+title: "Changed to prm files"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+The ice model will be active if a global attribute 'icenz' is defined in your initial conditions netcdf file.
+
+**Physics.prm**
+
+maxicedz 15  
+minicedz 5  
+num_ice_classes 4  
+slush 1  
+kind_ice_model 1
+
+**force.prm**
+
+Update the file to point to the ice forcing file.
+
+nInceFiles 1  
+[Ice0.name](http://Ice0.name) inputs/forcisets/[SETAS_VMPAIce_14Jan2016.nc](http://SETAS_VMPAIce_14Jan2016.nc)
+
+**Biology.prm file.**
+
+k_bs 15.0 m^-1 blue-green light attenuation per metre in snow.
+
+k_bi 2.0 m^-1 blue-green light attenuation per metre in ice.  
+k_rs 35.0 m^-1 red light attenuation per metre in snow.  
+k_ri 4.0 m^-1 red light attenuation per metre in ice.  
+R_bi 0.5 fraction of photosynthetically available light in the blue-green region
+
+albedo_ice 0.4 Walsh 0.7 or Grenfell & Perovich 1984 0.4  
+albedo_snow 0.6 Grenfell & Perovich 1984 0.6 to 0.81
+
+ka_star 0.03 Soohoo 1987 (neglects wavelength dependence)  
+p_IBice 0.9 Prop. of ice. bacteria taken when detrit eaten in wc 0.6 - 1
+
+For each primary producer group (including the ice active groups ) add the following value:
+
+#Photoinhibition
+
+PBmax_D_PS 0.44
+
+#Photosynthetic efficiency
+
+Beta_D_PS 0.002
+
+Then for each predator we need a value that indicates how far the predator can eat into the ice - similar to how they can forage into the sediment:
+
+The following values are the same values that are used for foraging into the sediment and therefore have not real world value at all. Do not use these values in your model!
+
+# Depth consumers can dig into, are found down to in the ice
+
+ICE_KDEP_BFS 0.003 ice penetration depth of shallow filter feeders m 0.003   
+ICE_KDEP_BFF 0.003 ice penetration depth of other filter feeders m 0.003   
+ICE_KDEP_BFD 0.003 ice penetration depth of deep filter feeders m 0.003   
+ICE_KDEP_BO 0.03 ice penetration depth of meiobenthos m 0.03   
+ICE_KDEP_BD 0.1 ice penetration depth of deposit feeder m 0.01 - 0.3   
+ICE_KDEP_BC 0.1 ice penetration depth of infaunal carniv m 0.01 - 0.3   
+ICE_KDEP_BG 0.005 ice penetration depth of benth grazers m 0.001 - 0.01   
+ICE_KDEP_BMS 0.001 ice penetration depth of shallow macrozoobenthos m 0.00001 - 0.002   
+ICE_KDEP_BMD 0.001 ice penetration depth of deep macrozoobenthos m 0.00001 - 0.002   
+ICE_KDEP_BML 0.001 ice penetration depth of megazoobenthos m 0.00001 - 0.002   
+ICE_KDEP_CEP 0.003 ice penetration depth of cephalopods m 0.003   
+ICE_KDEP_PWN 0.001 ice penetration depth of prawns m 0.00001 - 0.002
+
+# ice penetration depth for predators (m). Value read in for groups that are tagged as predators in the functionL group definition file.  
+
+ICE_KDEP_FPS 1   
+ICE_KDEP_FPL 1   
+ICE_KDEP_FPO 1   
+ICE_KDEP_FVD 1   
+ICE_KDEP_FVV 1   
+ICE_KDEP_FVS 1   
+ICE_KDEP_FVT 1   
+ICE_KDEP_FVO 1   
+ICE_KDEP_FVB 1   
+ICE_KDEP_FMM 1   
+ICE_KDEP_FMN 1   
+ICE_KDEP_FBP 1   
+ICE_KDEP_FDD 1   
+ICE_KDEP_FDS 1   
+ICE_KDEP_FDB 1   
+ICE_KDEP_FDC 1   
+ICE_KDEP_FDO 1   
+ICE_KDEP_FDE 1   
+ICE_KDEP_FDF 1   
+ICE_KDEP_FDP 1   
+ICE_KDEP_FDM 1   
+ICE_KDEP_SHD 0.01   
+ICE_KDEP_SHC 0.01   
+ICE_KDEP_SHP 0.01   
+ICE_KDEP_SHB 0.01   
+ICE_KDEP_SHR 0.01   
+ICE_KDEP_SSK 0.01   
+ICE_KDEP_SB 0.05   
+ICE_KDEP_SP 0.05   
+ICE_KDEP_REP 1   
+ICE_KDEP_PIN 0.001   
+ICE_KDEP_WDG 1   
+ICE_KDEP_WHB 0.001   
+ICE_KDEP_WHT 1   
+ICE_KDEP_WHS 0.01   
+ICE_KDEP_DF 0   
+ICE_KDEP_IDF 0   
+ICE_KDEP_ZG 0   
+ICE_KDEP_ZL 0   
+ICE_KDEP_ZM 0   
+ICE_KDEP_ZS 0   
+ICE_KDEP_IZS 0

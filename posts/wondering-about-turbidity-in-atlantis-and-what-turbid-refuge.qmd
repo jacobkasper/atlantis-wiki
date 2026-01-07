@@ -1,0 +1,38 @@
+---
+title: "Wondering about Turbidity in Atlantis and what turbid_refuge is?"
+date: "2019-02-16"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+**Turbidity effect on mortality**
+
+A logistic curve is applied to represent the escapement from predation due to turbidity (please see the manual section 10.6.6. for the equation).
+
+The value of the escapement is a proportion (i.e. between 0 and 1). At present this escapement only modifies the availability of the prey to its predator during feeding, it does not alter the prey’s habitat dependent movement (i.e. the prey species move to their preferred habitat and ignore any turbidity effects, if you want prey to take turbidity into account as cover so that it modifies their movement please let us know and we will update the code).
+
+To activate this effect (i) flagIsEstuary must be set to 1 in the
+*run.prm*
+file so that the SED_i tracer is active in the model – it will need to be included in the
+*[initial_conditions.nc](http://initial_conditions.nc)*
+file and can also be included in point source inputs (.ts files) to represent any material coming down the rivers into the model domain. The flag
+**turbid_refuge_XXX**
+for each species – set it to 1 if the prey benefits from turbidity, 0 if not. Then for each predator you need to enter the following three vectors, which include one value for each stage of the functional group (as defined by NumStages in the
+*functional_groups.csv*
+file):
+
+XXX _turbid_L  which defines the minimum of the curve (per stage)
+
+XXX _turbid_a  which defines the slope of the curve (per stage)
+
+XXX _turbid_b  which defines the midpoint of the curve (per stage)
+
+These vectors have the format like:
+
+XXX _turbid_L  2
+
+1.0 0.8
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

@@ -1,0 +1,46 @@
+---
+title: "Forcing Files"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+## Dummy Files
+
+When you are first creating your model you can use dummy files to get started before your proper forcing files are ready. Its often a good idea to use constant temp, salt and zero current initially anyway as it simplifies your model.
+
+You will need to edit these files and change the number of boxes and layers and change the geometry attribute to the name of your bgm file.
+
+[tempdummy.cdf](attachments/43156847.cdf)  
+ [saltdummy.cdf](attachments/43156845.cdf)  
+ [hydrodummy.cdf](attachments/43156839.cdf)
+
+Once you have edited these you will have to run ncgen to convert the human readable cdf file to the binary nc format.
+
+eg:
+
+ncgen -o saltdummy.nc saltdummy.cdf
+
+## File structure
+
+[Current Forcing File Structure](current-forcing-file-structure.qmd)
+
+[Temperature and Salinity File Structure](temperature-and-salinity-file-structure.qmd)
+
+## Construction of files
+
+At present many of the hydro files are constructed using a two stage process.
+
+**Stage 1: Flux per face**
+
+The first stage calculates the flux per face. These are a series of Matlab scripts that must be run on a CSIRO linux machine (they reference many CSIRO matlab libraries and assume shared folders are present).
+
+<https://wiki.csiro.au/display/Atlantis/Matlab+-+Hydro>
+
+**Stage 2: Flux per box**
+
+The second stage is using a program called [HydroConstruct](hydroconstruct.qmd). This is a C program written by Beth Fulton and maintained by Bec Gorton.
+
+## Questions about Hydro Files
+
+The following page lists questions from people generating their hydro files and the answers that Beth or Bec have provided. If you have any questions please read these before emailing.
+
+[Hydro FAQ](hydro-faq.qmd)

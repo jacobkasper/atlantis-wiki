@@ -1,0 +1,39 @@
+---
+title: "What to do if a compiler setting is causing a compile error"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+Compile failures can be very frustrating, especially when they involve compiler flags, as they aren't something many of us play with often.
+
+If you are encountering an unknown compiler flag ('unrecognized command line option') please follow the how-to guide [here](1498252587.qmd).
+
+If on the other hand you have a situation like
+
+:::{note}
+atlantismain.c:902:75: error: address of array 'bm->forceIfname' will always evaluate to 'true' [-Werror,-Wpointer-bool-conversion]if (!bm->ncIfname[0] || !bm->ncOfname[0] || !bm->runprmIfname[0] || !bm->forceIfname || !bm->fishprmIfname || !bm->assessprmIfname || !bm→econprmIfname
+:::
+
+What this is saying is that anything that generates a compiler warning is treated as creating a compile error. In this case it doesn't like how we have handled the file name check. Through time we will go clean these up, but in the short term you can deal with them by adding a line in the make file generation
+
+1. Within the Atlantis code directory go to subdirectory atlantis
+2. Open the file PreRules.am
+3. Look for the lines
+
+   GCCVERSION = $(shell gcc --version | grep ^gcc | sed 's/^.* //g')
+
+   WARN =
+4. After that line you will see lines that begin with WARN +=   such as
+
+   WARN += -Warray-bounds
+5. Add another one of those lines with an appropriate setting to tell the compiler to treat this issue as a warning but not one that causes an error, for example for the error example above you would add
+
+   WARN += -Wno-error=pointer-bool-conversion
+6. To know what Wno-error option to add the best thing to do is to google something like "disable Wpointer-bool-conversion" or "disable [-Werror,-Wpointer-bool-conversion]. The website <https://stackoverflow.com/> will likely have an answer
+
+## Related articles
+- Page:
+
+  [What to do if a compiler setting is causing a compile error](/display/Atlantis/What+to+do+if+a+compiler+setting+is+causing+a+compile+error)
+- Page:
+
+  [How to handle "unrecognized command line option"](/pages/viewpage.action?pageId=1498252587)

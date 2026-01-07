@@ -1,0 +1,62 @@
+---
+title: "New Input Folder Argument"
+date: "2014-05-09"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+There is now a new optional command line argument in Atlantis that allows the user to specify an input folder where Atlantis will expect to find input files.
+
+This new argument specifies a path that is inserted before all file paths that are opened in Atlantis.
+
+The command line arguments are now:
+
+Util_Usage: atlantis -i input.nc dump -o output.nc -r run.prm -f force.prm -p physics.prm -b biology.prm -h harvest.prm -a assess.prm -e economics.prm -s functionGroupFile.xml -q fisheries.xml [-d destinationFolder] [-t inputFolder]
+
+The inputFolder value will be inserted before all of your prm and netcdf input files as well as the bgm file and all forcing files.
+
+**Example:**
+
+If your command line arguments are the following:
+
+atlantisNew -i init_vmpa_setas_25032013.nc 0 -o outputSETAS.nc -r VMPA_setas_run_fishing_F_New.prm -f VMPA_setas_force_fish.prm -p VMPA_setas_physics.prm -b VMPA_setas_biol_fishing_New.prm -h VMPA_setas_harvest_F_New.prm -s SETasGroups.csv -q SETasFisheries.csv -d outputFolder -t /home/bec/SETasInputFiles
+
+then Atlantis will expect all of the following files to be contained in the '/home/bec/SETasInputFiles' folder NOT In the folder where you are running this command.
+
+The path ''/home/bec/SETasInputFiles' will also be added to the file paths in your forcing prm file:
+
+nhdfiles 5
+  
+hd0.name inputs/forcisets/SETAS_VMPAhydroA.nc
+  
+hd1.name inputs/forcisets/SETAS_VMPAhydroB.nc
+  
+hd2.name inputs/forcisets/SETAS_VMPAhydroC.nc
+  
+hd3.name inputs/forcisets/SETAS_VMPAhydroD.nc
+  
+hd4.name inputs/forcisets/SETAS_VMPAhydroE.nc
+
+the actual path that Atlantis will use for the first file is:
+
+/home/bec/SETasInputFiles/inputs/forcisets/SETAS_VMPAhydroA.nc
+
+You should only use this new argument if you are using relative paths in your forcing input file. A relative path is a path relative to the working directory of the user or application
+
+If you have an absolute path in your forcing files such as:
+
+/home/bec/Atlantis/SETas/inputs/forcisets/SETAS_VMPAhydroA.nc
+
+then you should not use this new argument as the path:
+
+/home/bec/SETasInputFiles/home/bec/Atlantis/SETas/inputs/forcisets/SETAS_VMPAhydroA.nc
+
+is probably not valid.
+
+##### NOTE:
+
+For those of you who have used Fisheries.xml or Groups.xml files in place of csv files in the past. This option will no longer work. You must specify these files as csv with this new version of the code.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

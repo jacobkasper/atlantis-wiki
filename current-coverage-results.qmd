@@ -1,0 +1,98 @@
+---
+title: "Current Coverage Results"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+22-12-2009   
+Biology Tests:
+
+File 'attime.c'  
+Lines executed:73.83% of 149  
+attime.c:creating 'attime.c.gcov'
+
+File 'atprocess.c'  
+Lines executed:70.27% of 740  
+atprocess.c:creating 'atprocess.c.gcov'
+
+File 'atNutrient.c'  
+Lines executed:91.20% of 216  
+atNutrient.c:creating 'atNutrient.c.gcov'
+
+File 'atGroupProcesses.c'  
+Lines executed:92.13% of 572  
+atGroupProcesses.c:creating 'atGroupProcesses.c.gcov'
+
+File 'atecologyts.c'  
+Lines executed:38.71% of 31  
+atecologyts.c:creating 'atecologyts.c.gcov'
+
+File 'atecology.c'  
+Lines executed:42.33% of 1942  
+atecology.c:creating 'atecology.c.gcov'
+
+File 'atBuildTracer.c'  
+Lines executed:98.40% of 188  
+atBuildTracer.c:creating 'atBuildTracer.c.gcov'
+
+File 'atbiolUtil.c'  
+Lines executed:94.44% of 54  
+atbiolUtil.c:creating 'atbiolUtil.c.gcov'
+
+File 'atbiolsetup.c'  
+Lines executed:84.34% of 1533  
+atbiolsetup.c:creating 'atbiolsetup.c.gcov'
+
+File 'atbiology.c'  
+Lines executed:85.64% of 397  
+atbiology.c:creating 'atbiology.c.gcov'
+
+File 'atannualbiology.c'  
+Lines executed:87.76% of 286  
+atannualbiology.c:creating 'atannualbiology.c.gcov'
+
+File 'atbiolmessage.c'  
+Lines executed:87.12% of 497  
+atbiolmessage.c:creating 'atbiolmessage.c.gcov'
+
+File 'atBiologyXMLParamIO.c'  
+Lines executed:91.82% of 1162  
+atBiologyXMLParamIO.c:creating 'atBiologyXMLParamIO.c.gcov'
+
+File 'atbiolSpeciesParamIO.c'  
+Lines executed:85.84% of 226  
+atbiolSpeciesParamIO.c:creating 'atbiolSpeciesParamIO.c.gcov'
+
+File 'atbiophysics.c'  
+Lines executed:57.45% of 188  
+atbiophysics.c:creating 'atbiophysics.c.gcov'
+
+File 'atcalibtools.c'  
+Lines executed:88.00% of 200  
+atcalibtools.c:creating 'atcalibtools.c.gcov'
+
+File 'atEcologyModule.c'  
+Lines executed:98.55% of 69  
+atEcologyModule.c:creating 'atEcologyModule.c.gcov'
+
+File 'atfluxbreakdown.c'  
+Lines executed:38.66% of 432  
+atfluxbreakdown.c:creating 'atfluxbreakdown.c.gcov'
+
+File 'atmovement.c'  
+Lines executed:68.61% of 873  
+atmovement.c:creating 'atmovement.c.gcov'
+
+File 'atPhysChemIO.c'  
+Lines executed:92.11% of 38  
+atPhysChemIO.c:creating 'atPhysChemIO.c.gcov'
+
+File 'atq10.c'  
+Lines executed:81.48% of 54  
+atq10.c:creating 'atq10.c.gcov'
+
+File 'atvertprocesses.c'  
+Lines executed:75.16% of 1417  
+atvertprocesses.c:creating 'atvertprocesses.c.gcov'
+
+So the highest priority is the movement code.  
+Tests need to cover sticky movement , home range and invading species. These are currently being added.

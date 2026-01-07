@@ -1,0 +1,36 @@
+---
+title: "Asking for help with your Atlantis model"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+### Please check the [FAQ](atlantis-faq.qmd) and [Google Group](atlantis-google-group.qmd) before you ask a question - these pages are expanding over time.
+
+### Option 1: Ask the Community
+
+If you have a general question then its good to send your questions out to the community.
+
+[Atlantis Google Group](atlantis-google-group.qmd)
+
+### Option 2: Ask the Bs:
+
+If you need to ask Bec or Beth for help please try to provide the following information:
+
+1. The name of the model.
+2. What is the problem you are having with your model?  
+     
+   - Please try to keep this short and clear - think 20 words or less.
+   - If the model is crashing please include the error message or a screen shot.
+3. How many days do we have to run the model for before we will see the problem?  
+     
+   - Ideally this will not be 100 years - the shorter run time the faster we can help you.
+   - Perhaps think about how you can replicate the problem earlier in your model run
+4. What version of the code are you using?   
+     
+   - What is the code URL? Trunk, bec_dev etc
+   - If possible please try to include the version number - this will be at the top of any log files created.
+5. Please send us your model files:  
+     
+   - Include all of the files - input forcing netcdf files, ts files etc.
+   - Let us know what command line arguments we should use - you can provide this in an email or include a script file.
+   - Don't include 20G worth of output - if some output files are relevant then please include but the more we have to download the longer it will take for help to arrive
+6. If suitable please document the question/answer on the [Atlantis FAQ](atlantis-faq.qmd) page.

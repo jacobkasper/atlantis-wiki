@@ -1,0 +1,91 @@
+---
+title: "Compile on Windows using MinGW"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+We are using Minimalist GNU for windows to provide a C++ compiler. This replaces the need for using Visual Studio. There are issues with some of the third party libraries used by Atlantis when using Visual Studio 2015 and later.
+
+You can use Eclipse to view and edit the code if required but its not needed to compile the code. The instructions for installing and setting up Eclipse are provided in section at the end of this page.
+
+### Install Mingw
+
+Follow the instructions, all the way to the end:
+
+<https://computingabdn.com/softech/mingw-howto-install-gcc-for-windows/>
+
+Take note of the changes to the defaults when installing minGW-w64.
+
+Once you have completed the instructions you also need to install a couple of extra packages to compile Atlantis using pacmac:
+
+```
+pacman -S make
+pacman -S autoconf
+pacman -S automake
+pacman -S gcc
+pacman -S pkg-config
+pacman -S libxml2-devel
+pacman -S mingw-w64-x86_64-proj
+pacman -S mingw-w64-x86_64-netcdf
+pacman -S svn
+```
+
+Make sure you add both the relevant msys and minGW folders to your system path. If you get a missing library error when you try to run the Atlantis program later its probably because you have forgotten to do this.
+
+### Compile Atlantis
+
+Compile in MYS command prompt. This assumes you have checked out the Atlantis code to c:/Code/Atlantis
+
+The code can be compiled in the MSYS command prompt. This will create a windows exe which can then be run in a normal windows command prompt.
+
+A configure script for use in mingw as been provided that should hopefully work if you have installed the packages as per the instructions above.
+
+```
+cd c:/Code/Atlantis 
+aclocal
+autoheader
+autoconf
+automake -a
+chmod +x configure_mingw
+./configure_mingw
+make
+make install
+```
+
+### Running Atlantis:
+
+This above steps should have compiled Atlantis and built an executable called atlantisMerged.exe in the c:/Code/Atlantis/atlantismain folder.
+
+Copy this executable to the folder where you would like to run Atlantis and use a normal Windows Prompt to run  (not a msys prompt)
+
+#### Possible errors:
+
+error while loading shared libraries: libproj-12.dll: cannot open shared object file: No such file or directory.
+
+Solutuion:
+
+Make sure you have added c:\msys64\mingw64\bin to your path environment variable.
+
+### Setup Eclipse Development Environment
+
+#### Install JDK
+
+Install the Java Development Kit - this is required to install Eclipse.
+
+<http://www3.ntu.edu.sg/home/ehchua/programming/howto/JDK_HowTo.qmd#jdk-install>
+
+You should download version 9. Make sure you set up the path correctly – check the java -version returns the 64 bit version.
+
+#### Install CDT eclipse for windows.
+
+Download "Eclipse IDE for C/C++ Developers" from <http://www.eclipse.org/downloads>, and unzip the downloaded file into a directory of your choice.
+
+When you open eclipse for the first time you will be able to set up a workspace. Best to leave this in your home directory for example /home/bec/Workspace
+
+Create a new "C Project". This means it will use the existing makefiles to build the project. Call this project atlantis and do not use the default location - browse to where your code is located. This will by default import the source code as well.
+
+Project type should be 'Executable→Empty project' Select 'Mingw' as the toolchain.
+
+Then click 'Next' and click on the Advanced settings button and select the C++ build options.  
+Uncheck the 'Generate Makefiles automatically' tick box and get rid of the 'Debug' bit of the end of the build location.
+
+Change the toolchain to use Cross GCC.

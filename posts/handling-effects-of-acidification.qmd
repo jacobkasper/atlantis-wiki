@@ -1,0 +1,3455 @@
+---
+title: "Handling effects of acidification"
+date: "2021-07-25"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+Ocean pH state has been added to the environmental drivers that can modify rates and behaviour in Atlantis.
+
+## Calculating pH
+
+pH can be read in from an external file (in the same way temperature and salinity are or it can be calculated dynamically in Atlantis using the equations from Chapter 9 "Chemistry of Carbonic Acid in Water" of IAEA Volume on "Environmental Isotopes in the Hydrological Cycle : Principles and Applications".
+
+The atmospheric CO2 level is read in from a time series file specified in force.prm
+
+read_pCO2 = tsEval(bm->tspCO2, bm->pCO2_id, bm->t); // Assume pCO2 is in ppm CO2 equivalence concentrations (as for RCP files in 2012)
+
+Then the following calculations are done
+
+alk (alkalinity) is set using an equation from Bostock et al 2012, which uses temperature, salinity and oxygen levels to set alkalinity with depth based on a meat-analysis of global datasets.
+
+abs_temp = H2Otemp + 273.15;  // Temperature in Kelvin
+
+step1 = -60.2409 + (9345.17 / abs_temp) + 23.3585 * log(0.01 * abs_temp) + current_SALT * (0.023517 - 0.023656 * 0.01 * abs_temp + 0.0047036 * (0.01 * abs_temp) * (0.01 * abs_temp));
+
+K0 = exp(step1);
+
+step1 = -1.0 * ((3670.7 / abs_temp) - 62.008 + 9.7944 * log(abs_temp) - 0.0118 * current_SALT + 0.000116 * current_SALT * current_SALT);
+
+K1 = pow(10.0,step1);
+
+step1 = -1.0 * ((1394.7 / abs_temp) + 4.777 - 0.0184 * current_SALT + 0.000118 * current_SALT * current_SALT);
+
+K2 = pow(10.0,step1);
+
+pCO2 = read_pCO2 / 1000000.0;   // convert from ppm to correct units
+
+step1 = K1 * K0 * pCO2;
+
+step2 = K1 * K2 * K0 * pCO2;
+
+base_pH = -log10((step1 + sqrt(step1 * step1 + 8.0 * alk * step2)) / (2 * alk));
+
+This base pH can then be further modified as desired using pHchange (which works like Tchange). THis would only be required if a specific additional change in pH occurred due to ocean dumping etc, it is not required for representing global ocean acidification effects if a future time series of atmospheric CO@ has been read in. In most instances current_PH = base_pH.
+
+## Applying the effects of pH on functional groups
+
+#### Determining the effects scalar
+
+pH_sensitivity_model (specified in biol.prm) is used to define which sensitivity model is being used for the functional group. The existing options are
+
+| Case | Equation |
+| --- | --- |
+| no_pH_effect (0) | No effect on the functional group (pHcorr_scalar set = 1.0) |
+| monod_pH (1) | A monod function is used to capture the effects. This requires 3 parameters (pH_const_A, pH_const_B and KN_pH). pH_const_A is effectively a lower bound, below this pH value the scalar is set to zero (i.e. the ecological process fails to happen) and above this value the following equation is used   pHcorr_scalar = pH_const_B * (current_PH - pH_const_A) / ((KN_pH - pH_const_A) + (current_PH - pH_const_A)) |
+| nonlin_pH (2) | This is a humped relationship taken from empirical studies such as Hinga 2002 study of phyoplankton. This requires 3 parameters (pH_const_A, pH_const_B and optimal_pH). In this case the scalar is given by:   step1 = log10(2) * pH_const_A * pow(pH_const_B,current_PH);   step2 = exp(-1.0 * (pow(fabs(current_PH - opt_pH), 3.0) / bm>SP_prms[sp][pH_correction_id]));   pHcorr_scalar = step1 * step2; |
+| lin_pH (3) | Due to the limited number of treatments in most studies a linear relationship between pH and effect is all that can be derived. In those cases 2 parameters are required (pH_const_A and pH_const_B) and the equation used is:   pHCorr_scalar = pH_const_A + current_PH * pH_const_B; |
+| piecewise_lin_pH (4) | This produces a piece-wise linear functional shape, so the shape produced is of the following general form:    where  pHcorr = pH_const_A if current_PH < min_pH  pHcorr = pH_const_B if current_PH > max_pH  otherwise  pHcorr = pH_const_A + current_ph * (pH_const_B - pH_const_A) / (max_pH - min_pH); |
+| quadratic_pH_id (5) | A quadratic form for the effect of acidification. It requires 3 parameters (pH_const_A, pH_const_B, pH_const_C) per species using this option  pHcorr_scalar = pH_const_A * current_PH * current_PH + pH_const_B * current_PH + pH_const_C |
+
+#### Applying the effects scalar
+
+There are a number of ways pH can effect a group in Atlantis.
+- *Via scaling growth and non-predation mortality rates:*
+  To do this set flagsensitive = 1 for the group. On the assumption that growth and non-predation mortality are effected in opposite ways by pH (e.g. growth declines and mortality increases, as is the case in all papers surveyed to date where these effects were reported on) this will see the unmodified C_sp and mum_sp multiplied by pHCorr_scalar and the unmodified mL_sp and mQ_sp multiplied by (1.0 / pHCorr_scalar).
+- *Via effecting predator search effectiveness:*
+  If a vertebrate and using the functional feeding response with explicit searching then the unmodified vla_T15 will be multiplied by pHCorr_scalar
+- *Via modifying a functional group's ability to process food:*
+  (i.e. by scaling assimilation efficiencies like E_sp). This only occurs if flagq10eff_sp is non-zero.
+- *Via modifying the availability of prey to a predatory:*
+  (e.g. the lack of predator avoidance seen in Phil Munday's work on small reef fish). This is activated if flagpredavaileffect = 1. In this case the availability term of that invertebrate species to its prey is multiplied by (1.0 / pHCorr_scalar) as literature indicates that for all species where this occurs the pHCorr_scalar on physiological rates is < 1.0. For vertebrate prey the amount of available and grazed is scaled by pHCorr_scalar if flagsensitive = 1 (as in the literature suggest for species effected in this way availability is higher as pH drops)
+- *Via modifying the nutritional content of a species to its predators:*
+  This is only crudely handled at present and is really only intended for primary producers as yet as there is little information about it for other groups. To activate this set flagnutvaleffect = 1. Then the amount of biomass available to the predator is multiplied by pHCorr (so they effectively have less available to them). More suitable variants will be used once internal C, N and P pools are in place for all groups (in a future code update).
+- *Via changing recruitment:*
+  (e.g. reducing larval survival). In this case set flagfecundsensitive = 1 and then the number of recruits is multiplied by pHCorr_scalar.
+- *VIa modifying then thermal tolerance of a species*
+  : In this case set flagcontract_tol = 1 and contract_tol to be the number of degrees to contract the temperature tolerances by as pH drops.
+
+In addition to these functional group specific effects the nitrification rate K_nit_T15 is also multiplied by a global wclayer_pHCorr = -1.5 + 0.3 * current_PH
+
+##### Additional acidification mortality
+
+We have added the ability to have additional mortality due to acidification effects. To do this in the biol.prm file add the parameter
+flagPHmortcase which dictates the form of the mortality for all groups where the options are:
+
+| Case | Mortality type |
+| --- | --- |
+| 0 | No extra mortality |
+| 1 | Sigmoid following the equation  extra_mort = sp_pHmortA / ( 1.0 + exp(-1.0 * sp_pHmortB * (sp_pHmortmid - current_PH))) |
+| 2 | McElhany and Bush mortality - which is a decrement in survival following  annualSurvivalNoAcid = exp(-sp_pHmortB)  scalarOfSurvival = 1.0 - sp_pHmortA * (sp_pHmortstart - current_PH)  annualSurvivalScaled = annualSurvivalNoAcid * scalarOfSurvival  annualSurvivalDecrement =  (annualSurvivalNoAcid - annualSurvivalScaled)  extra_mort = -1.0 * (log(1.0 - annualSurvivalDecrement)) |
+
+The mortality does not kick in until the local pH value is less than
+pHmortstart_XX for each functional group XX and you also need to set
+
+phmortA_XX, phmortB_XX, phmortmid_XX per functional group.
+
+## Example Parameter settings - no PH effects desired
+
+flagmodelpH      0         Calculate model pH off temperature, salinity and atmospheric CO2: 0 = disable, 1 = from data (file supplied in force.prm), 2 = from regression
+
+## pH effects
+
+  
+flagpHchange   0    Whether the pH values change through time following a forced trend - yes = 1, no = 0
+
+pHchange_max_num  1         Number of changes in average base temperature                       1
+  
+# Day changes in base tepmerature begins (must have same number of entries as given by Schange_num)
+
+  
+pHchange_start    1
+  
+0
+  
+# Period of time changes in base tepmerature take (must have same number of
+
+  
+# entries as given by Schange_num)
+
+  
+pHchange_period   1
+  
+1
+  
+# Scale of change in base temperature (must have same number of entries as given by Schange_num)
+
+  
+pHchange_mult     1
+  
+1.0
+  
+# Differential scaling with depth (must be as many entries as
+
+  
+# number of water column layers * number of changes)
+
+  
+vertpHchange_mult 5
+  
+1.0 1.0 1.0 1.0 1.0
+
+pH_sensitivity_model  1    Whether using monod (0) or nonlinear model (1)
+
+# Constants for empirical pH model
+
+  
+pH_surface_depth          200.0      Depth of surface layer
+  
+pH_mid_depth              1600.0     Depth of midwater layer
+  
+pH_surface_coefft_T       -2.6214    Temperature term coefficient for surface waters
+  
+pH_surface_coefft_S       59.764     Salinity term coefficient for surface waters
+  
+pH_surface_coefft_O       0.0419     Oxygen term coefficient for surface waters
+  
+pH_surface_const          2341.0     Constant term coefficient for surface waters
+  
+pH_mid_coefft_T           -6.3912    Temperature term coefficient for mid-level waters
+  
+pH_mid_coefft_S           87.186     Salinity term coefficient for mid-level waters
+  
+pH_mid_coefft_O           -0.1123    Oxygen term coefficient for mid-level waters
+  
+pH_mid_const              2407.9     Constant term coefficient for mid-level waters
+  
+pH_deep_coefft_T          -18.274    Temperature term coefficient for deep waters
+  
+pH_deep_coefft_S          126.66     Salinity term coefficient for deep waters
+  
+pH_deep_coefft_O          -0.781     Oxygen term coefficient for deep waters
+  
+pH_deep_const             2579.6     Constant term coefficient for deep waters
+
+# Whether the species growth or non predation mortality is sensitive to pH
+
+  
+flagsensitive_PL     0
+  
+flagsensitive_PS     0
+  
+flagsensitive_DF     0
+  
+flagsensitive_MA     0
+  
+flagsensitive_MB     0
+  
+flagsensitive_SG     0
+  
+flagsensitive_ZG     0
+  
+flagsensitive_ZL     0
+  
+flagsensitive_ZM     0
+  
+flagsensitive_ZS     0
+  
+flagsensitive_FPS    0
+  
+flagsensitive_FPL    0
+  
+flagsensitive_FPO    0
+  
+flagsensitive_FVD    0
+  
+flagsensitive_FVV    0
+  
+flagsensitive_FVS    0
+  
+flagsensitive_FVT    0
+  
+flagsensitive_FVO    0
+  
+flagsensitive_FVB    0
+  
+flagsensitive_FMM    0
+  
+flagsensitive_FMN    0
+  
+flagsensitive_FBP    0
+  
+flagsensitive_FDD    0
+  
+flagsensitive_FDS    0
+  
+flagsensitive_FDB    0
+  
+flagsensitive_FDC    0
+  
+flagsensitive_FDO    0
+  
+flagsensitive_FDE    0
+  
+flagsensitive_FDF    0
+  
+flagsensitive_FDP    0
+  
+flagsensitive_FDM    0
+  
+flagsensitive_SHD    0
+  
+flagsensitive_SHC    0
+  
+flagsensitive_SHP    0
+  
+flagsensitive_SHB    0
+  
+flagsensitive_SHR    0
+  
+flagsensitive_SSK    0
+  
+flagsensitive_SB     0
+  
+flagsensitive_SP     0
+  
+flagsensitive_REP    0
+  
+flagsensitive_PIN    0
+  
+flagsensitive_WDG    0
+  
+flagsensitive_WHB    0
+  
+flagsensitive_WHT    0
+  
+flagsensitive_WHS    0
+  
+flagsensitive_PB     0
+  
+flagsensitive_BB     0
+  
+flagsensitive_BO     0
+  
+flagsensitive_BD     0
+  
+flagsensitive_BC     0
+  
+flagsensitive_BFS    0
+  
+flagsensitive_BFD    0
+  
+flagsensitive_BFF    0
+  
+flagsensitive_BG     0
+  
+flagsensitive_BMS    0
+  
+flagsensitive_BMD    0
+  
+flagsensitive_BML    0
+  
+flagsensitive_CEP    0
+  
+flagsensitive_PWN    0
+
+# Whether the species fecundity is sensitive to pH
+
+  
+flagfecundsensitive_PL     0
+  
+flagfecundsensitive_PS     0
+  
+flagfecundsensitive_DF     0
+  
+flagfecundsensitive_MA     0
+  
+flagfecundsensitive_MB     0
+  
+flagfecundsensitive_SG     0
+  
+flagfecundsensitive_ZG     0
+  
+flagfecundsensitive_ZL     0
+  
+flagfecundsensitive_ZM     0
+  
+flagfecundsensitive_ZS     0
+  
+flagfecundsensitive_FPS    0
+  
+flagfecundsensitive_FPL    0
+  
+flagfecundsensitive_FPO    0
+  
+flagfecundsensitive_FVD    0
+  
+flagfecundsensitive_FVV    0
+  
+flagfecundsensitive_FVS    0
+  
+flagfecundsensitive_FVT    0
+  
+flagfecundsensitive_FVO    0
+  
+flagfecundsensitive_FVB    0
+  
+flagfecundsensitive_FMM    0
+  
+flagfecundsensitive_FMN    0
+  
+flagfecundsensitive_FBP    0
+  
+flagfecundsensitive_FDD    0
+  
+flagfecundsensitive_FDS    0
+  
+flagfecundsensitive_FDB    0
+  
+flagfecundsensitive_FDC    0
+  
+flagfecundsensitive_FDO    0
+  
+flagfecundsensitive_FDE    0
+  
+flagfecundsensitive_FDF    0
+  
+flagfecundsensitive_FDP    0
+  
+flagfecundsensitive_FDM    0
+  
+flagfecundsensitive_SHD    0
+  
+flagfecundsensitive_SHC    0
+  
+flagfecundsensitive_SHP    0
+  
+flagfecundsensitive_SHB    0
+  
+flagfecundsensitive_SHR    0
+  
+flagfecundsensitive_SSK    0
+  
+flagfecundsensitive_SB     0
+  
+flagfecundsensitive_SP     0
+  
+flagfecundsensitive_REP    0
+  
+flagfecundsensitive_PIN    0
+  
+flagfecundsensitive_WDG    0
+  
+flagfecundsensitive_WHB    0
+  
+flagfecundsensitive_WHT    0
+  
+flagfecundsensitive_WHS    0
+  
+flagfecundsensitive_PB     0
+  
+flagfecundsensitive_BB     0
+  
+flagfecundsensitive_BO     0
+  
+flagfecundsensitive_BD     0
+  
+flagfecundsensitive_BC     0
+  
+flagfecundsensitive_BFS    0
+  
+flagfecundsensitive_BFD    0
+  
+flagfecundsensitive_BFF    0
+  
+flagfecundsensitive_BG     0
+  
+flagfecundsensitive_BMS    0
+  
+flagfecundsensitive_BMD    0
+  
+flagfecundsensitive_BML    0
+  
+flagfecundsensitive_CEP    0
+  
+flagfecundsensitive_PWN    0
+
+# Whether the species nutritional value is sensitive to salinity or pH (mainly an issue for phytoplankton)
+
+  
+flagnutvaleffect_PL     0
+  
+flagnutvaleffect_PS     0
+  
+flagnutvaleffect_DF     0
+  
+flagnutvaleffect_MA     0
+  
+flagnutvaleffect_MB     0
+  
+flagnutvaleffect_SG     0
+  
+flagnutvaleffect_ZG     0
+  
+flagnutvaleffect_ZL     0
+  
+flagnutvaleffect_ZM     0
+  
+flagnutvaleffect_ZS     0
+  
+flagnutvaleffect_FPS    0
+  
+flagnutvaleffect_FPL    0
+  
+flagnutvaleffect_FPO    0
+  
+flagnutvaleffect_FVD    0
+  
+flagnutvaleffect_FVV    0
+  
+flagnutvaleffect_FVS    0
+  
+flagnutvaleffect_FVT    0
+  
+flagnutvaleffect_FVO    0
+  
+flagnutvaleffect_FVB    0
+  
+flagnutvaleffect_FMM    0
+  
+flagnutvaleffect_FMN    0
+  
+flagnutvaleffect_FBP    0
+  
+flagnutvaleffect_FDD    0
+  
+flagnutvaleffect_FDS    0
+  
+flagnutvaleffect_FDB    0
+  
+flagnutvaleffect_FDC    0
+  
+flagnutvaleffect_FDO    0
+  
+flagnutvaleffect_FDE    0
+  
+flagnutvaleffect_FDF    0
+  
+flagnutvaleffect_FDP    0
+  
+flagnutvaleffect_FDM    0
+  
+flagnutvaleffect_SHD    0
+  
+flagnutvaleffect_SHC    0
+  
+flagnutvaleffect_SHP    0
+  
+flagnutvaleffect_SHB    0
+  
+flagnutvaleffect_SHR    0
+  
+flagnutvaleffect_SSK    0
+  
+flagnutvaleffect_SB     0
+  
+flagnutvaleffect_SP     0
+  
+flagnutvaleffect_REP    0
+  
+flagnutvaleffect_PIN    0
+  
+flagnutvaleffect_WDG    0
+  
+flagnutvaleffect_WHB    0
+  
+flagnutvaleffect_WHT    0
+  
+flagnutvaleffect_WHS    0
+  
+flagnutvaleffect_PB     0
+  
+flagnutvaleffect_BB     0
+  
+flagnutvaleffect_BO     0
+  
+flagnutvaleffect_BD     0
+  
+flagnutvaleffect_BC     0
+  
+flagnutvaleffect_BFS    0
+  
+flagnutvaleffect_BFD    0
+  
+flagnutvaleffect_BFF    0
+  
+flagnutvaleffect_BG     0
+  
+flagnutvaleffect_BMS    0
+  
+flagnutvaleffect_BMD    0
+  
+flagnutvaleffect_BML    0
+  
+flagnutvaleffect_CEP    0
+  
+flagnutvaleffect_PWN    0
+
+# Whether the species availability to predators is sensitive to pH (mainly behaviour in fish)
+
+  
+flagpredavaileffect_PL     0
+  
+flagpredavaileffect_PS     0
+  
+flagpredavaileffect_DF     0
+  
+flagpredavaileffect_MA     0
+  
+flagpredavaileffect_MB     0
+  
+flagpredavaileffect_SG     0
+  
+flagpredavaileffect_ZG     0
+  
+flagpredavaileffect_ZL     0
+  
+flagpredavaileffect_ZM     0
+  
+flagpredavaileffect_ZS     0
+  
+flagpredavaileffect_FPS    0
+  
+flagpredavaileffect_FPL    0
+  
+flagpredavaileffect_FPO    0
+  
+flagpredavaileffect_FVD    0
+  
+flagpredavaileffect_FVV    0
+  
+flagpredavaileffect_FVS    0
+  
+flagpredavaileffect_FVT    0
+  
+flagpredavaileffect_FVO    0
+  
+flagpredavaileffect_FVB    0
+  
+flagpredavaileffect_FMM    0
+  
+flagpredavaileffect_FMN    0
+  
+flagpredavaileffect_FBP    0
+  
+flagpredavaileffect_FDD    0
+  
+flagpredavaileffect_FDS    0
+  
+flagpredavaileffect_FDB    0
+  
+flagpredavaileffect_FDC    0
+  
+flagpredavaileffect_FDO    0
+  
+flagpredavaileffect_FDE    0
+  
+flagpredavaileffect_FDF    0
+  
+flagpredavaileffect_FDP    0
+  
+flagpredavaileffect_FDM    0
+  
+flagpredavaileffect_SHD    0
+  
+flagpredavaileffect_SHC    0
+  
+flagpredavaileffect_SHP    0
+  
+flagpredavaileffect_SHB    0
+  
+flagpredavaileffect_SHR    0
+  
+flagpredavaileffect_SSK    0
+  
+flagpredavaileffect_SB     0
+  
+flagpredavaileffect_SP     0
+  
+flagpredavaileffect_REP    0
+  
+flagpredavaileffect_PIN    0
+  
+flagpredavaileffect_WDG    0
+  
+flagpredavaileffect_WHB    0
+  
+flagpredavaileffect_WHT    0
+  
+flagpredavaileffect_WHS    0
+  
+flagpredavaileffect_PB     0
+  
+flagpredavaileffect_BB     0
+  
+flagpredavaileffect_BO     0
+  
+flagpredavaileffect_BD     0
+  
+flagpredavaileffect_BC     0
+  
+flagpredavaileffect_BFS    0
+  
+flagpredavaileffect_BFD    0
+  
+flagpredavaileffect_BFF    0
+  
+flagpredavaileffect_BG     0
+  
+flagpredavaileffect_BMS    0
+  
+flagpredavaileffect_BMD    0
+  
+flagpredavaileffect_BML    0
+  
+flagpredavaileffect_CEP    0
+  
+flagpredavaileffect_PWN    0
+
+# Whether the species growth or non predation mortality is sensitive to pH
+
+  
+flagcontract_tol_PL     0
+  
+flagcontract_tol_PS     0
+  
+flagcontract_tol_DF     0
+  
+flagcontract_tol_MA     0
+  
+flagcontract_tol_MB     0
+  
+flagcontract_tol_SG     0
+  
+flagcontract_tol_ZG     0
+  
+flagcontract_tol_ZL     0
+  
+flagcontract_tol_ZM     0
+  
+flagcontract_tol_ZS     0
+  
+flagcontract_tol_FPS    0
+  
+flagcontract_tol_FPL    0
+  
+flagcontract_tol_FPO    0
+  
+flagcontract_tol_FVD    0
+  
+flagcontract_tol_FVV    0
+  
+flagcontract_tol_FVS    0
+  
+flagcontract_tol_FVT    0
+  
+flagcontract_tol_FVO    0
+  
+flagcontract_tol_FVB    0
+  
+flagcontract_tol_FMM    0
+  
+flagcontract_tol_FMN    0
+  
+flagcontract_tol_FBP    0
+  
+flagcontract_tol_FDD    0
+  
+flagcontract_tol_FDS    0
+  
+flagcontract_tol_FDB    0
+  
+flagcontract_tol_FDC    0
+  
+flagcontract_tol_FDO    0
+  
+flagcontract_tol_FDE    0
+  
+flagcontract_tol_FDF    0
+  
+flagcontract_tol_FDP    0
+  
+flagcontract_tol_FDM    0
+  
+flagcontract_tol_SHD    0
+  
+flagcontract_tol_SHC    0
+  
+flagcontract_tol_SHP    0
+  
+flagcontract_tol_SHB    0
+  
+flagcontract_tol_SHR    0
+  
+flagcontract_tol_SSK    0
+  
+flagcontract_tol_SB     0
+  
+flagcontract_tol_SP     0
+  
+flagcontract_tol_REP    0
+  
+flagcontract_tol_PIN    0
+  
+flagcontract_tol_WDG    0
+  
+flagcontract_tol_WHB    0
+  
+flagcontract_tol_WHT    0
+  
+flagcontract_tol_WHS    0
+  
+flagcontract_tol_PB     0
+  
+flagcontract_tol_BB     0
+  
+flagcontract_tol_BO     0
+  
+flagcontract_tol_BD     0
+  
+flagcontract_tol_BC     0
+  
+flagcontract_tol_BFS    0
+  
+flagcontract_tol_BFD    0
+  
+flagcontract_tol_BFF    0
+  
+flagcontract_tol_BG     0
+  
+flagcontract_tol_BMS    0
+  
+flagcontract_tol_BMD    0
+  
+flagcontract_tol_BML    0
+  
+flagcontract_tol_CEP    0
+  
+flagcontract_tol_PWN    0
+
+# Form of the pH effects model applied for the group
+
+  
+# 0 = no effect, 0 = monod, 0 = nonlinear (humped form as of Hinga 0000), 0 = linear
+
+  
+pHsensitive_model_PL     0
+  
+pHsensitive_model_PS     0
+  
+pHsensitive_model_DF     0
+  
+pHsensitive_model_MA     0
+  
+pHsensitive_model_MB     0
+  
+pHsensitive_model_SG     0
+  
+pHsensitive_model_ZG     0
+  
+pHsensitive_model_ZL     0
+  
+pHsensitive_model_ZM     0
+  
+pHsensitive_model_ZS     0
+  
+pHsensitive_model_FPS    0
+  
+pHsensitive_model_FPL    0
+  
+pHsensitive_model_FPO    0
+  
+pHsensitive_model_FVD    0
+  
+pHsensitive_model_FVV    0
+  
+pHsensitive_model_FVS    0
+  
+pHsensitive_model_FVT    0
+  
+pHsensitive_model_FVO    0
+  
+pHsensitive_model_FVB    0
+  
+pHsensitive_model_FMM    0
+  
+pHsensitive_model_FMN    0
+  
+pHsensitive_model_FBP    0
+  
+pHsensitive_model_FDD    0
+  
+pHsensitive_model_FDS    0
+  
+pHsensitive_model_FDB    0
+  
+pHsensitive_model_FDC    0
+  
+pHsensitive_model_FDO    0
+  
+pHsensitive_model_FDE    0
+  
+pHsensitive_model_FDF    0
+  
+pHsensitive_model_FDP    0
+  
+pHsensitive_model_FDM    0
+  
+pHsensitive_model_SHD    0
+  
+pHsensitive_model_SHC    0
+  
+pHsensitive_model_SHP    0
+  
+pHsensitive_model_SHB    0
+  
+pHsensitive_model_SHR    0
+  
+pHsensitive_model_SSK    0
+  
+pHsensitive_model_SB     0
+  
+pHsensitive_model_SP     0
+  
+pHsensitive_model_REP    0
+  
+pHsensitive_model_PIN    0
+  
+pHsensitive_model_WDG    0
+  
+pHsensitive_model_WHB    0
+  
+pHsensitive_model_WHT    0
+  
+pHsensitive_model_WHS    0
+  
+pHsensitive_model_PB     0
+  
+pHsensitive_model_BB     0
+  
+pHsensitive_model_BO     0
+  
+pHsensitive_model_BD     0
+  
+pHsensitive_model_BC     0
+  
+pHsensitive_model_BFS    0
+  
+pHsensitive_model_BFD    0
+  
+pHsensitive_model_BFF    0
+  
+pHsensitive_model_BG     0
+  
+pHsensitive_model_BMS    0
+  
+pHsensitive_model_BMD    0
+  
+pHsensitive_model_BML    0
+  
+pHsensitive_model_CEP    0
+  
+pHsensitive_model_PWN    0
+
+# Monod inflection point for pH impact function
+
+  
+KN_pH_PL     0.0
+  
+KN_pH_PS     0.0
+  
+KN_pH_DF     0.0
+  
+KN_pH_MA     0.0
+  
+KN_pH_MB     0.0
+  
+KN_pH_SG     0.0
+  
+KN_pH_ZG     0.0
+  
+KN_pH_ZL     7.0
+  
+KN_pH_ZM     7.0
+  
+KN_pH_ZS     0.0
+  
+KN_pH_FPS    0.0
+  
+KN_pH_FPL    0.0
+  
+KN_pH_FPO    0.0
+  
+KN_pH_FVD    0.0
+  
+KN_pH_FVV    0.0
+  
+KN_pH_FVS    0.0
+  
+KN_pH_FVT    7.0
+  
+KN_pH_FVO    0.0
+  
+KN_pH_FVB    0.0
+  
+KN_pH_FMM    0.0
+  
+KN_pH_FMN    0.0
+  
+KN_pH_FBP    0.0
+  
+KN_pH_FDD    0.0
+  
+KN_pH_FDS    0.0
+  
+KN_pH_FDB    0.0
+  
+KN_pH_FDC    0.0
+  
+KN_pH_FDO    0.0
+  
+KN_pH_FDE    0.0
+  
+KN_pH_FDF    0.0
+  
+KN_pH_FDP    0.0
+  
+KN_pH_FDM    0.0
+  
+KN_pH_SHD    0.0
+  
+KN_pH_SHC    0.0
+  
+KN_pH_SHP    0.0
+  
+KN_pH_SHB    0.0
+  
+KN_pH_SHR    0.0
+  
+KN_pH_SSK    0.0
+  
+KN_pH_SB     0.0
+  
+KN_pH_SP     0.0
+  
+KN_pH_REP    0.0
+  
+KN_pH_PIN    0.0
+  
+KN_pH_WDG    0.0
+  
+KN_pH_WHB    0.0
+  
+KN_pH_WHT    0.0
+  
+KN_pH_WHS    0.0
+  
+KN_pH_PB     0.0
+  
+KN_pH_BB     0.0
+  
+KN_pH_BO     0.0
+  
+KN_pH_BD     0.0
+  
+KN_pH_BC     0.0
+  
+KN_pH_BFS    0.0
+  
+KN_pH_BFD    9.0
+  
+KN_pH_BFF    0.0
+  
+KN_pH_BG     0.0
+  
+KN_pH_BMS    7.0
+  
+KN_pH_BMD    7.0
+  
+KN_pH_BML    7.0
+  
+KN_pH_CEP    7.0
+  
+KN_pH_PWN    7.0
+
+# Optimal pH for nonlinear pH impact function
+
+  
+optimal_pH_PL     4.0
+  
+optimal_pH_PS     5.0
+  
+optimal_pH_DF     0.0
+  
+optimal_pH_MA     6.0
+  
+optimal_pH_MB     0.0
+  
+optimal_pH_SG     5.0
+  
+optimal_pH_ZG     0.0
+  
+optimal_pH_ZL     0.0
+  
+optimal_pH_ZM     0.0
+  
+optimal_pH_ZS     0.0
+  
+optimal_pH_FPS    0.0
+  
+optimal_pH_FPL    0.0
+  
+optimal_pH_FPO    0.0
+  
+optimal_pH_FVD    0.0
+  
+optimal_pH_FVV    0.0
+  
+optimal_pH_FVS    0.0
+  
+optimal_pH_FVT    0.0
+  
+optimal_pH_FVO    0.0
+  
+optimal_pH_FVB    0.0
+  
+optimal_pH_FMM    0.0
+  
+optimal_pH_FMN    0.0
+  
+optimal_pH_FBP    0.0
+  
+optimal_pH_FDD    0.0
+  
+optimal_pH_FDS    0.0
+  
+optimal_pH_FDB    0.0
+  
+optimal_pH_FDC    0.0
+  
+optimal_pH_FDO    0.0
+  
+optimal_pH_FDE    0.0
+  
+optimal_pH_FDF    0.0
+  
+optimal_pH_FDP    0.0
+  
+optimal_pH_FDM    0.0
+  
+optimal_pH_SHD    0.0
+  
+optimal_pH_SHC    0.0
+  
+optimal_pH_SHP    0.0
+  
+optimal_pH_SHB    0.0
+  
+optimal_pH_SHR    0.0
+  
+optimal_pH_SSK    0.0
+  
+optimal_pH_SB     0.0
+  
+optimal_pH_SP     0.0
+  
+optimal_pH_REP    0.0
+  
+optimal_pH_PIN    0.0
+  
+optimal_pH_WDG    0.0
+  
+optimal_pH_WHB    0.0
+  
+optimal_pH_WHT    0.0
+  
+optimal_pH_WHS    0.0
+  
+optimal_pH_PB     0.0
+  
+optimal_pH_BB     0.0
+  
+optimal_pH_BO     0.0
+  
+optimal_pH_BD     0.0
+  
+optimal_pH_BC     0.0
+  
+optimal_pH_BFS    0.0
+  
+optimal_pH_BFD    0.0
+  
+optimal_pH_BFF    0.0
+  
+optimal_pH_BG     0.0
+  
+optimal_pH_BMS    0.0
+  
+optimal_pH_BMD    0.0
+  
+optimal_pH_BML    0.0
+  
+optimal_pH_CEP    0.0
+  
+optimal_pH_PWN    0.0
+
+# Correction scalar pH for nonlinear pH impact function
+
+  
+pH_correction_PL     150.0
+  
+pH_correction_PS     200.0
+  
+pH_correction_DF     1.0
+  
+pH_correction_MA     150.0
+  
+pH_correction_MB     1.0
+  
+pH_correction_SG     100.0
+  
+pH_correction_ZG     1.0
+  
+pH_correction_ZL     1.0
+  
+pH_correction_ZM     1.0
+  
+pH_correction_ZS     1.0
+  
+pH_correction_FPS    1.0
+  
+pH_correction_FPL    1.0
+  
+pH_correction_FPO    1.0
+  
+pH_correction_FVD    1.0
+  
+pH_correction_FVV    1.0
+  
+pH_correction_FVS    1.0
+  
+pH_correction_FVT    1.0
+  
+pH_correction_FVO    1.0
+  
+pH_correction_FVB    1.0
+  
+pH_correction_FMM    1.0
+  
+pH_correction_FMN    1.0
+  
+pH_correction_FBP    1.0
+  
+pH_correction_FDD    1.0
+  
+pH_correction_FDS    1.0
+  
+pH_correction_FDB    1.0
+  
+pH_correction_FDC    1.0
+  
+pH_correction_FDO    1.0
+  
+pH_correction_FDE    1.0
+  
+pH_correction_FDF    1.0
+  
+pH_correction_FDP    1.0
+  
+pH_correction_FDM    1.0
+  
+pH_correction_SHD    1.0
+  
+pH_correction_SHC    1.0
+  
+pH_correction_SHP    1.0
+  
+pH_correction_SHB    1.0
+  
+pH_correction_SHR    1.0
+  
+pH_correction_SSK    1.0
+  
+pH_correction_SB     1.0
+  
+pH_correction_SP     1.0
+  
+pH_correction_REP    1.0
+  
+pH_correction_PIN    1.0
+  
+pH_correction_WDG    1.0
+  
+pH_correction_WHB    1.0
+  
+pH_correction_WHT    1.0
+  
+pH_correction_WHS    1.0
+  
+pH_correction_PB     1.0
+  
+pH_correction_BB     1.0
+  
+pH_correction_BO     1.0
+  
+pH_correction_BD     1.0
+  
+pH_correction_BC     1.0
+  
+pH_correction_BFS    1.0
+  
+pH_correction_BFD    1.0
+  
+pH_correction_BFF    1.0
+  
+pH_correction_BG     1.0
+  
+pH_correction_BMS    1.0
+  
+pH_correction_BMD    1.0
+  
+pH_correction_BML    1.0
+  
+pH_correction_CEP    1.0
+  
+pH_correction_PWN    1.0
+
+# Coefficient pH for nonlinear pH impact function
+
+  
+pH_constA_PL     1.4
+  
+pH_constA_PS     3.7
+  
+pH_constA_DF     1.0
+  
+pH_constA_MA     1.6
+  
+pH_constA_MB     1.0
+  
+pH_constA_SG     4.2
+  
+pH_constA_ZG     1.0
+  
+pH_constA_ZL     5.0
+  
+pH_constA_ZM     5.0
+  
+pH_constA_ZS     1.0
+  
+pH_constA_FPS    1.0
+  
+pH_constA_FPL    1.0
+  
+pH_constA_FPO    2.0
+  
+pH_constA_FVD    1.0
+  
+pH_constA_FVV    1.0
+  
+pH_constA_FVS    1.0
+  
+pH_constA_FVT    6.0
+  
+pH_constA_FVO    1.0
+  
+pH_constA_FVB    1.0
+  
+pH_constA_FMM    1.0
+  
+pH_constA_FMN    1.0
+  
+pH_constA_FBP    1.0
+  
+pH_constA_FDD    2.25
+  
+pH_constA_FDS    2.5
+  
+pH_constA_FDB    2.0
+  
+pH_constA_FDC    2.0
+  
+pH_constA_FDO    1.0
+  
+pH_constA_FDE    2.0
+  
+pH_constA_FDF    2.0
+  
+pH_constA_FDP    2.0
+  
+pH_constA_FDM    2.0
+  
+pH_constA_SHD    1.0
+  
+pH_constA_SHC    1.0
+  
+pH_constA_SHP    1.0
+  
+pH_constA_SHB    1.0
+  
+pH_constA_SHR    1.0
+  
+pH_constA_SSK    1.0
+  
+pH_constA_SB     1.0
+  
+pH_constA_SP     1.0
+  
+pH_constA_REP    1.0
+  
+pH_constA_PIN    1.0
+  
+pH_constA_WDG    1.0
+  
+pH_constA_WHB    1.0
+  
+pH_constA_WHT    1.0
+  
+pH_constA_WHS    1.0
+  
+pH_constA_PB     -3.0
+  
+pH_constA_BB     -3.0
+  
+pH_constA_BO     1.0
+  
+pH_constA_BD     1.0
+  
+pH_constA_BC     1.0
+  
+pH_constA_BFS    -3.0
+  
+pH_constA_BFD    6.0
+  
+pH_constA_BFF    -7.0
+  
+pH_constA_BG     -3.0
+  
+pH_constA_BMS    5.5
+  
+pH_constA_BMD    6.0
+  
+pH_constA_BML    5.5
+  
+pH_constA_CEP    6.0
+  
+pH_constA_PWN    5.0
+
+# Base coefficient pH for nonlinear pH impact function
+
+  
+pH_constB_PL     1.1705
+  
+pH_constB_PS     1.0
+  
+pH_constB_DF     0.0
+  
+pH_constB_MA     1.1
+  
+pH_constB_MB     0.0
+  
+pH_constB_SG     1.0
+  
+pH_constB_ZG     0.0
+  
+pH_constB_ZL     1.7
+  
+pH_constB_ZM     1.7
+  
+pH_constB_ZS     0.0
+  
+pH_constB_FPS    0.0
+  
+pH_constB_FPL    0.0
+  
+pH_constB_FPO    -0.125
+  
+pH_constB_FVD    0.0
+  
+pH_constB_FVV    0.0
+  
+pH_constB_FVS    0.0
+  
+pH_constB_FVT    1.5
+  
+pH_constB_FVO    0.0
+  
+pH_constB_FVB    0.0
+  
+pH_constB_FMM    0.0
+  
+pH_constB_FMN    0.0
+  
+pH_constB_FBP    0.0
+  
+pH_constB_FDD    -0.155
+  
+pH_constB_FDS    -0.19
+  
+pH_constB_FDB    -0.125
+  
+pH_constB_FDC    -0.125
+  
+pH_constB_FDO    0.0
+  
+pH_constB_FDE    -0.125
+  
+pH_constB_FDF    -0.125
+  
+pH_constB_FDP    -0.125
+  
+pH_constB_FDM    -0.125
+  
+pH_constB_SHD    0.0
+  
+pH_constB_SHC    0.0
+  
+pH_constB_SHP    0.0
+  
+pH_constB_SHB    0.0
+  
+pH_constB_SHR    0.0
+  
+pH_constB_SSK    0.0
+  
+pH_constB_SB     0.0
+  
+pH_constB_SP     0.0
+  
+pH_constB_REP    0.0
+  
+pH_constB_PIN    0.0
+  
+pH_constB_WDG    0.0
+  
+pH_constB_WHB    0.0
+  
+pH_constB_WHT    0.0
+  
+pH_constB_WHS    0.0
+  
+pH_constB_PB     0.5
+  
+pH_constB_BB     0.5
+  
+pH_constB_BO     0.0
+  
+pH_constB_BD     0.0
+  
+pH_constB_BC     0.0
+  
+pH_constB_BFS    0.5
+  
+pH_constB_BFD    2.0
+  
+pH_constB_BFF    1.0
+  
+pH_constB_BG     0.5
+  
+pH_constB_BMS    1.5
+  
+pH_constB_BMD    1.5
+  
+pH_constB_BML    1.5
+  
+pH_constB_CEP    1.5
+  
+pH_constB_PWN    1.7
+
+# Correction scalar pH for nonlinear pH impact function
+
+  
+contract_tol_PL     0.0
+  
+contract_tol_PS     0.0
+  
+contract_tol_DF     0.0
+  
+contract_tol_MA     0.0
+  
+contract_tol_MB     0.0
+  
+contract_tol_SG     0.0
+  
+contract_tol_ZG     1.0
+  
+contract_tol_ZL     1.0
+  
+contract_tol_ZM     1.0
+  
+contract_tol_ZS     0.0
+  
+contract_tol_FPS    3.0
+  
+contract_tol_FPL    3.0
+  
+contract_tol_FPO    3.0
+  
+contract_tol_FVD    4.0
+  
+contract_tol_FVV    4.0
+  
+contract_tol_FVS    3.0
+  
+contract_tol_FVT    2.0
+  
+contract_tol_FVO    3.0
+  
+contract_tol_FVB    3.0
+  
+contract_tol_FMM    3.0
+  
+contract_tol_FMN    3.0
+  
+contract_tol_FBP    3.0
+  
+contract_tol_FDD    3.0
+  
+contract_tol_FDS    4.0
+  
+contract_tol_FDB    3.0
+  
+contract_tol_FDC    3.0
+  
+contract_tol_FDO    3.0
+  
+contract_tol_FDE    3.0
+  
+contract_tol_FDF    3.0
+  
+contract_tol_FDP    3.0
+  
+contract_tol_FDM    3.0
+  
+contract_tol_SHD    3.0
+  
+contract_tol_SHC    3.0
+  
+contract_tol_SHP    3.0
+  
+contract_tol_SHB    3.0
+  
+contract_tol_SHR    3.0
+  
+contract_tol_SSK    3.0
+  
+contract_tol_SB     0.0
+  
+contract_tol_SP     3.0
+  
+contract_tol_REP    4.0
+  
+contract_tol_PIN    1.0
+  
+contract_tol_WDG    1.0
+  
+contract_tol_WHB    1.0
+  
+contract_tol_WHT    1.0
+  
+contract_tol_WHS    1.0
+  
+contract_tol_PB     0.0
+  
+contract_tol_BB     0.0
+  
+contract_tol_BO     0.0
+  
+contract_tol_BD     0.0
+  
+contract_tol_BC     0.0
+  
+contract_tol_BFS    1.0
+  
+contract_tol_BFD    1.0
+  
+contract_tol_BFF    1.0
+  
+contract_tol_BG     1.0
+  
+contract_tol_BMS    4.0
+  
+contract_tol_BMD    3.0
+  
+contract_tol_BML    4.0
+  
+contract_tol_CEP    0.0
+  
+contract_tol_PWN    1.0
+
+# Minimum pH in piecewise linear case
+
+  
+min_pH_PL 1.0
+  
+min_pH_PS 1.0
+  
+min_pH_DF 1.0
+  
+min_pH_MA 1.0
+  
+min_pH_MB 1.0
+  
+min_pH_SG 1.0
+  
+min_pH_ZG 1.0
+  
+min_pH_ZL 1.0
+  
+min_pH_ZM 1.0
+  
+min_pH_ZS 1.0
+  
+min_pH_FPS 1.0
+  
+min_pH_FPL 1.0
+  
+min_pH_FPO 1.0
+  
+min_pH_FVD 1.0
+  
+min_pH_FVV 1.0
+  
+min_pH_FVS 1.0
+  
+min_pH_FVT 1.0
+  
+min_pH_FVO 1.0
+  
+min_pH_FVB 1.0
+  
+min_pH_FMM 1.0
+  
+min_pH_FMN 1.0
+  
+min_pH_FBP 1.0
+  
+min_pH_FDD 1.0
+  
+min_pH_FDS 1.0
+  
+min_pH_FDB 1.0
+  
+min_pH_FDC 1.0
+  
+min_pH_FDO 1.0
+  
+min_pH_FDE 1.0
+  
+min_pH_FDF 1.0
+  
+min_pH_FDP 1.0
+  
+min_pH_FDM 1.0
+  
+min_pH_SHD 1.0
+  
+min_pH_SHC 1.0
+  
+min_pH_SHP 1.0
+  
+min_pH_SHB 1.0
+  
+min_pH_SHR 1.0
+  
+min_pH_SSK 1.0
+  
+min_pH_SB 1.0
+  
+min_pH_SP 1.0
+  
+min_pH_REP 1.0
+  
+min_pH_PIN 1.0
+  
+min_pH_WDG 1.0
+  
+min_pH_WHB 1.0
+  
+min_pH_WHT 1.0
+  
+min_pH_WHS 1.0
+  
+min_pH_PB 1.0
+  
+min_pH_BB 1.0
+  
+min_pH_BO 1.0
+  
+min_pH_BD 1.0
+  
+min_pH_BC 1.0
+  
+min_pH_BFS 1.0
+  
+min_pH_BFD 1.0
+  
+min_pH_BFF 1.0
+  
+min_pH_BG 1.0
+  
+min_pH_BMS 1.0
+  
+min_pH_BMD 1.0
+  
+min_pH_BML 1.0
+  
+min_pH_CEP 1.0
+  
+min_pH_PWN 1.0
+
+# Maximum pH in piecewise linear case
+
+  
+max_pH_PL 12.0
+  
+max_pH_PS 12.0
+  
+max_pH_DF 12.0
+  
+max_pH_MA 12.0
+  
+max_pH_MB 12.0
+  
+max_pH_SG 12.0
+  
+max_pH_ZG 12.0
+  
+max_pH_ZL 12.0
+  
+max_pH_ZM 12.0
+  
+max_pH_ZS 12.0
+  
+max_pH_FPS 12.0
+  
+max_pH_FPL 12.0
+  
+max_pH_FPO 12.0
+  
+max_pH_FVD 12.0
+  
+max_pH_FVV 12.0
+  
+max_pH_FVS 12.0
+  
+max_pH_FVT 12.0
+  
+max_pH_FVO 12.0
+  
+max_pH_FVB 12.0
+  
+max_pH_FMM 12.0
+  
+max_pH_FMN 12.0
+  
+max_pH_FBP 12.0
+  
+max_pH_FDD 12.0
+  
+max_pH_FDS 12.0
+  
+max_pH_FDB 12.0
+  
+max_pH_FDC 12.0
+  
+max_pH_FDO 12.0
+  
+max_pH_FDE 12.0
+  
+max_pH_FDF 12.0
+  
+max_pH_FDP 12.0
+  
+max_pH_FDM 12.0
+  
+max_pH_SHD 12.0
+  
+max_pH_SHC 12.0
+  
+max_pH_SHP 12.0
+  
+max_pH_SHB 12.0
+  
+max_pH_SHR 12.0
+  
+max_pH_SSK 12.0
+  
+max_pH_SB 12.0
+  
+max_pH_SP 12.0
+  
+max_pH_REP 12.0
+  
+max_pH_PIN 12.0
+  
+max_pH_WDG 12.0
+  
+max_pH_WHB 12.0
+  
+max_pH_WHT 12.0
+  
+max_pH_WHS 12.0
+  
+max_pH_PB 12.0
+  
+max_pH_BB 12.0
+  
+max_pH_BO 12.0
+  
+max_pH_BD 12.0
+  
+max_pH_BC 12.0
+  
+max_pH_BFS 12.0
+  
+max_pH_BFD 12.0
+  
+max_pH_BFF 12.0
+  
+max_pH_BG 12.0
+  
+max_pH_BMS 12.0
+  
+max_pH_BMD 12.0
+  
+max_pH_BML 12.0
+  
+max_pH_CEP 12.0
+  
+max_pH_PWN 12.0
+
+## Example Parameter settings - with pH in place
+
+In force.prm put the time series for pCO2
+
+# Atmospheric pCO2 time series file
+
+  
+pCO2_forcing C:\Users\Atlantis_Runs\Runs\SEAP\inputs\forcisets\pCO2RCP3.ts
+  
+# Atmospheric pCO2 time series file
+
+pCO2_forcing directory\filename.ts
+
+In biol.prm put the parameters
+
+flagmodelpH      1         Calculate model pH off temperature, salinity and atmospheric CO2: 1 = yes, 0 = no  0
+
+## pH effects
+
+  
+flagpHchange   0    Whether the pH values change through time following a forced trend - yes = 1, no = 0
+
+pHchange_max_num  1         Number of changes in average base temperature                       1
+  
+# Day changes in base tepmerature begins (must have same number of entries as given by Schange_num)
+
+  
+pHchange_start    1
+  
+0
+  
+# Period of time changes in base tepmerature take (must have same number of
+
+  
+# entries as given by Schange_num)
+
+  
+pHchange_period   1
+  
+1
+  
+# Scale of change in base temperature (must have same number of entries as given by Schange_num)
+
+  
+pHchange_mult     1
+  
+1.0
+  
+# Differential scaling with depth (must be as many entries as
+
+  
+# number of water column layers * number of changes)
+
+  
+vertpHchange_mult 5
+  
+1.0 1.0 1.0 1.0 1.0
+
+pH_sensitivity_model  1    Whether using monod (0) or nonlinear model (1)
+
+# Constants for empirical pH model
+
+  
+pH_surface_depth          200.0      Depth of surface layer
+  
+pH_mid_depth              1600.0     Depth of midwater layer
+  
+pH_surface_coefft_T       -2.6214    Temperature term coefficient for surface waters
+  
+pH_surface_coefft_S       59.764     Salinity term coefficient for surface waters
+  
+pH_surface_coefft_O       0.0419     Oxygen term coefficient for surface waters
+  
+pH_surface_const          2341.0     Constant term coefficient for surface waters
+  
+pH_mid_coefft_T           -6.3912    Temperature term coefficient for mid-level waters
+  
+pH_mid_coefft_S           87.186     Salinity term coefficient for mid-level waters
+  
+pH_mid_coefft_O           -0.1123    Oxygen term coefficient for mid-level waters
+  
+pH_mid_const              2407.9     Constant term coefficient for mid-level waters
+  
+pH_deep_coefft_T          -18.274    Temperature term coefficient for deep waters
+  
+pH_deep_coefft_S          126.66     Salinity term coefficient for deep waters
+  
+pH_deep_coefft_O          -0.781     Oxygen term coefficient for deep waters
+  
+pH_deep_const             2579.6     Constant term coefficient for deep waters
+
+# Whether the species growth or non predation mortality is sensitive to pH
+
+  
+flagsensitive_PL     1
+  
+flagsensitive_PS     1
+  
+flagsensitive_DF     1
+  
+flagsensitive_MA     1
+  
+flagsensitive_MB     1
+  
+flagsensitive_SG     1
+  
+flagsensitive_ZG     0
+  
+flagsensitive_ZL     1
+  
+flagsensitive_ZM     1
+  
+flagsensitive_ZS     0
+  
+flagsensitive_FPS    0
+  
+flagsensitive_FPL    0
+  
+flagsensitive_FPO    0
+  
+flagsensitive_FVD    0
+  
+flagsensitive_FVV    0
+  
+flagsensitive_FVS    0
+  
+flagsensitive_FVT    1
+  
+flagsensitive_FVO    0
+  
+flagsensitive_FVB    0
+  
+flagsensitive_FMM    0
+  
+flagsensitive_FMN    0
+  
+flagsensitive_FBP    0
+  
+flagsensitive_FDD    0
+  
+flagsensitive_FDS    0
+  
+flagsensitive_FDB    0
+  
+flagsensitive_FDC    0
+  
+flagsensitive_FDO    0
+  
+flagsensitive_FDE    0
+  
+flagsensitive_FDF    0
+  
+flagsensitive_FDP    0
+  
+flagsensitive_FDM    0
+  
+flagsensitive_SHD    1
+  
+flagsensitive_SHC    1
+  
+flagsensitive_SHP    1
+  
+flagsensitive_SHB    1
+  
+flagsensitive_SHR    1
+  
+flagsensitive_SSK    1
+  
+flagsensitive_SB     1
+  
+flagsensitive_SP     1
+  
+flagsensitive_REP    1
+  
+flagsensitive_PIN    1
+  
+flagsensitive_WDG    1
+  
+flagsensitive_WHB    1
+  
+flagsensitive_WHT    1
+  
+flagsensitive_WHS    1
+  
+flagsensitive_PB     0
+  
+flagsensitive_BB     0
+  
+flagsensitive_BO     0
+  
+flagsensitive_BD     0
+  
+flagsensitive_BC     0
+  
+flagsensitive_BFS    1
+  
+flagsensitive_BFD    1
+  
+flagsensitive_BFF    1
+  
+flagsensitive_BG     1
+  
+flagsensitive_BMS    1
+  
+flagsensitive_BMD    1
+  
+flagsensitive_BML    1
+  
+flagsensitive_CEP    1
+  
+flagsensitive_PWN    1
+
+# Whether the species fecundity is sensitive to pH
+
+  
+flagfecundsensitive_PL     0
+  
+flagfecundsensitive_PS     0
+  
+flagfecundsensitive_DF     0
+  
+flagfecundsensitive_MA     0
+  
+flagfecundsensitive_MB     0
+  
+flagfecundsensitive_SG     0
+  
+flagfecundsensitive_ZG     0
+  
+flagfecundsensitive_ZL     0
+  
+flagfecundsensitive_ZM     0
+  
+flagfecundsensitive_ZS     0
+  
+flagfecundsensitive_FPS    0
+  
+flagfecundsensitive_FPL    0
+  
+flagfecundsensitive_FPO    0
+  
+flagfecundsensitive_FVD    0
+  
+flagfecundsensitive_FVV    0
+  
+flagfecundsensitive_FVS    0
+  
+flagfecundsensitive_FVT    0
+  
+flagfecundsensitive_FVO    0
+  
+flagfecundsensitive_FVB    0
+  
+flagfecundsensitive_FMM    0
+  
+flagfecundsensitive_FMN    0
+  
+flagfecundsensitive_FBP    0
+  
+flagfecundsensitive_FDD    0
+  
+flagfecundsensitive_FDS    0
+  
+flagfecundsensitive_FDB    0
+  
+flagfecundsensitive_FDC    0
+  
+flagfecundsensitive_FDO    0
+  
+flagfecundsensitive_FDE    0
+  
+flagfecundsensitive_FDF    0
+  
+flagfecundsensitive_FDP    0
+  
+flagfecundsensitive_FDM    0
+  
+flagfecundsensitive_SHD    0
+  
+flagfecundsensitive_SHC    0
+  
+flagfecundsensitive_SHP    0
+  
+flagfecundsensitive_SHB    0
+  
+flagfecundsensitive_SHR    0
+  
+flagfecundsensitive_SSK    0
+  
+flagfecundsensitive_SB     0
+  
+flagfecundsensitive_SP     0
+  
+flagfecundsensitive_REP    0
+  
+flagfecundsensitive_PIN    0
+  
+flagfecundsensitive_WDG    0
+  
+flagfecundsensitive_WHB    0
+  
+flagfecundsensitive_WHT    0
+  
+flagfecundsensitive_WHS    0
+  
+flagfecundsensitive_PB     0
+  
+flagfecundsensitive_BB     0
+  
+flagfecundsensitive_BO     0
+  
+flagfecundsensitive_BD     0
+  
+flagfecundsensitive_BC     0
+  
+flagfecundsensitive_BFS    0
+  
+flagfecundsensitive_BFD    0
+  
+flagfecundsensitive_BFF    0
+  
+flagfecundsensitive_BG     0
+  
+flagfecundsensitive_BMS    0
+  
+flagfecundsensitive_BMD    0
+  
+flagfecundsensitive_BML    0
+  
+flagfecundsensitive_CEP    0
+  
+flagfecundsensitive_PWN    0
+
+# Whether the species nutritional value is sensitive to salinity or pH (mainly an issue for phytoplankton)
+
+  
+flagnutvaleffect_PL     1
+  
+flagnutvaleffect_PS     1
+  
+flagnutvaleffect_DF     1
+  
+flagnutvaleffect_MA     1
+  
+flagnutvaleffect_MB     1
+  
+flagnutvaleffect_SG     1
+  
+flagnutvaleffect_ZG     0
+  
+flagnutvaleffect_ZL     0
+  
+flagnutvaleffect_ZM     0
+  
+flagnutvaleffect_ZS     0
+  
+flagnutvaleffect_FPS    0
+  
+flagnutvaleffect_FPL    0
+  
+flagnutvaleffect_FPO    0
+  
+flagnutvaleffect_FVD    0
+  
+flagnutvaleffect_FVV    0
+  
+flagnutvaleffect_FVS    0
+  
+flagnutvaleffect_FVT    0
+  
+flagnutvaleffect_FVO    0
+  
+flagnutvaleffect_FVB    0
+  
+flagnutvaleffect_FMM    0
+  
+flagnutvaleffect_FMN    0
+  
+flagnutvaleffect_FBP    0
+  
+flagnutvaleffect_FDD    0
+  
+flagnutvaleffect_FDS    0
+  
+flagnutvaleffect_FDB    0
+  
+flagnutvaleffect_FDC    0
+  
+flagnutvaleffect_FDO    0
+  
+flagnutvaleffect_FDE    0
+  
+flagnutvaleffect_FDF    0
+  
+flagnutvaleffect_FDP    0
+  
+flagnutvaleffect_FDM    0
+  
+flagnutvaleffect_SHD    0
+  
+flagnutvaleffect_SHC    0
+  
+flagnutvaleffect_SHP    0
+  
+flagnutvaleffect_SHB    0
+  
+flagnutvaleffect_SHR    0
+  
+flagnutvaleffect_SSK    0
+  
+flagnutvaleffect_SB     0
+  
+flagnutvaleffect_SP     0
+  
+flagnutvaleffect_REP    0
+  
+flagnutvaleffect_PIN    0
+  
+flagnutvaleffect_WDG    0
+  
+flagnutvaleffect_WHB    0
+  
+flagnutvaleffect_WHT    0
+  
+flagnutvaleffect_WHS    0
+  
+flagnutvaleffect_PB     0
+  
+flagnutvaleffect_BB     0
+  
+flagnutvaleffect_BO     0
+  
+flagnutvaleffect_BD     0
+  
+flagnutvaleffect_BC     0
+  
+flagnutvaleffect_BFS    0
+  
+flagnutvaleffect_BFD    0
+  
+flagnutvaleffect_BFF    0
+  
+flagnutvaleffect_BG     0
+  
+flagnutvaleffect_BMS    0
+  
+flagnutvaleffect_BMD    0
+  
+flagnutvaleffect_BML    0
+  
+flagnutvaleffect_CEP    0
+  
+flagnutvaleffect_PWN    0
+
+# Whether the species availability to predators is sensitive to pH (mainly behaviour in fish)
+
+  
+flagpredavaileffect_PL     0
+  
+flagpredavaileffect_PS     0
+  
+flagpredavaileffect_DF     0
+  
+flagpredavaileffect_MA     0
+  
+flagpredavaileffect_MB     0
+  
+flagpredavaileffect_SG     0
+  
+flagpredavaileffect_ZG     0
+  
+flagpredavaileffect_ZL     0
+  
+flagpredavaileffect_ZM     0
+  
+flagpredavaileffect_ZS     0
+  
+flagpredavaileffect_FPS    0
+  
+flagpredavaileffect_FPL    0
+  
+flagpredavaileffect_FPO    1
+  
+flagpredavaileffect_FVD    0
+  
+flagpredavaileffect_FVV    0
+  
+flagpredavaileffect_FVS    0
+  
+flagpredavaileffect_FVT    0
+  
+flagpredavaileffect_FVO    0
+  
+flagpredavaileffect_FVB    0
+  
+flagpredavaileffect_FMM    0
+  
+flagpredavaileffect_FMN    0
+  
+flagpredavaileffect_FBP    0
+  
+flagpredavaileffect_FDD    1
+  
+flagpredavaileffect_FDS    1
+  
+flagpredavaileffect_FDB    0
+  
+flagpredavaileffect_FDC    1
+  
+flagpredavaileffect_FDO    0
+  
+flagpredavaileffect_FDE    1
+  
+flagpredavaileffect_FDF    1
+  
+flagpredavaileffect_FDP    1
+  
+flagpredavaileffect_FDM    1
+  
+flagpredavaileffect_SHD    1
+  
+flagpredavaileffect_SHC    1
+  
+flagpredavaileffect_SHP    0
+  
+flagpredavaileffect_SHB    0
+  
+flagpredavaileffect_SHR    0
+  
+flagpredavaileffect_SSK    0
+  
+flagpredavaileffect_SB     0
+  
+flagpredavaileffect_SP     1
+  
+flagpredavaileffect_REP    1
+  
+flagpredavaileffect_PIN    0
+  
+flagpredavaileffect_WDG    0
+  
+flagpredavaileffect_WHB    0
+  
+flagpredavaileffect_WHT    0
+  
+flagpredavaileffect_WHS    0
+  
+flagpredavaileffect_PB     0
+  
+flagpredavaileffect_BB     0
+  
+flagpredavaileffect_BO     0
+  
+flagpredavaileffect_BD     0
+  
+flagpredavaileffect_BC     0
+  
+flagpredavaileffect_BFS    0
+  
+flagpredavaileffect_BFD    0
+  
+flagpredavaileffect_BFF    0
+  
+flagpredavaileffect_BG     0
+  
+flagpredavaileffect_BMS    0
+  
+flagpredavaileffect_BMD    0
+  
+flagpredavaileffect_BML    0
+  
+flagpredavaileffect_CEP    0
+  
+flagpredavaileffect_PWN    0
+
+# Whether the species growth or non predation mortality is sensitive to pH
+
+  
+flagcontract_tol_PL     0
+  
+flagcontract_tol_PS     0
+  
+flagcontract_tol_DF     0
+  
+flagcontract_tol_MA     0
+  
+flagcontract_tol_MB     0
+  
+flagcontract_tol_SG     0
+  
+flagcontract_tol_ZG     0
+  
+flagcontract_tol_ZL     0
+  
+flagcontract_tol_ZM     0
+  
+flagcontract_tol_ZS     0
+  
+flagcontract_tol_FPS    1
+  
+flagcontract_tol_FPL    1
+  
+flagcontract_tol_FPO    1
+  
+flagcontract_tol_FVD    1
+  
+flagcontract_tol_FVV    1
+  
+flagcontract_tol_FVS    1
+  
+flagcontract_tol_FVT    1
+  
+flagcontract_tol_FVO    1
+  
+flagcontract_tol_FVB    1
+  
+flagcontract_tol_FMM    1
+  
+flagcontract_tol_FMN    1
+  
+flagcontract_tol_FBP    1
+  
+flagcontract_tol_FDD    1
+  
+flagcontract_tol_FDS    1
+  
+flagcontract_tol_FDB    1
+  
+flagcontract_tol_FDC    1
+  
+flagcontract_tol_FDO    1
+  
+flagcontract_tol_FDE    1
+  
+flagcontract_tol_FDF    1
+  
+flagcontract_tol_FDP    1
+  
+flagcontract_tol_FDM    1
+  
+flagcontract_tol_SHD    1
+  
+flagcontract_tol_SHC    1
+  
+flagcontract_tol_SHP    1
+  
+flagcontract_tol_SHB    1
+  
+flagcontract_tol_SHR    1
+  
+flagcontract_tol_SSK    1
+  
+flagcontract_tol_SB     1
+  
+flagcontract_tol_SP     1
+  
+flagcontract_tol_REP    1
+  
+flagcontract_tol_PIN    1
+  
+flagcontract_tol_WDG    1
+  
+flagcontract_tol_WHB    1
+  
+flagcontract_tol_WHT    1
+  
+flagcontract_tol_WHS    1
+  
+flagcontract_tol_PB     0
+  
+flagcontract_tol_BB     0
+  
+flagcontract_tol_BO     0
+  
+flagcontract_tol_BD     0
+  
+flagcontract_tol_BC     0
+  
+flagcontract_tol_BFS    0
+  
+flagcontract_tol_BFD    0
+  
+flagcontract_tol_BFF    0
+  
+flagcontract_tol_BG     0
+  
+flagcontract_tol_BMS    0
+  
+flagcontract_tol_BMD    0
+  
+flagcontract_tol_BML    0
+  
+flagcontract_tol_CEP    0
+  
+flagcontract_tol_PWN    0
+
+# Form of the pH effects model applied for the group
+
+  
+# 0 = no effect, 1 = monod, 2 = nonlinear (humped form as of Hinga 2002), 3 = linear
+
+  
+pHsensitive_model_PL     2
+  
+pHsensitive_model_PS     2
+  
+pHsensitive_model_DF     2
+  
+pHsensitive_model_MA     2
+  
+pHsensitive_model_MB     2
+  
+pHsensitive_model_SG     2
+  
+pHsensitive_model_ZG     0
+  
+pHsensitive_model_ZL     1
+  
+pHsensitive_model_ZM     1
+  
+pHsensitive_model_ZS     0
+  
+pHsensitive_model_FPS    3
+  
+pHsensitive_model_FPL    3
+  
+pHsensitive_model_FPO    3
+  
+pHsensitive_model_FVD    3
+  
+pHsensitive_model_FVV    3
+  
+pHsensitive_model_FVS    3
+  
+pHsensitive_model_FVT    1
+  
+pHsensitive_model_FVO    3
+  
+pHsensitive_model_FVB    3
+  
+pHsensitive_model_FMM    3
+  
+pHsensitive_model_FMN    3
+  
+pHsensitive_model_FBP    3
+  
+pHsensitive_model_FDD    3
+  
+pHsensitive_model_FDS    3
+  
+pHsensitive_model_FDB    3
+  
+pHsensitive_model_FDC    3
+  
+pHsensitive_model_FDO    3
+  
+pHsensitive_model_FDE    3
+  
+pHsensitive_model_FDF    3
+  
+pHsensitive_model_FDP    3
+  
+pHsensitive_model_FDM    3
+  
+pHsensitive_model_SHD    3
+  
+pHsensitive_model_SHC    3
+  
+pHsensitive_model_SHP    3
+  
+pHsensitive_model_SHB    3
+  
+pHsensitive_model_SHR    3
+  
+pHsensitive_model_SSK    3
+  
+pHsensitive_model_SB     3
+  
+pHsensitive_model_SP     3
+  
+pHsensitive_model_REP    3
+  
+pHsensitive_model_PIN    3
+  
+pHsensitive_model_WDG    3
+  
+pHsensitive_model_WHB    3
+  
+pHsensitive_model_WHT    3
+  
+pHsensitive_model_WHS    3
+  
+pHsensitive_model_PB     0
+  
+pHsensitive_model_BB     0
+  
+pHsensitive_model_BO     0
+  
+pHsensitive_model_BD     0
+  
+pHsensitive_model_BC     0
+  
+pHsensitive_model_BFS    3
+  
+pHsensitive_model_BFD    1
+  
+pHsensitive_model_BFF    3
+  
+pHsensitive_model_BG     3
+  
+pHsensitive_model_BMS    1
+  
+pHsensitive_model_BMD    1
+  
+pHsensitive_model_BML    1
+  
+pHsensitive_model_CEP    1
+  
+pHsensitive_model_PWN    1
+
+# Monod inflection point for pH impact function
+
+  
+KN_pH_PL     0.0
+  
+KN_pH_PS     0.0
+  
+KN_pH_DF     0.0
+  
+KN_pH_MA     0.0
+  
+KN_pH_MB     0.0
+  
+KN_pH_SG     0.0
+  
+KN_pH_ZG     0.0
+  
+KN_pH_ZL     7.0
+  
+KN_pH_ZM     7.0
+  
+KN_pH_ZS     0.0
+  
+KN_pH_FPS    0.0
+  
+KN_pH_FPL    0.0
+  
+KN_pH_FPO    0.0
+  
+KN_pH_FVD    0.0
+  
+KN_pH_FVV    0.0
+  
+KN_pH_FVS    0.0
+  
+KN_pH_FVT    7.0
+  
+KN_pH_FVO    0.0
+  
+KN_pH_FVB    0.0
+  
+KN_pH_FMM    0.0
+  
+KN_pH_FMN    0.0
+  
+KN_pH_FBP    0.0
+  
+KN_pH_FDD    0.0
+  
+KN_pH_FDS    0.0
+  
+KN_pH_FDB    0.0
+  
+KN_pH_FDC    0.0
+  
+KN_pH_FDO    0.0
+  
+KN_pH_FDE    0.0
+  
+KN_pH_FDF    0.0
+  
+KN_pH_FDP    0.0
+  
+KN_pH_FDM    0.0
+  
+KN_pH_SHD    0.0
+  
+KN_pH_SHC    0.0
+  
+KN_pH_SHP    0.0
+  
+KN_pH_SHB    0.0
+  
+KN_pH_SHR    0.0
+  
+KN_pH_SSK    0.0
+  
+KN_pH_SB     0.0
+  
+KN_pH_SP     0.0
+  
+KN_pH_REP    0.0
+  
+KN_pH_PIN    0.0
+  
+KN_pH_WDG    0.0
+  
+KN_pH_WHB    0.0
+  
+KN_pH_WHT    0.0
+  
+KN_pH_WHS    0.0
+  
+KN_pH_PB     0.0
+  
+KN_pH_BB     0.0
+  
+KN_pH_BO     0.0
+  
+KN_pH_BD     0.0
+  
+KN_pH_BC     0.0
+  
+KN_pH_BFS    0.0
+  
+KN_pH_BFD    9.0
+  
+KN_pH_BFF    0.0
+  
+KN_pH_BG     0.0
+  
+KN_pH_BMS    7.0
+  
+KN_pH_BMD    7.0
+  
+KN_pH_BML    7.0
+  
+KN_pH_CEP    7.0
+  
+KN_pH_PWN    7.0
+
+# Optimal pH for nonlinear pH impact function
+
+  
+optimal_pH_PL     4.0
+  
+optimal_pH_PS     5.0
+  
+optimal_pH_DF     0.0
+  
+optimal_pH_MA     6.0
+  
+optimal_pH_MB     0.0
+  
+optimal_pH_SG     5.0
+  
+optimal_pH_ZG     0.0
+  
+optimal_pH_ZL     0.0
+  
+optimal_pH_ZM     0.0
+  
+optimal_pH_ZS     0.0
+  
+optimal_pH_FPS    0.0
+  
+optimal_pH_FPL    0.0
+  
+optimal_pH_FPO    0.0
+  
+optimal_pH_FVD    0.0
+  
+optimal_pH_FVV    0.0
+  
+optimal_pH_FVS    0.0
+  
+optimal_pH_FVT    0.0
+  
+optimal_pH_FVO    0.0
+  
+optimal_pH_FVB    0.0
+  
+optimal_pH_FMM    0.0
+  
+optimal_pH_FMN    0.0
+  
+optimal_pH_FBP    0.0
+  
+optimal_pH_FDD    0.0
+  
+optimal_pH_FDS    0.0
+  
+optimal_pH_FDB    0.0
+  
+optimal_pH_FDC    0.0
+  
+optimal_pH_FDO    0.0
+  
+optimal_pH_FDE    0.0
+  
+optimal_pH_FDF    0.0
+  
+optimal_pH_FDP    0.0
+  
+optimal_pH_FDM    0.0
+  
+optimal_pH_SHD    0.0
+  
+optimal_pH_SHC    0.0
+  
+optimal_pH_SHP    0.0
+  
+optimal_pH_SHB    0.0
+  
+optimal_pH_SHR    0.0
+  
+optimal_pH_SSK    0.0
+  
+optimal_pH_SB     0.0
+  
+optimal_pH_SP     0.0
+  
+optimal_pH_REP    0.0
+  
+optimal_pH_PIN    0.0
+  
+optimal_pH_WDG    0.0
+  
+optimal_pH_WHB    0.0
+  
+optimal_pH_WHT    0.0
+  
+optimal_pH_WHS    0.0
+  
+optimal_pH_PB     0.0
+  
+optimal_pH_BB     0.0
+  
+optimal_pH_BO     0.0
+  
+optimal_pH_BD     0.0
+  
+optimal_pH_BC     0.0
+  
+optimal_pH_BFS    0.0
+  
+optimal_pH_BFD    0.0
+  
+optimal_pH_BFF    0.0
+  
+optimal_pH_BG     0.0
+  
+optimal_pH_BMS    0.0
+  
+optimal_pH_BMD    0.0
+  
+optimal_pH_BML    0.0
+  
+optimal_pH_CEP    0.0
+  
+optimal_pH_PWN    0.0
+
+# Correction scalar pH for nonlinear pH impact function
+
+  
+pH_correction_PL     150.0
+  
+pH_correction_PS     200.0
+  
+pH_correction_DF     1.0
+  
+pH_correction_MA     150.0
+  
+pH_correction_MB     1.0
+  
+pH_correction_SG     100.0
+  
+pH_correction_ZG     1.0
+  
+pH_correction_ZL     1.0
+  
+pH_correction_ZM     1.0
+  
+pH_correction_ZS     1.0
+  
+pH_correction_FPS    1.0
+  
+pH_correction_FPL    1.0
+  
+pH_correction_FPO    1.0
+  
+pH_correction_FVD    1.0
+  
+pH_correction_FVV    1.0
+  
+pH_correction_FVS    1.0
+  
+pH_correction_FVT    1.0
+  
+pH_correction_FVO    1.0
+  
+pH_correction_FVB    1.0
+  
+pH_correction_FMM    1.0
+  
+pH_correction_FMN    1.0
+  
+pH_correction_FBP    1.0
+  
+pH_correction_FDD    1.0
+  
+pH_correction_FDS    1.0
+  
+pH_correction_FDB    1.0
+  
+pH_correction_FDC    1.0
+  
+pH_correction_FDO    1.0
+  
+pH_correction_FDE    1.0
+  
+pH_correction_FDF    1.0
+  
+pH_correction_FDP    1.0
+  
+pH_correction_FDM    1.0
+  
+pH_correction_SHD    1.0
+  
+pH_correction_SHC    1.0
+  
+pH_correction_SHP    1.0
+  
+pH_correction_SHB    1.0
+  
+pH_correction_SHR    1.0
+  
+pH_correction_SSK    1.0
+  
+pH_correction_SB     1.0
+  
+pH_correction_SP     1.0
+  
+pH_correction_REP    1.0
+  
+pH_correction_PIN    1.0
+  
+pH_correction_WDG    1.0
+  
+pH_correction_WHB    1.0
+  
+pH_correction_WHT    1.0
+  
+pH_correction_WHS    1.0
+  
+pH_correction_PB     1.0
+  
+pH_correction_BB     1.0
+  
+pH_correction_BO     1.0
+  
+pH_correction_BD     1.0
+  
+pH_correction_BC     1.0
+  
+pH_correction_BFS    1.0
+  
+pH_correction_BFD    1.0
+  
+pH_correction_BFF    1.0
+  
+pH_correction_BG     1.0
+  
+pH_correction_BMS    1.0
+  
+pH_correction_BMD    1.0
+  
+pH_correction_BML    1.0
+  
+pH_correction_CEP    1.0
+  
+pH_correction_PWN    1.0
+
+# Coefficient pH for nonlinear pH impact function
+
+  
+pH_constA_PL     1.4
+  
+pH_constA_PS     3.7
+  
+pH_constA_DF     1.0
+  
+pH_constA_MA     1.6
+  
+pH_constA_MB     1.0
+  
+pH_constA_SG     4.2
+  
+pH_constA_ZG     1.0
+  
+pH_constA_ZL     5.0
+  
+pH_constA_ZM     5.0
+  
+pH_constA_ZS     1.0
+  
+pH_constA_FPS    1.0
+  
+pH_constA_FPL    1.0
+  
+pH_constA_FPO    2.0
+  
+pH_constA_FVD    1.0
+  
+pH_constA_FVV    1.0
+  
+pH_constA_FVS    1.0
+  
+pH_constA_FVT    6.0
+  
+pH_constA_FVO    1.0
+  
+pH_constA_FVB    1.0
+  
+pH_constA_FMM    1.0
+  
+pH_constA_FMN    1.0
+  
+pH_constA_FBP    1.0
+  
+pH_constA_FDD    2.25
+  
+pH_constA_FDS    2.5
+  
+pH_constA_FDB    2.0
+  
+pH_constA_FDC    2.0
+  
+pH_constA_FDO    1.0
+  
+pH_constA_FDE    2.0
+  
+pH_constA_FDF    2.0
+  
+pH_constA_FDP    2.0
+  
+pH_constA_FDM    2.0
+  
+pH_constA_SHD    1.0
+  
+pH_constA_SHC    1.0
+  
+pH_constA_SHP    1.0
+  
+pH_constA_SHB    1.0
+  
+pH_constA_SHR    1.0
+  
+pH_constA_SSK    1.0
+  
+pH_constA_SB     1.0
+  
+pH_constA_SP     1.0
+  
+pH_constA_REP    1.0
+  
+pH_constA_PIN    1.0
+  
+pH_constA_WDG    1.0
+  
+pH_constA_WHB    1.0
+  
+pH_constA_WHT    1.0
+  
+pH_constA_WHS    1.0
+  
+pH_constA_PB     -3.0
+  
+pH_constA_BB     -3.0
+  
+pH_constA_BO     1.0
+  
+pH_constA_BD     1.0
+  
+pH_constA_BC     1.0
+  
+pH_constA_BFS    -3.0
+  
+pH_constA_BFD    6.0
+  
+pH_constA_BFF    -7.0
+  
+pH_constA_BG     -3.0
+  
+pH_constA_BMS    5.5
+  
+pH_constA_BMD    6.0
+  
+pH_constA_BML    5.5
+  
+pH_constA_CEP    6.0
+  
+pH_constA_PWN    5.0
+  
+# Base coefficient pH for nonlinear pH impact function
+
+  
+pH_constB_PL     1.1705
+  
+pH_constB_PS     1.0
+  
+pH_constB_DF     0.0
+  
+pH_constB_MA     1.1
+  
+pH_constB_MB     0.0
+  
+pH_constB_SG     1.0
+  
+pH_constB_ZG     0.0
+  
+pH_constB_ZL     1.7
+  
+pH_constB_ZM     1.7
+  
+pH_constB_ZS     0.0
+  
+pH_constB_FPS    0.0
+  
+pH_constB_FPL    0.0
+  
+pH_constB_FPO    -0.125
+  
+pH_constB_FVD    0.0
+  
+pH_constB_FVV    0.0
+  
+pH_constB_FVS    0.0
+  
+pH_constB_FVT    1.5
+  
+pH_constB_FVO    0.0
+  
+pH_constB_FVB    0.0
+  
+pH_constB_FMM    0.0
+  
+pH_constB_FMN    0.0
+  
+pH_constB_FBP    0.0
+  
+pH_constB_FDD    -0.155
+  
+pH_constB_FDS    -0.19
+  
+pH_constB_FDB    -0.125
+  
+pH_constB_FDC    -0.125
+  
+pH_constB_FDO    0.0
+  
+pH_constB_FDE    -0.125
+  
+pH_constB_FDF    -0.125
+  
+pH_constB_FDP    -0.125
+  
+pH_constB_FDM    -0.125
+  
+pH_constB_SHD    0.0
+  
+pH_constB_SHC    0.0
+  
+pH_constB_SHP    0.0
+  
+pH_constB_SHB    0.0
+  
+pH_constB_SHR    0.0
+  
+pH_constB_SSK    0.0
+  
+pH_constB_SB     0.0
+  
+pH_constB_SP     0.0
+  
+pH_constB_REP    0.0
+  
+pH_constB_PIN    0.0
+  
+pH_constB_WDG    0.0
+  
+pH_constB_WHB    0.0
+  
+pH_constB_WHT    0.0
+  
+pH_constB_WHS    0.0
+  
+pH_constB_PB     0.5
+  
+pH_constB_BB     0.5
+  
+pH_constB_BO     0.0
+  
+pH_constB_BD     0.0
+  
+pH_constB_BC     0.0
+  
+pH_constB_BFS    0.5
+  
+pH_constB_BFD    2.0
+  
+pH_constB_BFF    1.0
+  
+pH_constB_BG     0.5
+  
+pH_constB_BMS    1.5
+  
+pH_constB_BMD    1.5
+  
+pH_constB_BML    1.5
+  
+pH_constB_CEP    1.5
+  
+pH_constB_PWN    1.7
+
+# Correction scalar pH for nonlinear pH impact function
+
+  
+contract_tol_PL     0.0
+  
+contract_tol_PS     0.0
+  
+contract_tol_DF     0.0
+  
+contract_tol_MA     0.0
+  
+contract_tol_MB     0.0
+  
+contract_tol_SG     0.0
+  
+contract_tol_ZG     1.0
+  
+contract_tol_ZL     1.0
+  
+contract_tol_ZM     1.0
+  
+contract_tol_ZS     0.0
+  
+contract_tol_FPS    3.0
+  
+contract_tol_FPL    3.0
+  
+contract_tol_FPO    3.0
+  
+contract_tol_FVD    4.0
+  
+contract_tol_FVV    4.0
+  
+contract_tol_FVS    3.0
+  
+contract_tol_FVT    2.0
+  
+contract_tol_FVO    3.0
+  
+contract_tol_FVB    3.0
+  
+contract_tol_FMM    3.0
+  
+contract_tol_FMN    3.0
+  
+contract_tol_FBP    3.0
+  
+contract_tol_FDD    3.0
+  
+contract_tol_FDS    4.0
+  
+contract_tol_FDB    3.0
+  
+contract_tol_FDC    3.0
+  
+contract_tol_FDO    3.0
+  
+contract_tol_FDE    3.0
+  
+contract_tol_FDF    3.0
+  
+contract_tol_FDP    3.0
+  
+contract_tol_FDM    3.0
+  
+contract_tol_SHD    3.0
+  
+contract_tol_SHC    3.0
+  
+contract_tol_SHP    3.0
+  
+contract_tol_SHB    3.0
+  
+contract_tol_SHR    3.0
+  
+contract_tol_SSK    3.0
+  
+contract_tol_SB     0.0
+  
+contract_tol_SP     3.0
+  
+contract_tol_REP    4.0
+  
+contract_tol_PIN    1.0
+  
+contract_tol_WDG    1.0
+  
+contract_tol_WHB    1.0
+  
+contract_tol_WHT    1.0
+  
+contract_tol_WHS    1.0
+  
+contract_tol_PB     0.0
+  
+contract_tol_BB     0.0
+  
+contract_tol_BO     0.0
+  
+contract_tol_BD     0.0
+  
+contract_tol_BC     0.0
+  
+contract_tol_BFS    1.0
+  
+contract_tol_BFD    1.0
+  
+contract_tol_BFF    1.0
+  
+contract_tol_BG     1.0
+  
+contract_tol_BMS    4.0
+  
+contract_tol_BMD    3.0
+  
+contract_tol_BML    4.0
+  
+contract_tol_CEP    0.0
+  
+contract_tol_PWN    1.0
+
+## Other useful information
+
+Attached here are
+[my notes](/download/attachments/43155762/beth-notes.pdf?version=1&modificationDate=1350608084450&api=v2)
+on the literature (sorry for the poor handwriting and I was trying to scan them as single A4 sheets, but every second page it has done A3 so you get the left hand page twice, once as a A4 and once as the left side of the A3).
+
+Acidification relevant pdfs I read while creating the model ( except for Bostock et al 2012which was not public at the time I created this page) are stored in these four archives -
+[AA1](/download/attachments/43155762/Acidificaiton_Archive1.zip?version=1&modificationDate=1350610417257&api=v2)
+,
+[AA2](/download/attachments/43155762/Acidificaiton_Archive2.zip?version=1&modificationDate=1350610437053&api=v2)
+,
+[AA3](/download/attachments/43155762/Acidificaiton_Archive3.zip?version=1&modificationDate=1350610455560&api=v2)
+,
+[AA4](/download/attachments/43155762/Acidificaiton_Archive4.zip?version=1&modificationDate=1350610465183&api=v2)
+[Acidificaiton_Archive4.zip](#)
+.
+
+And an
+[xls file](/download/attachments/43155762/PH_params.xlsx?version=1&modificationDate=1350608140417&api=v2)
+[PH_params.xlsx](#)
+I used while developing the prototype model that I used for
+[my talk](/download/attachments/43155762/Fulton_Acidification_2012.pptx?version=1&modificationDate=1350610525953&api=v2)
+[Fulton_Acidification_2012.pptx](#)
+at the High CO2 World Symposium in Monterey 2012.
+
+Example RCP forcing time series -
+[RCP 3](/download/attachments/43155762/pCO2RCP3.ts?version=1&modificationDate=1350610928437&api=v2)
+[pCO2RCP3.ts](#)
+,
+[RCP 4.5](/download/attachments/43155762/pCO2RCP45.ts?version=1&modificationDate=1350610938680&api=v2)
+[pCO2RCP45.ts](#)
+,
+[RCP 8.5](/download/attachments/43155762/pCO2RCP85.ts?version=1&modificationDate=1350610949037&api=v2)
+[pCO2RCP85.ts](#)
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

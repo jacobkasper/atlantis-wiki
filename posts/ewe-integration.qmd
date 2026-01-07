@@ -1,0 +1,35 @@
+---
+title: "EwE Integration"
+date: "2008-12-01"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+OK. To view the trace from the web service the trace enabaled flag has to be enabled in the web.config file.
+  
+This is normally in c:\Inetpub\wwwrott\WebService1\Web.config
+
+When this is on you should be able to view a trace at
+
+[http://140.79.22.193/WebService1/trace.axd
+![](/images/icons/linkext7.gif)](http://140.79.22.193/WebService1/trace.axd)
+
+There is a webservice project on Lindas box url is above.
+
+Got the EwE url from sherman. I can view it from the web but not connect to it. The trace is not turned on. Asking Sherman to turn this on for me so i can see what i'm doing wrong.
+
+OK. Sherman has turned this on. I'm now getting a time out error when i call the Init function from within the Atlanyis code. So i need to work out how i can change the timeout value.
+  
+The timeout is changed using the arguments passed to soap_client_init_args. So i have passed the following to sayEwEHello:
+  
+char *Soapargv[] =
+
+Unknown macro: { "-NHTTPtimeout", "100" }
+
+to set the timeout. I'm not sure what units the timeout is in.
+
+I have tried to invoke the init function from the url Sherman gave me. It just seems to hang so i will send him an email to check if this is working correctly. No wonder i;m getting a timeout. So this must be the exception that Sherman was talking about in his email, guessing this isn't fixed yet. Will wait to hear from him when this is fixed and then i'll try invoking init again from within the Atlantis code.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

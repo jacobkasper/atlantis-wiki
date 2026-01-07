@@ -1,0 +1,38 @@
+---
+title: "Ice in Atlantis"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+Atlantis now contains a ice model. This model is currently rather limited but new functionality can be added as requested.
+
+The concept is that there is a small number of classes of ice as in the conceptual model below. For example, for Antarctica we would use 3 layers: platelet ice (also called frazzle ice) that is the slush layer at the bottom so it would be the that first class of ice (and would incidentally be the first layer in the ice matrix), then comes the hard ice and finally snow on top.
+
+![](attachments/1734279853.png)
+
+This functionality has been testing in the trunk code only. While the other branches may contain some ice functionality, it has not been debugged or tested, do not use it in any versions other than the trunk code without first talking to Beth or Bec as they will have to merge bug fixes into these branches.
+
+### Sample Files:
+
+Note these were created by Bec to test the ice code. The prm values used not based on any science and should NOT be used as written.
+
+[Initial condition file changes](changed-to-initial-conditions-netcdf-file.qmd)
+
+[Ice Groups](ice-groups.qmd)
+
+[Ice Forcing Data](ice-forcing-files.qmd)
+
+[Changes to input prm files](changed-to-prm-files.qmd)
+
+### Code outline:
+
+The ice layers are a bit different to other layers in Atlantis. They do not sit on top of the water column layers, they can sit within the water column layers.
+
+There are new read in functions to read in ice data from the initial conditions file. These ice tracers are read into new tracer arrays - all water column tracers in the model are valid in the ice, although most of these 'slots' are not used, and then the ice tracers are appended to the end of the array. Nutrient values in the ice are not read in, these are calculated in Box_Ice_Flux() during each timestep. The nutrient value in the ice is dependant on the value in the matching water column layer and the freeze/melting of the ice.
+
+There is also additional code to read in the forcing data for ice. This is similar to how the temperature is read in. Not Atlantis does not handle the ice movement, ice melting or freezing - this information should all be provided in the ice forcing file as changes in ice depth and coverage in each box. Atlanyis does handle the impacts of the ice freezing/melting on nutrient levels and available habitat for example.
+
+Each ice layers is processed in much the same way as the other layers in a box. The function Box_Bio_Process() in atbiology.c calls Adapt_Diff_Method() which in turn calls the Ice_Box() function in atecology.c. There are new functions that handle light, temperature and Q10 values in the ice.
+
+### Viewing output:
+
+At present viewing output files with olive when you have an icenz dimension crashes olive. Bec was working to fix this, nit sure whether she got it to work or not (like not sorry!).

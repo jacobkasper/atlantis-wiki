@@ -1,0 +1,56 @@
+---
+title: "Land in Atlantis"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+New functionality is being added to support land boxes in the Atlantis model. This is being added to the trunk version of the code at <https://svnserv.csiro.au/svn/atlantis/Atlantis/trunk/atlantis/>
+
+Coding Notes:
+
+The general idea for land is that it occupies the 0th slot in the tracer arrays and none of these are multiplied by dz so the values are 2D like the epi groups not 3D like the WC groups. We need to allow for groups to be able to move onto land so while this creates a bit of a unit issue (WC tracers are typically in mgN/m^3 and land should be in mgN/m^2) it is better than having to either allocate new arrays for all tracers on land or have some sort of different indexing for groups that are allowed on land.
+
+There are also separate terrestrial tracers as tagged by a bmtype of 'terrestrial' in the initial conditions netcdf file. For example:
+
+double Soil(t, b) ;  
+ Soil:bmtype = "terrestrial" ;  
+ Soil:units = "mg N" ;  
+ Soil:long_name = "Soil tracer" ;  
+ Soil:dtype = 0 ;  
+ Soil:sumtype = 0 ;  
+ Soil:_FillValue = 0. ;
+
+These are read into the bm->landinfo structure in the readBMLandInfo() function. To date these are not really used as we have no actual land processes.
+
+**run.prm file changes**
+
+A new non-compulsary value is read in from the run.prm file:
+
+flagAllowLand 1
+
+If this is turned to 1 then any boxes in your bgm file with a positive botz value are assumed to be land boxes.
+
+If this parameters is set to 0 or missing then it is assumed that the land model will not be active.
+
+*Coding Notes:*
+
+Within the model this flag is called terrestrial_on and is a member of the MSEBoxModel structure.
+
+**BGM File**
+
+As mentioned above is the land model is turned on and you have defined botz as greater than 0 in the bgm file then thoses boxes will be classified as land. These are treated differently to boundary and active boxes.
+
+**Initial Conditions File**
+
+For the normal land tracers - these are defined as separate tracers with the following structure:
+
+double Soil(t, b) ;  
+Soil:bmtype = "terrestrial" ;  
+Soil:units = "mg N" ;  
+Soil:long_name = "Soil tracer" ;  
+Soil:dtype = 0 ;  
+Soil:sumtype = 0 ;  
+Soil:_FillValue = 0. ;
+
+**Groups Definition File:**
+
+If the then bm->terrestrial_on option is turned on an additional column should be added to the groups definition input file called isLandActive. If this is turned on for a group then the LAND_BASED habitat value is set to true for these groups and these groups have the option of being active in a land box.

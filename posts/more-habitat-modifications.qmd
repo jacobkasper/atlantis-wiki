@@ -1,0 +1,18 @@
+---
+title: "More habitat modifications"
+date: "2014-05-09"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+In the AtlantisDem branch we now have stronger space competition option (flag_competing_epiff). We have also added an option for a stronger tie of the benthic invertebrates to the habitat types too (flag_invert_biohab).
+
+You will need to add the following to biol.prm and if you want to turn on these options set them to 1 (0 = off and old style habitat use by the benthos, which allowed for overlap rather than competition between species).
+
+flag_competing_epiff 1 flag indicating whether corals, filter feeders and macrophytes compete for space
+  
+flag_invert_biohab 1 flag indicating whether inverebrates use dynamic biohabitat to condition growth
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

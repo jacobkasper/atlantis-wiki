@@ -1,0 +1,28 @@
+---
+title: "Handling discards dependent on the catch of a species"
+date: "2011-08-18"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+# Handling discards dependent on the catch of a species
+
+I have overloaded the ability to have discards dependent on a species. What this means is that if:
+
+###### Imposing catch (i.e. flagimposecatch > 0)
+
+Then the discards of a species will be dependent on the catch of the other species for which catch is being imposed.
+
+###### All other fishing methods (i.e. flagimposecatch == 0)
+
+Then the discards will have a component due to the catch of the species of interest.
+
+## Activating catch dependent discards
+
+In all cases this option is activated by setting flagdiscard for that species to 4 (for the appropriate fishery) and then set the values of FCcocatch. These FCcocatch will dependent on whether using flagimposecatch or not,
+- If using flagimposecatch then FCcocatch is the amount of the species of interest discarded per tonne of catch of the other species (one entry per species in the same order as in the functionalGroups.csv file)
+- If not using imposed catch then FCcocatch is the amount of biomass of other species discarded for every tonne of the species of interest that is caught (one entry per species in the same order as in the functionalGroups.csv file)
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

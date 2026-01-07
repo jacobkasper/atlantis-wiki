@@ -1,0 +1,214 @@
+---
+title: "Scaling point sources"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+#### Defining your point sources:
+
+The point sources are defined in the forcing input file.
+
+#### Changes to point source scaling
+
+Each point source file contains multiple variables. For example the AMS point source files have the following header:
+
+## COLUMN1.name Time  
+
+## COLUMN1.long_name Time  
+## COLUMN1.units days since 1991-01-08 0:00:00 +10  
+
+## COLUMN1.missing_value -999  
+##  
+
+## COLUMN2.name NH3  
+## COLUMN2.long_name NH3  
+
+## COLUMN2.units mg s-1  
+## COLUMN2.missing_value -999  
+
+#  
+## COLUMN3.name NO3  
+
+## COLUMN3.long_name NO3  
+## COLUMN3.units mg s-1  
+
+## COLUMN3.missing_value -999  
+##  
+
+## COLUMN4.name Lab_Det_N  
+## COLUMN4.long_name Lab_Sed_N  
+
+## COLUMN4.units mg s-1  
+## COLUMN4.missing_value -999  
+
+##  
+## COLUMN5.name Si  
+
+## COLUMN5.long_name Silica  
+## COLUMN5.units mg s-1  
+
+## COLUMN5.missing_value -999
+
+There is now the ability to scale **each variable** in each point source input file differently. Unfortunately this requires significant changes to your input files. Fortunately most of you (and your models) are not scaling your point sources. If this is the case then you will have the following values in your physics.prm file:
+
+nutrientchange 0
+
+If this is 0 then you don't need to make any changes as the rest of the scaling input will not be parsed- but be aware than the scaling variables below in your physics file this will not be valid anymore.
+
+If you are scaling your point sources then you will need to change your scaling values in your input files similar to the following example.
+
+Assuming there are 4 point sources. The original scaling values were:
+
+# Flag to indicate whether the point source can be scaled  
+
+# There must be as many entries here as for npointss in the forcing parameter  
+# file  
+
+psschange      4  
+1 1 1 1  
+# Multiplier which represents degree of total change of the  
+
+# nutrients (i.e. 3 => final amt = 3xinitial; 0.3 => final=initial/3)  
+pss_mult 4  
+1.5 1.5 1.5 1.5  
+# Period of time over which change in nutrients occurs  
+
+pss_period 4  
+1 1 1 1  
+# Start day of nutrient increase  
+
+pss_start 4  
+0 0 0 0  
+# Switch to indicate whether or not a second gradual nutrient change  
+
+# is allowed in the model  
+nutrientchange2 0  
+# Multiplier which represents size of nutrient levels after second change  
+
+# So if to end at 0.5x standard input file levels then this  
+# value would be 0.5 etc.  
+
+pss_mult2 4  
+2.0 2.0 2.0 2.0  
+# Period of time over which second change in nutrients occurs  
+
+# here = 1 year of model run. This value must be at least 1.  
+pss_period2 4  
+1 1 1 1  
+# Start day of second change in nutrients  
+
+pss_start2 4  
+10 10 10 10
+
+So this means you are doing two scaling events - one at the very start of your model run which will scale all of your point source variables by 1.5 over a period of 1 day. Then a second scaling event starting at day 10, scaling your source variables by 2.0 over a period of 1 day.
+
+So in the new format this information would be in the input in the following format. Note that in the 4th point source we now have the option of only scaling one of the input variables and if we wanted to we could scaling each variable by a different amount.
+
+#DIN_Main_Channel_box38 - two variables NH3 and NO3 - two changes in sources in this file  
+pss0_numchanges 2 # we are doing two changes
+
+pss0_change0 2 # we are the two variables in this forcing file.  
+1 1
+
+pss0_start0 2 # Start scaling both variables NH3 and NO3 from day 0  
+0 0
+
+pss0_period0 2 # Scale both variables over a period of 1 day  
+1 1
+
+pss0_mult0 2 # Scale each variable by the same amount - 1.5.  
+1.5 1.5
+
+pss0_change1 2  
+1 1
+
+pss0_start1 2  
+10 10
+
+pss0_period1 2  
+1 1
+
+pss0_mult1 2  
+2.0 2.0
+
+#DIN_Alumy_Creek_box41 - two variables NH3 and NO3  
+pss1_numchanges 2
+
+pss1_change0 2  
+1 1
+
+pss1_start0 2  
+0 0
+
+pss1_period0 2  
+1 1
+
+pss1_mult0 2  
+1.5 1.5
+
+pss0_change1 2  
+1 1
+
+pss0_start1 2  
+10 10
+
+pss0_period1 2  
+1 1
+
+pss0_mult1 2  
+2.0 2.0
+
+#TSS_Clarence_Coastal_box_box10 - single variable TSS  
+pss2_numchanges 2
+
+pss2_change0 1  
+1
+
+pss2_start0 1  
+0
+
+pss2_period0 1  
+1
+
+pss2_mult0 1  
+1.5
+
+pss0_change1 1  
+1
+
+pss0_start1 1  
+10
+
+pss0_period1 1  
+1
+
+pss0_mult1 1  
+2.0
+
+#DIN_Alumy_Creek_box41 - two variables NH3 and NO3 - only changing one variable.  
+pss3_numchanges 2
+
+pss3_change0 2 # Only scale the NH3 variable in this point source  
+1 0
+
+pss3_start0 2  
+0 0
+
+pss3_period0 2  
+1 1
+
+pss3_mult0 2  
+1.5 1.0
+
+pss0_change1 2  
+1 0
+
+pss0_start1 1  
+10 10
+
+pss0_period1 1  
+1 1
+
+pss0_mult1 1  
+2.0 1.0
+
+If you need help with this please give Bec a yell and she can help to redo your files.

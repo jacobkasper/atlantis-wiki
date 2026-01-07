@@ -1,0 +1,12 @@
+---
+title: "Greater climate effects control"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+v 6678
+
+We have split flagtempdepend in two so you can turn on movement dependent on temperature without modifying recruitment and vice versa
+
+To activate temperature dependent recruitment for any species set flagtempdepend_reprod to 1 and then set species parameters to indicate how the dependency is expressed.
+
+To activate temperature dependent movement set flagtempdepend_move to 1. Similarly, for salinity to affect any species set flagsaltdepend to 1 and for oxygen dependent movement set flagO2depend to 1. Once these overall flags are set in *biology.prm* file, then to detail how those effects are expressed set the species level parameters as described in the manual which can be found on the [documentation page](atlantis-documentation.qmd).

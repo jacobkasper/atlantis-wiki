@@ -1,0 +1,48 @@
+---
+title: "Matlab - Hydro"
+author: "Artur Palacz"
+---
+
+### Matlab Hydro Scripts
+
+This matlab code is used to generate the hydro input files read by the HydroConstruct program.  
+These scripts were originally written by Jeff Dunn but this task is being handed over to Bec Gorton and Beth Fulton. These scripts really need to be run on a Linux machine on the CSIRO network. The scripts use quite a few CSIRO matlab scripts and assume data is on network shares that are automatically setup by CSIRO IM&T. If you are not a CSIRO user then we can give you a copy of these scripts as a starting point for writing your own scripts but you won't be able to just run these scripts.
+
+The matlab scripts have been checked into the SVN repository at:
+
+CSIRO users: <https://svnserv.csiro.au/svn/atlantis/Matlab/hydro/trunk/Public>
+
+CSIRO Partners: <https://svnserv.csiro.au/svn/ext/atlantis/Matlab/hydro/trunk/Public/>
+
+Note:  
+Existing model work has been done under the following folder but access to this is restricted.
+
+CSIRO users: <https://svnserv.csiro.au/svn/atlantis/Matlab/hydro/trunk/Private>
+
+There will be warnings about the number of faces and vertices - these will often not match as faces that are land or bounding a dynamic and non-dynamic box are not included.
+
+##### Output Format
+
+These scripts generate two netcdf files:
+
+1. Transport output file.
+
+A file containing the flux across each face. Sample file - [trans_setas10Small.cdf](attachments/43156569.cdf)
+
+2. Temperature, salinity and vertical flux for each box.
+
+Sample file - [avs_setas10Small.cdf](attachments/43156570.cdf)
+
+NOTE - In these files the levels are from the surface down and there is no data for the sediment layers. The order is changed when HydroConstuct is used to convert these files into the format expected by Atlantis.
+
+There is a README file in the top level of the SVN repository that gives you information about creating scripts for a new model.
+
+### OpenDAP
+
+The CSIRO Global Climate Model Mk 3.5 - Scenario SRESA2 dataset is visible via openDAP. We need to use this dataset to generate new forcing files for the AMS model for Garry Griffith.
+
+**Useful Links:**
+
+[Getting started with OpenDAP](http://docs.opendap.org/index.php/QuickStart)
+
+[OPeNDAP Matlab Interface Handbook](http://www.opendap.org/user/mgui-html/mgui.qmd)

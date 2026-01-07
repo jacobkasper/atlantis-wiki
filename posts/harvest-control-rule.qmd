@@ -1,0 +1,22 @@
+---
+title: "harvest control rule"
+date: "2009-10-14"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+This is Beths explanation of the required changes. Bec is talking to Penny about getting more information about what any of this means as she has no idea!
+
+1) that estBo now neesd an entry for each of the fished groups (47 in total) not just vertebrates (so up the size of the vector from 35 to 47)
+
+In estBo put in the value when you set F=0 - this should only be important for the LTL you're examinging in that run (also set its tier to 1 and all the rest to 0 so the harvest control rule only applies to that species)
+
+2) Stick in a new vector under estBo
+
+#Fishing rate (F) that equates with BrefA (i.e.F to apply if B > Bref) Fref 47 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  
+Now as you iterate through the F=0, 0.2, 0.4 etc for Tony to get the B vs F curve you'll be able to read off the F that gives BrefA level of biomass. Put that F in the vector Fref for the LTL group. This F (and the Fs put into the B vs F plot for Tony) must be in the annual form (i.e. mFC value * 365)
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

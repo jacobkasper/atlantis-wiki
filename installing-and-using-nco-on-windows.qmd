@@ -1,0 +1,28 @@
+---
+title: "Installing and using NCO on windows"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+The NCO tools are very widely used - best to Google for information about how to use. The documentation on the website below is extensive.
+
+"The netCDF Operators (NCO) comprise about a dozen standalone, command-line programs that take [netCDF](http://www.unidata.ucar.edu/netcdf), [HDF](http://hdfgroup.org/), and/or [DAP](http://opendap.org/) files as input, then operate (e.g., derive new data, compute statistics, print, hyperslab, manipulate metadata) and output the results to screen or files in text, binary, or netCDF formats. NCO aids analysis of gridded scientific data. The shell-command style of NCO allows users to manipulate and analyze files interactively, or with expressive scripts that avoid some overhead of higher-level programming environments."
+
+Download the installer for windows on:
+
+<http://nco.sourceforge.net/>
+
+**Examples of use:**
+
+*Check temperature value in a box 1:*
+
+ncks -v Temp -d b,1 [CEP_output.nc](http://CEP_output.nc)
+
+*Subset data - useful if your output file is too large to be viewed by Olive etc. (if Olive is crashing when you try to click on a box and the file is greater than 2G then this is probably the problem)*
+
+ncks -d t,0,261,2 [CEP_output.nc](http://CEP_output.nc) [CEP_outputSmall.nc](http://CEP_outputSmall.nc)
+
+If you have 262 (0-261) time step values in your file you can subset by taking every second value.
+
+*Look at  the first 50 timesteps in your file"*
+
+ncks -d t,0,50 [CEP_output.nc](http://cep_output.nc/) [CEP_outputSmall.nc](http://cep_outputsmall.nc/)

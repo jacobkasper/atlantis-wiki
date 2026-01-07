@@ -1,0 +1,79 @@
+---
+title: "Software Engineering Practices"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+### Software Engineering Practices
+
+The Joel Test - we want to try to pass this.
+
+**Do you use source control?**
+
+Yes.
+
+**Can you make a build in one step?**  
+ Under linux this is possible. Working towards being able to do this under windows.
+
+**Do you make daily builds?**  
+ Looking into doing this on becs linux machine. Once this is working well it will be transferred to a central machine. Tests will also be run each night to check that the model is producing expected output.
+
+**Do you have a bug database?**  
+ **Do you fix bugs before writing new code?**  
+ **Do you have an up-to-date schedule?**  
+ **Do you have a spec?**  
+ **Do programmers have quiet working conditions?**  
+ **Do you use the best tools money can buy?**  
+ **Do you have testers?**  
+ **Do new candidates write code during their interview?**  
+ *Do you do hallway usability testing? *
+
+## Code Testing, coverage and profiling tools
+
+As we have a straight C program the best tools to use are in the GNU Compiler Collection (GCC).
+
+Code Coverage:
+
+gcov can be used to look at the coverage of a set of tests. There is a Eclipse CDT plugin that allows developers to view the output of the gcov runs in Eclipse to get a clear understanding of the sections of code that have been tested.
+
+Using gcov - see <http://www.redhat.com/docs/manuals/enterprise/RHEL-4-Manual/gcc/invoking-gcov.html>.
+
+Unit Testing:  
+ We are hoping to be able to write unit test for Atlantis using CUnit <http://cunit.sourceforge.net/>.
+
+Continuous Integration:  
+ There are many options here. There seems to be a push to move towards Cruise Control - the other option is using custom scripts. There is some discussion on the CMAR software engineering wiki about this.
+
+## Doxygen
+
+### Ubuntu
+
+Doxygen will be installed using the package install script that you run before you first compile atlantis.  
+ Can can always install it using:  
+ sudo apt-get install doxygen
+
+### Windows
+
+Download Doxygen from
+
+<http://www.stack.nl/~dimitri/doxygen/>
+
+Install an earlier version of dot as there are issues with the most recent release.  
+ There is an archive list at <http://www.graphviz.org/pub/graphviz/ARCHIVE/>
+
+Open doxygen - you need to set the path to dot. Go into the expert set and set the dot path.
+
+### Cool Stuff
+
+<http://www.jgoodies.com/freeware/jdiskreport/>
+
+<http://nccmp.sourceforge.net/>
+
+<http://www.tortoisecvs.org/>
+
+<http://synergy2.sourceforge.net/>
+
+GIS stuff
+
+<http://openlayers.org/>
+
+[New cunit testing environ](http://google-opensource.blogspot.com/2008/09/cmockery-easier-unit-tests-for-c.qmd)

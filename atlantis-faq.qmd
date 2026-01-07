@@ -1,0 +1,396 @@
+---
+title: "Atlantis FAQ"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+This page tries to deal with frequently asked questions when setting up and using Atlantis.
+
+If you have a question look through these, have a look at the blog (also known as news) section. Also look through the documents at <https://wiki.csiro.au/display/Atlantis/Atlantis+Documentation>
+
+Also try asking the question on the google group (as it has likely been asked before) - <https://groups.google.com/forum/#!forum/atlantis-ecosystem-model>
+
+If all else fails we're always happy to answer an email.
+
+Also if you ask us a question and think the answer was useful update the FAQ - everyone is allowed to edit the wiki, its the whole idea (smile)
+
+### General Getting Started Questions:
+
+***Q. Does it make sense to start with a simple model first where we have only two polygons (northern and southern North Sea) but all groups?***
+
+While you can start with a simpler model, to be honest there are so many spatial parameters that it is a pain to have to redo them so I'd just start with what you intend to run with
+
+***Q. Does the order of the parameter blocks in the SETas files matter?***
+
+Order is unimportant as Atlantis does a keyword search to find them.
+
+***Q.  the wiki setas_biol_fishing file is 2000 lines longer than the one from the course and has some different parameters, which file shall be used? Are missing parameters filled with dummies if an older file is used?***
+
+You need to put in dummy parameter values for ones you don't have - the longer more up to date one is the one to use as it has all the pH stuff added.
+
+---
+
+### Biology.prm file
+
+***Q: If you want to simulation the situation without SpeciesX, should I delete that species wherever it shows up in all input files, or can just change the parameter of group functioning (flagXXX in biology.prm) to make this group inactive?***
+
+A: In the functionalGroups.csv file set isTurnedOn to 0 (people using older code also need to set the matching flagXXX in biol.prm to 0).
+
+***Q. Another question about seasonal spatial distribution: Is the number assigned to each box the proportion of biomass of the whole population of each fish species (sum of biomass over water column and all age classes)?***
+
+A. The seasonal spatial distributions are the proportion of the population assigned to each box per time step for that species - it does the allocation independently for each age class and does it by assigning numbers (and how big those animals are) not biomass per se. There is actually one set of entries for adult distributions and another set of entries for the juvenile distributions. Each distribution must sum to one across the boxes, but must be set to 0 in boundary boxes or your group will leak away. Once the box allocation is done then it worries about the vertical allocation within the box.  
+
+***Q: How does Atlantis move the fish from bottom layer to the correct layers, a pre-defined depth, or density dependent, or something else?***
+
+A: At present Atlantis uses the distribution given by VERTday and VERTnight. We are currently implementing an option for density and forage dependent vertical distribution (we already have that for horizontal movement)
+
+***Q: Should benthic fish (e.g. catfish) be distributed in the bottom layer or the sediment layer?***
+
+A: Benthic fish (i.e. those living just above the sediment layer but in the water column) need to be put into the bototm water column layer. The only things in the sediment as such are infaunal invertebrates, detritus and nutrients etc. 
+
+***Q: The diet matrices do not seem to sum up to 1 so I guess thats not fractions. Shall there the values from the the availability calculator be added?***
+
+A: The cells in the diet matrix are the proportion of the prey population available to predator population if everything is in the predator's favour. They don't sum to 1.0 as each value can independently be 0.0-1.0. The availability calculator can help determine what they are off any diet data you have, though your stuck with old codes I think with that piece of software. Jason would like share the code if you wanted to swap it to R to be more flexible though *.*
+
+***Q: Is the volume of the polygon layers calculated by the depth and the areas or can that be present. If it is calculated is Botz and dz based on the the maximum or the mean depth and if its mean depth how do I treat the water fluxes in the lowest layer?***
+
+A: Atlantis will calculate the volume of each layer as dz * area
+
+***Q: The availability tool uses (P/B+1)^(1/365) -1 for the clearance rates, what is that based on?***
+
+A:  The availability tool wasn't done by me, but Jason Link and Rob Gamble would be able to let you know their thinking
+
+***Q: If demersal species are in the pelagic (e.g. for spawning migration or during the juvenile stages) does that need to be added in the vertical distribution file?***
+
+A: You need to provide day and night vertical distributions for species. At present the same distribution is assumed all year long, is that ok for your species or do we need to allow for seasonal changes?
+
+***Q: Do we need to consider the North Sea as an estuary (with sediment transport) if only three coastal polygons mainly represent the Wadden Sea?***
+
+A: If you need estuarine input and don't have any (or too few) river mouths represented explicitly it is ok to drop the input time series from the rivers directly into coastal boxes
+
+***Q: For the habitat dependency parameters we have the following categories: shallow / other / deep benthic filter feeders / macroalgae / seagrass / microphytobenthos / reef / flat / soft / canyon.... is that right?***
+
+A: The habitat list you've given are what were in the old code, you can make as many types as you like now. Order is based on the groups tagged as 'Cover' in your functional group input file.
+
+***Q: What is the ash free dry weight factor needed for? Its 20 at the moment and we found a value of 9 for the benthic species. Does the 20 include fish as well?***
+
+A: 20 as the AFDW conversion factor was just a general rule of thumb based on literature 15 odd years back. You can change it, but at present we don't have species specific values - again let us know if that's a non-starter for your system. 
+
+***Q: What is meant with home range overlap? Does that concern stocks?***
+
+A: The home range related stuff was an option for species that had small home ranges that extended a few boxes, overlap was whether the model had to be a mosaic of homeranges or whether they could overlap. I wouldn't use them unless absolutely necessary
+
+***Q: Where is the number of stocks defined (could not find it)?***
+
+A: To define the number of stocks per group use XX_stock_struct (for horizontal map of stocks) and XX_vert_stock_struct (for vertical map). If you want one stock put 1 in all entries, if want multiple then put 1 where want first stock, 2 where want the second etc.
+
+***Q: What is meant with fraction of xxx exploitable by yyy by age?***
+
+A: The exploitable by age is if diet changes more smoothly than just juvenile diet vs adult. Again I wouldn't use this unless you really need to as it can get messy. We are in the process of adding additional stages for distinguishing diets etc, but that's not quite ready yet.
+
+***Q: The proportion of population per age spawning ends with 1 in the highest age class. Is there a possibility to include sex specific growth differences or is that dealt by including different stocks (a male and a female one)***
+
+A: At present Atlantis doesn't represent different sexes.
+
+***Q:* *What are the months for each season in Atlantis?***
+
+A: The "seasons" are in fact quarters - Jan-Mar; Apr-Jun; Jul-Sep; Oct-Dec.
+
+***Q: I wonder how accurate it needs to be to set the maximum age?  For example, the record maximum age for fish walleye is 29 years, but we rarely have that old fish, in fact walleye become really rare after 15 year old.   If we use 29 years, then each age class will be 2.9 years; while it will be 1.5 years if we use 15 years.  My question is what happens to the age class 10 after another 1.5 years if I use 15 years as maximum age?  Will all individuals in this age class die (move to the next age class), or the biomass/abundance changes with the mass balance processes?***
+
+A: The sensitivity to maximum age comes down to what you are using the model for. If age structure of the population as a management indicator is important than try and have historically realistic values, if its not so much of a focus and rebuilding of older ages is unlikely then truncate to a more reflective age for today. Within each age bin (2 or 3 years wide in your case as I would only use whole integers for now, I have newer code that might take decimals but its not released for general use yet) Atlantis keeps finer histograms of annual age structure. Once a year any animals in that very oldest of those fine age classes will age out of the system (typically natural mortality rates are such that this applies to only a few individuals. 
+
+For a species lives up to 6 years, just give it 6 cohorts in the NumCohorts column of the functionalGroups.csv file and then give 6 values for each parameter in biol.prm that needs one value per age cohort (like mum_FXX, C_FXX) and you'll only need 6 age groups for that species in your initial conditions file.
+
+You can now have as many age classes as you want (i.e. more than 10 if so desired) but it means you need to add that many for any age based initial conditions entries and age specific parameters (like mum_XX and C_XX).
+
+if you mark a species as semelparous (using flagmother) then they will spawn once and die
+
+***Q: I wonder how the popratioStock works? This is my understanding - If the age interval for a fish is 2 years, then the popratioStock is 2, and has two values as the proportions of the population of each year (in number?) to the total population of the age class.  Is this correct?***
+
+A: You're right popratioStock has as many entries as there are annual age classes within your Atlantis "age class" (i.e. if each Atlantis age class represents 2 years then for each cohort popratioStock will track two values, 1 for each year).
+
+***Q:  Can a new biology.prm be constructed by using the VMPA_setas_biol_fishing_New as a template and replacing the SETas groups with groups we define for our application? Will our group names be recognized by the code based on their definition in the biology.prm that we create using the SETas file as a starting point?***
+
+A: Yes - as per the notes on the wiki at [Sample input files](sample-input-files.qmd)
+
+Please make sure you update your files before you start. 
+
+***Q: NumCohorts – Is it correct that Atlantis tracks biomass by year class, so it records values for each year even if cohorts are defined such that each cohort spans multiple years?***
+
+A: Atlantis tracks biomass per cohort for the age structured groups. Atlantis can 'record' biomass values to output files at a user defined frequency using the values in the run.prm file.
+
+   **Q: We understand that the following parameters must have values set for each cohort: maximum growth rate, maximum consumption rate, proportion spawning, fraction of invertebrate group x exploitable by predator y. Is this correct?**
+
+Max growth rates are read in as an array of NumCohorts length for the vertebrate groups. For the biomass groups, if the number of cohorts is 2 then a value is read in for juv as well as adult, else a single value is read in. 
+
+Consumption rates - A clearance rates is read in the structure as the max growth rates.  An number of efficiency values are also read in for each group, a value for live food and carrion, a value for plants and a value for ref det and lab det. 
+
+proportion spawning - yes. A value per cohort per the  vertebrate  groups. 
+
+fraction of invertebrate group x exploitable by predator y - The diet matrix needs to contain a value for adults and juveniles for the age structured groups. If the flag_fine_ontogenetic_diets flag is true and the 'age_structured_prey' value is set to true for the group then a value is read in for the invertebrate groups where the groupType is in (LG_ZOO, MED_ZOO, LG_INF, SED_EP_FF, SED_EP_OTHER, MOB_EP_OTHER)
+
+**Q: Do we correctly understand that “NumCohorts_SPP” interacts with “AgeClassSize_SPP” (number of years in each cohort) to obtain the maximum age modeled for the species. (NumCohorts*AgeClassSize = maximum age)?**
+
+A: Yes this is correct. 
+
+**Q: Are we correctly interpreting the following: Cohorts have a uniform age width (AgeClassSize takes a single value for each FunctionalGroup). If so, does simply defining 1 juvenile cohort and 1 adult cohort assume 50% of the individual’s life is juvenile and 50% is adult. How are the comparatively shorter spans of early life stages handled in the model?**
+
+A: The first mature age class is set using the age_mat value. If you only have two cohorts in a group then you should set the age_mat for this group to 1 which will mean that you have 50% of the individual’s life is juvenile and 50% is adult.
+
+**Q: Is the following a sensible strategy for longer-lived species?  Adjust the NumCohorts and choice of AgeClassSize for each group to reduce the number of parameters to specify. For example, if a species has a maximum age of 15 years, either specify 15 1-year cohorts or 8 2-year cohorts. Or could also specify 10 2-year cohorts. The mortality parameters would likely ensure lower biomass in age classes 15-20, but there would be some.**
+
+A: Yes that makes sense. Remembering that the more cohorts you define for each group the slower your model will be.
+
+   **Q: It looks like Atlantis was run historically using 10 cohorts for each vertebrate species regardless of maximum age. Is this correct?**
+
+A: Yes the number of cohorts used to be hard coded at 10.
+
+   **Q: Is it correct that “age_mat” defines the age class of first maturity and needs to be defined for each group as well? Or does it define the first mature cohort? (i.e. if AgeClassSize=2 and NumCohorts=6 and age_mat =3, does this mean the age of maturity is set at 3 years or at 6 years (3*2)?)**
+
+A: This defines the first mature cohort. 
+
+**Q: I'm applying a temperature change using the flagtempchange, Tchange_start, Tchange_period and Tchange_mult input parameters in the biology file. When i look at my temperature profile in my output netcdf file i don't see the temperature changes in the water column layers but i do see it in the sediment layer. Why not and how do i check that its being applied correctly?**
+
+A: The reason you are not seeing the temperature changes is due to the order that things are done in Atlantis. The relevant operation order is as follows:
+
+For each time step in model:
+
+    Print out model state -> including temperature values
+
+    Do biology -> This includes applying temperature changes. The sediment values are also set here to the temperature in the base water column layer.
+
+    Do physics -> Including loading new temperature and salinity data from your input forcing file. The sediment values are not reset here.
+
+End time loop
+
+So when the temperature profiles are written out they have just been set based on the temperature and salinity values you have in your forcing files. The sediment values are in the forcing files are not read in as they are set to the bottom water column layer value in the biology code. The temperature change that is applied in the biology code is overwritten by temperature values from the forcing files in the water column layers.
+
+So - how do you check that its all working properly. There is no easy way to do this. You should see the changes in biomass in your smaller groups as the temperature increases but this may be offset by increased predation. If you are seeing changes in your sediment temperature values as expected then you can be assured the rest of the temperature changes are happening.
+
+The other option is you don't use this method of changing the temperature values - you can always create a second version of your forcing files with the temperature increases already in the netcdf file. Contact Bec for help doing this if required.
+
+---
+
+### Movement:
+
+**Q: We understand that VerticallyMigrates is 1 for species that have a diel vertical migration (per file Atlantis Exercises.docx). In addition, the biol.prm file sets day and night distributions for each group of biomass in each of the vertical boxes of the model.**
+
+**VERTday_SPP and VERTnight_SPP.**
+
+**How do the VerticallyMigrates and the VERTday/night parameters interact?**
+
+**What if VerticallyMigrates is false, but distributions are set differently in VERTday/night?  What about vice-versa?**
+
+The VERTday and VERTnight values are only read in if a group is tagged to MoveVertically (VerticallyMigrates). If MoveVertically is set to false then the vertical distribution of the group does not change. 
+
+It should be noted that MoveVertically should be true for all vertebrate groups. 
+
+  **Q: Also see “flagdemSPP” which is a “preferred location trend (whether to weight vertical distributions towards surface or bottom layers when in depths where there were less than complete set of depth layers. (0 (top) or 1 (demersal)). How does this relate to the previous parameters that influence vertical movement?**
+
+The vertical distribution values are specified for all layers but many boxes will have less than the max number of layers. If the number of layers in a box is less than the max number of possible layers then this flag is used to work out if a groups vertical distribution should be weighted towards the top or bottom. 
+
+**Q: How does the HorizontallyMigrates parameter interact with the movement parameters of the biol.prm file? (see Atlantis Movement Options.docx). Is it a “master switch” overriding all other options?**
+
+If this is not true then no horizontal movement parameters will be read in. 
+
+**Q:  If we wanted to want to use the “home ranges” movement type, how would we set that? Do we simply set the parameters necessary for homerange movement (min and max depth, etc.)? What would happen if those parameters were set, but parameters were also defined for another movement type, e.g. SPP_ddpend_move was also set to something (e.g. 0 or 4)? Is there a single parameter that defines the desired movement-type for each species?**
+
+Set the _ddepend_move value for the group to 6. Yes the _ddepend_move sets the type of movement used for a group. Only values relevant for that movement type are read in and used.
+
+**Q: Are there movement options you don’t recommend using?**
+
+This is a question for Beth.
+
+ 
+
+---
+
+### Groups Definition file
+
+***Q: The wiki states that “The type of the group determines many things, its habitat, the processes it carries out and what parameters are read in.” However, we couldn’t find a comprehensive list of what those processes are. Are these processes listed somewhere in the documentation?***
+
+ Not really. They are kind of document in the power point presentations on the [Atlantis Documentation](atlantis-documentation.qmd) page. If you have specific questions then please let us know.
+
+**Q: Is relating “mobile” in the group type MOB_EP_OTHER to horizontal or vertical migration simply a matter of scale? Whereas migration might refer to movement among polygons or boxes in the model, does mobile here just mean it can move to find food rather than waiting for food to find it? Is this a correct interpretation?**
+
+This name is probably based on historic groups. There is no forage or density dependant movement for invertebrates yet. If the HorizontallyMigrates value is true for an invertebrate then it can both migrate out of the model as well as move between boxes in the model as per the seasonal movement values in the biology.prm file. Should probably be called 'HorizontallyMoves' instead. Changed wiki and sample files accordingly.
+
+**Q: Sponges and corals would seemingly be better categorized as SED_EP_FF (sediment epibenthic filter feeders) than MOB_EP_OTHER (mobile epibenthic other), however the one distinction between these classifications is in the value set for “Large Groups processed once per time step”.  The difference between “large groups” = True vs. False is not specified. I suspect that when this is false, the model processes the group multiple times per official time-step of the model to account for processes happening at a much faster rate than the larger groups (e.g. phytoplankton and small zooplankton operate at rates much faster than things like large zooplankton, cephalopods, echinoderms, or fish). Is this the correct interpretation?**
+
+The categorized of groups is up to the individual  modellers . Yes this interpretation is correct, the 'larger' groups are processed once per timestep and the smaller groups use an adaptive timestep.
+
+**Q:   If correctly interpreted, might it make sense to keep the sponges and corals in the MOB_EP_OTHER category, even if they are not technically mobile? Can the movement/or lack thereof be handled by setting some parameters in the biol.prm file? Is this a reasonable approach?**
+
+As mentioned above the mobility of groups is defined by the settings in the groups def file. A new Coral group is being added. 
+
+**Q: IsTAC  Is this broadly defined as a species with size and bag limits on the commercial or recreational fishery or is it more focused on just species with monitored landings quotas?**
+
+Yes groups that have catch limits. Should probably put 1 for all impacted groups for now.
+
+**Q: IsCatchGrazer – What is meant by the ‘catch’ in this definition? Are these species which graze on fished species or possible bycatch species? ”**
+
+Species which steal fished or bycatch biomass. 
+
+---
+
+### Initial conditions netcdf (input.nc) file
+
+A good reference page to have a look at is: [Atlantis NetCDF Structure](atlantis-netcdf-structure.qmd)
+
+***Q. For age structured groups you can have non-zero SN and RN in all boxes, but should put NUMS to zero in ALL boundary boxes.***    
+   
+A: Boundary boxes never execute in the model, they are literally just boundary conditions for advected groups (i.e. plankton and nutrients etc). In addition, regardless of the box, you only need to give non-zero values for XXX_N for biomass pools (its an output variable for the age structured fish groups, so you can initialise to zero as Atlantis will calculate the value and spit it out anyways off numbers and individual mass)
+
+***Q. What are the units for the values put into the initial conditions file?***
+
+A. For biomass pool groups the units are mg N/m3 (m2 if epibenthic). For age structured groups mass (SN or RN) is in mg N (i.e. size of an individual animal in that box) and then numbers are number in the box
+
+***Q: Is it ok to have very small number for variable  XXX10_Nums, like 1.0e-8?  It sounds not very realistic.  Should the values be round numbers for XXXN_Nums?***
+
+A: Atlantis won't mind if you have small numbers (like 1.0e-8) but it assumes that there is nothing there if the numbers drop below min_dens (defined in your biol.prm). This doesn't have to be 1 (as we allow for partial individuals given the artificial nature of hard boundaries to an area). However in your initial conditions file I'd start with a minimum of one individual per box you'd expect them to be in.
+
+***Q: Can I please have an explanation of dz and nominal_dz***
+
+The dz values for each layer vary with time and the nominal_dz values do not change with time.
+
+The nominal_dz values are used to calculate the number of layers in a box based on the botz in the bgm file. If the number of layers calculated differs from the value numlayers you have for a box in your initial conditions file you will get a warning but the calculated value will be used. The sum of the nominal_dz values for a box should sum to the botz value specified in your input bgm file.
+
+The time varying dz value is the value used when Atlantis calculates the volume of a box layer so it is often specified more accurately in the initial conditions netcdf file.
+
+If the time varying dz value changes by more than 'wc_dz_tol', which is specified in your physics file, then your dz value will be reset to your nominal_dz value for that layer.
+
+Both nominal_dz and dz values are the depth of the layers in m, not the depth down to the layer from the surface or from the bottom of the box.
+
+So for example the training model, the SETas model which has 11 boxes and 7 layers (6 water column layers and 1 sediment layer) has the following depth profile.  
+   
+Surface Layer - layer 5 - 0-20m - dz = 20  
+Layer 4 - 20 - 50m - dz = 30  
+Layer 3 - 50 - 100m, dz = 50  
+Layer 2 - 100 - 250m, dz = 150  
+Layer 1 - 250 - 700m, dz = 450  
+Layer 0 - 700m + - Deepest layer in water column.  
+   
+So for example box 1 has a depth of 110 m. So it has 4 layers in the water column.  
+So its nominal_dz values would be:  
+   
+10, 50, 30, 20, 0, 0, 1  
+   
+Similarly box 4 has a depth of 4255m, so it has all 6 water column  
+layers should have a nominal_dz value of:  
+   
+3555, 450, 150, 50, 30, 20, 1
+
+***Q: Regarding the variables Light_Adaptn_PL, Light_Adaptn_PS and  Light_Adaptn_MB. I suspect these group names (PL, PS and MB) are just  part of the variable name, right? I don't need to modify these for my  groups (e.g., i'm using "LPP" for large phytoplankton).***
+
+*A:*
+
+You should have a light_adapt tracer for each group of the following types: SM_PHY, LG_PHY, MICROPHTYBENTHOS, DINOFLAG
+
+And then the tracer name will be 'Light_Adaptn_' + the group code. So if you group code is 'LPP' then the tracer name should be 'Light_Adaptn_LPP'.
+
+***Q: What is the relationship between the biomass of a group and its cover percentage? How does this change through model time?***
+
+A:
+
+A cover type is a group that has the 'isCover' value set to 1 in your functional group definition file. For each of these groups you need to include a 2D tracer in your initial conditions file that is the percentage cover of that groups within the box. This is used within Atlantis whenever we need to consider the habitat suitability of a box, eg movement, hiding from predators etc.
+
+The percentage cover of a group (eg BFF) changes over time using the following algorithm
+
+if flagBFFlim == 1 in your biology file then
+
+  cover = min(1, groupBiomass / (50 * BFFthresh))   - where BFFthresh is in your biology file
+
+else
+
+  cover = min(1, groupBiomass / (BFFmax))   - where BFFmax is in your biology file
+
+end
+
+***Q: How do i change the settling velocity of a group?***
+
+There is an svel value for each invertebrate group in the variables header file:
+
+double Greens_N(t, b, z) ;  
+ Greens_N:bmtype = "tracer" ;  
+ Greens_N:units = "mg N m-3" ;  
+ Greens_N:long_name = "Green Algae Nitrogen" ;  
+ Greens_N:sumtype = 0 ;  
+ Greens_N:dtype = 0 ;  
+ Greens_N:inwc = 1 ;  
+ Greens_N:insed = 1 ;  
+ Greens_N:dissol = 0 ;  
+ Greens_N:decay = 0. ;  
+ Greens_N:partic = 1 ;  
+ Greens_N:passive = 0 ;  
+ Greens_N:svel = -2.893e-10 ;  
+ Greens_N:xvel = 0. ;  
+ Greens_N:psize = 1.e-05 ;  
+ Greens_N:b_dens = 1000000000. ;  
+ Greens_N:i_conc = 200000000. ;  
+ Greens_N:f_conc = 200000000. ;  
+ Greens_N:_FillValue = 0. ;
+
+To edit this you will have to dump the nc file to a cdf, edit and then repack into an nc file. For example:
+
+ncdump outputFile.nc > outputFile.cdf
+
+Then hand edit using textpad or similar. Then repack into new netcdf file - remembering to change the file name as per your file version management policy.
+
+ncgen -o outputFile_11March2015.nc outputFile.cdf
+
+For more information about the ncgen and ncdump tools remember Google is your friend.
+
+---
+
+### Hydrodynamic (transport) netcdf files
+
+[Hydro FAQ](hydro-faq.qmd) - Questions about the structure of the temperature, salinity and hydro files.
+
+***Q. My hydro.nc file isn't ready yet should I set flag_skip_phys to 1 in run.prm?***
+
+I would definitely not turn off physics (ever) - i.e. never set flag_skip_phys 1 in the run.prm file. That is for the code developers to do testing only. You are better to create a couple of dummy forcing files as per the wiki at - <https://wiki.csiro.au/confluence/display/Atlantis/Forcing+Files>.  
+   
+Just set the fillValues in each file to your dummy values and resize them for your model.
+
+For temperature and salinity values create a dummy file too - e.g. use 15 deg C and 35 psu.
+
+***Q. What do 'dest_b' and 'dest_k' in the hydro.nc mean?***
+
+A. dest_b is the destination box and dest_k is the destination layer
+
+---
+
+### Harvest file
+
+***Q. How do I do an F based fishery?***
+
+A.
+
+In the harvest.prm file:
+- Check flagchangeF is set to 1
+- Check the parameter "effortmodel" is set to 0 for all fleets
+- Find the parameter flagF_ for your group of interest. There will be as many entries as you have fisheries (33 in the old default files), i.e. one for each fishery. Check that at least one entry is set to 1 (so it is using fishing mortality to do the "fishing" in Atlantis)
+- Find the parameter flagFchange_ set this to 0 for all entries for all non-treatment groups and 1 for the group you will be changing F for - there is one entry per fishery so the safest thing (to make sure the flagF and flagFchange entries line up) is to copy the flagF line for that group and paste it into flagFchange.
+- Find the parameter mFC_ for your group of interest, that is your base rate (per day). Set you starting F value you here. It is best to set this value to some non-zero value that you can ramp up/doown (i.e. change) once your burn-in period is over .
+- Find the parameter mFC_changes. This should have an entry of 1 for at least one fishery for all groups - make sure for your treatment group especially that this entry lines up with the entry for FlagF (i.e. so it will change the F for the fishery that actually has a meaningful F to change).
+- Find the parameter mFCchange_start_ . Now because this parameter can actually have multiple values entered (i.e. its a vector of values), the very first value after the name is the number of entries it has to contain (1 here as we've set mFC_changes to 1). The second (and any subsequent values) are the dates you want the changes in F to occur. In your case that will be a single one off change at the start of your treatment - so set the value to 7300 for all groups you are going to experiment on (I'd do one group per run) and set it to 0 for all other groups. So for the ones you're not changing F on you'd have
+
+mFCchange_start_FXX 1   
+0  
+etc. And for your treatment group you'd have   
+   
+mFCchange_start_FYY 1  
+7300  
+   
+- Similarly for mFCchange_period_ you need to say how long the change will take. For the non-treatment groups the safest value is 1 (a 0 shouldn't matter as it should never execute, but a 1 is safer) and for your treatment groups set it to 5 (so it will ramp up over a week rather than giving the model an instantaneous whack).
+- 10) Similarly for mFCchange_mult_ you need to set how much you're going to scale the base F by in this treatment. For your non-treatment groups the safest value is 1 (again a 0 shouldn't matter as it should never happen, but 1 is safer as that just means no change).
+
+Finally update the run.bat file to the correct harvest file (and you'll likely want to rename the output filename too, which is the name listed after the -o flag).
+
+---
+
+### Log file error messages
+
+***Q: I was checking the log.txt file, and start to get confused with the 'XXX_Nums has non zero members in boundary box-0, layer-0 ....'.  Does this mean I need to put zeros in the boundary box for age structured groups?***
+
+  A: Yes zeroes in boundary boxes for all age structured groups as those boxes are never active in the model. Its ok to put in values for plankton biomass in those boxes as that can be advected in with currents flowing in over a water boundary. However for any age structured group you  need to set them to 0 - any other values in boundary box for these groups will not be used in Atlantis.

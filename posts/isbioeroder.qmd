@@ -1,0 +1,12 @@
+---
+title: "isBioEroder"
+date: "2019-01-23"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+In the functional_groups.csv file you must now have an additional column 'isBioEroder'. Set this to 0 for all groups but those who you want to bioerode corals (e.g. sponges).
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

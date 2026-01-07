@@ -1,0 +1,122 @@
+---
+title: "CDFDistiller"
+author: "Kasper, Jacob (Marine and Freshwater Research Institute Iceland)"
+---
+
+### **README FILE**
+
+This program has been designed to create a new Atlantis input file based on an Atlantis output file.  
+The most recent documentation will be found on the Atlantis wiki uder the Atlantis Users ->Tool section.
+
+#### Code Location:
+
+The url for this version of Atlantis is:   
+CSIRO users: <https://svnserv.csiro.au/svn/atlantis/cdfDistiller/>    
+External Partners: <https://svnserv.csiro.au/svn/ext/atlantis/cdfDistiller/>
+
+#### Building:
+
+**Windows.**
+
+Have visual studio installed.  
+Double click on the file cdfDistiller.sln to open the cdfDistiller solution in Visual Studio.
+
+This code references some libraries in the atlantis code base. So it must know where these files are.  
+The expected file structure is:
+
+CodeFolderName  
+->Atlantis  
+    ->sjwlib  
+    ->netcdf  
+->cdfDistiller
+
+If for some reason you have a different folder structure to this you will have to change the settings in the cdfDistiller project to tell it where to find the  
+sjwlib and netcdf headers and .lib files.
+
+Follow these [instructions](updating-visual-studio-include-and-library-folders.qmd) to edit your Visual Studio projects to correctly map to your Atlantis code.
+
+If you can't get this working contact Bec or move you cdfDistiller code to the default location as  indicated above.
+
+**Linux:**
+
+If your Atlantis executable is not "atlantisNew", replace all instances of "atlantisNew" with the name of your executable in both Makefile.am and Makefile that are located in the cdfDistiller directory.
+
+You will need to [create your own personal configure script](https://confluence.csiro.au/display/Atlantis/Building+under+linux). Then using the standard command options:
+
+aclocal
+
+autoconf
+
+automake -a
+
+./configure
+
+make  
+sudo make install
+
+**Mac:**
+
+You will need to [create your own personal configure_N script](creating-your-own-personal-configure-script.qmd). Then using the standard command options:
+
+./configure_N  
+make  
+sudo make install
+
+#### Program Usage:
+
+cdfDistiller is a command line program that should be run via a command prompt or a terminal.
+
+cdfDistiller.exe -i existingOutput.nc -o newInput.nc -r run.prm
+
+Where  
+cdfDistiller.exe is the name of the program
+
+existingOutput.nc is the name of an existing Atlantis output netcdf file.
+
+newInput.nc is the name of the output file that cdfDistiller will create. This can then be used as input to a new Atlantis run.
+
+run.prm is a prm text file that contains information about how you want your new file to be created. See below for more information.
+
+*run.prm input file:*
+
+verbose 0 # Detailed logged output
+
+title Final fishing starting 1968  
+flagdump 0 # flag indicating whether use max dump in file (0) or user specified dump (1). If set to 0 the max timestep in the input file will be used.
+
+start_dump 10   # dump to use if flagdump = 1. Note - this is not days its steps in time.
+
+dt 12 hour         # 12 hour time step - the timestep of the output and input files. They must be the same.
+
+flagtimereset 1  # flag indicating whether to use t from original file (0) or set to value in tstop (1)  
+tstop 0 hour      # timestamp to put on input.cdf dump
+
+flagflipdz 1        # flag to flip dz if necessary (0 of old output.nc file, 1 for newer output.nc files). Should really always be 1.
+
+wc_dz_tol 0.20  # Tolerance for water column dz values. The model only allows this much fractional change before dz is reset to nominal value. Best to leave as it.
+
+**Example run files:**
+
+There are some example files in the cdfDistiller Debug folder. Open the 'rundistiller.bat' file using textpad or similar to view.
+
+**Checking your output:**
+
+1. Either use Dive or Olive to view the files.  
+2. Use ncdump to dump the generated netcdf file to cdf format so it can be viewed with a text editor.  
+3. Use ncks (a very usful netcdf tool).
+
+**Basic Program outline.**
+- Create a new empty netcdf file based on the structure of the existing output file.
+- Read in the data at the specified timestamp and then store these in the newly generated netcdf file.
+- The order of the dz values will be 'slid' so that they match the correct order of the Atlantis input files.
+- Atlantis expects to read in information about each box from the sediment up through the water column with any non-existant before the sediment values.
+- for example
+
+950 350 100 50 0 0 SED0 SED1
+
+where SED0 is the first sediment layer, SED1 is the second sediment layer.
+- But its very confusing for people to view this in Dive to have the zero values at the end between the water column layers and the sediment layers.  
+  So the atlantis output file would look lihe the following:
+
+0 0 950 350 100 50 SED0 SED1
+- You don't need to know about this to use the cdfDistiller but its a useful thing to note.

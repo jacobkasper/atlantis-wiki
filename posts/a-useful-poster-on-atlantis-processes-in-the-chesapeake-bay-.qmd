@@ -1,0 +1,18 @@
+---
+title: "A useful poster on Atlantis processes in the Chesapeake Bay model (by Tom Ihde and others)"
+date: "2016-09-16"
+author: "Audzijonyte, Asta (University of Tasmania)"
+---
+
+[Atlantis_Process_Table.pdf](/download/attachments/361334572/Atlantis_Process_Table.pdf?version=1&modificationDate=1473987525253&api=v2)
+
+Here is a very useful table listing all (or at least most) processes in Chesapeake Bay Atlantis Model (zoom in!).
+
+The reference is:
+
+Ihde, T. F., I. C. Kaplan, E. A. Fulton, I. A. Gray, M. Hasan, D. Bruce, W. Slacum, and H. M. Townsend. 2016. Design and parameterization of the Chesapeake Bay Atlantis Model: A spatially explicit end-to-end ecosystem model. U.S. Dept. of Commer., NOAA. NOAA Technical Memorandum NMFS-F/SPO-166, 145 p.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

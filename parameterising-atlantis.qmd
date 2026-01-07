@@ -1,0 +1,34 @@
+---
+title: "Parameterising Atlantis"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+This information is to help people new to Atlantis gain an understanding of how the model works, how to run it and make sense of the output.
+
+To run Atlantis you need to compile it from source code. You will not by default have permission to access the SVN code repository where the code is hosted.  
+Please contact [Beth Fulton](mailto:beth.fulton@csiro.au) or  [Atlantis-DG](mailto:atlantis@csiro.au) for permission. They will also provide details of how to [compile](43155693.qmd) the code - see the [Set-up - Software & Code](43155693.qmd) section of the wiki.
+
+#### Atlantis Input Files
+- [Changes made to input files](changes-made-to-the-input-files.qmd)
+- [Atlantis Parameter Files](atlantis-parameter-files.qmd)
+- [BGM and Atlantis model shapefiles](bgm-and-atlantis-model-shapefiles.qmd)
+- [Sample input files](sample-input-files.qmd)
+
+#### Atlantis Changes
+- [Bug fixed and versions](atlantis-bug-fixes-and-versions.qmd)
+
+#### Atlantis Output Files
+- [Atlantis Output Files](atlantis-output-files.qmd)
+- [How to view](how-to-view.qmd)
+
+## Model Documentation and Making Your Life Easier
+
+Go to the [Atlantis Documentation](atlantis-documentation.qmd) for more information on Atlantis.
+
+## Atlantis Tools
+
+See the dedicated section of the wiki on [tools](atlantis-helper-tools.qmd).
+
+##### Useful Reading
+
+A [drop off point for papers](useful-reading.qmd) that people have found useful when pulling models together or thinking about modelling in general.

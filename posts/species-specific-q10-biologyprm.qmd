@@ -1,0 +1,42 @@
+---
+title: "Species specific Q10 - biology.prm"
+date: "2009-08-18"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+This is a non-compulsory change the model 'should' still run without making these changes.
+
+There is now support for supplying species specific Q10 values.
+
+The Q10 value is used to calculate the following temperature correction value:
+
+Tcorr = Q10^((T-15)/10.)
+
+The Tcorr values is used to in a number of calculations to calculate temperature sensitive values such as reproduction, mortality and growth.
+  
+The original code used to use a single Q10 for all functional groups.
+  
+You can now specify a value per functional group by adding the following lines to the biology input file:
+
+q10_FPL 1
+  
+q10_FPO 2
+  
+q10_FPS 2
+  
+q10_FVD 2
+  
+q10_FVV 2
+  
+q10_FVS 2
+  
+....
+
+where the values after the '_' is the groups standard code.
+
+If you do not specify a value for a functional group the default Q10 value in the input file will be used.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

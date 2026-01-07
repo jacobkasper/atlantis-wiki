@@ -1,0 +1,22 @@
+---
+title: "Fishery Definition File"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+### Fishery definition file:
+
+Like functional groups you can define any number of fisheries as you like in Atlantis2. These can be given a unique code which is then used to input parameters for that fishery in the other Atlantis input files.
+
+The number of fisheries defined in your Fishery definition file must match the K_num_fisheries value defined in your run.prm file.
+
+There are no restrictions on the length or structure of the fishery code you use but best to keep it short but descriptive.
+
+Attached is a sample file for the SETas model - [SETasFisheries.csv](attachments/43157597.csv)
+
+| Parameter Name | Description |
+| --- | --- |
+| Code | The code given to define the fishery. This will be used to search for parameters for this fishery in the rest of your input prm files. It will also be used to build output files including output netcdf files. There are no restrictions on the structure of this code. |
+| Index | The index of this fishery. Starts at 0 and goes up to (K_num_fisheries - 1). |
+| Name | A descriptive name for this fishery. |
+| IsRec | This is used to indicate if the fisery is a recreational fishery. Set to '1' for rec fishery, '0' otherwise. |
+| NumSubFleets | The number of subfleets in this fishery. This used to be defined in the economics file. |

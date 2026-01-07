@@ -1,0 +1,48 @@
+---
+title: "Atlantis and EwE coupling"
+date: "2008-09-12"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+We are currently working to get Atlantis to talk to EwE with SOAP.
+
+#### csoap under linux:
+
+Need the following libraries:
+
+libxml2
+  
+libxml2-dev
+
+then download libcsoap and follow the instructions to install
+
+ok. I have got a soap client and server talking to each other under linux. Need to try to get it to talk to teh .NET service i have created.
+
+I also found an interesting post on getting csoap to talk to .NET web services. I just have to find it again now i have the code compiling.
+
+#### Csoap under windows:
+
+I have managed to successfully get the csoap package compiled under windows. It was lovely and easy in linux but i had to build the source under windows. At present we have to link to the libxml2.dll which is a pain but at least its compiling.
+
+To get the code to compile i have had to change it to multi-threaded instead of single treaded. I'm not really sure what effect this will have on model outcomes. I will have to do some reading. In theory it should be fine but we may run into threading issues around share resources. This is how we need to be moving anyway so resolving these issues would be good in the longer term.
+
+Need to test these results.
+
+OK. compiling the code in Visual studio using the given libxml windows libraries, WSock32,lib, libxml2_a.lib and the LIBXML_STATIC preprocessor definition is defined. This also means that we no longer need to link to libxml2.dll which is nice.
+
+There are issues getting it to run independantly - getting a client and server to talk to each other doesn't work. The server just seems to sit there waiting to receive something from the client. I have the same issues when getting the whole thing to build using gcc under mingw. On a side note i have got Atlantis to build under mingw in case this option is needed but the results are different than those compiled under windows. Need to investigate the differences. I have run a 500 day model to check these results.
+
+I have got the csoap client (compiled in Visual Studio) talking to the csoap server running under linux.
+
+OK - the code that i got to talk to .NET services was actually talking to the http port which isn't right. I need to check that it was ever working - i'm not so sure now.
+
+Still having the same issue of not being able to make a soap request to the .NET web service. I can make a HTTP request. Keep getting a http code 500 returned which means internal server error. Given up for now. Will try again on monday when i'm not likely to kill something.
+
+#### Building Atlantis under mingw
+
+This might be a good option in the future. To get this working i had to build all of the libraries that Atlantis is dependant on under mingw - but this was fine it just took a bit of stuffing around. The advantage is that you are using gcc and makefiles. There is also the option of using the Visual Studio IDE to edit code but create the project as a makefile project and specify the make file target.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

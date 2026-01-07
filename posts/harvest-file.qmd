@@ -1,0 +1,16 @@
+---
+title: "Harvest File"
+date: "2010-01-27"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+The following parameters need to be added to the harvest input file.
+
+1. Under flagTradeTACvsMPA add:
+
+flagQuotaBound       0
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

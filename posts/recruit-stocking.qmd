@@ -1,0 +1,20 @@
+---
+title: "Recruit stocking"
+date: "2015-03-24"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+A new flag has been added to biol.prm
+
+flagstockingXX indicates whether stocking for group XX is on (1) or not (0).
+
+This occurs in addition to whatever natural recruitment happens as a result of flagrecruit setting. However the code it triggers is the same as for the flagrecruit option 18 so to see what files you have to set up (mainly in force.prm) please see the blog post on
+[multiple recruitment time series forcing](/pages/viewpage.action?pageId=43155509)
+.
+
+Just to be clear if you set flagstockingXX to 1 then you need all the additional parameters and files discussed on the linked blog post. However you do not need to set flagrecruit to 18 to trigger it, flagrecruit can still be whatever you like. If you do set flagrecruit to 18 and you have flagstocking set to 1 then you will get double the amount of recruits added (one set via each code path).
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

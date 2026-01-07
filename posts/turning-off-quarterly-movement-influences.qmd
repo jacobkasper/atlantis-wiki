@@ -1,0 +1,12 @@
+---
+title: "Turning off quarterly movement influences"
+date: "2015-01-07"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+Most ddepend movement options have some contribution of the quarterly movement during the spawning period. If you want to disable it completely set the ddepend flag for that species to 7.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

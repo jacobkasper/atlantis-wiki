@@ -1,0 +1,342 @@
+---
+title: "Building under mac"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+This is a page dedicated to building Atlantis in Mac.
+
+We would **not** recommend using Mac if you have a choice. It generally takes a couple of hours and as much as a day per machine to set up and Mac is constantly changing things. Its not as simple as running on windows or linux and you will need to be comfortable installing libraries from source.
+
+**************** Current compatible OS versions - the code has been installed and run on mac operating systems up to and including Sonoma (2023 release). It will require some PreRules.am tweaks ************
+
+##### Compilers
+
+You will need the XCode tools.  This is Apple's developer toolset, including an IDE (XCode), but even if you don't use the IDE you will still need to download them because GCC and friends aren't installed by default.  Downloading requires free registration: <http://developer.apple.com/technology/tools.html>, which takes you to <http://developer.apple.com/technology/xcode.html> (you want "xcode for mac-only development"). Alternatively, if you bought an OS upgrade you should have the developer tools as a separate install on one of the discs.
+
+To install xcode you might download a dmg file. Once this is downloaded open Finder and drag the xcode folder into your applications to install it. Once its finished installing you need to eject it before you delete it from your downloads folder.
+
+Then you might need to type something like the following:
+
+sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+
+(see <https://trac.macports.org/wiki/ProblemHotlist#xcode-select> for more info)
+
+###### Compiler version required
+
+You should use gcc-7 (prior to high sierra it was gcc-4.6). You can install this using macports (<http://www.macports.org/>) or homebrew (<http://brew.sh/>). The configure_mac script sets the compiler to  
+gcc-mp-4.6 which points to the compiler installed using macports (or brew).  
+If you need to change the compiler then save a new version of the configure script and change the GCC value.
+
+For information about using macports have a read of <http://guide.macports.org/#using>.
+
+General commands are:
+
+port search gcc or look on the following website <http://www.macports.org/ports.php>.
+
+##### Checking out the code
+
+Checking out code should then be a matter of pointing it at the repository ([see repository info](https://confluence.csiro.au/display/Atlantis/Getting+the+source+code) ) and then right clicking that in the subclipse SVN repository list and going "check out"
+
+##### Installing the required libraries.
+
+Atlantis needs the following libraries to be installed. For each library download the most recent stable versions (for Sonoma this may require a mix of macports, homebrew and direct source compile, sorry).
+
+1. autoconf - download using macports (if aclocal returns "command not found" when following the compile guidlines below then you will also need to get automake from macports too).  
+2. Netcdf - install from source <http://www.unidata.ucar.edu/downloads/netcdf/index.jsp>   
+3. proj4 - for now we need to use version 4.7.0 (which we have stored as a [zip file](attachments/1495597116.gz) here). If that is not working look for to install from source from <http://trac.osgeo.org/proj/>. See below for more info. You can get away with proj up to version 7.2.1 and then it breaks very badly.  
+4. pkgconfig - download using macports or from source from <http://www.freedesktop.org/wiki/Software/pkg-config>   
+5. libxml - download from <http://www.xmlsoft.org/> and installed from source.
+
+All of the following libraries should be downloaded to a folder such as /home/Downloads  
+Then unpacked using  
+gzip -dv libname.tar.gz  
+tar -xvf libname.tar
+
+Then cd into the libname dir  
+cd libname
+
+Then configure the library and install  
+./configure  
+make  
+sudo make install
+
+##### Troubleshooting libtool library version
+
+At least one of packages on this page requires glib2 not glib to work. So you are likely to need to do an update in macports so that it has the right expat version to allow you to install glib2 (only glib comes with xcode). To do this
+
+sudo port selfupdate
+
+sudo port upgrade outdated
+
+Once that is done, if at any point in the install process for each package you get an error message like
+
+*error: Libtool library used but 'LIBTOOL' is undefined*   
+ *The usual way to define 'LIBTOOL' is to add 'LT_INIT'*    
+ *to 'configure.ac' and run 'aclocal' and 'autoconf' again.*   
+ *If 'LT_INIT' is in 'configure.ac', make sure*   
+*its definition is in aclocal's search path*
+
+or
+
+*libtool: Version mismatch error. This is libtool 2.4.2, but the*   
+*libtool: definition of this LT_INIT comes from libtool 2.4.6.*   
+*libtool: You should recreate aclocal.m4 with macros from libtool 2.4.2*   
+*libtool: and run autoconf again.*
+
+The following steps should fix it
+
+make maintainer-clean  
+glibtoolize -c -f  
+aclocal  
+autoheader  
+autoconf  
+automake -a -c  
+./configure  
+sudo make install
+
+#### Installing the netcdf libraries.
+
+Download the latest source from <http://www.unidata.ucar.edu/software/netcdf/>
+
+*For releases of netcdf prior to May 2013*
+
+Follow the instructions above but use
+
+./configure -disable-dap -disable-netcdf-4
+
+instead of ./configure
+
+The disable-dap flag will (rather self explanatorily) disable dap. The dap functionality requires a curl to be installed. We don't use this.
+
+*For releases of netcdf after May 2013 and before 2021*
+
+The people writing netcdf have changed how they deploy the libraries. For mac this means you now need to install cmake using macports
+
+sudo port install cmake
+
+Once that is complete then inside the directory holding the downloaded netcdf files run
+
+sudo cmake -DENABLE_DAP=OFF -DENABLE_NETCDF_4=OFF
+
+*For releases of netcdf in May 2021 - for Mojave or higher (so netcdf-4.8.0 for example)*
+
+./configure --disable-hdf5
+
+***Once you have done these steps in all cases***
+
+sudo make install
+
+This should complete the install of netcdf
+
+*NOTE: If you get the error*
+
+```
+fatal error: 'stdlib.h' file not found
+```
+
+*Please run*
+
+```
+sudo ln -s /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/* /usr/local/include/
+```
+
+#### Installing the Proj4 libraries.
+
+Download the latest source from<http://trac.osgeo.org/proj/>   
+Following the instructions above.
+
+Make sure you grab the version 4.7.0 (or 4.9). The most recent version results in a compiler error.
+
+#### Installing pkg-config
+
+This is used to find where the include and libs of the above libs are installed. Its used within the makefile so we don't have to specify the location of these files - we just as pkg-config where the headers and libs are for a particular library like libxml.
+
+Download the latest source from <http://pkg-config.freedesktop.org/wiki/> and follow the normal instructions.
+
+Under El Capitan (OSX 10.11) it is **much** simpler to use brew to install pkg-config than wrestle the straight download or the macports installation of glib2 (which the downloaded pkg-config then often fails to find due to the way the mac os for el capitan and later now controls /usr/local). It is much easier to have homebrew installed and then at the command line simply type
+
+brew install pkg-config
+
+#### libxml
+
+You might need to install libxml or it might come with xcode.  
+To check have a look at /usr/include  
+There should be a folder called libxml2.
+
+If not then install the version libxml2.2.7.7 source from <http://xmlsoft.org/> as above. If you grab the most recent versions you will get a compiler error. It is possible to install later versions by manually highlighting links to the libxml configure file
+
+For example if it is having trouble finding a python library (especially if you have updated to python 3) try
+
+```
+./configure --with-python=/System/Library/Frameworks/Python.framework/Versions/2.7/
+```
+
+You can see which version of python is currently installed by going to the /System/Library/Frameworks/Python.framework/Versions directory and picking the one you want to use. libxml2 seems to want python2 by preference (at least early in 2016 as I write this it does) so pick 2.7 if that option is there.
+
+You should hopefully now have all the libraries.
+
+#### Building the source
+
+You initially need to build the code via command line rather than in eclipse. You will need to do this anytime you need to add new source files.
+
+In the Atlantis code there is a file called configure_mac. You will probably need to edit this file to point to each of the locations of the libraries you have installed. In the following instructions substitute 'configure_N' with the name of the custom configure_mac file you have created.
+
+[Create your configure_N script by following these instructions.](creating-your-own-personal-configure-script.qmd)
+
+Open a terminal and go to where your source code is and type:
+
+```
+aclocal
+autoheader
+autoconf
+automake -a
+./configure_N
+```
+
+This will check that you have all the required libraries. If it spits the dummy and tells you to install a lib that is not in the above list then spit the dummy at Bec as her instructions are lacking!
+
+***If you get an error at this stage see the 'Compiler errors common under Mac' section below.***
+
+```
+make
+```
+
+This will hopefully build an executable called atlantisNew in the atlantismain folder. If it doesn't work you will probably need to edit the configure_N script you have created to point to the correct folders or check the libraries are correctly installed.
+
+```
+sudo make install
+```
+
+This will install the atlantis header files and the executable in /usr/local/include/Atlantis-1.0/Atlantis and /usr/local/bin
+
+This will overwrite any previous versions you have installed there so be careful. We can in the future change the name of the executable to include version information.
+
+#### Using Atlantis
+
+You should now be able to open any terminal and type atlantisNew and get the usage message.
+
+###### *Eclipse and Subclipse*
+
+Download the Mac coding environment of your choice - for me I've used Eclipse up at <http://www.eclipse.org/downloads/>.
+
+To get Subclipse (the version control we use with Eclipse) its a little bit trickier than for Linux
+
+1. Download and install subversion from <http://www.open.collab.net/downloads/community/> or for Mountain Lion go to xcode and click File -> Preferences -> Downloads -> Components and install Command Line Tools (before Mountain Lion you could do this step last, but with Mountain Lion please install svn first)
+
+2. After installing Eclipse start it and hit the Help menu
+
+3. Install new software
+
+4. In the dialog box where it asks for "Work with" add a new location (add button on the right) call it Subclipse and give it the url for the subclipse website (i.e. <http://subclipse.tigris.org/update_1.6.x>) and press ok. Version 1.8 exists but is not compatible with the svn version available for Mountain Lion
+
+5. Pick subclipse from the drop down list provided at "Work with"
+
+6. Tick subclipse and related components in big box under "work with" hit next and follow wizard to install it all
+
+#### Updating Atlantis Source Code and Rebuilding Atlantis2 Application
+
+You should regularly update your Atlantis code to ensure it doesn't get out of date. Perhaps a rule of thumb is you should do this once a month.
+
+To update your code open a terminal in the folder where you originally checked out the Atlantis code. This folder should contain the following folders:
+
+```
+bec@bec-Precision-M6500:~/temp/Atlantis2Current$ ls -d */
+atassess/  atbrokerlink/  atCLAMLink/  atecology/  ateconomic/  atharvest/  atimplementation/  atlantismain/  atlantisUtil/  atlink/  atmanage/  atphysics/  autom4te.cache/  ConvertAtlantis/  externalLibs/  netcdf/  sjwlib/
+bec@bec-Precision-M6500:~/temp/Atlantis2Current$
+```
+
+within this terminal type:
+
+```
+bec@bec-Precision-M6500:~/temp/Atlantis2Current$ svn update
+Updating '.':
+U    atecology/atbiolmessage.c
+U    atecology/atBiologyXMLParamIO.c
+U    atecology/atecology.c
+U    atecology/atGroupProcesses.c
+U    ConvertAtlantis/atBioltoXML.c
+U    ConvertAtlantis/atCreateXML.c
+U    ateconomic/ateconresponse.c
+U    atlantismain/include/atlantisboxmodel.h
+U    atlantismain/atlantismain.c
+U    atphysics/atsourcesink.c
+U    atphysics/atgeomIO.c
+U    atmanage/atManageAnnual.c
+U    atassess/include/atAssessLib.h
+U    sjwlib/mapproj.c
+U    sjwlib/pointsourcesink.c
+U    sjwlib/include/sjwlib.h
+U    atlantisUtil/atUtilGroupIO.c
+Updated to revision 3673.
+Summary of conflicts:
+  Text conflicts: 1
+bec@bec-Precision-M6500:~/temp/Atlantis2Current$
+ 
+```
+
+If you are asked for a username and password it will be the same as what you use to get access to this wiki.
+
+So this has updated your folder. Then you need to rebuild the application:
+
+```
+aclocal
+autoheader
+autoconf
+automake -a
+./configure_N
+make clean
+make
+sudo make install
+```
+
+The 'configure_N' script should be the same as you used when you original built Atlantis2. If you get a message like
+
+*syntax error near unexpected tocken 'AC_PREREQ(2.61)'*
+
+Then run
+
+autoreconf -fi
+
+./confugure
+
+sudo make install
+
+---
+
+## Compiler errors common under Mac
+
+**Error message:**    
+tBuildTracer.c:105:26: error: address of array 'epinamelist[index].name'   
+will always evaluate to 'true'   
+      [-Werror,-Wpointer-bool-conversion]   
+                if (epinamelist[index].name)   
+                ~~  ~~~~~~~~~~~~~~~~~~~^~~~
+
+**Fix:**
+
+Update your configure_mac to include the 'no' version of the warning that is generating the error message. In the above case its the -Wpointer-bool-conversion compiler option that is causing the issue.
+
+So here we want to add the following: -Wno-pointer-bool-conversion to each of the FLAGS values in your configure script:
+
+```
+./configure \
+CC='gcc-mp-4.6' \
+CFLAGS='-I/usr/local/include -I/usr/local/include/libxml2 -Wno-pointer-bool-conversion' \
+CXXFLAGS='-I/usr/local/include -I/usr/local/include/libxml2 -Wno-pointer-bool-conversion' \
+CPPFLAGS='-I/usr/local/include -I/usr/local/include/libxml2 -Wno-pointer-bool-conversion' \
+LDFLAGS=' -lcurl'
+```
+
+**Error message: error: unknown FP unit 'sse'**
+
+On macs with ARM architecture, if you get a message about  
+
+error: unknown FP unit 'sse'
+
+**Fix:**
+
+In PreRules.am change the OPT line so that it looks like this:
+
+#OPT = -msse2 -mfpmath=sse
+
+OPT = -mcpu=apple-m1

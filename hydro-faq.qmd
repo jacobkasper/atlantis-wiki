@@ -1,0 +1,207 @@
+---
+title: "Hydro FAQ"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+![](attachments/43157337.jpg)
+
+**Q1**: **Is the sign convention right?**
+
+e.g. exchange between box 01 = -10 and box 10 = +10?
+
+**A1:**
+
+The sign depends on the lr value in the bgm file for the face.
+
+**Q2**: **Which version would be the correct one?**
+
+Version 1, where all connections between pair of boxes are repeated with reverse sign (01: -10 and 10: 10), or
+
+Version 2, which avoid redundancy and uses just the first occurrence of a flux (01: -10)?
+
+Would it be a problem to use the structure of Version 1 below?
+
+Or would it cause the exchange to be calculated twice?
+
+for more info.
+
+t =1; b = 3; z = 1; dest = 4;
+
+data:
+
+t = 43200;
+
+|  |  |
+| --- | --- |
+| Case 1 | Case 2 |
+| exchange =  -10 , 20 , _ , _ ,  10 , -30 , _ , _ ,  -20 , 30 , _ , _ ;    dest_b =  1 , 2 , _ , _ ,  0 , 2 , _ , _ ,  0 , 1 , _ , _ ;    dest_k =  0 , 0 , _ , _ ,  0 , 0 , _ , _ ,  0 , 0 , _ , _ ; | exchange =  -10 , 20 , _ , _ ,  -30 , _ , _ ,  _ , _ , _ , _ ;    dest_b =  1 , 2 , _ , _ ,  2 , _ , _ ,  _ , _ , _ , _ ;    dest_k =  0 , 0 , _ , _ ,  0 , 0 , _ , _ ,  0 , 0 , _ , _ ; |
+
+**A2:**
+
+Version 2 is correct.
+
+Yes this would be a problem to use the version below. Exhanges between two boxes should only be listed once.
+
+Have a look at the wiki –
+
+[Current Forcing FIles](https://confluence.csiro.au/display/Atlantis/Current+Forcing+File+Structure)
+
+**Q3**: **How big should the exchanges be?**
+
+Comparing the exchanges between boxes used in the SETAS_VMPA_model to the ones we have for the Sicily Channel they are different by several orders of magnitude.
+
+So I just wanted to double check whether the values in the hydrodynamic files are:
+
+1. the actual exchange (m3) integrated over timestep, or
+2. the flux (m3 s-1), which the model then multiplies by the number of seconds of a timestep to get the exchange (m3).
+
+Example In the Sicily site, for a 80 km x 80 km box with 50 m depth layer, considering an average 0.5 ms-1 velocity, we get 2x106 m3 s-1, which is then integrated in time (43200 s) to get 8.6 x1010 m3.
+
+Including the hyperdiffusioncorrection by dividing by 80,000 = ~ 1 x 106 m3
+
+Would it be correct?
+
+**A3:**
+
+The values in the hydro files are the actual exchanges – they are the exchange in the timestep (12 hours).
+
+From what i can see when we correct for hyperdiffusion we divide by the area of the box not the width.
+
+**Q4**: **Is the SETAS_atlantisGemetry.kml the right map for the SETAS_VMPA_model? ([SETas KML file](https://confluence.csiro.au/download/attachments/43155773/SETAS_atlantisGeometry.kml?version=1&modificationDate=1302052805353&api=v2)).**
+
+**A4:**
+
+Yes, this is the correct map. Its also good to look at the bgm file for the model.
+
+**Q5:**
+
+![](attachments/43157338.jpg)
+
+ Which are the boundary boxes? My guess (0,6,7,8,9,10).
+
+**A5:**
+
+Yes these are the boundary boxes.
+
+**Q6: Working out dest**
+
+ Looking at VMPA_setas.bgm and SETAS_VMPAhydroA
+
+In the example file dest is defined as the maximum number of boxes any one box can exchange water with.
+
+In SETAS_VMPAhydroA dest = 24
+
+However, in VMPA_setas.bgm the maximum number possible connections between boxes max(nconn) is 9 (box 2) and nface= 22… what is nface excatly?
+
+Shouldn’t dest be = 9?
+
+Or is dest simply the maximum number of faces of all the active boxes? in this case box1 has 24 faces.
+
+In the exmple on the wiki, by counting the entries, it looks that dest = 15 not 24 and b = 5 not 6. Is this correct?
+
+It looks like the header part is from VMPA_setas but not the exchange, dest_b and dest_k.
+
+Looking at SETAS_VMPAhydroA
+
+exchange, dest_b and dest_k all have 1,156,320 entries = time x boxes x layer x dest = 720 x 11 x 6 x 24.
+
+But when I look at the actual fluxes I do not understand the structure…
+
+The first line in the exchange part is the exchance from box 0 and layer 0
+
+547.4925, _, _, 577.0694, 6371.974, 10286.57, -575.9459, -2366.046, 12983.17, 13157.44, 4922.386, _, _, _, _, _, _, _, _, _, _, _, _, _,
+
+24 possible entries, 9 actual fluxes.
+
+but the first entry in dest_b and dest_k have 11 entries. Why do we have this mismatch?
+
+dest_b: 0, 0, 0, 0, 4, 5, 6, 7, 8, 9, 10, _, _, _, _, _, _, _, _, _, _, _, _, _,
+
+dest_k: 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, _, _, _, _, _, _, _, _, _, _, _, _, _,
+
+looking at this it looks as
+
+box0,layer 0 is exchanging 547.4925 with box0, layer0 ??
+
+box0,layer 0 is exchanging _ with box0, layer0
+
+box0,layer 0 is exchanging _ with box0, layer0
+
+box0,layer 0 is exchanging 577.0694 with box0 layer 1
+
+box0,layer 0 is exchanging 6371.974 with box4 layer 0 …. And so on
+
+but box 0 and 4 are not connected… and why do we have the entries
+
+box0,layer 0 is exchanging _ with box0, layer0 ?
+
+does the _ actually represents a value?
+
+Layer 0 is surface or bottom?
+
+**A6:**
+
+The example page has been updated to match the SETas model.
+
+Dest is the maximum number of possible combinations of layer and boxes that any one cell can exchange water with. Remember this is not just flux between boxes but fluxes between layers in boxes. So in this instance the max number of layer and box combinations where there is exchange is 24.
+
+nface is the number of internal faces in your model. See [Atlantis BGM Files](atlantis-bgm-files.qmd) for more info.
+
+The '_' value means its a fill value. In the sample files variable is defined as:
+
+double exchange(t, b, z, dest) ;  
+ exchange:_FillValue = 0. ;
+
+So the fill value means 0 in this case. So a missing value where there is a '_' means the exchange is 0.
+
+The data from box 0 to other boxes can represents the vertical flux coming up from 'under the model world'. So if you have vertical flux coming into the bottom of a box, layer 0 it needs to come from somewhere in the model. There isn't a layer underneath this for the flow to come from so we typically get it to come from box 0 which is a boundary box. This is why box 0 always has to be a boundary box. 
+
+So the exchange to box 0 layer 0 will represent the flux from under this box in the outside world into the box 0 layer 0 (which is the bottom layer)
+
+It is possible for some cells to have less than *dest* exchanges in effect, but they must still have *dest* entries. For those cells with less than *dest* exchanges then simply put 0 as the exchange value and -1 as the dest_b and the dest_k values.
+
+**Q7. Need more info about vertical flux into the bottom of boxes from box 0.**
+
+So the vertical flux is the flux into the bottom of a layer in a box. There are cases when the depth of your model box might not be the actual depth of the real world. The bottom of the boxes in your model are flat which is different to the real world. In this case you might have flow coming into the bottom layer of a box. The way this is represented is having flux from box 0, layer 0 into the bottom on the box.
+
+For example if you had the following vertical flux:
+
+| Time | Box | numLayers | Top layer |  |  |  |  | Bottom Layer | Comment |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  |  |  |  |  |  |
+| 0 | 0 | 5 | -0.006492321 | -0.006472266 | -0.006530216 | -0.002855582 | -0.001348332 | NaNf |  |
+| 0 | 1 | 4 | -0.01163277 | -0.01043274 | -0.008578129 | -0.0003728222 | NaNf | NaNf |  |
+| 0 | 2 | 5 | -0.01053893 | -0.009309732 | -0.007156204 | -0.006867789 | -0.005631497 | NaNf |  |
+| 0 | 3 | 5 | -0.01188501 | -0.01135737 | -0.008317864 | -0.004521523 | -0.002975198 | NaNf |  |
+| 0 | 4 | 6 | -0.040824 | -0.040824 | -0.040824 | -0.040824 | -0.040824 | 1.454198e-05 | Vertical flux coming into bottom layer. |
+| 0 | 5 | 6 | -0.03106641 | -0.03106641 | -0.03106641 | -0.03106641 | -0.03106217 | NaNf |  |
+| 0 | 6 | 5 | -0.004233705 | -0.003836575 | -0.001988963 | -0.001033528 | -0.0003224409 | NaNf |  |
+| 0 | 7 | 6 | -0.0333011 | -0.0333011 | -0.0333011 | -0.0333011 | -0.0333011 | -0.000281887 | Vertical flux coming into bottom layer. |
+| 0 | 8 | 6 | -0.01916078 | -0.01916078 | -0.01916078 | -0.01916078 | -0.01916078 | NaNf |  |
+| 0 | 9 | 6 | -0.01921378 | -0.01921378 | -0.01921378 | -0.01921378 | -0.01921378 | -0.001406763 | Vertical flux coming into bottom layer. |
+| 0 | 10 | 6 | -0.02126621 | -0.02126621 | -0.02126621 | -0.02126485 | -0.02120754 | NaNf |  |
+| 1 | 0 | 5 | 0.001182945 | 0.001012581 | 0.0008353165 | -0.0001850337 | -0.0009971755 | NaNf |  |
+| 1 | 1 | 4 | -0.001227598 | -0.003417208 | -0.002263341 | -0.0005223403 | NaNf | NaNf |  |
+| 1 | 2 | 5 | 0.0004097289 | 0.001214196 | 0.001221877 | 0.0004056301 | 0.001488075 | NaNf |  |
+| 1 | 3 | 5 | -0.003264564 | -0.004888429 | -0.003223236 | -0.003756523 | -0.002929069 | NaNf |  |
+| 1 | 4 | 6 | 0.004754197 | 0.004754197 | 0.004754197 | 0.004754197 | 0.004754197 | 9.676764e-06 | Vertical flux coming into bottom layer. |
+| 1 | 5 | 6 | 0.003150881 | 0.003150881 | 0.003150881 | 0.003150881 | 0.003150451 | NaNf |  |
+| 1 | 6 | 5 | 0.0007505851 | -5.792272e-05 | -0.001559824 | -0.001788217 | -0.002439921 | NaNf |  |
+| 1 | 7 | 6 | -0.01890689 | -0.01890689 | -0.01890689 | -0.01890689 | -0.01890689 | 1.513357e-05 | Vertical flux coming into bottom layer. |
+| 1 | 8 | 6 | -0.004516077 | -0.004516077 | -0.004516077 | -0.004516077 | -0.004516077 | NaNf |  |
+| 1 | 9 | 6 | -0.003631382 | -0.003631382 | -0.003631382 | -0.003631382 | -0.003631382 | 0.0005175242 | Vertical flux coming into bottom layer. |
+| 1 | 10 | 6 | -0.005127195 | -0.005127195 | -0.005127195 | -0.005126867 | -0.004977236 | NaNf |  |
+
+So you can see we have flux coming into box 4 in the deepest layer. The only way to represent this is having the flux come from another box into layer 0. The convention is to use box 0 which is always a boundary box.
+
+If you had flux coming into the bottom of box 0, layer 0 then this is also represented as flow into box 0, layer 0.
+
+The structure of the layers in a box are described on the wiki at:
+
+[Atlantis NetCDF Structure](atlantis-netcdf-structure.qmd)
+
+**Q8: What is this hyper diffusion correction business?**
+
+**A8:**
+
+The hyper diffusion correction we use just is pretty gross to be honest. If its fairly linear or directional flow (i.e. in the western end and out the eastern end in effect then we divide the volume exchanged by the length of the box (in metres) along that axis of flow. If there are lots of eddies and it is going in all directions rather than being direct then we divide by the area of the box. Units wise I know that is all messed up, but the final gross exchange numbers you get have typically been in the right ball park every time we've checked vs a particle diffusion tracker model (which pretty much no one runs any more sadly).

@@ -1,0 +1,62 @@
+---
+title: "Relaxing the flux tolerance check for an individual box"
+date: "2018-11-27"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+There are times (e.g. during an extreme event, which might be implemented for a specific scenario, or if including restocking/replanting of seagrass for example) when the flux of a variable can legitimately be at a level that would breach the flux tolerance checks in place to ensure numerical stability (as conditioned by RelTol set in the biology.prm file). To allow for this there is a property per box in the BGM file,
+**box#.relax_tol**
+, which is typically set to 0 unless absolutely required.
+
+For example
+
+*# Data for box number 0                                                ## user defined box number identifier*
+
+box0.label        Box0
+*##users reference box name, e.g. Box0 or Sydney Harbour*
+
+box0.inside      4043667.571 1150676.493
+*## midpoint of polygon*
+
+box0.nconn      5
+*## number of faces shared with other dynamic boxes*
+
+box0.iface        1 10 11 13 17
+*## id numbers of shared faces, each face has a unique id*
+
+box0.ibox         0 2 2 2 2
+*## box that each shared face corresponds to*
+
+box0.botz         -370
+*## maximum depth of the polygon in the real ecosystem*
+
+box0.area         3261982282
+*## area of the box, m
+2*
+
+box0.vertmix   0.000001
+*## vertical mixing scalar for the polygon*
+
+box0.horizmix  1
+*## horizontal transport scalar for the polygon*
+
+**box0.relax_tol 0
+*## whether relaxing flux tolerance for this box***
+
+box0.vert 4005591.597 1198429.099
+*## List of vertices (x,y) in clockwise or counter clockwise order*
+
+box0.vert 3998613.455 1174049.433
+
+box0.vert 4065533.389 1102640.49
+
+box0.vert 4095090.658 1128446.461
+
+box0.vert 4095245.855 1128504.676
+
+box0.vert 4005591.597 1198429.099
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

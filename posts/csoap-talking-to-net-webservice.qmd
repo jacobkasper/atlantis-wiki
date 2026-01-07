@@ -1,0 +1,38 @@
+---
+title: "CSoap talking to .NET webservice"
+date: "2008-09-16"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+OK. This time it is definitely work under linux.
+  
+Code to connect to .NET is:
+
+static char *url = "http://140.79.22.193/WebService1/Service1.asmx";
+  
+static char *urn = "http://tempuri.org/WebService1/Service1";
+  
+static char *method = "HelloWorld";
+
+and then
+
+if ((err = soap_client_invoke(request, &response, url, "http://tempuri.org/WebService1/Service1/HelloWorld")) != H_OK)
+
+Unknown macro: { printf("[%d] %s()}
+
+These are the important bits - the rest is standard.
+  
+Sweet. Now to test under windows.That worked fine.
+
+I now need to confirm that changing to multi thread under windows has no effect. Crap - it does. Need to do some investigation into this.
+
+I have just done a 50 day test and the results are the same. I think i was running the code compiled under mingw instead of the orginal code. Time to do a longer test to make sure its all fine. If this is the case then the communication between Atlantis and EwE is pretty much sorted. I will need to make some changes to the Atlantis code and test that communication is good but this was the last hurdle to overcome.
+
+OK. did a 500 day test and the results were the same using the single threaded debug runtime lib and the multi thrreaded debug runtime lib. Tomorrow i'll get the atlink code within Atlantis talking to my test .NET webservice. Once this happens my part of this is sorted.
+
+OK. Tis working. Had to change the Atlantis code to use the dynamic multi thread run time lib (. I did another 500 day test and there was no impact on output. This means the nanohttp and csoap libs could be linked and atlantis successfully connected to a "helloworld" .NET service running on 140.79.22.193. Sweet!!!!!
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

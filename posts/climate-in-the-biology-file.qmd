@@ -1,0 +1,675 @@
+---
+title: "Climate in the biology file"
+date: "2010-04-08"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+# Environmental Drivers for Movement and Spawning
+
+The following parameters have been added to the biol.prm file to fill out environmental drivers of movement behaviour
+
+###### Temperature and salinity effects on movement and spawning
+
+After flagtempdepend insert
+
+flagsaltdepend   0         0 = off, 1 = salinity preferences used
+  
+flagO2depend     0         0 = off, 1 = oxygen preferences used
+
+Minimum and maximum tolerated temepratures have been in the file for a while, for movement and spawning of each age structured group (and eventually mobile invertebrates). The same is needed for maximum and minimum tolerated salinities
+
+# Minimum and maximum tolerated temperatures
+
+  
+FPS_min_move_temp 9.0
+  
+FPL_min_move_temp 4.0
+  
+FPO_min_move_temp 4.0
+  
+FVD_min_move_temp 4.0
+  
+FVV_min_move_temp 4.0
+  
+FVS_min_move_temp 13.0
+  
+FVT_min_move_temp 9.5
+  
+FVO_min_move_temp 4.0
+  
+FVB_min_move_temp 4.0
+  
+FMM_min_move_temp 4.0
+  
+FMN_min_move_temp 4.0
+  
+FBP_min_move_temp 4.0
+  
+FDD_min_move_temp 4.0
+  
+FDS_min_move_temp 4.0
+  
+FDB_min_move_temp 4.0
+  
+FDC_min_move_temp 4.0
+  
+FDO_min_move_temp 4.0
+  
+FDE_min_move_temp 4.0
+  
+FDF_min_move_temp 4.0
+  
+FDM_min_move_temp 4.0
+  
+FDP_min_move_temp 4.0
+  
+SHD_min_move_temp 4.0
+  
+SHC_min_move_temp 4.0
+  
+SHP_min_move_temp 4.0
+  
+SHB_min_move_temp 4.0
+  
+SHR_min_move_temp 4.0
+  
+SSK_min_move_temp 4.0
+  
+SB_min_move_temp  4.0
+  
+SP_min_move_temp  4.0
+  
+REP_min_move_temp 4.0
+  
+PIN_min_move_temp 4.0
+  
+WDG_min_move_temp 4.0
+  
+WHB_min_move_temp 4.0
+  
+WHS_min_move_temp 4.0
+  
+WHT_min_move_temp 4.0
+  
+FPS_max_move_temp 21.0
+  
+FPL_max_move_temp 30.0        Jack Mackeral would have max of 17.0
+  
+FPO_max_move_temp 30.0
+  
+FVD_max_move_temp 30.0
+  
+FVV_max_move_temp 30.0
+  
+FVS_max_move_temp 18.0
+  
+FVT_max_move_temp 30.0
+  
+FVO_max_move_temp 30.0
+  
+FVB_max_move_temp 30.0
+  
+FMM_max_move_temp 30.0
+  
+FMN_max_move_temp 30.0
+  
+FBP_max_move_temp 30.0
+  
+FDD_max_move_temp 30.0
+  
+FDS_max_move_temp 30.0
+  
+FDB_max_move_temp 30.0
+  
+FDC_max_move_temp 30.0
+  
+FDO_max_move_temp 7.0
+  
+FDE_max_move_temp 30.0
+  
+FDF_max_move_temp 30.0
+  
+FDM_max_move_temp 30.0
+  
+FDP_max_move_temp 30.0
+  
+SHD_max_move_temp 30.0
+  
+SHC_max_move_temp 30.0
+  
+SHP_max_move_temp 30.0
+  
+SHB_max_move_temp 30.0
+  
+SHR_max_move_temp 30.0
+  
+SSK_max_move_temp 30.0
+  
+SB_max_move_temp  30.0
+  
+SP_max_move_temp  30.0
+  
+REP_max_move_temp 30.0
+  
+PIN_max_move_temp 30.0
+  
+WDG_max_move_temp 30.0
+  
+WHB_max_move_temp 30.0
+  
+WHS_max_move_temp 30.0
+  
+WHT_max_move_temp 30.0
+  
+# Minimum and maximum tolerated salinity
+
+  
+FPS_min_move_salt 0.0
+  
+FPL_min_move_salt 0.0
+  
+FPO_min_move_salt 0.0
+  
+FVD_min_move_salt 0.0
+  
+FVV_min_move_salt 0.0
+  
+FVS_min_move_salt 0.0
+  
+FVT_min_move_salt 0.0
+  
+FVO_min_move_salt 0.0
+  
+FVB_min_move_salt 0.0
+  
+FMM_min_move_salt 0.0
+  
+FMN_min_move_salt 0.0
+  
+FBP_min_move_salt 0.0
+  
+FDD_min_move_salt 0.0
+  
+FDS_min_move_salt 0.0
+  
+FDB_min_move_salt 0.0
+  
+FDC_min_move_salt 0.0
+  
+FDO_min_move_salt 0.0
+  
+FDE_min_move_salt 0.0
+  
+FDF_min_move_salt 0.0
+  
+FDM_min_move_salt 0.0
+  
+FDP_min_move_salt 0.0
+  
+SHD_min_move_salt 0.0
+  
+SHC_min_move_salt 0.0
+  
+SHP_min_move_salt 0.0
+  
+SHB_min_move_salt 0.0
+  
+SHR_min_move_salt 0.0
+  
+SSK_min_move_salt 0.0
+  
+SB_min_move_salt  0.0
+  
+SP_min_move_salt  0.0
+  
+REP_min_move_salt 0.0
+  
+PIN_min_move_salt 0.0
+  
+WDG_min_move_salt 0.0
+  
+WHB_min_move_salt 0.0
+  
+WHS_min_move_salt 0.0
+  
+WHT_min_move_salt 0.0
+  
+FPS_max_move_salt 40.0
+  
+FPL_max_move_salt 40.0
+  
+FPO_max_move_salt 40.0
+  
+FVD_max_move_salt 40.0
+  
+FVV_max_move_salt 40.0
+  
+FVS_max_move_salt 40.0
+  
+FVT_max_move_salt 40.0
+  
+FVO_max_move_salt 40.0
+  
+FVB_max_move_salt 40.0
+  
+FMM_max_move_salt 40.0
+  
+FMN_max_move_salt 40.0
+  
+FBP_max_move_salt 40.0
+  
+FDD_max_move_salt 40.0
+  
+FDS_max_move_salt 40.0
+  
+FDB_max_move_salt 40.0
+  
+FDC_max_move_salt 40.0
+  
+FDO_max_move_salt 40.0
+  
+FDE_max_move_salt 40.0
+  
+FDF_max_move_salt 40.0
+  
+FDM_max_move_salt 40.0
+  
+FDP_max_move_salt 40.0
+  
+SHD_max_move_salt 40.0
+  
+SHC_max_move_salt 40.0
+  
+SHP_max_move_salt 40.0
+  
+SHB_max_move_salt 40.0
+  
+SHR_max_move_salt 40.0
+  
+SSK_max_move_salt 40.0
+  
+SB_max_move_salt  40.0
+  
+SP_max_move_salt  40.0
+  
+REP_max_move_salt 40.0
+  
+PIN_max_move_salt 40.0
+  
+WDG_max_move_salt 40.0
+  
+WHB_max_move_salt 40.0
+  
+WHS_max_move_salt 40.0
+  
+WHT_max_move_salt 40.0
+
+## And for spawning
+
+# Minimum and maximum spawning temperatures
+
+  
+FPS_min_spawn_temp 14.0
+  
+FPL_min_spawn_temp 4.0
+  
+FPO_min_spawn_temp 4.0
+  
+FVD_min_spawn_temp 4.0
+  
+FVV_min_spawn_temp 4.0
+  
+FVS_min_spawn_temp 4.0
+  
+FVT_min_spawn_temp 22.0
+  
+FVB_min_spawn_temp 4.0
+  
+FVO_min_spawn_temp 4.0
+  
+FMM_min_spawn_temp 4.0
+  
+FMN_min_spawn_temp 4.0
+  
+FBP_min_spawn_temp 4.0
+  
+FDD_min_spawn_temp 4.0
+  
+FDS_min_spawn_temp 18.0
+  
+FDB_min_spawn_temp 4.0
+  
+FDC_min_spawn_temp 4.0
+  
+FDO_min_spawn_temp 4.0
+  
+FDE_min_spawn_temp 4.0
+  
+FDF_min_spawn_temp 4.0
+  
+FDM_min_spawn_temp 4.0
+  
+FDP_min_spawn_temp 4.0
+  
+SHD_min_spawn_temp 4.0
+  
+SHP_min_spawn_temp 4.0
+  
+SHB_min_spawn_temp 4.0
+  
+SHR_min_spawn_temp 4.0
+  
+SHC_min_spawn_temp 4.0
+  
+SSK_min_spawn_temp 4.0
+  
+SB_min_spawn_temp  4.0
+  
+SP_min_spawn_temp  4.0
+  
+REP_min_spawn_temp 4.0
+  
+PIN_min_spawn_temp 4.0
+  
+WDG_min_spawn_temp 4.0
+  
+WHB_min_spawn_temp 4.0
+  
+WHS_min_spawn_temp 4.0
+  
+WHT_min_spawn_temp 4.0
+  
+FPS_max_spawn_temp 21.0
+  
+FPL_max_spawn_temp 25.0
+  
+FPO_max_spawn_temp 25.0
+  
+FVD_max_spawn_temp 25.0
+  
+FVV_max_spawn_temp 25.0
+  
+FVS_max_spawn_temp 25.0
+  
+FVT_max_spawn_temp 26.0
+  
+FVB_max_spawn_temp 25.0
+  
+FVO_max_spawn_temp 25.0
+  
+FMM_max_spawn_temp 25.0
+  
+FMN_max_spawn_temp 25.0
+  
+FBP_max_spawn_temp 25.0
+  
+FDD_max_spawn_temp 25.0
+  
+FDS_max_spawn_temp 21.0
+  
+FDB_max_spawn_temp 25.0
+  
+FDC_max_spawn_temp 25.0
+  
+FDO_max_spawn_temp 25.0
+  
+FDE_max_spawn_temp 25.0
+  
+FDF_max_spawn_temp 25.0
+  
+FDM_max_spawn_temp 25.0
+  
+FDP_max_spawn_temp 25.0
+  
+SHD_max_spawn_temp 25.0
+  
+SHP_max_spawn_temp 25.0
+  
+SHB_max_spawn_temp 25.0
+  
+SHC_max_spawn_temp 25.0
+  
+SHR_max_spawn_temp 25.0
+  
+SSK_max_spawn_temp 25.0
+  
+SB_max_spawn_temp  25.0
+  
+SP_max_spawn_temp  25.0
+  
+REP_max_spawn_temp 25.0
+  
+PIN_max_spawn_temp 25.0
+  
+WDG_max_spawn_temp 25.0
+  
+WHB_max_spawn_temp 25.0
+  
+WHS_max_spawn_temp 25.0
+  
+WHT_max_spawn_temp 25.0
+  
+# Minimum and maximum spawning salinities
+
+  
+FPS_min_spawn_salt 0.0
+  
+FPL_min_spawn_salt 0.0
+  
+FPO_min_spawn_salt 0.0
+  
+FVD_min_spawn_salt 0.0
+  
+FVV_min_spawn_salt 0.0
+  
+FVS_min_spawn_salt 0.0
+  
+FVT_min_spawn_salt 0.0
+  
+FVB_min_spawn_salt 0.0
+  
+FVO_min_spawn_salt 0.0
+  
+FMM_min_spawn_salt 0.0
+  
+FMN_min_spawn_salt 0.0
+  
+FBP_min_spawn_salt 0.0
+  
+FDD_min_spawn_salt 0.0
+  
+FDS_min_spawn_salt 0.0
+  
+FDB_min_spawn_salt 0.0
+  
+FDC_min_spawn_salt 0.0
+  
+FDO_min_spawn_salt 0.0
+  
+FDE_min_spawn_salt 0.0
+  
+FDF_min_spawn_salt 0.0
+  
+FDM_min_spawn_salt 0.0
+  
+FDP_min_spawn_salt 0.0
+  
+SHD_min_spawn_salt 0.0
+  
+SHP_min_spawn_salt 0.0
+  
+SHB_min_spawn_salt 0.0
+  
+SHR_min_spawn_salt 0.0
+  
+SHC_min_spawn_salt 0.0
+  
+SSK_min_spawn_salt 0.0
+  
+SB_min_spawn_salt  0.0
+  
+SP_min_spawn_salt  0.0
+  
+REP_min_spawn_salt 0.0
+  
+PIN_min_spawn_salt 0.0
+  
+WDG_min_spawn_salt 0.0
+  
+WHB_min_spawn_salt 0.0
+  
+WHS_min_spawn_salt 0.0
+  
+WHT_min_spawn_salt 0.0
+  
+FPS_max_spawn_salt 40.0
+  
+FPL_max_spawn_salt 40.0
+  
+FPO_max_spawn_salt 40.0
+  
+FVD_max_spawn_salt 40.0
+  
+FVV_max_spawn_salt 40.0
+  
+FVS_max_spawn_salt 40.0
+  
+FVT_max_spawn_salt 40.0
+  
+FVB_max_spawn_salt 40.0
+  
+FVO_max_spawn_salt 40.0
+  
+FMM_max_spawn_salt 40.0
+  
+FMN_max_spawn_salt 40.0
+  
+FBP_max_spawn_salt 40.0
+  
+FDD_max_spawn_salt 40.0
+  
+FDS_max_spawn_salt 40.0
+  
+FDB_max_spawn_salt 40.0
+  
+FDC_max_spawn_salt 40.0
+  
+FDO_max_spawn_salt 40.0
+  
+FDE_max_spawn_salt 40.0
+  
+FDF_max_spawn_salt 40.0
+  
+FDM_max_spawn_salt 40.0
+  
+FDP_max_spawn_salt 40.0
+  
+SHD_max_spawn_salt 40.0
+  
+SHP_max_spawn_salt 40.0
+  
+SHB_max_spawn_salt 40.0
+  
+SHC_max_spawn_salt 40.0
+  
+SHR_max_spawn_salt 40.0
+  
+SSK_max_spawn_salt 40.0
+  
+SB_max_spawn_salt  40.0
+  
+SP_max_spawn_salt  40.0
+  
+REP_max_spawn_salt 40.0
+  
+PIN_max_spawn_salt 40.0
+  
+WDG_max_spawn_salt 40.0
+  
+WHB_max_spawn_salt 40.0
+  
+WHS_max_spawn_salt 40.0
+  
+WHT_max_spawn_salt 40.0
+
+###### Oxygen dependency
+
+All groups now have a minimum tolerated oxygen level, so in addition to the existing invertebrate values the following also has to be added (insert after KO2LIM_BFD)
+
+# Minimum tolerated oxygen level for age structured groups (typically vertebrates)
+
+  
+FPS_min_O2 0.0
+  
+FPL_min_O2 0.0
+  
+FPO_min_O2 0.0
+  
+FVD_min_O2 0.0
+  
+FVV_min_O2 0.0
+  
+FVS_min_O2 0.0
+  
+FVT_min_O2 0.0
+  
+FVO_min_O2 0.0
+  
+FVB_min_O2 0.0
+  
+FMM_min_O2 0.0
+  
+FMN_min_O2 0.0
+  
+FBP_min_O2 0.0
+  
+FDD_min_O2 0.0
+  
+FDS_min_O2 0.0
+  
+FDB_min_O2 0.0
+  
+FDC_min_O2 0.0
+  
+FDO_min_O2 0.0
+  
+FDE_min_O2 0.0
+  
+FDF_min_O2 0.0
+  
+FDM_min_O2 0.0
+  
+FDP_min_O2 0.0
+  
+SHD_min_O2 0.0
+  
+SHC_min_O2 0.0
+  
+SHP_min_O2 0.0
+  
+SHB_min_O2 0.0
+  
+SHR_min_O2 0.0
+  
+SSK_min_O2 0.0
+  
+SB_min_O2  0.0
+  
+SP_min_O2  0.0
+  
+REP_min_O2 0.0
+  
+PIN_min_O2 0.0
+  
+WDG_min_O2 0.0
+  
+WHB_min_O2 0.0
+  
+WHS_min_O2 0.0
+  
+WHT_min_O2 0.0
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

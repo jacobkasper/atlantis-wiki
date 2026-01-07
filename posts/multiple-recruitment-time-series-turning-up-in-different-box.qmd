@@ -1,0 +1,819 @@
+---
+title: "Multiple recruitment time series turning up in different boxes"
+date: "2015-03-24"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+A new flagrecruit option has been added to both the bec_dev Atlantis2 branch as well as AtlantisDem. If you set flagrecruit to 18 you can now enter different recruitment time series into each box (or as many boxes as you like). This same code is triggered if flagstockingXX is set to 1 for group XX.
+
+In addition you will need to add some information to your force.prm
+
+nMultRects n
+  
+typeMultRects i
+
+where n is the number of time series and i is either 0 if interpolating between values in the time series or 1 if just using the last value in the time series compared to the time in the model when the time series is called
+
+then for each individual time series you need to put in the following
+
+MultRectsK.name name_for_your_reference
+  
+MultRectsK.location x y b
+  
+MultRectsK.data file_pathway
+  
+MultRectsK.rewind j
+
+where
+
+K is the number of the time series (0 to n-1 if you have n time series)
+
+name_for_your_reference is a string (no spaces) that describes the timeseries for the modellers reference (not actually used within Atlantis itself)
+
+x is the x coordinate of a point inside the
+destination
+
+box
+
+y is the y coordinate of a point inside the
+destination
+box
+
+b is the id of the destination box (seems a bit redundant when you give x and y I know, but its so we can cross reference and double check it goes in the correct spot)
+
+file_pathway is the path and filename of the actual time series file
+
+j is either 0 if you use the time series once until it runs out or 1 if you want it to rewind and start again if you reach the end of the file before the run is complete
+
+###### A worked example of what needs to go into the force.prm
+
+Here is an example for 2 time series, you can have up to as many time series as you have boxes
+
+# Forced recruitment lists, when coming in multiple locations simultaneously
+
+  
+# nCatchts is the number of time series to be loaded and
+
+  
+# typeCatchts is whether or not the data is to be interpolated (0) by the model
+
+  
+# or just use previous record (1)
+
+  
+nMultRects n
+  
+typeMultRects 1
+
+MultRects0.name box1ts
+  
+MultRects0.location 1848738.108 2182817.837 1
+  
+MultRects0.data inputs/larval/larval1.ts
+  
+MultRects0.rewind 0
+
+MultRects1.name box2ts
+  
+MultRects1.location 2461585.926 2395123.978 2
+  
+MultRects1.data inputs/larval/larval2.ts
+  
+MultRects1.rewind 0
+
+###### Format of the ts file itself
+
+As with the catch.ts files you must put in a column for each age structured functional group in the model (you can put in columns for the other groups too if you want but of no actual use) with the contents of the column the number of new recruits being added at that location at that time (it is safest just to add the total number of recruits as spawning happens in "once per go" rather than continuously in Atlantis). If a group is using a different flagrecruit than 18 for a group just fill that column with zeros as it won't be used anyway. Sorry about having such a big blank entry requirement but it is easiest to implement with least chance for error.
+
+The format of the header file is best expressed with an example (with one row of data included at the end):
+
+# Example larval file until 2000 for box 2
+
+  
+#
+  
+## COLUMNS 51
+
+  
+##
+  
+## COLUMN1.name Time
+
+  
+## COLUMN1.long_name Time
+
+  
+## COLUMN1.units days since 1910-01-01 00:00:00 +10
+
+  
+## COLUMN1.missing_value 0
+
+  
+##
+  
+## COLUMN2.name FPL
+
+  
+## COLUMN2.long_name FPL
+
+  
+## COLUMN2.units number
+
+  
+## COLUMN2.missing_value 0
+
+  
+##
+  
+## COLUMN3.name FPO
+
+  
+## COLUMN3.long_name FPO
+
+  
+## COLUMN3.units number
+
+  
+## COLUMN3.missing_value 0
+
+  
+##
+  
+## COLUMN4.name FPS
+
+  
+## COLUMN4.long_name FPS
+
+  
+## COLUMN4.units number
+
+  
+## COLUMN4.missing_value 0
+
+  
+##
+  
+## COLUMN5.name FVD
+
+  
+## COLUMN5.long_name FVD
+
+  
+## COLUMN5.units number
+
+  
+## COLUMN5.missing_value 0
+
+  
+##
+  
+## COLUMN6.name FVV
+
+  
+## COLUMN6.long_name FVV
+
+  
+## COLUMN6.units number
+
+  
+## COLUMN6.missing_value 0
+
+  
+##
+  
+## COLUMN7.name FVS
+
+  
+## COLUMN7.long_name FVS
+
+  
+## COLUMN7.units number
+
+  
+## COLUMN7.missing_value 0
+
+  
+##
+  
+## COLUMN8.name FVB
+
+  
+## COLUMN8.long_name FVB
+
+  
+## COLUMN8.units number
+
+  
+## COLUMN8.missing_value 0
+
+  
+##
+  
+## COLUMN9.name FVT
+
+  
+## COLUMN9.long_name FVT
+
+  
+## COLUMN9.units number
+
+  
+## COLUMN9.missing_value 0
+
+  
+##
+  
+## COLUMN10.name FVO
+
+  
+## COLUMN10.long_name FVO
+
+  
+## COLUMN10.units number
+
+  
+## COLUMN10.missing_value 0
+
+  
+##
+  
+## COLUMN11.name FMM
+
+  
+## COLUMN11.long_name FMM
+
+  
+## COLUMN11.units number
+
+  
+## COLUMN11.missing_value 0
+
+  
+##
+  
+## COLUMN12.name FMN
+
+  
+## COLUMN12.long_name FMN
+
+  
+## COLUMN12.units number
+
+  
+## COLUMN12.missing_value 0
+
+  
+##
+  
+## COLUMN13.name FBP
+
+  
+## COLUMN13.long_name FBP
+
+  
+## COLUMN13.units number
+
+  
+## COLUMN13.missing_value 0
+
+  
+##
+  
+## COLUMN14.name FDD
+
+  
+## COLUMN14.long_name FDD
+
+  
+## COLUMN14.units number
+
+  
+## COLUMN14.missing_value 0
+
+  
+##
+  
+## COLUMN15.name FDE
+
+  
+## COLUMN15.long_name FDE
+
+  
+## COLUMN15.units number
+
+  
+## COLUMN15.missing_value 0
+
+  
+##
+  
+## COLUMN16.name FDS
+
+  
+## COLUMN16.long_name FDS
+
+  
+## COLUMN16.units number
+
+  
+## COLUMN16.missing_value 0
+
+  
+##
+  
+## COLUMN17.name FDM
+
+  
+## COLUMN17.long_name FDM
+
+  
+## COLUMN17.units number
+
+  
+## COLUMN17.missing_value 0
+
+  
+##
+  
+## COLUMN18.name FDP
+
+  
+## COLUMN18.long_name FDP
+
+  
+## COLUMN18.units number
+
+  
+## COLUMN18.missing_value 0
+
+  
+##
+  
+## COLUMN19.name FDB
+
+  
+## COLUMN19.long_name FDB
+
+  
+## COLUMN19.units number
+
+  
+## COLUMN19.missing_value 0
+
+  
+##
+  
+## COLUMN20.name FDC
+
+  
+## COLUMN20.long_name FDC
+
+  
+## COLUMN20.units number
+
+  
+## COLUMN20.missing_value 0
+
+  
+##
+  
+## COLUMN21.name FDO
+
+  
+## COLUMN21.long_name FDO
+
+  
+## COLUMN21.units number
+
+  
+## COLUMN21.missing_value 0
+
+  
+##
+  
+## COLUMN22.name FDF
+
+  
+## COLUMN22.long_name FDF
+
+  
+## COLUMN22.units number
+
+  
+## COLUMN22.missing_value 0
+
+  
+##
+  
+## COLUMN23.name SHB
+
+  
+## COLUMN23.long_name SHB
+
+  
+## COLUMN23.units number
+
+  
+## COLUMN23.missing_value 0
+
+  
+##
+  
+## COLUMN24.name SHD
+
+  
+## COLUMN24.long_name SHD
+
+  
+## COLUMN24.units number
+
+  
+## COLUMN24.missing_value 0
+
+  
+##
+  
+## COLUMN25.name SHC
+
+  
+## COLUMN25.long_name SHC
+
+  
+## COLUMN25.units number
+
+  
+## COLUMN25.missing_value 0
+
+  
+##
+  
+## COLUMN26.name SHP
+
+  
+## COLUMN26.long_name SHP
+
+  
+## COLUMN26.units number
+
+  
+## COLUMN26.missing_value 0
+
+  
+##
+  
+## COLUMN27.name SHR
+
+  
+## COLUMN27.long_name SHR
+
+  
+## COLUMN27.units number
+
+  
+## COLUMN27.missing_value 0
+
+  
+##
+  
+## COLUMN28.name SSK
+
+  
+## COLUMN28.long_name SSK
+
+  
+## COLUMN28.units number
+
+  
+## COLUMN28.missing_value 0
+
+  
+##
+  
+## COLUMN29.name SB
+
+  
+## COLUMN29.long_name SB
+
+  
+## COLUMN29.units number
+
+  
+## COLUMN29.missing_value 0
+
+  
+##
+  
+## COLUMN30.name SP
+
+  
+## COLUMN30.long_name SP
+
+  
+## COLUMN30.units number
+
+  
+## COLUMN30.missing_value 0
+
+  
+##
+  
+## COLUMN31.name PIN
+
+  
+## COLUMN31.long_name PIN
+
+  
+## COLUMN31.units number
+
+  
+## COLUMN31.missing_value 0
+
+  
+##
+  
+## COLUMN32.name REP
+
+  
+## COLUMN32.long_name REP
+
+  
+## COLUMN32.units number
+
+  
+## COLUMN32.missing_value 0
+
+  
+##
+  
+## COLUMN33.name WHB
+
+  
+## COLUMN33.long_name WHB
+
+  
+## COLUMN33.units number
+
+  
+## COLUMN33.missing_value 0
+
+  
+##
+  
+## COLUMN34.name WHS
+
+  
+## COLUMN34.long_name WHS
+
+  
+## COLUMN34.units number
+
+  
+## COLUMN34.missing_value 0
+
+  
+##
+  
+## COLUMN35.name WHT
+
+  
+## COLUMN35.long_name WHT
+
+  
+## COLUMN35.units number
+
+  
+## COLUMN35.missing_value 0
+
+  
+##
+  
+## COLUMN36.name WDG
+
+  
+## COLUMN36.long_name WDG
+
+  
+## COLUMN36.units number
+
+  
+## COLUMN36.missing_value 0
+
+  
+##
+  
+## COLUMN37.name CEP
+
+  
+## COLUMN37.long_name CEP
+
+  
+## COLUMN37.units number
+
+  
+## COLUMN37.missing_value 0
+
+  
+##
+  
+## COLUMN38.name BFS
+
+  
+## COLUMN38.long_name BFS
+
+  
+## COLUMN38.units number
+
+  
+## COLUMN38.missing_value 0
+
+  
+##
+  
+## COLUMN39.name BFF
+
+  
+## COLUMN39.long_name BFF
+
+  
+## COLUMN39.units number
+
+  
+## COLUMN39.missing_value 0
+
+  
+##
+  
+## COLUMN40.name BFD
+
+  
+## COLUMN40.long_name BFD
+
+  
+## COLUMN40.units number
+
+  
+## COLUMN40.missing_value 0
+
+  
+##
+  
+## COLUMN41.name BG
+
+  
+## COLUMN41.long_name BG
+
+  
+## COLUMN41.units number
+
+  
+## COLUMN41.missing_value 0
+
+  
+##
+  
+## COLUMN42.name BMD
+
+  
+## COLUMN42.long_name BMD
+
+  
+## COLUMN42.units number
+
+  
+## COLUMN42.missing_value 0
+
+  
+##
+  
+## COLUMN43.name BML
+
+  
+## COLUMN43.long_name BML
+
+  
+## COLUMN43.units number
+
+  
+## COLUMN43.missing_value 0
+
+  
+##
+  
+## COLUMN44.name BMS
+
+  
+## COLUMN44.long_name BMS
+
+  
+## COLUMN44.units number
+
+  
+## COLUMN44.missing_value 0
+
+  
+##
+  
+## COLUMN45.name PWN
+
+  
+## COLUMN45.long_name PWN
+
+  
+## COLUMN45.units number
+
+  
+## COLUMN45.missing_value 0
+
+  
+##
+  
+## COLUMN46.name ZL
+
+  
+## COLUMN46.long_name ZL
+
+  
+## COLUMN46.units number
+
+  
+## COLUMN46.missing_value 0
+
+  
+##
+  
+## COLUMN47.name BD
+
+  
+## COLUMN47.long_name BD
+
+  
+## COLUMN47.units number
+
+  
+## COLUMN47.missing_value 0
+
+  
+##
+  
+## COLUMN48.name MA
+
+  
+## COLUMN48.long_name MA
+
+  
+## COLUMN48.units number
+
+  
+## COLUMN48.missing_value 0
+
+  
+##
+  
+## COLUMN49.name FPM
+
+  
+## COLUMN49.long_name FPM
+
+  
+## COLUMN49.units number
+
+  
+## COLUMN49.missing_value 0
+
+  
+##
+  
+## COLUMN50.name FPA
+
+  
+## COLUMN50.long_name FPA
+
+  
+## COLUMN50.units number
+
+  
+## COLUMN50.missing_value 0
+
+  
+##
+  
+## COLUMN51.name SBP
+
+  
+## COLUMN51.long_name SBP
+
+  
+## COLUMN51.units number
+
+  
+## COLUMN51.missing_value 0
+
+  
+##
+
+0 0.00E+00 1.22E+00 0.00E+00 0.00E+00 5.08E-01 2.21E+01 0.00E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00 3.55E+01 0.00E+00 4.57E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00 5.08E-01 0.00E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00 1.52E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00 7.53E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00 0.00E+00
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

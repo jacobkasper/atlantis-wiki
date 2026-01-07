@@ -1,0 +1,138 @@
+---
+title: "Merge jPWN changes"
+date: "2008-11-06"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+ok. Now that i have got rid of the inv_id values in atecology i should be able to merge the jPWN code into my branch. This code was put on hold as i needed to do this before i could go on with this redev.
+
+Once this is merged i really need to tidy up the functional group data structure and sort out the units of the variables.
+
+OK. I've moved the jPWN version of the code into the bec_dev branch and done an update. Going though and sorting out the conflicts. The big conflicts are due to pSPEat. In teh checked in code i have resized this from
+  
+bm->pSPeat = AllocInit2DArrayDouble(bm->K_num_tot_sp,bm->K_num_tot_sp, 0.0);
+  
+to
+  
+bm->pSPeat = AllocInit3DArrayDouble(3, bm->K_num_tot_sp,bm->K_num_tot_sp, 0.0);
+  
+to store habitat data.
+  
+And in the new code (jPWN) i have moved the pSPeat values into the functional group structure. So i need to change the arrat in the functional group structure to 3 d to store the habitat info and then go though the code and change all references. This will take a while to sort out.
+
+OK. One thing i will have to look at is the debugFluxInfo array. For now i will change the age structured biomass values to be a sum over each cohort like the verts are. We may add functionality to show a single cohort later in the future. I also need to look into changing how this debug stuff is done. Its a bit ugly.
+
+OK. Having issues as Beth has made changes in the main trunk and these changes are effecting the output. I need to merge the changes in the trunk with by branch bec_dev.
+
+I should be able to get these changes using
+  
+cvs update -j HEAD
+
+I have tagged by bec_dev branch with the pre_trunk_merge_29_Oct_2008 tag.
+
+OK. Done the update - there are lots of conflicts.
+
+OK - the issue seemed to be in some code i had stuffed up yesterday. I had commented out the lab det change equations in water column box.
+
+OK. Now to see how the new prawn code is. That seems to be ok. I will now run this and compare to the original output.
+
+Getting there. The preyEaten value for the age structured biomass are not correct. No they were - i was just distributing the grazeeaten values.
+
+OK. making progress in the diffs. I need to merge the trunk code with the pwn code. Added a tag to the pwn code called
+  
+pre_trunk_merge_20_oct_2008
+
+OK. Lots of conflict - will resolve these and then diff output.
+
+OK. there are some very small differences in the CEP and PWN tracer fluxes in the water column. These are lost dp kind of issues. Will to bet these are something to do with adding order. Tracing where this difference comes from. The difference is the totalBiomass value i'm using to distribute the prey eaten values between the two cohorts. Can't under stand why this is different. Hmm.. I had to add the small value after adding the biomasses. Bloody add issues. It might be good to make small smaller. Also got the same issue in epibenthic box.
+
+OK. Thats sorted - still getting differences in the vert biomass at 0.5t. OK the tracers in TotalAbundance are different for all verts. I need to trace this back. Hmm. I was missing some code to set the NumsTracers value for the verts in epibenthic box. Better.
+
+OK. i now have some differences in the DC eaten values. IN epi benthic box. Thats fixed - that was to do with the spEat array.
+  
+Having issues with the vert fish avail values. Again i think this is to do with the eat array set up in atbiolsetup.c
+  
+What i really need is to change the pSPEat array to have an extra dimension.
+  
+it needs to have space for the cohort prey information.
+  
+The issue is in vert repoduction. The issue seems to be in Recruit_time_id value.
+
+i had:
+  
+for(sp=0; sp<nvertsp; sp++)
+
+Unknown macro: { if(FunctGroupArray[sp].speciesParams[Recruit_Time_id] > 2 ) FunctGroupArray[sp].speciesParams[Recruit_Time_id] = 2; }
+
+instead of
+  
+for(sp=0; sp<nvertsp; sp++)
+
+Unknown macro: { if(FunctGroupArray[sp].speciesParams[Recruit_Time_id] < 2 ) FunctGroupArray[sp].speciesParams[Recruit_Time_id] = 2; }
+
+ha. No diffs. Well the ams71_DynoutputRulesEconSubIndx.txt file is different but the biology is good. Sweet!!!
+  
+OK. big aim is to be able to get rid of the jpwn and jcep values totally. Will go a bit of a longer test first. OK 50 day test is good. Nice. Need to look into the differnces in the ams71_DynoutputRulesEconSubIndx.txt output file.
+
+This was again due to me stuffing up the merge. It should be sorted now.
+
+All sorted now. I have checked in the code to my branch..
+
+OK. i want to get the updateCatch values for be stored in the ProcessProps structure instead of the dead array in watercolumn box etc. This will mean i can tidy up the zoo change equation code.
+
+OK. Thats sorted. did a 50 day ams run and that produced the same results.
+  
+OK. the rate of change equation should always be the same.
+
+growth - lysis - mortality - dead - preyEaten
+  
+gain = growth
+  
+loss = lysis - preyEaten
+
+The phyto are not taking into account the mortality values. I wonder why this is.
+
+OK. the InfEpiRation calculation is just strange. The MB value is taken from the water column tracer array. Why is this?
+  
+Maybe it should have a water column coeff? Need to talk to beth about this one.
+
+The DiagNLoss tracer is different when i'm looking at PL. Not sure why - trying to track this. OK. I was adding the preyEaten values in Epifauna boxes wrong. Sorted now.
+
+OK. Sediment change equations. They are all pretty much the same as the water column ones. But sed bact has
+  
+BBthresh
+  
+which is a threshhold after which the flux is damped. I will change this functionality so we can have this for any group. This will be added to the speciesParameters. OK thats sorted.
+
+Now looking into the sed phytoplakton calculations. The growth values are not taken into account. I wonder why this is.
+  
+OK. not growth value is calculated so it should be 0.
+
+I think the issue is that i;m setting the gain to 0, and in the orginal code its not being set to 0. OK. These values should be set to zero at the start of each box. So added the following to initialiseEcologyArrays for each habitat_type:
+  
+if(bm->which_check < not_tracking_flux)
+
+Unknown macro: { bm->DebugFluxInfo[bm->which_check][gain_id] = 0; bm->DebugFluxInfo[bm->which_check][loss_id] = 0; }
+
+OK. I had stuffed up MB in the sediment box. The tracer and production values were not taking into account the growth. This is sorted now - will check the epibenthic box. Yeah thats cool.
+
+Ok looking at teh rate of change equations in the epibenthic code. The one strange thiing here are the BGsedgarze values for PL, PS, and DF. This is the amount of each of these groups eaten in the sediment by BG. I really just want these values to be stored in the preEaten
+[sed_id](/pages/createpage.action?spaceKey=Atlantis&title=sed_id)
+slot for these groups. I think i should just be able to change the SedEpOtherProcess function to do this. And then it should all just play out like normal.
+
+The graze value for these groups is added to grazeLive for BG twice. Thats a bit of a worry. Its added in Eat and then in
+  
+OK - i have rolled back these changes for now to try and fix a couple of other issues. The sporosity values are getting mashed. The sporosity value is set at the top of each box processing function as the porosity value for that box layer combination. This is due to a difference in tracer 8 - which is....MicoPB_s in water column.
+  
+I was missing the code that set this in the original code in sediment box. OK thats good.
+
+I really need to be able to check all of the species by setting which_check. This really requires an organised way of running the model many times. I could hack together some code to do this. It woudl require quite a bit of space.
+
+Got a difference in the BioIndex output file - the InfEpiRatio value. Pretty sure this is due to a change in the order of adding. Will do a longer run to check. OK that looks good.
+
+I need to sort out the issues with the debugInfo array. At present the values are being set each time the updateDebugInfo function is being called - this means the age structured biomass values are not correct. Teh PWN and CEP values should now just be a single value instead of two values. So i need to change the code that writes out these values and the code that adds them up. Ideally i would just init these values at the start of each box processing function.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

@@ -1,0 +1,236 @@
+---
+title: "Atlantis Documentation"
+author: "Kasper, Jacob (Marine and Freshwater Research Institute Iceland)"
+---
+
+Also check out the FAQ at [Atlantis FAQ](atlantis-faq.qmd)
+
+## Atlantis seminars
+
+The  [Atlantis youtube channel](https://www.youtube.com/channel/UCnoUeiv_7jURCegxQGWP29Q) has lectures on how to use the model and over time will accumulate talks from across the entire Atlantis community.
+
+## Manual
+
+The Atlantis Manual can be found in two parts:
+
+Part 1 covers the physics and biology -  [pdf](attachments/397385419.pdf) or [doc](attachments/397385407.docx).
+
+Part 2 covers the fishing and other socioeconomic parts - [pdf](attachments/397385421.pdf) or [doc](attachments/397385420.docx).
+
+## Overview
+
+A [short doc](attachments/43157340.doc) (taken from an earlier draft of a paper on lessons learnt about EBM form Atlantis) on what are critical data needed for constructing an Atlantis model and example model structures, component lists and maps that may act as a useful guide when drawing together, scoping or starting an Atlantis model.
+
+## Component Description
+
+### Box model structure
+
+### Biology
+
+[Effect of temperature on functional groups](effect-of-temperature-on-functional-groups.qmd)   
+[BioPhysics Equations](biophysics-equations.qmd)   
+[Mortality Output files](mortality-output-files.qmd)   
+[Recruitment Options](recruitment-options.qmd)   
+[External Mortality, Growth and Recruitment Scaling](43155575.qmd)    
+
+### Economics
+
+[FriendShip Network](friendship-network.qmd)
+
+### Model Linkage
+
+[atLink Module](atlink-module.qmd)   
+[Interaction with atecology](interaction-with-atecology.qmd)
+
+## Lectures
+
+Material from previous Atlantis courses can be found [here](lecture-material.qmd).
+
+## Other Useful Information
+
+#### Planning a new project
+
+[Example Atlantis Timetable](attachments/43156979.xlsx) (if all goes to plan) - drawn up by Isaac Kaplan, but roughly indicative
+
+[Atlantis Steps](attachments/43157128.jpg)- Sketch of Atlantis model development steps - drawn up by Carolina Parada from INPESCA.
+
+[So, you're thinking of building an Atlantis model](https://confluence.csiro.au/pages/viewpage.action?pageId=43155522) - a few things to consider before you start.
+
+[FAQ](atlantis-faq.qmd) - Frequently Asked Questions
+
+[File Formats](file-formats.qmd) - Windows vs Linux vc Mac
+
+[Atlantis Google Group](atlantis-google-group.qmd) - Google Group for asking questions about how to build Atlantis models and sharing tools used in Atlantis model development, validation, visualization, etc.
+
+A summary paper looking at lessons learnt from the first 10 years worth of Atlantis projects can be found [here](attachments/43156988.pdf) .
+
+#### Model training and use documentation
+
+Read these in the following order:
+
+[atlantis_summary.doc](attachments/43156534.doc)
+
+[How to Build an Atlantis Model.doc](attachments/43156527.doc)
+
+[Atlantis_additions.doc](attachments/43156528.doc)   
+[Atlantis_details.doc](attachments/43157302.doc)
+
+Summary of model file types and some example exercises to try to get a feel for them ([Atlantis Exercises.docx](attachments/43156500.docx)).
+
+## Projects
+
+Example applications can be found under the [Applications](applications.qmd) section of the wiki.
+
+Example of how to implement salmon in Atlantis is given [here](attachments/749077551.docx) - baed on work done in the Puget Sound
+
+Also check out the FAQ at [Atlantis FAQ](atlantis-faq.qmd)
+
+## Manual
+
+The Atlantis Manual can be found in two parts:
+
+Part 1 covers the physics and biology - [pdf](attachments/397385419.pdf) or [doc](attachments/397385407.docx).
+
+Part 2 covers the fishing and other socioeconomic parts - [pdf](attachments/397385421.pdf) or [doc](attachments/397385420.docx).
+
+## Overview
+
+A [short doc](attachments/43157340.doc) (taken from an earlier draft of a paper on lessons learnt about EBM form Atlantis) on what are critical data needed for constructing an Atlantis model and example model structures, component lists and maps that may act as a useful guide when drawing together, scoping or starting an Atlantis model.
+
+## Component Description
+
+### Box model structure
+
+### Biology
+
+[Effect of temperature on functional groups](effect-of-temperature-on-functional-groups.qmd)   
+[BioPhysics Equations](biophysics-equations.qmd)   
+[Mortality Output files](mortality-output-files.qmd)   
+[Recruitment Options](recruitment-options.qmd)   
+[External Mortality, Growth and Recruitment Scaling](43155575.qmd)    
+
+### Economics
+
+[FriendShip Network](friendship-network.qmd)
+
+### Model Linkage
+
+[atLink Module](atlink-module.qmd)   
+[Interaction with atecology](interaction-with-atecology.qmd)
+
+## Lectures
+
+Material from previous Atlantis courses can be found [here](lecture-material.qmd).
+
+## Other Useful Information
+
+#### Planning a new project
+
+[Example Atlantis Timetable](attachments/43156979.xlsx) (if all goes to plan) - drawn up by Isaac Kaplan, but roughly indicative
+
+[Atlantis Steps](attachments/43157128.jpg)- Sketch of Atlantis model development steps - drawn up by Carolina Parada from INPESCA.
+
+[So, you're thinking of building an Atlantis model](https://confluence.csiro.au/pages/viewpage.action?pageId=43155522) - a few things to consider before you start.
+
+[FAQ](atlantis-faq.qmd) - Frequently Asked Questions
+
+[File Formats](file-formats.qmd) - Windows vs Linux vc Mac
+
+[Atlantis Google Group](atlantis-google-group.qmd) - Google Group for asking questions about how to build Atlantis models and sharing tools used in Atlantis model development, validation, visualization, etc.
+
+A summary paper looking at lessons learnt from the first 10 years worth of Atlantis projects can be found [here](attachments/43156988.pdf) .
+
+#### Model training and use documentation
+
+Read these in the following order:
+
+[atlantis_summary.doc](attachments/43156534.doc)
+
+[How to Build an Atlantis Model.doc](attachments/43156527.doc)
+
+[Atlantis_additions.doc](attachments/43156528.doc)   
+[Atlantis_details.doc](attachments/43157302.doc)
+
+Summary of model file types and some example exercises to try to get a feel for them ([Atlantis Exercises.docx](attachments/43156500.docx)).
+
+## Projects
+
+Example applications can be found under the [Applications](applications.qmd) section of the wiki.
+
+Example of how to implement salmon in Atlantis is given [here](attachments/749077551.docx) - baed on work done in the Puget Sound
+
+Also check out the FAQ at [Atlantis FAQ](atlantis-faq.qmd)
+
+## Manual
+
+The Atlantis Manual can be found in two parts:
+
+Part 1 covers the physics and biology - [pdf](attachments/397385419.pdf) or [doc](attachments/397385407.docx).
+
+Part 2 covers the fishing and other socioeconomic parts - [pdf](attachments/397385421.pdf) or [doc](attachments/397385420.docx).
+
+## Overview
+
+A [short doc](attachments/43157340.doc) (taken from an earlier draft of a paper on lessons learnt about EBM form Atlantis) on what are critical data needed for constructing an Atlantis model and example model structures, component lists and maps that may act as a useful guide when drawing together, scoping or starting an Atlantis model.
+
+## Component Description
+
+### Box model structure
+
+### Biology
+
+[Effect of temperature on functional groups](effect-of-temperature-on-functional-groups.qmd)   
+[BioPhysics Equations](biophysics-equations.qmd)   
+[Mortality Output files](mortality-output-files.qmd)   
+[Recruitment Options](recruitment-options.qmd)   
+[External Mortality, Growth and Recruitment Scaling](43155575.qmd)    
+
+### Economics
+
+[FriendShip Network](friendship-network.qmd)
+
+### Model Linkage
+
+[atLink Module](atlink-module.qmd)   
+[Interaction with atecology](interaction-with-atecology.qmd)
+
+## Lectures
+
+Material from previous Atlantis courses can be found [here](lecture-material.qmd).
+
+## Other Useful Information
+
+#### Planning a new project
+
+[Example Atlantis Timetable](attachments/43156979.xlsx) (if all goes to plan) - drawn up by Isaac Kaplan, but roughly indicative
+
+[Atlantis Steps](attachments/43157128.jpg)- Sketch of Atlantis model development steps - drawn up by Carolina Parada from INPESCA.
+
+[So, you're thinking of building an Atlantis model](https://confluence.csiro.au/pages/viewpage.action?pageId=43155522) - a few things to consider before you start.
+
+[FAQ](atlantis-faq.qmd) - Frequently Asked Questions
+
+[File Formats](file-formats.qmd) - Windows vs Linux vc Mac
+
+[Atlantis Google Group](atlantis-google-group.qmd) - Google Group for asking questions about how to build Atlantis models and sharing tools used in Atlantis model development, validation, visualization, etc.
+
+A summary paper looking at lessons learnt from the first 10 years worth of Atlantis projects can be found [here](attachments/43156988.pdf) .
+
+#### Model training and use documentation
+
+Read these in the following order:
+
+[atlantis_summary.doc](attachments/43156534.doc)
+
+[How to Build an Atlantis Model.doc](attachments/43156527.doc)
+
+[Atlantis_additions.doc](attachments/43156528.doc)   
+[Atlantis_details.doc](attachments/43157302.doc)
+
+Summary of model file types and some example exercises to try to get a feel for them ([Atlantis Exercises.docx](attachments/43156500.docx)).
+
+## Projects
+
+Example applications can be found under the [Applications](applications.qmd) section of the wiki.
+
+Example of how to implement salmon in Atlantis is given [here](attachments/749077551.docx) - baed on work done in the Puget Sound

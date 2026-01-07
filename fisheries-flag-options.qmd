@@ -1,0 +1,66 @@
+---
+title: "Fisheries flag options"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+| Parameter | Settings |
+| --- | --- |
+| flagFFday | Time of day when the fishery FF is active: 2 = no preference, 1 = day, 0 = night |
+| flagfishXX | 1 = allow fishing of XX, 0 = fishing of XX off |
+| flaghabitat_XX | A vector of entries (order assumed to match order in fisheries.csv) - for each fishery mark how habitat interactions are handled: 0 = standard % overlap, 1=Ellis and Pantus based subgrid scale model |
+| FF_flagdempelfishery | Whether the fishery FF is pelagic (0) or demersal (1) |
+| FF_effortmodel | Flag indicating effort model in use for fishery FF: 0 = Constant fishing pressure per quarter per cell (evenly distributed across cells) 1 = Constant fishing pressure per quarter per cell (adjusted by relative area of the cell) 2 = Constant effort with spatial distribution based on location of previous day's cpue 3 = Prescribed spatial effort matrices 4 = Effort based on cpue of previous day 5 = full fleet dynamics model using ports 6 = human population-based recreational fishing 7 = alternative full fleet dynamics model using ports 8 = alternative fleet model but weighted by prescribed effort matrices 9 = distribution based on distributions of target species (perfect knowledge) 10 = cpue based dynamic effort 11 = read effort timeseries 12 = recreational economic model 13 = dynamic economic commercial fleet model |
+| FF_flagcap_peak | Flag indicating whether effort per cell for fishery FF is capped (especially if using effort model 8): 0 = no, 1 = yes. |
+| FF_flaguseall | Flag indicating whether use all species caught to define CPUE for CPUE based effort models for fishery FF: 1 = yes, 0 = use target species only. |
+| FF_explore | Flag indicating whether fishery FF will do exploratory fishing to expand their grounds: 0 = no, 1 = yes |
+| FF_effortdrop | Flag indicating whether total effort for fishery FF can drop dynamically (without management) as stocks are depleted: 0 = No, 1 = Yes |
+| FF_selcurve | Flag indicating what form of selectivity fishery FF starts with (this can change through time if the appropriate changeSEL is set to 1.  0 = group specific constant 1 = cohort specific constant for each group 2 = size based logistic curve 3 = size based normal curve 4 = size based lognormal curve, 5 = size based gamma curve 6 = knife edged 7 = bimodal normal (two symmetric normal curves, with same amplitudes, centred on lsm and lsm2) 8 = asymmetric bimodal normal (two normal curves, with own amplitudes and sigma, centred on lsm and lsm2) |
+| flagdiscard_XX | A vector of entries (order assumed to match order in fisheries.csv) - for each fishery mark how discards are handled: 0 = constant %, 1 = constant % per cohort, 2 = size based, 3 = loaded from timeseries file, 4 = conditional on catch of other species. |
+| flagescapement_XX | A vector of entries (order assumed to match order in fisheries.csv) - for each fishery mark how escapement is handled: 0 = no escapement, 1 = fixed proportion escape, 2 = size based. |
+| flag_access_thru_wc_XX | Whether species XX can be accessed through the water column as trawl gear passes up/down through the water column |
+| flagimposeglobal | This flag indicates whether generally there is 0 = no imposed catch 1 = imposed catch matches global biomass distribution 2 = imposed catch is spatially explicit 3 = imposed catch is spatially explicit but will "steal" from the stock if can't fill local catch 4 = imposed catch is spatially explicit but will from adjacent cells only if cant'y fill local catch time series |
+| flagimposecatch_XX | A vector of entries (order assumed to match order in fisheries.csv) - for each fishery mark whether catch is imposed (using the same options as for flagimposeglobal) |
+| flagF_XX | A vector of entries (order assumed to match order in fisheries.csv) - for each fishery mark whether a fishing mortality is imposed on species XX instead of using an effort model: 0 = no, 1 = yes |
+| flag_sel_with_mFC | Flag indicating whether using selectivity with fishing mortality (mFC) or simple age of first effect (using mFC_start_age) |
+| flag_stop_F_tac | Flag indicating whether using fishing mortality rates and still imposing TAC - 1 = fishing stops fishing when quota exceeded, 0 = discard any catch taken if quota exceeded |
+| flagfinfish | 1 = finfish fisheries active, 0 = off |
+| flagincidmort | 1 = fisheries cause incidental mortality (take bycatch), 0 = off |
+| flaghighgrading | 1 = high grading, 0 = no high grading |
+| flagmarketdiscard | 1 = market-based discarding, 0 = off |
+| flagendangered | 1 = endangered group status effects effort allocation, 0 = off |
+| flagmpa | 0 = no mpa for any group, 1 = mpas for at least one group |
+| flaginfringe | 0 = no infringement, 1 = infringement of mpas |
+| flagdisplace | 1 = effort displacement due to low CPUE or MPA present, 0 = off |
+| flagbuffereffort | 1 = effort buffering on for dynamic fleet model, 0 = off |
+| flagchangeeffort | 1 = fishing pressure changes with time, 0 = remains constant |
+| flagchangediscrd | 1 = discarding practices change with time, 0 = remain constant |
+| flagchangesel | 1 = selectivity changes with time, 0 = remains constant |
+| flagchangeF | 1 = F mortality rate forcing changes, 0 = F not used or remains constant |
+| flagchangeq | 1 = catchability changes 5with time, 0 = remains constant |
+| flagchangep | 1 = fisheries spatial coverage changes with time, 0 = remains constant |
+| flagchangeswept | 1 = fisheries gear swept area changes with time, 0 = remains constant |
+| flagchangecap | 1 = effort cap on and changes through time, 0 = off or remain constant |
+| flagnewport | 1 = new fishing ports may open, 0 = only use initial ports |
+| flagchangepop | 1 = human population size changes, 0 = remains constant |
+| flagreinitpop | 0 = virgin biomass calc day 0, 1 = calc on user specified day |
+| pseudo_assess | 1 = use pseudo assessment, 0 = use assessment library code |
+| dynDAS | 1 = use dynamic days-at-sea cap (recalculated each year), 0 = static days-at-sea cap |
+| flagTACincludeDiscard | Flag indicating whether or not TAC includes discards or just landed catch: 1 = yes, 0 = no |
+| flagTradeTACvsMPA | Flag indicating whether or not trade off spatial closures for TAC reductions (i.e. no/less reduction as close area instead): 1 = yes, 0 = no |
+| flagdyn_coupdate | Flag indicating whether fixed ratio of catches for companion species given in co_sp_catch is used throughout the run (0) or whether it is updated dynamically (1) |
+| flagQuotaBound | Flag indicating whether want to bound dynamic TAC to be a band around original TAC: 0 = no, 1 = bound upper end by TACbound parameter value (e.g. 2x starting TAC), 2 = bound upper and lower end (using xTACbound, x1/TACbound) |
+| FF_flagmanage | Flags indicating form of adaptive management used: 0 = none 1 = simple adaptive management which responds to the size of the target groups for this fishery. If a population has fallen to critical % of virgin stock size reduce overall effort (done gradually over a specified time period rather than as a sudden drop). If stock size is still too low after a set period its reduced again. 2 = standard TACs in place.  3 = basket TACs used 4 = regional TAC (only for multiple stock groups so far) 5 = companion TACs used 6 = companion TACs and basket quotas 7 = basket and regional quotas 8 = companion, regional and basket TACs  9 = companion, regional and basket TACs and basket groups can transition to individual TAC 10 = cumulative TACs (US-like cumulative trip limits) |
+| flagTACparticipate_FF | If using a common pool TAC (so all participating fleets compare to a single TAC) set = 1, if not set = 0 |
+| FF_flagcap | Flag indicating whether fishery FF has an effort cap: 0 = none, 1 = yes. |
+| FF_flagseasonal | Flag indicating whether the fishery FF is seasonal: 0 = no seasonal closures, 1 = fishery has seasonal closures. |
+| FF_flagmpa | Flag indicating spatial management option: 0 = no spatial management 1 = fixed mpas 2 = rotating (or changing) mpas 3 = area closures when stock low (using fixed mpas) 4 = area closures when endangered groups depleted (using fixed mpas) 5 = area closures when stock low and/or when endangered groups depleted (using fixed mpas) 6 = area closures when stock low (using changing mpa locations) 7 = area closures when endangered groups depleted (using changing mpa locations) 8 = area closures when stock low and/or when endangered groups depleted (using changing mpa locations) 9 = mix of fixed and rolling mpas 10 = mix of fixed and rolling mpas and spawning closures 11 = depth based fixed closures 12 = US-like closures (but based on biomass distrib of groups) triggered when TAC exceeded 13 = spawning closure |
+| FF_changeSEL | Flag indicating whether the selectivity for fishery FF changes through time. 0 = no, 1 = yes (You also need to set flagchangesel) |
+| FF_changeP | Flag indicating whether the coverage of fishery FF changes through time. 0 = no, 1 = yes (You also need to set flagchangep) |
+| FF_changeSWEPT | Flag indicating whether the swept area of the gear used by a fishery FF changes through time. 0 = no, 1 = yes. (You also need to set flagchangeswept) |
+| FF_changeEFF | Flag indicating whether the coverage of fishery FF changes through time. 0 = no, 1 = yes (You also need to set flagchangeeffort) |
+| FF_changeseason | Flag indicating whether the length of the fishing season changes for fishery FF changes through time. 0 = no, 1 = yes |
+| FF_TACchange | Flag indicating whether the TACs for fishery FF changes through time. 0 = no, 1 = yes |
+| flagQchange_XX | A vector of entries (order assumed to match order in fisheries.csv) - for each fishery mark whether catchabiity of a group to that fishery changes through time. 0 = no, 1 = yes |
+| flagFchange_XX | A vector of entries (order assumed to match order in fisheries.csv) - for each fishery mark whether fishing mortality value of a group (if being used to force the model) changes for a fishery changes through time. 0 = no, 1 = yes |
+| flagchangeDISCRD_XX | A vector of entries (order assumed to match order in fisheries.csv) - for each fishery mark whether discarding of a group by a fishery changes through time. 0 = no, 1 = yes. |
+| target_FF | A vector of entries (order assumed to match order in groups.csv) - for each group mark whether that group is a target for fishery FF |

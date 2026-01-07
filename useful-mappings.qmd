@@ -1,0 +1,16 @@
+---
+title: "Useful Mappings"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+1. Mounting the EBFM storage location
+
+sudo apt-get install portmap nfs-common
+
+sudo mount nfstas01-hba:/ebfm /home/ebfm/
+
+2. CSIRO Matlab lib
+
+sudo mount nfstas01-hba:/proj1/toolbox/ /home/csiroToolbox/
+
+(remember to addpath in matlab)

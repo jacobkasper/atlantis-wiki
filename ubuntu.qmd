@@ -1,0 +1,80 @@
+---
+title: "Ubuntu"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+The following instructions are for building using 32 bit Ubuntu. If you have 64bit then these instructions should also work.  
+If you want to run Atlantis under Ubuntu using VirtualBox contact Bec as she has Virtual Box images with all software required installed. We recommend where possible people use a separate machine for Linux.
+
+## Building under Linux
+
+Before you start:
+
+You need to have super user assess to install the packages that you need to build Atlantis. Hopefully your normal Linux login will have super user privileges; To test this type:  
+sudo apt-get install  
+You will be asked for your password. If you have root assess then you should get a message saying that you have installed some (or 0) packages. If you don't have root access then there isn't any point going any further until you do.
+
+If you have any problems with any of the instructions below please contact Bec and she will improve the instructions.
+
+To run any commands under Linux you will need to open a terminal. If you are not sure about what one of the commands do you can get info about it using 'man'. For example typing 'man cp' will give you the help page for the cp command.
+
+### Required Packages
+
+Before you check out the Atlantis code make sure you have the following packages installed:
+
+build-essential  
+autoconf  
+subversion
+
+In Ubuntu you should just be able to use 'sudo apt-get install packageName'.
+
+### Check out the Code
+
+Open a command terminal and go to the folder where you want to check out the code (eg /home/bec/Code/atlantis) and type the following:
+
+svn co path
+
+where path is the path to the version of Atlantis you want to check out. See [Getting the source code](getting-the-source-code.qmd) for information about which version to use.
+
+Here is a full list of [path information](https://wiki.csiro.au/confluence/display/Atlantis/Getting+the+source+code)
+
+This command should check out all of the Atlantis source code. You will need to enter the username and password that you use for this wiki.  
+If you have any problems with this stage check you have the url correct, then contact Bec or Beth for help.
+
+### Building the source code
+
+Before you try to build Atlantis install the following packages. If the names aren't recognized you can search using 'apt-cache search'
+
+1. libnetcdf-dev (<http://www.unidata.ucar.edu/software/netcdf/docs/index.qmd#dir>) as for Mac you likely want to compile using
+
+> ./configure -disable-dap -disable-netcdf-4
+
+2. proj (<http://trac.osgeo.org/proj/>) as for Mac you likely don't want anything beyond version 4.9 (the latest versions definitely struggle to build)
+
+3. libxml2-dev
+
+If you can't find a package you can always download the source code from the internet and build it.
+
+In the folder where your Atlantis code is type:
+
+(you might need to change the permissions of the configure script - sudo chmod +x configure)
+
+aclocal
+
+autoheader
+
+autoconf  
+automake -a  
+./configure  
+make  
+sudo make install
+
+The configure step should tell you the other packages you need to install. If you still have problems building the code, ie you get complier errors make sure you have all of the above packages installed and try compiling (make) again. If you still have problems send Bec the compilation error you are getting.
+
+### Running Atlantis
+
+The following process will install a program called 'atlantisNew' or 'atlantisMerged' depending on the version of the code you have compiled. To test that it has built correctly try typing the following into a terminal
+
+atlantisNew
+
+You should see an SVN version number and information about the command line arguments you need to pass Atlantis.

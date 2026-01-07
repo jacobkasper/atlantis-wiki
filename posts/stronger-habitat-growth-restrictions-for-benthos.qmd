@@ -1,0 +1,18 @@
+---
+title: "Stronger habitat growth restrictions for benthos"
+date: "2014-02-06"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+##### Minimum and maximum depths for benthos (both infauna and epifauna)
+
+As of the current revision of the main Atlantis branches (both Beth's personal madness branch and the main Atlantis2 branch available under bec_dev) the depth restrictions on benthos will be enforced so if you want to have benthos everywhere give them a mindepth of 0 and maxdepth greater than the botz of the deepest box in the model (e.g. if your deepest box has a botz of -1800 then you need to set maxdepth to 1850, say). Note that botz will be a NEGATIVE number but maxdepth is a POSITIVE number (the sign difference is all handled in the code).
+
+##### Restricting the growth of benthos based on bottom type
+
+We have added the parameter flag_benthos_sediment_link to the biol.prm. If set to 1 then the realised growth rate of all infauna and epifauna (epibenthic consumer groups) is scaled based on the sum of the proportional areas of the box covered with bottom types they like. To indicate that they like a bottom type, in the habitat_XX vector for that group provide a value > 0.0.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

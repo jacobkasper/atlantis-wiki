@@ -1,0 +1,158 @@
+---
+title: "Calculation of rugosity related habitat refuge"
+date: "2021-05-16"
+author: "Audzijonyte, Asta (University of Tasmania)"
+---
+
+by Mariska Weijerman (updated 2019 to reflect addition of sponges)
+
+New options have been added to calculate rugosity related habitat refuge. This refuge is
+**only**
+available for
+
+1)     models that include corals or sponges and
+
+2)     is only used for species that are dependent on (interact with) reefs formed by corals or sponges.
+
+Note where ever it says coral below the same is true for the SPONGE functional group (just parameterised for sponge preferences rather than corals). Sponge specific additions around rugosity are also noted towards the end of the page
+
+**Original reference:**
+
+Details are in Weijerman, M., E.A.Fulton, I. C. Kaplan, R. Gorton, R. Leemans, W. M. Mooij, R. E. Brainard. 2015. An integrated coral reef ecosystem model to support resource management under a changing climate.
+*PLoSOne*
+10:e0144165. doi: 10.1371/journal.pone.0144165.
+
+**Background:**
+
+Corals have a positive effect on fish abundance by providing shelter. Several studies have also demonstrated a positive relationship between coral complexity and fish diversity, especially for corallivores and planktivores (Graham et al 2013). This positive feedback appears to be driven by the increased survival of fish recruits and other small-bodied fishes (Jones et al 2004, Graham et al 2006, Alvarez et al 2009). Coral reef complexity is partly dependent on the topography of the reef substrate itself (e.g., boulders provide complexity) and partly by coral growth (e.g., large branching corals provide more shelter than small coral colonies). Benthic complexity values ranging between 1 (flat) and 5 (high structural complexity) were taken from NOAA-PIFSC-CRED survey data and serve as a baseline. These min and max values are reference point for the code when you set
+**flag_georugosity**
+to 1 (
+**min_rugosity**
+,
+**max_rugosity**
+). We then assume that changes in complexity reflect net coral growth (i.e., the balance between accretion and erosion).
+
+Structural complexity is balanced by reef accretion through calcification and erosion through bio-erosion, physical disturbances and predation. For example, coral predation can reduce coral cover by 30% per year. Coral mortality can lead to a reduction in complexity as the balance between accretion and erosion is tipped towards erosion and hence leads to loss of shelter for fishes, which in turn leads to a loss of fish recruits, abundance and diversity.
+
+Topographical complexity was based on a simplified conical shape of corals increasing in 3 dimensions and hence increasing the complexity. Bio-erosion by cryptic invertebrates, loss of coral growth due to coral predation and destructive fishing practices are modeled as a reduction in complexity. We modelled the relationship between complexity and suitability for refuge for fish, leading to a change in predator availability according to a saturation function with the slope being dependent on a species-specific scalar. Both live and dead corals contribute to complexity.
+
+There are
+**two options to reflect rugosity**
+change one based on Blackwood et al 2011 and the other on Bozec et al 2014. When you want to incorporate refuge provided by habitat you set the flag_refuge_model to 1 (original) or 2 (based on changes in rugosity/complexity of habitat. The flag:
+**flag_rugosity_model**
+let’s you choose the appropriate model 1 (original code), 2 based on Blackwood et al 2011 and 3 is based on Bozec et al 2014.
+
+**Rugosity parameters and changes in rugosity based on Blackwood et al**
+**(**
+[**2011**](#_ENREF_12)
+**)**
+**.**
+
+With the growth of coral colonies, the rugosity of a reef increases with a larger increase in rugosity due to the growth of the larger size classes of corals. Rugosity decreases due to bioerosion and direct consumption.
+
+d(rugosity)/dt = rate_rugosity_prod_by_growing_corals * living_coral_cover * (3.0 - rugosity) - rate_rugosity_lost_bioreosion * (1.0 - living_coral_cover) * (rugosity - 1.0)
+
+**Rugosity changes based on topographical complexity model developed by Bozec et al. (2014).**
+
+where
+*R*
+= rugosity,
+*rug_constant*
+is the ratio of the vertical contour of a colony to the surface-to-area ratio of a colony,
+*SI*
+is the deformation of the reef surface and is calculated as the surface area of the reef (depending on height and diameter of coral colonies [XXX_colony_ha]) divided by the planimetric area of the reef which depends on the maximum diameter (XXX_colony_diam) and coral cover (Bozec et al 2014).
+
+**Rugosity affecting habitat**
+
+Rugosity changes based on coral growth and erosion and is coral species specific
+
+Rate_rug_growth = species specific rugosity_inc_XXX
+
+Larger species grow larger due to 3D of colonies so growth is dependent on coral size class:
+
+Rug_growth = species-size class * rate_rug_growth
+
+Erosion by cryptic (boring) invertebrates is also related to class size of coral:
+
+Rug_erode = (species specific rug_erode_XXX + bioerosion_by_boring_sponges) * acidification enhancement + predation on coral (XXX_rugFeedScalar)
+
+where acidification enhancement is set to 1.0 except when bioeroding sponges are included in the model (isBioEroder set to 1) in which case
+
+acidification enhancement  =
+1.0
+/ pHcorr_for_bioeroding_sponge_group
+
+and bioerosion_by_boring_sponges =  rate_rug_erode_sponge * cover_boring_sponges * (
+1.0
+- living_coral_cover) * (rugosity -
+1.0
+)s
+
+Change in rugosity = rug_growth – rug_erode
+
+An increase in rugosity offers more hiding spaces for fish recruits according to the inferred relation based on (
+[Graham et al. 2006](#_ENREF_34)
+,
+[DeMartini et al. 2013](#_ENREF_19)
+):
+
+hab_scalar *= (RugCover_Coefft * log(LocalRugosity) + RugCover_Const)
+
+then the ‘refuge’ status is species specific and determined by:
+
+refuge_status = min(RugCover_Cap, XXX_RugCover_Scalar/hab_scalar)
+
+In other words, rugosity affects the availability of these small fish for predators according to the inverse of the habitat scalar relationship with a cap at 4 and a scalar coefficient scalar coefficient depending on the fish species (varying between 0.6 for small species to 8.0 for unaffected species).
+
+**Parameters included**
+
+RugCover_Coefft = 1.4613
+
+RugCover_Const = 0.0475
+
+RugCover_Cap = 4
+
+XXX_RugCover_scalar = 0.8 (species specific relates to the prey availability to predators)
+
+rugosity_inc = 0.03 (Blackwood et al 2011) and assumed 0.06 for branching (i.e. faster growing) corals
+
+rug_erode_XXX = 0.01 (Blackwood et al 2011 – cryptic bioerosion
+
+XXX_rugFeedScalar (predator specific – how much coral do coral predators chomp off)
+
+Rugosity_const = 0.88 (Bozec et a 2014)
+
+The fixed values of the Bozec model are also needed:
+
+rugosity_bozec_a 16.0
+  
+rugosity_bozec_b 1.5
+  
+rugosity_bozec_c 8.0
+  
+rugosity_bozec_d 3.0
+
+Lastly there is colony diameter, currently set as
+
+XXX_colony_ha = 0.715 (branching corals) 0.81 (massive corals)
+
+XXX_colony_diam = 60 (branching corals) 30 (massive corals)
+
+**References**
+
+Jones GP, McCormick MI, Srinivasan M, Eagle JV. Coral decline threatens fish biodiversity in marine reserves. Proceedings of the National Academy of Sciences of the United States of America. 2004;101(21):8251-3. PubMed PMID: ISI:000221652000073
+
+Alvarez-Filip L, Dulvy NK, Gill JA, Côté IM, Watkinson AR. Flattening of Caribbean coral reefs: region-wide declines in architectural complexity. Proceedings of the Royal Society B: Biological Sciences. 2009;276(1669):3019-25. doi: 10.1098/rspb.2009.0339.
+
+Graham N, Nash K. The importance of structural complexity in coral reef ecosystems. Coral Reefs. 2013:1-12
+
+Blackwood JC, Hastings A, Mumby PJ. A model-based approach to determine the long-term effects of multiple interacting stressors on coral reefs. Ecological Applications. 2011;21(7):2722-33.
+
+Bozec YM, Alvarez‐Filip L, Mumby PJ. The dynamics of architectural complexity on coral reefs under climate change. Global Change Biology. 2014.
+
+Graham NAJ, Wilson SK, Jennings S, Polunin NVC, Bijoux JP, Robinson J. Dynamic fragility of oceanic coral reef ecosystems. Proceedings of the National Academy of Sciences of the United States of America. 2006;103(22):8425-9. doi: 10.1073/pnas.0600693103. PubMed PMID: ISI:000238206800024.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

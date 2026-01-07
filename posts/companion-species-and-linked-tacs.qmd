@@ -1,0 +1,46 @@
+---
+title: "Companion Species and linked TACs"
+date: "2023-10-14"
+author: "Fulton, Beth (Environment, Hobart)"
+version: "6682"
+---
+
+**Version: 6682**
+
+We have expanded how companion species (in the catch) and companion TACs are treated - expanded beyond just 2 species.
+
+This is set up by following these steps (also described in the manual volume 2):
+- Set isTAC to 1 in the
+  *csv*
+  file for both target and companion species
+- Set a fishery specific flag YYY_flagmanage=5 (or other value, see Table 11 in the manual volume 2)
+- Give TACs in the TAC_XXX parameter for each fishery for target and companion species
+- Set the number of species for which the TAC must be meet/exceeded before a multispecies fishery is closed (YYY_max_num_sp)
+- Set the maximum number of companion species (i.e. highest number of companion species across all species in the model). This is a global parameter and applies to all fisheries (K_max_co_sp), it is often set to 2. This basically tells Atlantis whether to bother reading in any of the other parameters and the size of the arrays to initialise before read-in.
+- For each species set their individual number of companion species max_co_sp_XXX. This needs to be less than or equal to K_max_co_sp. This controls the loops for the individual species so as to maximise speed of execution.
+- For each target species give the ID numbers (in the
+  *csv*
+  order) of the companion species in the co_sp_XXX vector. This parameter can be seen as a representation of which species usually school or occur together and hence will be caught together (fisheries data is sometimes available on this, either from catch composition records or observers). These parameters are vectors and must have as many values as the number given by the max_co_sp_XXX parameter (it will actually tell you that it needs K_max_co_sp entries, but it only uses the first max_co_sp_XXX. If you want to play it safe enter K_max_co_sp and if max_co_sp_XXX is less than K_max_co_sp fill up the spare entries either with -1 or a number larger than the ID of the companion species with the largest ID. So for example, if you only had one companion species occurs for species XXX and K_max_co_sp is set to 2, then the second value in the parameter co_sp_XXX should be set to -1, e.g.
+
+co_sp_XXX    2
+
+2   -1
+
+shows that only species ID 2 is caught together with species XXX.  Alternatively, if across all the species the highest ID of any companion species was (say) 46. Then you could put
+
+co_sp_XXX    2
+
+2   48
+
+Either of these case will be treated in the same way – the second entry will never execute on the code, only the companion species with ID 2 will be processed.
+- Indicate whether the TAC is dictated by the weakest or strongest link among the companion TAC species in the coType_XXX parameter (=0 weakest, =1 strongest). See main text above for the explanation.
+- Give the assumed ratio of the catch of companion species accidentally caught by each fishery while targeting a species XXX in XXX_co_sp_catchZZ where ZZ is the number associated with the position of the companion species in the co_sp_XXX vector – so for the first species (ID 2 in the example given under (7) above) it would be XXX_co_sp_catch1, for the second species XXX_co_sp_catch2 Due to the complexity involved in reading in multli-dimensional arrays K_max_co_sp vectors must be supplied for XXX_co_sp_catch – that is if K_max_co_sp is 3 then XXX_co_sp_catch1, XXX_co_sp_catch2 and XXX_co_sp_catch3 must be given even if XXX has max_co_sp_XXX less than 3. Just fill the extra vectors with zeros. These vectors will never be used (as the code running the TAC setting only loops to max_co_sp_XXX) but it is too difficult to get the code to initially read only as many vectors out of the
+  *harvest.prm*
+  file as needed based on max_co_sp_XXX. Sorry for the inconvenience. Note that the values given fin the vector XXX_co_sp_catchZZ indicate how many kg of the companion species is taken for every 1 kg of the target species XXX taken. This vector must have as many values as there are fisheries. This means that different fisheries (gear, selectivity) will have a different ratio of companion species bycatch even when targeting the same species XXX.
+
+The ratio of species cocatch given in the co_sp_catch_XXX parameter can stay fixed throughout the run or be updated dynamically according to the actual catches of the companion species by a fishery. If a dynamic value is wanted this is set with a global parameter flagdyn_coupdate = 1
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

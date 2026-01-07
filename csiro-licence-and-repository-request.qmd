@@ -1,0 +1,30 @@
+---
+title: "CSIRO licence and repository request"
+author: "Porobic Garate, Javier (Environment, Hobart)"
+---
+
+The document attached to this page (available [here](attachments/1632673282.doc)) is CSIRO's academic licence for using the software.
+
+**If you are just** checking out the lectures, PowerPoint, features etc. and **thinking about whether you'd like to give Atlantis a go, don't worry about signing the document.**
+
+**However, if you want a copy of the code** (which you will need to start using the model), **you must** do the following.
+
+Please email the Atlantis development group with the title "**Atlantis repository request**."
+
+And in that email, if you could please
+
+1) State what operating system you will be using
+
+2) Experience with coding:
+
+| Level | Comment on what that implies |
+| --- | --- |
+| (blue star) | Absolute beginner has never opened a compiler before |
+| (blue star) (blue star) | Has some (even rudimentary) knowledge of coding, so can feel their way around compiling and won't freak when Beth mentions the word printf |
+| (blue star) (blue star) (blue star) | Quite comfortable with compiling and coding |
+
+3) Where you are thinking of using Atlantis
+
+4) Attach the signed document
+
+This means we are all in the same place about what you're doing and know how much help you'll need. We're happy to help, but often, we might need to suggest things differently if you don't have as much code experience.

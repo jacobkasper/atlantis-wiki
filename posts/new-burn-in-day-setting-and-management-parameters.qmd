@@ -1,0 +1,259 @@
+---
+title: "New burn-in day setting and Management parameters"
+date: "2009-11-25"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+## Run.prm
+
+To allow for more flexibke initialisation of the model the following has been added to the run.prm file (note in most cases this shold be set to 1 day)
+
+tburnday   1 day       # period of time want to use as burn-in (using read-in distributions to initialise fisheries etc)
+
+## Harvest.prm
+
+The following parameters have been added to allow for more fleible management options (both for forced and MSE management evaluations):
+
+# This sets the start date for fishery managment in days after the start of the run
+
+  
+midwcCEP_start_manage  0                                                                         0
+  
+jigCEP_start_manage    0                                                                         0
+  
+midwcFP_start_manage   0                                                                         0
+  
+dredgeBFS_start_manage 0                                                                         0
+  
+netFD_start_manage     0                                                                         0
+  
+netSH_start_manage     0                                                                         0
+  
+plineFVO_start_manage  0                                                                         0
+  
+pseineFVO_start_manage 0                                                                         0
+  
+pseineFP_start_manage  0                                                                         0
+  
+trapBMS_start_manage   0                                                                         0
+  
+trapFD_start_manage    0                                                                         0
+  
+dtrawlBMS_start_manage 0                                                                         0
+  
+dtrawlCEP_start_manage 0                                                                         0
+  
+dtrawlFD_start_manage  0                                                                         0
+  
+dtrawlFDB_start_manage 0                                                                         0
+  
+dtrawlFDO_start_manage 0                                                                         0
+  
+midwcFD_start_manage   0                                                                         0
+  
+dseineFDB_start_manage 0                                                                         0
+  
+dlineFD_start_manage   0                                                                         0
+  
+dlineFVS_start_manage  0                                                                         0
+  
+dlineSH_start_manage   0                                                                         0
+  
+diveBG_start_manage    0                                                                         0
+  
+pseineFVS_start_manage 0                                                                         0
+  
+cullPIN_start_manage   0                                                                         0
+  
+REC_start_manage       0                                                                         0
+  
+ptrawlPWN_start_manage 0                                                                         0
+  
+dtrawlFBP_start_manage 0                                                                         0
+  
+midwcZL_start_manage   0                                                                         0
+  
+trapFDE_start_manage   0                                                                         0
+  
+dlineFDE_start_manage  0                                                                         0
+  
+netFDE_start_manage    0                                                                         0
+  
+midwcPWN_start_manage  0                                                                         0
+  
+mowMA_start_manage     0                                                                         0
+
+# This sets the end date for fishery management in days after the start of the run
+
+  
+midwcCEP_end_manage  1000000000                                                                         1000000000
+  
+jigCEP_end_manage    1000000000                                                                         1000000000
+  
+midwcFP_end_manage   1000000000                                                                         1000000000
+  
+dredgeBFS_end_manage 1000000000                                                                         1000000000
+  
+netFD_end_manage     1000000000                                                                         1000000000
+  
+netSH_end_manage     1000000000                                                                         1000000000
+  
+plineFVO_end_manage  1000000000                                                                         1000000000
+  
+pseineFVO_end_manage 1000000000                                                                         1000000000
+  
+pseineFP_end_manage  1000000000                                                                         1000000000
+  
+trapBMS_end_manage   1000000000                                                                         1000000000
+  
+trapFD_end_manage    1000000000                                                                         1000000000
+  
+dtrawlBMS_end_manage 1000000000                                                                         1000000000
+  
+dtrawlCEP_end_manage 1000000000                                                                         1000000000
+  
+dtrawlFD_end_manage  1000000000                                                                         1000000000
+  
+dtrawlFDB_end_manage 1000000000                                                                         1000000000
+  
+dtrawlFDO_end_manage 1000000000                                                                         1000000000
+  
+midwcFD_end_manage   1000000000                                                                         1000000000
+  
+dseineFDB_end_manage 1000000000                                                                         1000000000
+  
+dlineFD_end_manage   1000000000                                                                         1000000000
+  
+dlineFVS_end_manage  1000000000                                                                         1000000000
+  
+dlineSH_end_manage   1000000000                                                                         1000000000
+  
+diveBG_end_manage    1000000000                                                                         1000000000
+  
+pseineFVS_end_manage 1000000000                                                                         1000000000
+  
+cullPIN_end_manage   1000000000                                                                         1000000000
+  
+REC_end_manage       1000000000                                                                         1000000000
+  
+ptrawlPWN_end_manage 1000000000                                                                         1000000000
+  
+dtrawlFBP_end_manage 1000000000                                                                         1000000000
+  
+midwcZL_end_manage   1000000000                                                                         1000000000
+  
+trapFDE_end_manage   1000000000                                                                         1000000000
+  
+dlineFDE_end_manage  1000000000                                                                         1000000000
+  
+netFDE_end_manage    1000000000                                                                         1000000000
+  
+midwcPWN_end_manage  1000000000                                                                         1000000000
+  
+mowMA_end_manage     1000000000                                                                         1000000000
+
+If using US style MSY-based management set the tier for the species to 6, but you will also need to have the following in the param file
+
+## MSY related management parameters
+
+  
+# When using MSY based management (tier6 above), then this identifies the lever to use for each group
+
+  
+# None 0
+
+  
+# Effort 1
+
+  
+# Catch (quota) 2      (Will require meaningful values in the TAC_XX parameter arrays below)
+
+  
+# Spatial management 3  (Will require meaningful values in the MPA_YY parameter arrays below)
+
+  
+# Season 4   (Will require meaningful seasonopen and seasonclose values below)
+
+  
+# Gear 5
+
+  
+# YY_FC_restrict will also require a meaningful value (as that is the value used when fishery in recovery mode)
+
+UseLever     47
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+# Whether to rescale fisheries management levers based on minimum across species (1) or  the average (0)
+
+  
+midwcCEP_use_min_lever  0                                                                         0
+  
+jigCEP_use_min_lever    0                                                                         0
+  
+midwcFP_use_min_lever   0                                                                         0
+  
+dredgeBFS_use_min_lever 0                                                                         0
+  
+netFD_use_min_lever     0                                                                         0
+  
+netSH_use_min_lever     0                                                                         0
+  
+plineFVO_use_min_lever  0                                                                         0
+  
+pseineFVO_use_min_lever 0                                                                         0
+  
+pseineFP_use_min_lever  0                                                                         0
+  
+trapBMS_use_min_lever   0                                                                         0
+  
+trapFD_use_min_lever    0                                                                         0
+  
+dtrawlBMS_use_min_lever 0                                                                         0
+  
+dtrawlCEP_use_min_lever 0                                                                         0
+  
+dtrawlFD_use_min_lever  0                                                                         0
+  
+dtrawlFDB_use_min_lever 0                                                                         0
+  
+dtrawlFDO_use_min_lever 0                                                                         0
+  
+midwcFD_use_min_lever   0                                                                         0
+  
+dseineFDB_use_min_lever 0                                                                         0
+  
+dlineFD_use_min_lever   0                                                                         0
+  
+dlineFVS_use_min_lever  0                                                                         0
+  
+dlineSH_use_min_lever   0                                                                         0
+  
+diveBG_use_min_lever    0                                                                         0
+  
+pseineFVS_use_min_lever 0                                                                         0
+  
+cullPIN_use_min_lever   0                                                                         0
+  
+REC_use_min_lever       0                                                                         0
+  
+ptrawlPWN_use_min_lever 0                                                                         0
+  
+dtrawlFBP_use_min_lever 0                                                                         0
+  
+midwcZL_use_min_lever   0                                                                         0
+  
+trapFDE_use_min_lever   0                                                                         0
+  
+dlineFDE_use_min_lever  0                                                                         0
+  
+netFDE_use_min_lever    0                                                                         0
+  
+midwcPWN_use_min_lever  0                                                                         0
+  
+mowMA_use_min_lever     0                                                                         0
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

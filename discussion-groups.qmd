@@ -1,0 +1,9 @@
+---
+title: "Discussion Groups"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+## Discussion Groups:
+- [Climate Change](climate-change.qmd)
+- [Linking Models](linking-models.qmd)
+- [Macroecology, macrophysiology and urban scaling laws](macroecology-discussions.qmd)

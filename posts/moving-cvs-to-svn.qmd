@@ -1,0 +1,24 @@
+---
+title: "Moving cvs to svn"
+date: "2009-01-23"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+We have got a new subversion respository. But before everyone can use it Randall and I need to import our cvs repository into svn.
+  
+Reading the documentation on cvs2svn:
+
+I want the full conversion which will give use complete history.
+
+Tried checking out the currently empty svn but i'm getting a eclipse error saying the the SVN client can't be found.
+  
+I updated the subeclipse elipse plugin and installed the SVNKit Library and Subversion Native Library Adaptor and i managed to get this working.
+
+I also talked to Randall about getting the required cvs dump. He's working on this for me. The plan is he will generate the dump for me and i'll then import this into svn.
+
+svn dumps are generated. I need to get James access to titanic.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

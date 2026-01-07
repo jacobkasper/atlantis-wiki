@@ -1,0 +1,70 @@
+---
+title: "Building using docker"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+The Atlantis truck code now includes a Dockerfile that can be used to build an environment to build and run Atlantis. It will not pull an existing container but build the container and run it using the Dockerfile.
+
+You will first need a working docker install - see <https://docs.docker.com/install/> for information on this. Then just use the following (*Note from Beth: on a Mac I have to have the Docker open and then do the following at the command line in the terminal*):
+
+```
+# build the docker image
+
+make build
+
+
+# run the example model
+
+make run
+```
+
+**Changing the model run:**
+
+To change the model run in the docker image you will need to edit the Makefile - the default version should look like:
+
+```
+IMAGE=atlantis_docker
+USER=$(id -u)
+GROUP=$(id -g)
+
+run: build
+	 docker run -v $(PWD)/example:/app/model --user $(USER):$(GROUP) atlantis_docker
+
+build:
+	docker build --build-arg REGISTRY=docker-registry.it.csiro.au -t $(IMAGE) .
+
+clean:
+	docker system prune -f
+```
+
+Looking at the existing dockerfile:
+
+```
+FROM debian:jessie
+RUN apt-get update && apt-get install -yq build-essential autoconf libnetcdf-dev libxml2-dev libproj-dev subversion valgrind
+
+
+COPY atlantis /app/src
+RUN cd /app/src && aclocal && autoheader && autoconf && automake -a && ./configure && make && make install
+
+RUN mkdir -p /app/model
+CMD  cd /app/model/ && ./RunAtlantis.sh
+```
+
+You can see the last line will run a script called RunAtlantis.sh in the /app/model folder within the docker image. You can use bind mount a volume to point to your model files. In the make file change the run: build line to point to the directory where your run is, for example:
+
+```
+run_settas: build
+	 docker run -v /home/bec/BackedUp/Atlantis/runFiles/SETas_model_New_trunk_Pristine/SETas_model_New_Trunk:/app/model --user $(id -u):$(id -g) atlantis_docker
+```
+
+This assumes that you have a script called runAtlantis.sh in the /home/bec/BackedUp/Atlantis/runFiles/SETas_model_New_trunk_Pristine/SETas_model_New_Trunk folder . This script should not contain any code to compile Atlantis, just the command to run it:
+
+```
+#!/bin/bash
+
+#valgrind --log-file=valgrind%p.log --track-origins=yes --leak-check=full --track-fds=yes --show-reachable=yes 
+atlantisMerged -i INIT_VMPA_Jan2015.nc 0 -o outputSETAS.nc -r VMPA_setas_run_fishing_F_Trunk.prm -f VMPA_setas_force_fish_Trunk.prm -p VMPA_setas_physics.prm -b VMPA_setas_biol_fishing_Trunk.prm -h VMPA_setas_harvest_F_Trunk.prm  -s SETasGroupsDem.csv -q SETasFisheries.csv -d outputFolderPristine
+```
+
+Note - if you want to use valgrind to check the code just uncomment the valgrind line. Valgrind is already installed in the docker image.

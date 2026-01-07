@@ -1,0 +1,154 @@
+---
+title: "Biology Equations"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+### Movement Options
+
+The description of the existing movement options can be found in the [attached doc file](attachments/43156332.docx)
+
+### Primary Production
+
+Primary producer abundance is modeled as an aggregated biomass pool in each spatial box. The model tracks abundance (mg N/m3) per box. Biomass growth is limited by nutrient, light and space availability. Biomass is lost to predation, lysis, and linear and quadratic mortality. Linear mortality represents additional density-independent mortality not explicitly modeled. Quadratic mortality represents density dependent mortality (for instance, self shading).
+
+Rate of change for standard water column (w) primary producer (PX) is
+
+![](equations/latex3648098795766036315.png)
+
+where
+
+![](equations/latex13745642888689240577.png)
+
+Where 
+![](equations/latex1933367139939827821.png)
+
+stands for the growth of PX,
+
+![](equations/latex15852844984473343716.png)
+
+is the loss of PX due to lysis, 
+![](equations/latex11973153311292670166.png)
+
+and 
+![](equations/latex11680843467668557012.png)
+
+are loss due to linear and quadratic mortality, 
+![](equations/latex2126233377328536507.png)
+
+are the losses of PX due to predation, 
+![](equations/latex6011918527511530286.png)
+
+is the maximum growth rate, 
+![](equations/latex12186349551770183325.png)
+
+is light limitation , 
+![](equations/latex4181562166987436642.png)
+
+is nutrient limitation. 
+![](equations/latex294581477773922591.png)
+
+is the maximum growth rate. This is the InvertebrateGrowthRate value in the biology input file for primary producer PX corrected for the current temperature.
+
+![](equations/latex12376266590945844908.png) is the linear mortality <Mortality/FLAG_ML_T15> input variable for the primary producer PX. 
+![](equations/latex16945794640796285884.png)
+
+is the quadratic mortality <Mortality/FLAG_MQ_T15> input variable for the primary producer PX.
+
+where:
+
+#### Lysis
+
+![](equations/latex15225046211255604605.png) is the loss of a primary producer to lysis
+
+![](equations/latex489775352019757993.png)
+
+where
+
+![](equations/latex14855172542033200537.png) is the Mortality/FLAG_LYSIS_RATE input parameter for primary producer PX.
+
+#### Light Limitation
+
+The light limitation equation is dictated by the flaglight input parameter in the biology input file.
+
+If the flaglight input parameter is set to false (0) then
+
+Light limitation
+
+![](equations/latex4007572058095245882.png)
+
+If flaglight is set to true (1) then
+
+Light limitation
+
+![](equations/latex11398495698299991700.png)
+
+where
+
+![](equations/latex14161019757575008464.png) is the primary producer PX light limitation input variable FLAG_KI_T15 corrected by Tcorr.
+
+#### Nutrient Limitation
+
+[TODO - Not sure if all of these option are now used.](/pages/createpage.action?spaceKey=Atlantis&title=TODO+-+Not+sure+if+all+of+these+option+are+now+used.&linkCreation=true&fromPageId=43155690)
+
+![](equations/latex6345706789824243823.png) is nutrient limitation
+- If the flagmicro input parameter is set to false (0) then
+
+  ![](equations/latex6946505971555956651.png)
+
+where DIN = NH + NO except of those primary producers which are also limited by the availability of Si then nutrient limitation is specified by the flagnut input parameter.   
+ If flagnut == 0 (Leibig)
+
+![](equations/latex3562008306978256021.png)
+
+if flagnut == 1 (multiplicative)
+
+![](equations/latex7170184200442346290.png)
+
+if flagnut == 2 (WQI)
+
+![](equations/latex14532245711690723516.png)
+- If the flagmicro input parameter is set to true (1) then the nutrient limitation is also dependent on micronutrients
+
+If primary producer PX is not limited by the availability of Si then the nutrient limitation equation used is dependent on the input parameter flagnut.
+
+If flagnut == 0 (Leibig)
+
+![](equations/latex6897469156656351460.png)
+
+if flagnut == 1 (multiplicative)
+
+![](equations/latex12633522136462835169.png)
+
+if flagnut == 2 (WQI)
+
+![](equations/latex9211125141348427839.png)
+
+If the primary producer is limited by the availability of Si then the equations also include a Si component and are again dependant on the value of the flagnut input parameter:
+
+If flagnut == 0 (Leibig)
+
+![](equations/latex14406987888156077561.png)
+
+if flagnut == 1 (multiplicative)
+
+![](equations/latex9689124684575020331.png)
+
+if flagnut == 2 (WQI)
+
+![](equations/latex12929027345498214102.png)![](equations/latex7954351970103132732.png)
+
+is space limitation
+
+![](equations/latex722827722295136901.png)
+
+![](equations/latex17369209050518710579.png) is the DIN half saturation constant (FLAG_DIN_HALF_SAT) input variable for primary producer PX.
+
+![](equations/latex2450956185439555348.png) is the Si half saturation constant (FLAG_SI_HALF_SAT) input variable for primary producer PX.
+
+Nutrient Uptake
+
+![](equations/latex4669737054011872345.png)![](equations/latex14705741651356731458.png)
+
+where
+
+![](equations/latex5734041844013970827.png) is the half saturation constant for the uptake of NH.

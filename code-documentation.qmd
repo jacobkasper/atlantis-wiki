@@ -1,0 +1,73 @@
+---
+title: "Code Documentation"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+This page is an attempt to document the Atlantis code structure to enable people to contribute to the code base.
+
+### Code Folder Structure
+
+**atassess**
+
+Contains the assessment module. This code is only used if the assessment input file is provided.
+
+**[atbrokerlink](brokerlink.qmd)**
+
+The folder that contains code used to communication with the linkage broker. This code is basically untested to date and is not compiled or used unless you have pass '--enable-brokerlink' to the configure option in linux. Passing this value to configure will define the 'BROKER_LINK_ENABLED' preprocessor value which will include all the broker link code.
+
+**atCLAMLink**
+
+This folder contains code that is used to communicate with the CLAM (Coastal Lake Assessment and Management) Bayesian decision support tool. This will only be used if the code is compiled with the 'enable-brokerlink' option in linux/mac or the 'BROKER_LINK_ENABLED' preprocessor flag is set in windows.
+
+**atecology**
+
+This folder contains all of the ecology functionality.
+
+**ateconomic**
+
+This folder contains all the economics functionality in Atlantis. This code is only active if the 'flagecon_on' value in the run.prm file is set to 1.
+
+**atharvest**
+
+This folder contains all the code associated with fishing in Atlantis. This is only active if the 'flag_fisheries_on' value in the run.prm file is set to 1.  
+The management side of Atlantis is handled separately in the atmanage folder.
+
+**atimplementation**
+
+The folder contains code pertaining to the implementation of management decision in the model.
+
+**atlantismain**
+
+The folder contains the main routine of Atlantis including the main loop that iterates through time in the model.
+
+**atlantisUtil**
+
+The folder contains utility functions such as array allocation functions and XML tools. It also contains the code that reads in the functional group definition file.
+
+**[atlink](atlink.qmd)**
+
+This is older code that was used to link directly to EwE. This will be removed once the broker linkage work has been tested.
+
+**atmanage**
+
+This folder contains code regarding management decisions in Atlantis.
+
+**atphysics**
+
+This folder covers the physics side of Atlantis including reading in and applying point source, temperature, salinity and current forcing data. It also covers reading in the initial conditions netcdf file and writing out all of the netcdf output files.
+
+**ConvertAtlantis**
+
+This folder contains the code that converts the prm files into XML files that are read in by each module.
+
+**externalLibs**
+
+This folder contains third party libraries that are used by Atlantis when running under windows. If you need to add an additional third party library then include it in this folder.
+
+**netcdf**
+
+The netcdf libraries. These are used in Windows. These files should be moved into the externalLibs folder.
+
+**sjwlib**
+
+Another utility library that contains functions such as file parsing and random number generation. Ideally this should be merged with atlantisUtil.

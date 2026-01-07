@@ -1,0 +1,149 @@
+---
+title: "Output Splitter"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+# Diet Composition
+
+## Usage
+
+Usage: outputsplitter -b 3decoloutput.nc -e 2Dsummary_ecologicaloutput.nc -f 2Dsummary_fisheriesoutput.nc -r run.prm
+
+## Checking out and Compiling
+
+You will need to build the outputsplitter code on your machine.
+
+The output splitter code is in the Atlantis SVN repository at:
+
+<https://svnserv.csiro.au/svn/atlantis/outputSplitter/trunk>  
+ (add the 'ext' if you are using a CSIRO partners account).
+
+You will need to be given permission to read this path, the permission settings are independent to the main Atlantis source code. Contact Bec or Beth for permission.
+
+It currently assumes that you have your code folders setup like the following:
+
+-> CodeFolderName  
+ --->atlantis  
+ --->outputSplitter
+
+outputSplitter will try to find some of the headers and library's of Atlantis using (..\atlantis). If you get an error saying it cannot find sjwlib or netcdf then give bec a yell and she will fix it for you.
+
+##### Windows
+
+Open the outputSplitter.sln if you are using Visual Studio 2003 and outputSplitter_2008.sln if you are using Visual Studio 2008.
+
+You should be able to build it my selecting Build All.
+
+Remember to copy the outputsplitter.exe you have built in your outputSplitter/debug folder to where you want to run it.
+
+##### Linux
+
+Type the standard commands:
+
+aclocal  
+ autoheader  
+ autoconf  
+ automake -a  
+ ./configure  
+ make  
+ make install
+
+The makefiles will assume you have installed Atlantis on the computer and will generate an error message if its can't find the atlantis header files it needs.
+
+##### Mac
+
+Type the standard commands:
+
+aclocal  
+ autoheader  
+ autoconf  
+ automake -a  
+ ./configure_mac **- Note the special configure script for mac**  
+ make  
+ make install
+
+The makefiles will assume you have installed Atlantis on the computer and will generate an error message if its can't find the atlantis header files it needs.
+
+You may need to edit the configure_mac script. Have a read of [Creating your own personal configure script](creating-your-own-personal-configure-script.qmd) for more info.
+
+# Running
+
+The output file from your Atlantis run that you will need to run the outputsplitter are;
+
+ .nc,
+
+TOT.nc, and
+
+TOTCATCH.nc
+
+You will also need to put your .bgm file, a batch file and an outputsplitter run.prm file in the same folder as the outputsplitter.
+
+Here are examples of the [run.prm](attachments/43156414.prm) and [batch file](attachments/43156413.bat).
+
+To customise your batch file, all you need to do is change the names of the files so that they match your run and output file names.
+
+**Customising the run.prm file**
+
+Firstly, all the parameters from li_a down are parameters from either your harvest or biol file from your Atlantis runs. These need to be updated so that they match the files from your Atlantis run.
+
+Now you need to specify what output you want from the outputsplitter. The flags from ‘do_spatial_stat’ (line 5 in the example run,prm file) to ‘everydiet’ (line 11) specify the type of output that the outputslitter can calculate. Put a 1 next to the flag that you want the outputsplitter to calculate, and a 0 next to the flags that you don’t want.
+
+Update ‘nyear’ with the number of years that your Atlantis run went for.
+
+Update ‘ndump’ with the number of data entries in the .nc output files (you can find this by opening the .nc file in OLIVE and see how many records are specified in the bottom left hand corner when you scroll to the very end of the time series).
+
+Update ‘nfstatdump’ with the number of data entries in the fisheries output file (you can do this the same way as with the .nc file described above, but use the TOTCATCH.nc file instead).
+
+**Calculating time series** **for individual boxes**
+
+If you want to calculate time series for individual boxes then update ‘num_timeseries’ to the number of boxes that you want time series from (e.g. if you want to calculated time series for boxes 10,11 and 12 you would put ‘3’ here, as there are 3 boxes).
+
+If you only want to calculate time series and do not other calculations, set ‘only_timeseries’ to 1
+
+Specify the boxes that you want time series from under ts_boxes. For example, if you want to calculate time series for boxes 10, 11 and 12 you indicate this with:
+
+ts_boxes 3
+
+10 11 12
+
+**Diet calculations**
+
+If you want to calculate diet statistics, set the flag ‘do_diet_stat’ to 1. Also, make sure that ‘only_timeseries’ is set to 0.
+
+Under ‘sample_box’ specify which boxes that you want to calculate the diet statistics for. You need as many entries here as boxes in your model (each entry represents a box). For example, if my model has 71 boxes and I want diet stats for boxes 0, 1 and 2, I would specify this by:
+
+sample_box        71
+
+1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+Set ‘sample_pred’ and ‘sample_prey’ to specify which predators and prey to track the diets of. The ID number of each group is specified at the bottom of your run.prm file for your Atlantis run. For example, if I want to track the diets of FPS, FPL and FPO, I would indicate this by:
+
+sample_pred  67
+
+1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+If I wanted to track who was eating FPS, FPL and FPO I would indicate this by:
+
+sample_prey  67
+
+1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+One of the calculations that the outputsplitter does as part of its diet calculations is to see want proportion of a predator’s diet is made up of small pelagic fish. In order for it to know which groups are small pelagics, you need to specify that information in ‘isSmallPelagic’.  In the example below, the small pelagics are FPS, FPL, FMM, FMN and FBP.
+
+isSmallPelagic 67
+
+1 0 1 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+**R output files**
+
+As the request from a number of scientists some of the output files also have R versions. So if you see some files called:
+
+## Box Biomass
+
+This R script has been written for Penny Johnson and Cathy Bulman to help analysis data from Atlantis and EwE models.
+
+Written by Bec Gorton - but its her first R script so its probably terrible but it seems to work.
+
+[CalcBiomass_vicMPA.r](attachments/43156585.r)
+
+For information about installing R and using netCDF in R have a read the [R Notes](r-notes.qmd)

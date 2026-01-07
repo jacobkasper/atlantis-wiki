@@ -1,0 +1,12 @@
+---
+title: "R code for graphical analyses of vertebrate numbers, mass and length-at-age"
+date: "2011-08-22"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+An R code has been uploaded that allows you to make graphs of vertebrate biomass, length-at-age, numbers-at-age, etc.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

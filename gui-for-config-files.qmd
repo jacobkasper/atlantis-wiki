@@ -1,0 +1,32 @@
+---
+title: "GUI for config files"
+author: "Unknown User (hep016)"
+---
+
+# Overview
+
+There is a GUI under development (by Bec and Mark) for creating and editing some of the config files used by Atlantis.  So far this is just the functional groups and biology; more will be incorporated over time.
+
+There are a few aspects designed to make editing easier and less error-prone:
+- self-documenting (hover over any variable name to get a description)
+- sensible defaults
+- unused parameters are hidden
+- Profiles (for example, hide all options that are only relevant for advanced users)
+- helper widgets (for example, an interactive map of the box-model to help remember which box is which, or a calculator to graphically experiment with different parameter values)
+
+Note that the format of files it outputs is different to what you may be used to; it is possible to edit them by hand, but not recommended.
+
+# Operation
+
+Download the latest build [here](attachments/43156020.jar).
+
+You will need java (at least version 6) installed in order to run it.  To start, type the following from a terminal window:  
+java -jar mini.jar(you can probably also just double-click the mini.jar file)  
+You will need to specify an existing box model file; you can choose to either create new or use existing functional groups and biology files though. (but note that if pre-existing these must be in the new format).  Click Next to advance to the functional groups set-up.
+
+When finished with functional-groups configuration, click Next again to advance to the biology configuration (if you make changes here, the biology may need to be reloaded since many parameters depend on the number and type of functional groups).
+
+Because biology configuration is so large, it is broken up into tabs.  You should start with the FunctionalGroupFlags tab.
+
+At any stage, from the File menu you can save your work; this will let you save each section individually (for eg, you can choose to save the biology but not the functional groups -- obviously you need to be careful here though!).  Under the Help menu there is a "View Log" item; this just contains debugging output, but if you run into problems it might be useful to us if you include the information from that window when you email us.  
+﻿

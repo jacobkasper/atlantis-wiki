@@ -1,0 +1,22 @@
+---
+title: "Adding a new GroupType"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+If you want to add a new groupType such as for sea ice algae you will need to do the following:
+
+1. Add a new value to the 'GROUP_TYPES' enum in atlantisUtil/atFunctGroup.h
+
+2. Add the new group to atlantisUtil/atGroupTypes.h file to the GroupTypesStruct groupTypes[] definition using the new value defined in the 'GROUP_TYPES' enum.
+
+3. You will need to update the input file parsing code to read in parameters for this new groupType.
+
+4. Make sure you update the code in the Util_Read_Functional_Group_XML function that sets the additional flags for each group.
+
+5. Update the Set_Group_Habitats function to set the habitat preference for the new groupType.
+
+6. Tell the assessment which biased sample value to use for this group type in Setup_Biased_Sample_Values().
+
+7. Add new a new process function to the file atGroupProcess.c in atecology then update the Call_Group_Process_Function() function to set which function to use for the new groupType. The code won't compile until you have the new groupType added to the switch statement.
+
+8. Update the AtlantisSPECIESPARAMTYPES values. These are used to work out which species parameters are required for which functional groups.

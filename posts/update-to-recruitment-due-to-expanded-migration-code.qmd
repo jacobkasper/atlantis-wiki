@@ -1,0 +1,14 @@
+---
+title: "Update to recruitment due to expanded migration code"
+date: "2021-01-26"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+We have had to add an additional parameter
+**XXX_cohort_recruit_entry**
+that identifies which cohort recruits enter in. Typically, this is zero, but for multi-year and complicated migration patterns this may be set to a value of one or more.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

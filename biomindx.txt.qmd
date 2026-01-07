@@ -1,0 +1,10 @@
+---
+title: "BiomIndx.txt"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+The biomIndx.txt file gives you a summary of the biomass of the groups that are active. It doesn't include the biomass in the boundary boxes.
+
+The biomass values are written out every tsumout days. This value is set in run.prm input file.
+
+The units of this output file is tonnes and the values are a snapshot - so they are not averaged over time.

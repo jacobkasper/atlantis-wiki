@@ -1,0 +1,113 @@
+---
+title: "Building under linux"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+## Before you start
+
+You must have super user access to be able to install the required packages
+
+The following instructions are for building using 32 bit Ubuntu. If you have 64bit then these instructions should also work.  
+If you want to run Atlantis under Ubuntu using VirtualBox contact Bec as she has Virtual Box images with all software required installed. We recommend where possible people use a separate machine for Linux.
+
+## Required Packages:
+
+Atlantis requires the following packages/libraries to be installed. Please read the instructions for your operating system for more details.
+- gcc - the complier
+- subversion - used to check out the code from the code repository.
+- netcdf development library
+- libxml development library
+- proj development library - used for GIS projections (might have issues compiling Atlantis if you try to use a version later than 7.2.1).
+- pkg-config - can get by without this but it will be easier if you have it.
+
+## Linux Versions
+
+So far we have built Atlantis on the following platforms:
+
+[Ubuntu - 32 and 64](ubuntu.qmd)  
+[Fedora](fedora.qmd)  
+[CentOS](43155503.qmd)
+
+[Debian 7.2 Wheezy 64](43155503.qmd)
+
+If you have another operating system then please contact Bec and she will do some testing to make sure its going to work.
+
+If you have a choice which flavor to use we recommend 64-bit Ubuntu.
+
+### Running Atlantis
+
+The following process will install a program called 'atlantisNew' or 'atlantisMerged' depending on the version of the code you have compiled. To test that it has built correctly try typing the following into a terminal
+
+atlantisNew
+
+You should see an SVN version number and information about the command line arguments you need to pass Atlantis.
+
+### Installing Eclipse
+
+Eclipse is a good development environment in Linux. You really only need this if you expect to look at the Atlantis code.
+
+##### 1. Install Java
+
+Install the latest version of Java. (More info to come)
+
+h5, 2. Install the most recent version of eclipse.
+
+Goto:<http://www.eclipse.org/downloads/>  
+and install the Eclipse IDE for C/C++ Developers.
+
+This will download a large tar.gz file onto your desktop. Extract it onto your desktop using the "Extract Here" option in the context menu.  
+To start eclipse open the newly extracted elipse folder and double click on the 'eclipse' icon.
+
+Eclipse can be added to your applications menu using the System->Preferences->Main Menu tool.
+
+##### 3. Add additional plugins to Eclipse.
+
+**Subeclipse.**
+
+In the Help menu there is an option 'Install New Software'. Click the 'Add' button to add a new site.
+
+Get the latest update site url from <http://subclipse.tigris.org/servlets/ProjectProcess?pageID=p4wYuA>.  
+Again there will be some thinking - and then install all relevant options.
+
+##### 4. Building within Eclipse using existing source code.
+
+Install eclipse using sudo apt-get install eclipse-cdt.
+
+Eclipse is an open source programming environment for many languages including C. Eclipse will be added to the Applications->Programming menu.
+
+When you open eclipse for the first time you will be able to set up a workspace. Best to leave this in your home directory for example /home/bec/Workspace
+
+Create a new "Standard Make C Project". This means it will use the existing makefiles to build the project. Call this project atlantis and browse to where your source code is located. This will by default import the source code as well.
+
+When you create your project click on the Advanced settings button and select the C++ build options.  
+Uncheck the 'Generate Makefiles automatically' tick box and get rid of the 'Debug' bit of the end of the build location.
+
+## Other Notes:
+
+### Using the debug versions of libraries
+
+Mark need to link to the debug versions of the csoap libraries.  
+This meant he needed to change the path in the makefiles -
+
+LDFLAGS=-l/usr/lib/debug/usr/lib ./configure
+
+This worked.
+
+### Converting Windows Atlantis Input files
+
+Before you can run Atlantis under Linux you will need to convert your windows input files.  
+Unfortunately Linux and Windows use different line terminators (see <http://en.wikipedia.org/wiki/Newline> for more information).
+
+There is a very useful linux program called 'flip'.
+
+Usage is:
+
+flip -uv * - convert all ascii files in the current directory to linux file format.
+
+flip -mv * - convert all ascii files in the current directory to Windows format.
+
+## Trouble Shooting
+
+atlantisNew: error while loading shared libraries: libnanohttp-1.1.so.1: cannot open shared object file: No such file or directory
+
+Basically add the folder where the shared library is to /etc/ld.so.conf file then run ldconfig <http://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html>

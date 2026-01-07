@@ -1,0 +1,76 @@
+---
+title: "Noise and Light Pollution"
+date: "2021-06-20"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+A simple representation of noise and light pollution from human sources can be represented as a forcing file. More advanced code linking this pollution to levels of human activity is present in the development branch but not the trunk as yet. In the main trunk code, for now the levels of noise and light pollution must be entered in a forcing NC file in the same way as salinity or temperature.
+
+To activate and load this pollution you need to
+  
+*run.prm file*
+: set
+**flag_pollutant_impacts**
+to 1
+
+*forcing.prm file*
+: set
+**use_pollutantfiles**
+to 1 ad then
+  
+**nnoise_pollutionfile
+*s***
+X (where X is the number of noise forcing files)
+  
+**Noise_Pollution0.name**
+path/noise_filename.nc
+  
+**noise_pollution_rewind**
+1 (set to 0 if you do not want the file(s) to be rewound and reused)
+
+**nlight_pollutionfiles**
+X (where X is the number of light pollution forcing files)
+  
+**Light_Pollution0.name**
+path/light_pollution_filename.nc
+  
+**light_pollution_rewind**
+1 (set to 0 if you do not want the file(s) to be rewound and reused)
+
+*biol.prm file*
+: Add the parameters
+**noise_coefft_XX**
+and
+**light_coefft_XX**
+for each biological group
+
+*groups.csv*
+: Add the columns
+**isLightEffected**
+and
+**isNoiseEffected**
+and set the value to 1 for these if you want noise/light pollution to affect that species group
+
+For any groups that are affected then during movement an additional scalar (δ_N) is applied to each box (making a site less attractive to the species), with:
+
+δ
+N
+= κ
+η,s
+/N
+i,j
+
+Where N
+i,j
+represents the level of the pollutant (noise or light) in layer
+*j*
+of polygon (box) ; and κ
+η,s
+is the coefficient for that pollutant type.
+
+In addition, metabolic parameters – consumption (C) and growth rates (mum) – are scaled in the same way; while starvation and background (mL, mQ) mortality rates are scaled by the inverse.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

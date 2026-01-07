@@ -1,0 +1,20 @@
+---
+title: "Canada DLL issues"
+date: "2008-11-18"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Isaac is having more issues with dlls while trying to get Atlantis running on the computers in Canada.
+  
+I suspect this is because he has old code that was trying to use the debug dynamic link runtime library.
+  
+I have copied a run scenario to a clean windows vb and testing to make sure it runs. Its does. So the current code in the cvs respository is correct.
+
+I'm going to compile the code using the debug version of the runtime libs and see if this causese issues. Yeah when i recompile the code using the debug dynamic dll runtime lib is get errors. I think that this is whats going on with the attempts in Canada.
+  
+When Isaac gets back to me i'll talk him through changing the runtime libs.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

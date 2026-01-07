@@ -1,0 +1,135 @@
+---
+title: "Mortality scale time series input - non-compulsory change to forcing input file"
+date: "2017-07-29"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+There is a new non-compulsory parameter in the forcing input prm file. This can be used to read in a time series file containing scaling to apply to linear mortality.
+  
+If the group is age structured or an age structured biomass group then a scaling value can be specified for adults and juv. If the groups is a biomass group then a single value should be specified.
+
+The following would be added to your forcing input file:
+
+#############################################
+  
+# Changes in linear mortality
+
+  
+LinearMort linearMortality.ts
+
+The structure of the linearMortality.ts file is:
+
+# Changes in linear mortality test file.
+
+  
+#
+  
+## COLUMNS 6
+
+  
+##
+  
+## COLUMN1.name Time
+
+  
+## COLUMN1.long_name Time
+
+  
+## COLUMN1.units days since 2000-01-01 00:00:00 +10
+
+  
+## COLUMN1.missing_value 0
+
+  
+##
+  
+## COLUMN2.name PL
+
+  
+## COLUMN2.long_name PL
+
+  
+## COLUMN2.units scalar
+
+  
+## COLUMN2.missing_value 0
+
+  
+##
+  
+## COLUMN3.name juv_FMM
+
+  
+## COLUMN3.long_name juv_FMM
+
+  
+## COLUMN3.units scalar
+
+  
+## COLUMN3.missing_value 0
+
+  
+##
+  
+## COLUMN4.name adult_FMM
+
+  
+## COLUMN4.long_name adult_FMM
+
+  
+## COLUMN4.units scalar
+
+  
+## COLUMN4.missing_value 0
+
+  
+##
+  
+## COLUMN5.name juv_FMN
+
+  
+## COLUMN5.long_name juv_FMN
+
+  
+## COLUMN5.units scalar
+
+  
+## COLUMN5.missing_value 0
+
+  
+##
+  
+## COLUMN6.name adult_FMN
+
+  
+## COLUMN6.long_name adult_FMN
+
+  
+## COLUMN6.units scalar
+
+  
+## COLUMN6.missing_value 0
+
+  
+1 1 1 1 1 1
+
+1 1 1 1 1 1
+  
+2 1.5 1.5 1.5 1.5 1.5
+  
+.....
+
+The Time should be in model time not hydro time so in the above example the model starts on the beginning of 2000 - this is the same as the time in the initial conditions netcdf file.
+
+One thing to note is that the values are interpolated. So the mortality scalar applied at day 1 will be 1.0 for all groups listed above. Any groups that are not in the file will not be scaled.
+  
+The scalar applied at day 1.5 will be 1.25 and the scale factor at day 2 will be 1.5.
+
+The scale factor will be applied to the linear mortality value after temperature scaling is done. See
+[here](https://wiki.csiro.au/confluence/display/Atlantis/Effect+of+temperature+on+functional+groups)
+for more information on the effect of temperature on mortality.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

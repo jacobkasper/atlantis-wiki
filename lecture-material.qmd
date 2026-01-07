@@ -1,0 +1,124 @@
+---
+title: "Lecture Material"
+author: "Porobic Garate, Javier (Environment, Hobart)"
+---
+
+#### 2022 Lectures (Summer School, Chile)
+
+Day 1
+
+[Lecture_day01_P01_Atlantis_Chile.pdf](attachments/1751814444.pdf)
+
+[Lecture_day01_P02_Atlantis_Chile.pdf](attachments/1751814445.pdf)
+
+[Lecture_day01_P03_Atlantis_Chile.ppt](attachments/1751814446.ppt)
+
+Day 2
+
+[Lecture_day02_P01_Atlantis_Chile.pdf](attachments/1751814447.pdf)
+
+[Lecture_day02_P02 - Atlantis example.pptx](attachments/1751814448.pptx)
+
+[Lecture_day02_P03_modelling_decisions.pdf](attachments/1751814449.pdf)
+
+Day 3
+
+[Lecture_day03_P01_Atlantis_Chile.pdf](attachments/1751814450.pdf)
+
+[Lecture_day03_P02_Atlantis_Chile.pdf](attachments/1751814452.pdf)
+
+[Lecture_day03_P03_Atlantis_Tools.pdf](attachments/1751814453.pdf)
+
+Day 4
+
+[Lecture_day04_P01_Atlantis_Chile.pdf](attachments/1751814454.pdf)
+
+[Lecture_day04_P02_Atlantis_Chile.pdf](attachments/1751814455.pdf)
+
+#### 2021 Lectures
+
+Videos of the 2021 course are available from these links
+
+Notes on Lectures
+
+[Lecture 1 - Standard Atlantis overview](https://drive.google.com/file/d/1w4X1Ed-Q7pdRuuKeDvvZaJr3TMWlS-bR/view?usp=sharing)
+
+[Lecture 2 - SE Atlantis example](https://drive.google.com/file/d/1Y0sOkhDGHkm_y7ibJWKu4DuVTRY0x6-R/view?usp=sharing)
+
+[Lecture 3 - Installing code, working with SVN, compiling, running Atlantis (including using Docker)](https://drive.google.com/file/d/1kKJ9PAYqXyrWGGLkcJkBub9QBhRkrIFl/view?usp=sharing)
+
+[Lecture 4 - R tools](https://drive.google.com/file/d/1WNLK-p4n39DfRMpebz--PkB9Bdu-FJYq/view?usp=sharing)
+
+[Lecture 5 - Looking through code, diagnosing and troubleshooting common problems (best practice calibration)](https://drive.google.com/file/d/1ekrfM-g-z2LDEZ85wKa3UxfMGF9UP9wd/view?usp=sharing)
+
+[Lecture 6 - new functionality (multi-year migrations, fisheries and management links, coral reefs, ice, contaminants, physiology, invading species and land use)](https://drive.google.com/file/d/1rkZj_PldevkTYyuJkEkBw5f1KHYVuPOK/view?usp=sharing)
+
+#### 2008-2009 Lectures
+
+#### Theory and lecture heavy versions of teaching material that Beth used in 2008 and 2009
+
+[Lecture 1 - Intro Atlantis Modelling Concepts.ppt](attachments/43156533.ppt)   
+[Lecture 2 - Marine Ecology and Oceanography.ppt](attachments/43156524.ppt)   
+[Lecture 3 - Ecological Modelling.ppt](attachments/43156522.ppt)   
+[Lecture 4 - Resolution.ppt](attachments/43156520.ppt)   
+[Lecture 5 - Physics equations.ppt](attachments/43156531.ppt)   
+[Lecture 6 - Chemical equations.ppt](attachments/43156529.ppt)   
+[Lecture 7 - Primary Production.ppt](attachments/43156518.ppt)   
+[Lecture 8 - Biomass Pool Consumers.ppt](attachments/43156517.ppt)   
+[Lecture 9 - Vertebrates.ppt](attachments/43156516.ppt)   
+[Lecture 10 - Fisheries and Management.ppt](attachments/43156519.ppt)   
+[Lecture 11 - Socio-economics.ppt](attachments/43156525.ppt)   
+[Lecture 12 - Building Atlantis.ppt](attachments/43156506.ppt)   
+[Lecture 13 - Looking at Output.ppt](attachments/43156507.ppt)   
+[Lecture 14 - Running Atlantis.ppt](attachments/43156508.ppt)   
+[Lecture 15 - Main Loop.ppt](attachments/43156509.ppt)
+
+#### Seattle 2009 Teaching materials
+
+The following is the teaching material that Isaac, Cam, and Peter used in Seattle, Sept 2009.  
+Includes slides, handouts, and lab demos.  
+Includes slides from Beth, Bec, Jason Link, Uwe Rosebrock, others:
+
+[AtlantisEcosysModelCourseSept2009.doc](attachments/43157076.doc)   
+[Day1_0930_Ecosystem Models (Cam).ppt](attachments/43157085.ppt)   
+[Day1_1115_KaplanIntroTo_Atlantis_Sept_2009.ppt](attachments/43157088.ppt)   
+[Day1_1330_Kaplan_SEAustralia_Atlantis_Sept82009.ppt](attachments/43157079.ppt)   
+[Day1_1430_Horne_Atlantis_California_8Sep2009.ppt](attachments/43157083.ppt)   
+[Day1_1500_KaplanDay1_ITQAcidification_Sept2009.ppt](attachments/43157080.ppt)   
+[Day1_1545_GOC case study (Cam).ppt](attachments/43157084.ppt)   
+[Day1_1700_handout.doc](attachments/43157072.doc)   
+[Day2_0915_Key modelling decisions (Cam).ppt](attachments/43157073.ppt)   
+[Day2_1045_KaplanFutureDevelopmentAtlantis2.ppt](attachments/43157074.ppt)   
+[Day2_1115_Atlantis Output.ppt](attachments/43157206.ppt)   
+[Day2_1145_Output visualization (Cam).ppt](attachments/43157078.ppt)   
+[Day2_1300_HandoutsPRM_CDF.doc](attachments/43157067.doc)   
+[Day2_1300_KaplanAtlantisInputFiles.ppt](attachments/43157203.ppt)   
+[Day2_1430_ECCALbioparams.xls](attachments/43157075.xls)   
+[Day3_0900_Handout_HowtoBuildanAtlantisModel_Feb18_2009.doc](attachments/43157086.doc)   
+[Day3_0930_ThoughtExperiments.doc](attachments/43157070.doc)   
+[Day3_1330_KaplanFitToHistory.ppt](attachments/43157091.ppt)   
+[Day3_1430_Ancillary tools (Cam).ppt](attachments/43157087.ppt)   
+[Day3_1630_KaplanCodeTour.ppt](attachments/43156514.ppt)   
+[ReadMe.txt](attachments/43157092.txt)   
+[Admin.zip](attachments/43157071.zip)   
+Day2_1115_PeterOutputDemo.zip - currently not in the archive, but contact Beth to chase up a copy or an equivalent  
+[Day2_1300_IsaacInputFiles.zip](attachments/43156515.zip)   
+Day3_1030_LabExercises.zip- currently not in the archive, but contact Beth to chase up a copy or an equivalent
+
+#### Hobart/Europe 2011 teaching powerpoints
+
+Teaching power points from Feb 2011 Workshop in Hobart. These are fairly short as its supposed to be more hands on.
+
+[LECTURE 1 - Atlantis2011.ppt](attachments/43157108.ppt)   
+[LECTURE 2 - Geometry 2011.ppt](attachments/43157105.ppt)   
+[LECTURE 3 - Physics 2011.ppt](attachments/43157106.ppt)   
+[LECTURE 4 - Biology 2011.ppt](attachments/43157107.ppt)   
+[LECTURE 5 - Fisheries_2011.ppt](attachments/43157109.ppt)   
+[LECTURE 6 - Running Atlantis.ppt](attachments/43157104.ppt)   
+[LECTURE 7 - Output Exploration.ppt](attachments/43157157.ppt)   
+[LECTURE 8 - Monitoring and assessments 2011.ppt](attachments/43157158.pptx)   
+[LECTURE 9 - Main loop and code 2011.ppt](attachments/43157103.ppt)
+
+[Introduction to Atlantis NetCDF](attachments/43156445.pptx)
+
+[Atlantis Code](attachments/43156444.pptx)

@@ -1,0 +1,20 @@
+---
+title: "Atlantis in Parallel"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+This is a collection of notes on work to make Atlantis run as a multithreading program.
+
+### C threading libraries.
+
+Before we can do much investigation we need to select a library to play with. We need library that is platform independent
+
+I want a data parallel algorithm with explicit parallelism.
+
+### Getting Started with OpenMP
+
+We need gcc 4.3.3 so a new version needs to be downloaded and installed.
+
+### Interesting Reading
+
+[What Every Computer Scientist Should Know About Floating-Point Arithmetic](https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.qmd)

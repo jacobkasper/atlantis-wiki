@@ -1,0 +1,20 @@
+---
+title: "So, you're thinking of building an Atlantis model..."
+author: "Michael Smith"
+---
+
+These are some thoughts on the process of building an Atlantis model, based on my experiences with the model of the southern Benguela ecosystem. The intention is to help the reader have a better idea of whether Atlantis is the right tool for them.  Although Atlantis is a great modelling framework, it is not the best solution to every problem.
+
+Probably the most important requirement before you build in Atlantis model is **access to data**. Lots and lots and lots of data. There are literally thousands of parameters in a typical Atlantis model, so if you don't have access to a lot of good-quality data, you will be doing a lot of guesswork, and it may be very difficult to justify your guesses. In my case, it helped that there was already an Ecopath model of the system, so wherever there were no data (for non-surveyed species, for instance) I at least had a mass-balance number to fall back on.
+
+When designing the actual model, data availability should also guide the level of model complexity. Having the spatial resolution, for instance, at a finer scale than the available hydrodynamic or biological data is probably a bad idea.
+
+Building an Atlantis model involves a whole lot of parameter tweaking and error hunting, and it can be frustrating. It took me about 2 years to get my model up and running well, but I was working remotely with fairly little input from local experts and long delays to get vital data (especially for the hydrodynamics, trying to get the hydro data set me back about 6 months). If you have contact with local marine ecologists, fisheries people and oceanographers (and access to good data), you should have a working model in about a year, and give it about 6 months more to get all the bugs worked out. So it's possible within a 2 year postdoc. (Also, I was doing this as a PhD, which means that I didn't really know what I was doing!)
+
+The biggest challenge is simply **the complexity of the model**. Everything is interdependent, so when you notice that one aspect is wrong, there are hundreds of possible explanations. It takes a lot of experience with the model to start guessing which explanation is the right one. For instance: if you notice that the biomass of a particular species is too low, what is the cause? Is the population too low, or are the fish not growing fast enough? If it's the population, is it too low because the spawning parameters need adjusting or because the parent condition is not good? Or are there too many predators? If the fish are not growing, is it because the growth parameters need adjusting, or are they not getting enough food? If they are not getting anough food, is it because the diet preference matrix needs adjusting, or because their prey is not available? Why is the prey not available? Is it in the wrong place, or the wrong size (because there are gape limitations on feeding), or is the growth rate of the prey species too low?
+
+You see the sort of problem that can arise. So that's where it becomes frustrating. On other hand, once you get the model running you can do some cool stuff with it, so it's (maybe) worth all the headaches.
+
+You would also want to have some **dedicated time with another Atlantis user**. (Ideally that would be Beth, but her time is fairly scarce so that may be difficult). The learning curve for Atlantis is extremely steep, due mostly to the model complexity. Also, to improve the performance of the software, the end user of Atlantis has much more access to the raw code than is typical for a commercial product. Some programming expertise is definitely helpful. I was a programmer for 5 years before I did my PhD, but I didn't use C++ very much. It's still not my favourite language, although I can get by in it ok.
+
+I hope that helps - please feel free to add your thoughts if you've built one!

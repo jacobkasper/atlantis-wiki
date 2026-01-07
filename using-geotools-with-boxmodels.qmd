@@ -1,0 +1,36 @@
+---
+title: "Using Geotools with boxmodels"
+author: "Unknown User (hep016)"
+---
+
+# Using Geotools with box models
+
+This page contains references and implementation notes for creating a box-model DataStore for integration with [geotools](using-geotools-with-boxmodels.qmd).  While geotools often seems to be poorly (or worse, often inaccurately, due to being out of date) documented, it is a de-facto open-source standard and comes with a lot of functionality that is supported by a wider community than DMPL, so there has been some discussion of at least a partial migration.  Writing a datastore for box models would be a useful test-case, and if successful would be quite useful in its own right; exposing box-models to other applications that use geotools such as geoserver.
+
+## Datastore Class/API overview
+
+Geotools javadocs are [here](http://www.geotools.org/javadocs/).
+
+The main access/starting point (via a FactorySPI interface) is the [DataStore](http://www.geotools.org/javadocs/org/geotools/data/DataStore.qmd), which is a subclass of [DataAccess](http://www.geotools.org/javadocs/org/geotools/data/DataAccess.qmd).  A data store object proves access to the types ("schema") by name, and to readers and writers for each type.  The preferred method however is to access a higher-level API for accessing features by a [FeatureSource](http://www.geotools.org/javadocs/org/geotools/data/FeatureSource.qmd), also accessible via DataAccess/DataStore, which accesses features from an individual location (eg, database table, shp file, etc).  [FeatureStore](http://www.geotools.org/javadocs/org/geotools/data/FeatureStore.qmd) is a sub-interface of FeatureSource, with additional support for modification operations.  A [Feature](http://www.geotools.org/javadocs/org/geotools/feature/Feature.qmd) (see also [SimpleFeature](http://www.geotools.org/javadocs/org/geotools/feature/SimpleFeature.qmd), which is preferred) is described by a [FeatureType](http://www.geotools.org/javadocs/org/geotools/feature/FeatureType.qmd) (see also [SimpleFeatureType](http://www.geotools.org/javadocs/org/geotools/feature/SimpleFeatureType.qmd)), and is defined as a collection of attributes, at least one of which must be a geometry.  A simple feature has only non-nested attributes of no multiplicity.  An attribute is implemented by a java Object, but is described by [AttributeType](http://www.geotools.org/javadocs/org/geotools/feature/AttributeType.qmd) (see also [AttributeDescriptor](http://geoapi.sourceforge.net/snapshot/javadoc/org/opengis/feature/type/AttributeDescriptor.qmd) and [FeatureAttributeType](http://www.geotools.org/javadocs/org/geotools/feature/FeatureAttributeType.qmd)).
+
+Useful links:
+- Very brief overview of feature and property access, and type creation [here](http://docs.codehaus.org/display/GEOTDOC/Feature+Model+Guide).
+- Sample "my first project" style code for accessing a shp file demonstrating some of the concepts above [here](http://docs.codehaus.org/display/GEOTDOC/04+How+to+Read+a+Shapefile#04HowtoReadaShapefile-Application).
+
+## Notes on mapping box-model concepts to geotools
+
+Good, up-to-date-looking tutorial with lots of example code implementing most of the interfaces above here: <http://docs.codehaus.org/display/GEOTDOC/DataStore+Developers+Guide>
+
+At first glance there seems to be a natural mapping between box models and the API above, and a read-only implementation would probably be fairly trivial.  We have two types of features:
+- boxes, and
+- faces.
+
+The difficulty with implementing modification comes from the fact that these are not unrelated; ie it would be easy for someone to add boxes and faces that didn't correspond at all. This could *perhaps* be rectified with a validation step that threw an exception (or whatever) if an invalid box model was written, but more investigation needs to happen there.  (there is a isValid() method in Feature from memory, but I'm not sure right now what the semantics are intended to be, or if it would be valid to throw an exception at write-time, for eg).
+
+Internally, we need a box model representation that performs parsing/pretty-printing, and can and probably should be independent of the Geotools interfaces.  Given that geotools is moderately coupled with [JTS](http://tsusiatsoftware.net/jts/main.qmd) though this should probably be used to represent the topology.
+
+### Proj.4 vs WKT
+
+This still leaves open the issue that geotools only has support reading and writing WKT projections, while the box model requires it in proj.4 format.  The GDAL library can do the conversion (see the methods ImportFromWKT, ExportToProj4 etc), but this is a C/C++ library.  Someone has done fairly comprehensive (via SWIG) java JNI bindings however, which can be found [here](https://imageio-ext.dev.java.net/).  There is a [maven repository](http://mvn.geo-solutions.it/), from which we just need the artifacts imageio-ext-gdal-bindings/ and the relevant native libraries.  They have also packaged up the shared libraries (for gdal etc, and the JNI stubs) for 32-bit linux and windows, which have been successfully tested in simple conversion tests.  We would need to build the 64-bit stubs ourselves if this was an issue, but that should not be complicated (albeit, untested yet).  This leaves the question of distribution, which I think gives two options:
+- ship the editor in a directory structure, which includes the libs (eg, like Kepler does)
+- Package the libs up in the jar file, and unpack them to a tmp directory (I *think* this is possible, but it's more complicated and I haven't tried it yet).

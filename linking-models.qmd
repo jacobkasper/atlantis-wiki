@@ -1,0 +1,10 @@
+---
+title: "Linking Models"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+## Linking Models
+
+There is an increasing demand for coupling models dynamically - both because the questions we are asking are getting larger and because it does not make sense (maintenance etc wise) to have all model code ported to one system. Some common examples of model links are between climate models and plankton or ecosystem models or between human activity models and ecosystem models.
+
+This information has been moved to a new confluence space called [Model Linkage](http://wiki.csiro.au/confluence/display/ML/Model+Integration+and+Linkage). This site is open to all CSIRO staff. If you would like an external person to be added to the site please contact Mark Hepburn or Bec Gorton.

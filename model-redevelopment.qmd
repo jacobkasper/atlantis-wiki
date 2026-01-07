@@ -1,0 +1,47 @@
+---
+title: "Model Redevelopment"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+### Changed arrays:
+
+The following arrays have been resized in the redevelopment:
+
+distribVERT_VERTICAL = (double ****)d_alloc4d(nvertsp, 2, bm->wcnz, 2);  
+distribINVERT_VERTICAL = (double ***)d_alloc3d(ninvmig, bm->wcnz, 2);
+
+These have been combined into a single array called  
+distrib_VERTICAL
+
+**Migration Arrays**
+
+MigIOBox = AllocInit4DArrayDouble(nummigsp, 2, 3, ncells, 0.0);
+
+has been resized to:
+
+MigIOBox = AllocInit4DArrayDouble(bm->K_num_tot_sp, 2, 3, ncells, 0.0);
+
+MigrateIO = AllocInit4DArrayDouble(num_mig_param, 3, 2, nummigsp, 0.0);
+
+has been resized to
+
+MigrateIO = AllocInit4DArrayDouble(num_mig_param, 3, 2, bm->K_num_tot_sp, 0.0);
+
+Migration = (double ****)d_alloc4d(3, ncohorts, 3, nummigsp);  
+has been resized to:
+
+Migration = AllocInit4DArrayDouble(3, ncohorts, 3, bm->K_num_tot_sp, 0.0);
+
+MigrateAway = AllocInit3DArrayInt(nummigsp, 2, 3, 0.0);  
+MigrateBack = AllocInit3DArrayInt(nummigsp, 2, 3, 0.0);
+
+have become:
+
+MigrateAway = AllocInit3DArrayInt(bm->K_num_tot_sp, 2, 3, 0);  
+MigrateBack = AllocInit3DArrayInt(bm->K_num_tot_sp, 2, 3, 0);
+
+### Functional Group Input file
+
+### Diagnostic Input files
+
+The blank diagnostic input file is no longer required. The diagnostic variables are built based on the data in the functional group input file.

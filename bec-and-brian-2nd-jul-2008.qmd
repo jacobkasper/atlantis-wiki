@@ -1,0 +1,18 @@
+---
+title: "Bec and Brian 2nd Jul 2008"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Brian and Bec had a quick chat to ensure that the atlantis redevelopment wasn't going to stuff up the MINI intergration. The major atlantis change that will affect the use of the GUI is the move towards generic functional groups.  
+Ideally the functional group input files (and later the fisheries one) to be kind of like the first step in the GUI process (eventually). The user would specify the functional groups they are interested in and their properties and this would then be used to determine the other parameters that are displayed to be set. For example the user might specify that they only want two functional groups both vertebrates. In this case only the parameters relevant to these functional groups would then be presented in the GUI.
+
+There are also lots of parameters in the existing input files that can be pulled out of these into the functional group input file, for example isbird and ismammal.
+
+We both agreed that in an ideal world the following would happen:
+- Step 1: User would specify the functional groups and fisheries.
+- Step 2: Some magic business logic that queries the parameter database to generate the PAR files to config the GUI
+- Step 3: GUI (MINI) uses the config files to generate the model input files.
+
+Brian and i agree that the MINI should be kept as generic as possible so we really want the special business logic associated with Atlantis to be kept seperate.
+
+The next step in this process is to get an update from Mike regarding the state of the parameter database and we will go from there.

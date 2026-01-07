@@ -1,0 +1,18 @@
+---
+title: "Shrinkfat update to feeding"
+date: "2016-08-26"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+We are slowly adding the capacity to have respiration and metabolism more explicitly followed - so that DEB-like options exist in Atlantis. A part of this was adding a few new flags (covered in the
+[flag options page](/display/Atlantis/Finding+all+the+options+for+the+flags)
+). But if you're trying to get a model going and can't be bothered tracking down the options page.
+
+flag_satiation 1    A Flag indicating whether there is satiation in feeding (1) or not (0) - mainly used by Holling type functional feeding responses
+  
+flag_shrinkfat 0   A flag indicating whether growth of fish allows fish to lose fat (1) or not (0) - only for fully age structured groups
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

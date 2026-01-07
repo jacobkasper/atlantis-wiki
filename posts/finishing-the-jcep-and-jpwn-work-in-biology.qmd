@@ -1,0 +1,126 @@
+---
+title: "Finishing the jCEP and jPWN work in biology"
+date: "2009-01-13"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+ok. Need to check the pSPEat values. Are these different for the jPWN and jCEP. That was me commenting out code while i was working on the XML code. Thats all sorted now.
+
+Having an issue with the preyEatenGlobal values after ZS processFunction is called. Its strange that non of the other groups are stuffed just this one. It makes me think that there is an issue with the init code.
+
+No - there was a bug in the orginal code. Sent an email to beth to confirm that this was wrong:
+
+// Set whether only executed once per timestep - for calculating total natural mortality (M) estimates
+  
+FunctGroupArray
+[i](/pages/createpage.action?spaceKey=Atlantis&title=i)
+.isOncePerDt = 0
+  
+if(FunctGroupArray
+[i](/pages/createpage.action?spaceKey=Atlantis&title=i)
+.diagTol < 2)
+  
+FunctGroupArray
+[i](/pages/createpage.action?spaceKey=Atlantis&title=i)
+.isOncePerDt = 1
+
+and should be:
+
+// Set whether only executed once per timestep - for calculating total natural mortality (M) estimates
+  
+FunctGroupArray
+[i](/pages/createpage.action?spaceKey=Atlantis&title=i)
+.isOncePerDt = TRUE;
+  
+if(FunctGroupArray
+[i](/pages/createpage.action?spaceKey=Atlantis&title=i)
+.diagTol < 2)
+  
+FunctGroupArray
+[i](/pages/createpage.action?spaceKey=Atlantis&title=i)
+.isOncePerDt = FALSE;
+
+With this fixed i'm getting issues with the results of the vertebrate eat calls. Will chase this down. For some reason the vertbrates aren't eating the zooplankton.
+
+OK The issue is the Not_age_specific_id. I need to replicate this functionality in the new code. What i really want is to just set up one array upon load for this stuff. So we can simplify the eat code.
+  
+So instead of having a general prey availability value and then for some groups have a cohort level one we can read all this stuff in and then init a single array that can be used in eat.
+
+Need to be careful not to stuff up the pelagic and sediment bacteria - these are handled separately
+(warning)
+.
+  
+I need to keep the adult/juv values are these are used in the diet code in the assessment module. (This needs to be tidied up big time). What i could do is override the bm->pSPageeat values and set the adult/juv values based on the age_mat_id values.
+
+For now i'll add that to the list of stuff to do. Really need to do a merge with the main code now. This will take ages. I'll check my code in - tag it and then do a merge.
+
+I also want to clean up the folders that i have my code in. I seem to have lots of code versions at the moment and i want to get rid of this.
+
+OK i have merged the RMjcep code into the orginal atlantis (bec_dev) code. I can now check this in tag it and then merge the changes in the main branch into this branch. Then i can get rid of all the different folders. (might do a backup first).
+
+OK done an updated - fixing the many conflicts.
+
+OK conflicts are sorted. I have changed the printFlux code to print out the flux values for all cohorts of the age structured biomass groups and changed the printed precision to %.20 instead of %.6 which is now showing some differences in the CEP fluxes. So i can now check the flux calculations - i suspect the difference is in the preyEaten value. I might change the rest of the flux prints to be %.20 instead of %.6.
+
+OK. The output in the log files are pretty much the same after 5 days. The nc files are different will trace this. This problem that i was having yesterday is due to having fishing on. As i haven't got rid of the jPWN and jCEP groups in this code it has to be expected that there will be differences. I need to focus on getting the biology code cool and then look at the other modules. I really want to be able to have the groups purely defined by the input file - so be able to change the number of groups etc and still get the same output. I should be able to test this by turning groups off in the orginal code.
+
+The Chl_a values are different! Need to change the fluxprint code to print these values out with more precision. These aren't being printed out. Will add this. OK thats sorted - there was a bug in the dinoFlagProcess function. I wasn't setting the FunctGroupArray
+[guild](/pages/createpage.action?spaceKey=Atlantis&title=guild)
+.invertProps->chl = DF; value - merging issue.
+
+OK the PROD file is different. Doing dump and then diff. Difference is in the DinoFlagProdn tracer. This is just the growth value - will check the growth output.
+
+OK - whats happening is in my new code i have a generic update of the production tracers in sediment box - this is the growth values and thats 0 for DF in the sediment box. In the old code this is not calculated for DF so its not getting set to zero. I would have thought the tracers would have been zero anyway - not sure why this is non zero in the original code. Will check teh value at the start of sediment box. Ok - its in the sediment box.
+
+The sediment values are over writing the values calculated in water column box for MB in the original code.
+
+Hmm - its not set to zero at the start. I checked the original code and the flux values are not set here either. The issue is in the epibenthic box. I think at the start of this i need to set the flux values to 0. I might need to check with beth about this. So i'm overwriting the Df flux value calculated in the call made to the water column box. Hmm.. two ways of dealing with this:
+
+1. I could change the flux calculations to be summations and set the flus values to zero at the start of each time integration.
+  
+2. I could change the way the epibenthic box code is handled. - i have been thinking about doing this.
+
+This won't be a problem for any of the other fluxes as these are seperated into water, sediment and epibenthic.
+  
+It would be nice to seperate the epibetnthic code. Not sure why the waterColumn and sediment calls for the boxes next to the epibenthic are called from within the epibenthic box.
+
+For now i'll set the diagFlux and fishFlux values to zero at the start of each iteration and change the code to use summations. I should just be able to change my code only.
+  
+OK - that is looking good.
+  
+The MB prodn tracer is wrong. This should be set in the water column box. Its updated the same. Might need to check the growth values. I wonder if its different in the epibenthic version of the water column box. Ok the problem was in epibenthic the sediment call was overwritting the MB production value set in watercolumnBox in the original code. I have changed this to be an add instead.
+  
+Next issue:
+
+Recyc_N - This is the same problem. I'll change the original code to set the diagFlux and fishFlux values to zero before the start of each iteration. OK that has fixed the Recyc_N issue.
+  
+The InfEpi_ratio tracers are very slightly different. OK these are due to adding the values in a different order.
+  
+And that was the last change after 0.5 days - longer run now. Again teh only differences are in the InfEpi_ratio tracer and these differences are very small.
+
+OK. I need to fix the VERTfoodPlant code. i should just be able to call preyAvail i think. That would be super nice.
+  
+I really want to change the preyamt array to be 3d. I have a bad feeling the differences i'm getting now are due to adding order.
+
+The differences were due to the vertebrates being added in a different order. ahh!!!No the CEp values are different. No they were fine - its due to teh order of adding - what a massive pain. I'll have to add in an ordering array to test the code.
+
+Debugging the changed movement code. I was adding the prey amount incorrectly - the wc, sed and epi tracers should only be added for the habitat that is the groups primary habitat. Still getting the wrong value but getting closer.
+
+OK - there were two issues - i had not added PWN to the group movement order array so this value was never being added. And the preyAmt value calculated for DC includes both the water column and the sediment value - this is the only group that is like this. All of the other groups just add the tracer for its primary habitat - i'll have to ask beth about this.
+
+For both original and my code i'm now getting a flux error at the end of the epibenthic box at day 1. I wonder if this is because i have got all fishing turned off so the biomass of the groups is getting too high. No - this error is because teh flux is too high - maybe the eaten amount is too high?
+
+Getting a large mortality value as the biomass of the group is very large. Need to work out why this is getting so big.
+  
+I suspect its to do with the migration code - SB and WHS are the only groups migrating in this model.
+
+I have turned on the fishing - i suspect the model was never designed to have fishing off. Did a 5 day run and the only diff is in InfEpi_ratio. Any longer runs and i get an issue with the flux values - turning off fishmove fixes this but i'm worried this should be on. Got new input files - this problem seems to be gone now/. I think i had just stuffed up the input files.
+
+OK - one issue i have is the lack of models where the invert migrate. I might have to add this myself (yuk).
+
+Before i do much more i want to get the XML stuff done for Rob.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

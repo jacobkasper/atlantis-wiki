@@ -1,0 +1,54 @@
+---
+title: "vert properties"
+date: "2008-09-29"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Moving the vert properties into the processProps array. This has been changed to a two D array to store values for each cohort. Also changed the code in atfluxbreakdown to loop over the functional groups instead of doing them each.
+
+OK. Have got rid of VERTdead, VERTgrow. These values are now stored in the processProps structure.
+  
+Now want to change the invert stuff to use these values are well. The big issue are the CEP and PWN tracers. In Atlantis we want to be able to loop over the number of cohorts for an age structured biomass group.
+  
+I need to consistently store the juv and adult values in the same slots in arrays. So for these groups i always need to loop over the cohorts, never use the adult_id and juv_id values are these are around the wrong way.
+  
+This will also be heaps easier once we are storing lots of values in the processProps structure in the FunctGroupArray - slowly moving towards this.
+
+The bm->DebugFluxInfo array doesn't allow me to store cohort level information. I wonder what happens here for verts? hmm. The value seems to be overwritten for each cohort in WaterColumnBox. Strange code. I wonder if this is supposed to add up the values for each cohort. Maybe this value is really only relevant when the adult and juv age structured biomass groups are treated as separate groups. That would be great. But surely these values should be a sum of the values over all cohorts. Will ask beth about this - perhaps a bug. Just debug stuff though.
+
+ahh...Really want the properties to all be stored in one structure but that structure should differ based in the group type. So instead of the FunctGroupArray having to have 6 different sub structures i just want to to have one. In the perfect world i would just have one level of structures. The only issue with this is that i would need to inherit properties from a parent structure and you can't do this in C. I guess i could just have a bit of copying and pasting but that i nasty. I could always hide this using function pointers similar to how you would for a class but the issue is that you can't override functions. And if you get into this we might hit speed issues if we have a huge chunk of set/get functions.
+  
+I think having the one level of groupTypeProperties pointing to a structure that will hold values for the group type will be good. And then in this structure we can have arrays of numCohorts length.
+
+Having a play with timing these things. It would be really nice to hide the complexity of the data structured behind functions but i'm worried about the time implications of this. So doing a small test.
+
+inline functions: 10000 * doStuff:
+
+real 2m31.611s
+  
+user 2.28.549s
+
+Not inline functions:
+  
+real 2m18.535
+  
+user 2m17.341
+
+Non functions - just switch statements in the code:
+  
+real 1m33.026s
+  
+user 1m32.758s
+
+Quite a time difference. I'll run these again but if the results are the same i'll have to do it all the code and not hide it in functions. Yep - the times were about the same on the second pass. So functions are out.
+
+OK. Moving more of the properties into the processProps structure. Now hitting the issue that Eat expects to get a processGuild which is different to the functional group guild. For now (during the transition) i might need to pass this another guild value as well to get around the jPWN vs PWN issue. Eventually we just want to pass this PWN and the cohort value.
+
+I have to do the same for invert_Activities. This function is almost ready to only take the PWN and cohort value instead of jPWN. Nice. I just need to move some more properties into processProps and this one will be sorted.
+  
+Moved grazing into processProps.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

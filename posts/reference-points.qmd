@@ -1,0 +1,111 @@
+---
+title: "Reference Points"
+date: "2023-05-22"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+Reference points for fisheries include four options in Atlantis:
+
+1. For target species
+2. For forage species (or species of secondary importance)
+3. For byproduct species
+4. For bycatch species
+
+A broken stick pattern of management is assumed for all these options. This means target reference points (refA, refB for quantitative assessments and their matching refC, refD which is the buffered versions assuming an old assessment) as well as the limit reference point. You also need to set whichref to indicate which set of reference points apply to each species:
+
+For example
+
+# Reference points and trend lengths for use in dynamic TAC setting
+
+  
+targ_refA 0.48 Target reference point - tier1 or tier8 (the US and Norwegian version of Australia's tier1)
+  
+targ_refB 0.40 Target reference point - tier1 or tier8 (the US and Norwegian version of Australia's tier1)
+  
+targ_refC 0.60 Target reference point - tier2
+  
+targ_refD 0.50 Target reference point - tier2
+  
+lim_ref 0.20 Limit reference point (used by all tiers)
+  
+forage_refA 0.40 Forage target reference point - tier1
+  
+forage_refB 0.40 Forage target reference point - tier1
+  
+forage_refC 0.50 Forage target reference point - tier2
+  
+forage_refD 0.50 Forage target reference point - tier2
+  
+forage_lim_ref 0.20 Forage limit reference point
+  
+byproduct_refA 0.20 Byproduct target reference point - tier1
+  
+byproduct_refB 0.20 Byproduct target reference point - tier1
+  
+byproduct_refC 0.25 Byproduct target reference point - tier2
+  
+byproduct_refD 0.25 Byproduct target reference point - tier2
+  
+byproduct_lim_ref 0.20 Byproduct limit reference point
+  
+bycatch_refA 0.20 Bycatch target reference point - tier1
+  
+bycatch_refB 0.20 Bycatch target reference point - tier1
+  
+bycatch_refC 0.25 Bycatch target reference point - tier2
+  
+bycatch_refD 0.25 Bycatch target reference point - tier2
+  
+bycatch_lim_ref 0.20 Bycatch limit reference point
+
+# Flag to incidcate which set of reference points to use.
+
+  
+# Enter 0 = forage ("secondary") reference points, 1 = targ_ref reference points,
+
+  
+# 2 = "byproduct" reference points and 3 = bycatch reference points - one per fished species
+
+  
+whichref 47
+  
+2 0 3 3 0 2 1 3 1 3 3 3 2 1 0 1 0 1 1 1 1 1 2 2 2 0 2 3 2 3 3 3 3 3 3 1 3 3 3 3 3 3 3 0 3 3 3 3 3 3 3
+
+Additional parameters required along with the reference point information when using them in fisheries management in Atlantis are
+
+# Virgin biomasses for use with pseudo assessment (typically dynamically calculated in model instead)
+
+  
+estBo 47
+  
+512 824 1273 103612 328 281896 8020 22817 9753 811182 403340 2978 68611 51114 200654 584.246566 11011 1823 3817 4623 13919 476245 290432 184953 106812 561 17675 88 44926 643 19358 54744 4244 675 1028 458760 0 64833 500249 0 103891 1500158 0 390124 2930675 241888146 417926 0 21352 5417350 95029940
+
+# Fishing rate (F) that equates with BrefA (i.e.F to apply if B > Bref)
+
+  
+Fref 47
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+# Fishing rate (mFC scalar) to apply if reopening a fishery
+
+  
+Fref 47
+  
+0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2
+
+# F to apply at high biomass levels if using tier8
+
+  
+Fref_High 47
+  
+0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2
+
+An extension has been added to let this happen at the guild level instead of the species level - as explained
+[here](https://confluence.csiro.au/display/Atlantis/2023/05/22/Guild+vs+Species+Assessments)
+.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

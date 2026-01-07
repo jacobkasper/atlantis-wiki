@@ -1,0 +1,33 @@
+---
+title: "HC - Building in Linux and Mac"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+h3, Building HydroConstruct in Linux or Mac.
+
+You will need to install the dev files for the Unit Testing Library for C. Which under Fedora is known as CUnit-devel and for Debian/Ubuntu is libcunit1-dev
+
+Open a terminal in the correct folder where you have checked out the code and you should just be able to use the standard autotools process to build HydroConstruct:
+
+aclocal  
+autoheader  
+autoconf  
+automake -a  
+./configure  
+make  
+sudo make install
+
+If you are using a Mac you might need to create a special configure_mac similar to that used for Atlantis.
+
+### Finding swlib - this is likely needed on mac if not on linux
+
+You will need to modify the pathway to sjwlib as appropriate - it does not seem to be being picked up from the pass through from "pkg-config --cflags atlantisMerged"
+
+You need to give it the relative path from your Hydroconstruct to your sjwlib in your Atlantis code directly.
+
+In Makefile.am make sure INCLUDES looks something like the following with the path to sjwlib matching the relative path from Hydroconstruct code to sjwlib in your Altantis code diretory
+
+```
+INCLUDES = $(shell pkg-config --cflags atlantisMerged)\  
+    -I$(top_srcdir)/../../AtlantisCurrentTrunk/atlantis/sjwlib/include
+```

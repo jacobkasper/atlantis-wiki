@@ -1,0 +1,120 @@
+---
+title: "External Mortality, Growth and Recruitment Scaling"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Atlantis allows modellers to provide scaling values for the following:
+- Linear Mortality
+- Growth Rates
+- Recruitment
+
+The scaling values are provided in a new netCDF input file.  Attached is an [example file](attachments/43156907.nc).
+
+#### Changes to the Forcing Input File
+
+To provide the path to the external scaling input netCDF file you will need to edit the forcing file. These input values are not required so Atlantis will not quit if these are not found.
+
+use_external_scaling 1
+
+scale_all_mortality 0  
+externalBiologyForcingFile forcing/externalMort.nc
+
+externalBiologyForcingFile_rewind 1  
+externalBiologyForcingFile Input File
+
+Attached is a sample input file that you should use as a basis for your input file. Your file should have three dimensions t, b, and z and each variable should have each of these dimensions. The structure is the same as your initial conditions netcdf file but you will probably want to have more than one timestep.
+
+If the rewind value is set to 1 the file will be rewound once it gets to the end of the data. Otherwise the last value will be used once after the end of the file.
+
+#### How values are calculated at any given time.
+
+Each of your variables in the netcdf file will have values for each box and each layer within your model. You can will provide at least one timestep worth of data and your can provide as many timesteps worth of scaling data as you like. The time between each timestep does not have to match the dt of your model. So for example you can provide a scaling value per year. Atlantis will apply a linear interpolation between values, for example if we have the following input data file called externanMort.nc
+
+```
+gor171@Dagat-ri:~/Dropbox/GOM/GOMAtlantisV2/forcing$ ncks -v 'LPPmort_ff' -d b,2,2 -d z,1,1  externalMort.nc 
+LPPmort_ff: type NC_DOUBLE, 3 dimensions, 1 attribute, chunked? no, compressed? no, packed? no, ID = 1
+LPPmort_ff RAM size is 3*66*7*sizeof(NC_DOUBLE) = 1386*8 = 11088 bytes
+LPPmort_ff dimension 0: t, size = 3 NC_DOUBLE, dim. ID = 0 (CRD)(REC)
+LPPmort_ff dimension 1: b, size = 66, dim. ID = 1
+LPPmort_ff dimension 2: z, size = 7, dim. ID = 2
+LPPmort_ff attribute 0: _FillValue, size = 1 NC_DOUBLE, value = 1
+t: type NC_DOUBLE, 1 dimension, 2 attributes, chunked? no, compressed? no, packed? no, ID = 0
+t RAM size is 3*sizeof(NC_DOUBLE) = 3*8 = 24 bytes
+t dimension 0: t, size = 3 NC_DOUBLE, dim. ID = 0 (CRD)(REC)
+t attribute 0: units, size = 37 NC_CHAR, value = seconds since 2010-01-01 00:00:00 +10
+t attribute 1: dt, size = 1 NC_DOUBLE, value = 86400
+t[0]=86400 b[2] z[1] LPPmort_ff[15]=1.2 
+t[1]=172800 b[2] z[1] LPPmort_ff[477]=1.1 
+t[2]=259200 b[2] z[1] LPPmort_ff[939]=1.4 
+t[0]=86400 seconds since 2010-01-01 00:00:00 +10
+t[1]=172800 seconds since 2010-01-01 00:00:00 +10
+t[2]=259200 seconds since 2010-01-01 00:00:00 +10
+```
+
+This code block is showing the the values of the variable 'LPPmort_ff' in box 2 and layer 1. The data is:
+
+| Time | Value |
+| --- | --- |
+| 86400 (day 1) | 1.2 |
+| 172800 (day 2) | 1.1 |
+| 259200 (day 3) | 1.4 |
+
+The dt of this model is 43200 seconds. The value of the scalar at each model time step is then:
+
+| Time | Scalar Value | Notes |
+| --- | --- | --- |
+| 0 | 1.2 | The first value will be used for any time steps less than the first data timestep in the file. |
+| 0.5 | 1.2 | Data from the first value in the file. |
+| 1.0 | 1.2 | Data from the first value in the file. |
+| 1.5 | 1.15 | Data interpolated between the first and second value in the file. |
+| 2.0 | 1.1 | Data from the second value in the file. |
+| 2.5 | 1.25 | Data interpolated between the second and third value in the file. |
+| 3.0 | 1.4 | Data from the last value in the file if rewind is 0. When model time is greater than the last timestep in the file the value from the last timestep is used.  If rewind is 1 the file will be rewound and the first value will be used. |
+| 3.5 | 1.4 | Data from the last value in the file if the file is not rewound. Otherwise the first value will be used. |
+| 4.0 | 1.4 | Data from the last value in the file if the file is not rewound. Otherwise the second value will be used. |
+
+Scale Mortality:
+
+If your groups is an age structured group (cohort > 1 in your functional group definition file) then you can provide a value per cohort. These variables will have the following structure:
+
+double GAG1mort_ff(t, b, z) ;  
+  GAG1mort_ff:_FillValue = 1. ;
+
+double GAG3mort_ff(t, b, z) ;  
+  GAG3mort_ff:_FillValue = 1. ;
+
+Where GAG is the groups code. The cohort indexing starts at 1 for the first cohort and goes up to the number of cohorts you have defined for this group.
+
+If your group is not an age structured group  (number of cohorts in your functional group definition file is 1) then you can only specify a single mortality scaling variable. These variables will have the following structure:
+
+LPPmort_ff
+
+where LPP is the groups code.
+
+There are two options for how mortality is scaled based on the 'scale_all_mortality' value.
+
+scale_all_mortality == 1:
+
+All mortality values are scaled. This includes mortality due to fishing, predation and all forms of other mortality in the model. The values written to the mortPerPred type output files will show the scaled values.
+
+NB: Due to the way Age structured biomass group predation values are handled the mortality due to predation values reported in the output files will be scaled by the juv cohort values - so these values might be wrong if you are using different values per cohort for this group. If this is a big issue contact Bec and she can spend time fixing this issue. The actual scaling values used when calculating the flux per cohort is correct - this will only impact on reported mortality values.
+
+scale_all_mortality == 0:
+
+For both types of groups the scaling value is applied to the linear mortality.
+
+#### Scale Growth:
+
+The scale growth variables have the same structure and format as the mortality scalars. These variables will have the following structure:
+
+LPPgrowth_ff
+
+and for the age structured groups the following structure:
+
+GAG1growth_ff
+
+The scalar is applied after calculating the growth rates at the temperature of the current layer.
+
+#### Scale Recruitment:
+
+Recruitment is scaled by scaling the number of total embryos that are created. This is done at a species level, you cannot provide a scaler per cohort.

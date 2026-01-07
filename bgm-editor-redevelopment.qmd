@@ -1,0 +1,24 @@
+---
+title: "BGM Editor Redevelopment"
+author: "Unknown User (hep016)"
+---
+
+# Overview and Rationale
+
+We badly need a way of creating BGM files for atlantis that doesn't result in a multitude of data sources that get out of sync with each other, need constant conversion that often breaks, etc.  An [earlier proposal](bgmeditor.qmd) was to use ArcGIS for this, and have a one-way conversion to BGM format, with all data kept and edited in the shp file.  Unfortunately this won't work, as shp files are not topological and don't store face information, so it looks like the only option is a resurrection of the old BGM editor, with BGM files as the sole data source.
+
+# Requirements
+
+Please stick any requirements here...
+- Box and face ids need to be preserved where-ever possible (need to be careful with splits and joins)
+- Reprojection between coordinate systems (including/especially geographic and projection used for atlantis model)
+- From Beth: "Face 0 isn't important, so long as box0 = boundary box and box1 = active dynamic box"
+- Projections using proj.4 specification
+- Box area must be written out in bgm projection co-ords.
+- Box depth in m should also be printed. The box depth should be in the shapefile as an attribute. Values should be negative. Eg 0 is the ocean surface or land, -5 would be at a depth of 5 meters. If the depth values are greater than 0 they should be negated.
+
+# Approaches
+
+We could just re-use the existing code, but I think it is worth investigating the use of [geotools](http://geotools.org/) since we are talking about migrating at least partially from DMPL to geotools; this would be a handy test case.  This would mainly involve the creation of a box-model DataStore (as a plugin), which would then be useful to other projects as well.
+
+There is a page with notes on using geotools [here](using-geotools-with-boxmodels.qmd).

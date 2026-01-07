@@ -1,0 +1,15 @@
+---
+title: "Seap 4000 day results"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+The results look good. The largest percent difference is in REP.  
+![](attachments/43157647.png)  
+![](attachments/43157646.png)  
+![](attachments/43157644.png)  
+![](attachments/43157645.png)
+
+#### PL Biomass
+
+![](attachments/43157642.png)  
+![](attachments/43157643.png)

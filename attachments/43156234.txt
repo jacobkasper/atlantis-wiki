@@ -1,0 +1,176 @@
+# Configuration Ubuntu Server 14.10 (Utopic Unicorn)
+#running as a Virtual machine instance in Google Cloud Compute Engine
+# to run Atlantis 
+
+
+#set current time zone
+# follow command prompts after entering
+
+sudo dpkg-reconfigure tzdata
+
+
+#Update packages
+
+sudo apt-get update 
+
+#install required packages per Atlantis wiki
+
+sudo apt-get install build-essential autoconf subversion flip
+
+#Check out Atlantis code
+#put the username and password at the end
+
+svn co https://svnserv.csiro.au/svn/ext/atlantis/Atlantis/branches/bec_dev --username xxxxx --password xxxxxx
+
+
+# Install required packages to build Atlantis code per wiki
+
+
+sudo apt-get install subversion build-essential autoconf libnetcdf-dev libxml2-dev libproj-dev
+
+
+#compile Atlantis
+#In the folder where your Atlantis code is type:
+
+aclocal
+autoconf
+automake -a
+./configure
+make
+sudo make install
+
+
+# Install dropbox
+
+cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
+~/.dropbox-dist/dropboxd
+
+#You will then see output like this
+#"This client is not linked to any account..."
+#"Please visit https://www.dropbox.com/cli_link?host_id=7d44a557aa58f285f2da0x67334d02c1 to link this machine."
+# If you can't or don't want to open a browser on the Linux Server
+# leave the dropbox process runing in the server (client not linked  message as above)
+# Open a browser in your desktop 
+# Type the URL given in the client not linked stage into the browser
+# If you get a link not found, kill the dropbox process and try again, quickly, it might require a few tries
+#Enter your dropbox password when prompted
+#You should then receive a message to confirm the client has been linked.
+#Switch back to your other computer where the linking process is still running and after a second or two it should link!
+# instructions follow 
+#http://www.dropboxwiki.com/tips-and-tricks/install-dropbox-in-an-entirely-text-based-linux-environment#Type_the_link_on_a_computer_which_has_a_browser
+
+
+
+#Set selective sync in dropbox by telling it what folders to exclude from your dropbox account
+
+~/bin/dropbox.py exclude add ~/Dropbox/Photos ~/Dropbox/Proposals 
+
+# download the dropbox command line interface
+
+mkdir -p ~/bin
+wget -O ~/bin/dropbox.py "https://www.dropbox.com/download?dl=packages/dropbox.py"
+chmod +x ~/bin/dropbox.py
+
+# will show you commands available
+
+~/bin/dropbox.py help
+
+#check status
+
+~/bin/dropbox.py status
+
+#use this to check that all requested folders have been excluded
+
+~/bin/dropbox.py exclude list
+
+
+
+# Go to Atlantis directory and copy Atlantis executable to run directory
+
+cd ~bec_dev/atlantis/atlantismain
+cp atlantisNew ~/Dropbox/Atlantis_V2_GOM/GOMAtlantis_NoF_newEXE_linux
+
+#switch to Atlantis run directory
+#check the new exe is there
+
+cd ~/Dropbox/Atlantis_V2_GOM/GOMAtlantis_NoF_newEXE_linux
+
+ls -R |grep atlantis
+
+#convert all ascii files in the current directory to linux file format
+
+flip -uv * 
+
+chmod +x name_of_file.sh
+
+
+
+
+# The following is only if you want to install eclipse a development environment for linux
+# or if for some reason you need a browser or other GUI bases software 
+
+
+#Install a minimal Gnome desktop
+
+sudo apt-get install xorg gnome-core gnome-system-tools gnome-app-install
+
+# Install a Virtual Desktop using VNC
+#using instructions from http://www.havetheknowhow.com/Configure-the-server/Install-VNC.html
+
+sudo apt-get install vnc4server
+
+vncserver
+
+#You'll then be prompted to create and verify a new password
+
+# kill vnc session
+
+vncserver -kill :1
+
+# open up the config file
+
+vim .vnc/xstartup
+
+#edit the file as follows
+#Unmask the unset SESSION_MANAGER line and masked out all the rest. We've then added the last 3 lines.
+
+##########################
+#!/bin/sh
+
+# Uncomment the following two lines for normal desktop:
+unset SESSION_MANAGER
+# exec /etc/X11/xinit/xinitrc
+
+#[ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
+#[ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
+#xsetroot -solid grey
+#vncconfig -iconic &
+#x-terminal-emulator -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &
+#x-window-manager &
+
+metacity &
+gnome-settings-daemon &
+gnome-panel &
+
+#########################
+
+
+#save file
+
+:wq
+
+# open up a new vnc session, specify resolution of the DESKTOP computer being used
+
+vncserver -geometry 1280x1024
+
+
+# Go to Google Developer console, and under Compute engine > Networks, set up a new 
+# firewall rule for port tcp:5902
+
+#download TightTNC to the desktop computer
+#Launch TightTNC viewer and enter in remote host the ip of the Ubuntu Server
+# indicating port 5902
+#xxx.xxx.xxx.xxx::5902
+
+
+

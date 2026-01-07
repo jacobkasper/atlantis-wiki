@@ -1,0 +1,183 @@
+---
+title: "new seagrass modelling option"
+date: "2012-12-19"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+**SEAGRASS DETAILED MODEL    (flag_macro_model 1)**
+
+In this version, the seagrass compartment is described with 3 state variables: the above-ground biomass (i.e the leaves), the below-ground biomass (i.e. the roots and rhizomes), and the epiphyte biomass. Its main interest is the more realistic representation of the seagrass dynamic:
+
+(1) Under predation pressure: The vast majority of consumers feed only on epiphytes, and only vertebrates (herbivorous fish) feed on the seagrass leaves. Finally only turtles, dugongs and potentially some birds feed on the whole seagrass plants (including the roots);
+
+(2) Under seasonal variation: the below-ground biomass does not vary as much as the above-ground biomass throughout the year. Its main drawback is yet another series of parameters to define!
+
+**1 Growth**
+
+**1.1 Epiphytes**
+
+![](/download/attachments/43155546/Eq1.png?version=1&modificationDate=1355290682077&api=v2)
+
+Where mumEpi_SG is the epiphytes maximum growth rate.
+
+The light limitation is given by:
+
+**![](/download/attachments/43155546/Eq2.png?version=1&modificationDate=1355290702077&api=v2)**
+
+where KI_SGis the light saturation constant for the epiphytes.
+
+The nutrient limitation is given by:
+
+![](/download/attachments/43155546/Eq3.png?version=1&modificationDate=1355290743043&api=v2)
+
+where KN
+EP
+is the half-saturation constant for the epiphytes growth on nitrogen, and DINw is the total concentration of inorganic nitrogen in the water layer.
+
+The epiphytes growth is limited by the area of seagrass leaves available. This space limitation is considered according to Bartleson et al (2005) formulation:
+
+![](/download/attachments/43155546/Eq4.png?version=1&modificationDate=1355290777087&api=v2)
+
+where KsubEpi_SG is the surface area effect coefficient.
+
+**1.2 Above-ground biomass**
+
+To keep things simple, the whole growth process is dealt with in the above-ground compartment, and then distributed between above-ground and below ground biomass.
+
+![](/download/attachments/43155546/Eq5.png?version=1&modificationDate=1355290810887&api=v2)
+
+where mum_SG is the maximum SG growth rate.
+
+The light limitation is given by:
+
+![](/download/attachments/43155546/Eq6.png?version=1&modificationDate=1355290871907&api=v2)
+
+where KI
+SG
+is the light saturation constant for seagrass, and the irradiance reaching the seagrass canopy IRRep is decreased by the epiphyte shading according to Fong and Harwell (1994) formulation:
+
+![](/download/attachments/43155546/Eq7.png?version=1&modificationDate=1355290899577&api=v2)
+
+where IRR is the irradiance reaching the bottom water layer, and Kext
+SG
+is the light extinction coefficient due to epiphytes.
+
+The nutrient limitation is given by:
+
+![](/download/attachments/43155546/Eq8.png?version=1&modificationDate=1355290928040&api=v2)
+
+where KN_SGis the half-saturation constant for SG growth on nitrogen, and DINsed is the total concentration of inorganic nitrogen in the sediment layer.
+
+Unlike many other aquatic producers, seagrass has access to nutrients that accumulate in the sediment (Larkum et al 1989) as well as to nutrients in the water column. As the sediment layer is expected to always be at least as nutrient-rich as the water layer above, and in order to avoid having to consider both the nutrient uptake from water by the leaves and from the sediment by the roots and then model the nutrient transport of nutrients within the seagrass, we only considered the sediment nitrogen uptake.
+
+While the seagrass population dynamic (development of new rhizomes and new shoots) is not considered here, the growth of leaves still needs to be limited by the amount of underground biomass available to support them. We used the same formulation as for the epiphytes from Bartleson et al (2005).
+
+![](/download/attachments/43155546/Eq9.png?version=1&modificationDate=1355290956350&api=v2)
+
+where Ksub
+L
+is the limitation coefficient of leaves growth by the available roots and rhizome biomass to grow on.
+
+**1.3 Belowground biomass**
+
+The growth of the below-ground biomass is in the model a portion of the total seagrass growth which represents in a simplified way the translocation of a part of the carbon fixed by the leaves to the rhizomes and roots (Plus et al, 2003; Bartleson et al, 2005) This growth is further limited by the space available to grow:
+
+![](/download/attachments/43155546/Eq10.png?version=1&modificationDate=1355290979400&api=v2)
+
+where SGmax is the maximum biomass of roots supported by the substrate.
+
+**2 Rate of change equations**
+
+**2.1 Epiphytes**
+
+![](/download/attachments/43155546/Eq11.png?version=1&modificationDate=1355291019917&api=v2)
+
+where G
+EP
+stands for the growth of epiphytes, mL3_SG the linear mortality rate for epiphytes, and jmL_SG the linear mortality for seagrass leaves (as the loss of seagrass leaves is assumed to cause the loss of their epiphytes as well); and P
+EP, L, R
+are the losses due to predation on epiphytes, seagrass leaves, and seagrass roots (when seagrass leaves are consumed, the epiphytes on it are also consumed, and when seagrass roots are consumed, both leaves and epiphytes are consumed as well).
+
+**2.2 Above-ground biomass**
+
+![](/download/attachments/43155546/Eq12.png?version=1&modificationDate=1355291061827&api=v2)
+
+where G
+L
+stands for the growth of the above-ground biomass, Ktrans_SG is the portion of the seagrass growth being “translocated” to the roots, jmL_SG the linear mortality for seagrass leaves , and P
+L,R
+are the losses due to predation on seagrass leaves and roots (when seagrass roots are consumed, both leaves and epiphytes are consumed as well).
+
+**2.3 Belowground biomass**
+
+![](/download/attachments/43155546/Eq13.png?version=1&modificationDate=1355291096950&api=v2)
+
+where G
+R
+stands for the growth of the below-ground biomass, Ktrans_SG is the portion of the seagrass growth being “translocated” to the roots, mL_SG the linear mortality for seagrass roots , and P
+R
+are the losses due to predation on seagrass roots.
+
+**3 PARAMETERISATION**
+
+First, the following flag should be added to the biological parameter file:
+
+flag_macro_model  1          Formulation of the seagras processes (0: usual single biomass pool formulation, 1:   distinct above and below ground biomasses as well as epiphytes
+
+Then the following parameters (same biological parameter file):
+
+|  |  |  |
+| --- | --- | --- |
+| **Term** | **Unit** | **Description** |
+| mumEpi_SG_T15 | d -1 | Maximum growth rate of seagrass epiphytes at T = 15˚C (1) |
+| KI _ SG_T15 | W.m -2 | Light saturation for seagrass epiphytes (1) |
+| KN_epi_SG | mg N.m -3 | Half-saturation constant for epiphytes growth on DIN (1) |
+| KsubEpi_SG | a | Space limitation on epiphytes growth |
+| mum_SG_T15 | d -1 | Maximum growth rate of seagrass above-ground biomass at T = 15˚C |
+| KI_L_SG_T15  (L_KI_SG_T15 in Atlantis2) | W.m -2 | Light saturation for seagrass above-ground biomass at T = 15˚C |
+| Kext_SG | a | Extinction coefficient of light passing through the epiphytes (2) |
+| KN_SG | mg N.m -3 | Half-saturation constant for seagrass leaves growth on DIN |
+| Ksub_SG | a | “Space” limitation on seagrass leaves growth (3) |
+| SGmax | mg N.m -2 | Maximum seagrass underground biomass |
+| Ktrans_SG | a | Allocation of growth to the seagrass below-ground biomass |
+| mL3_SG_T15 | d -1 | Linear mortality of seagrass epiphytes at T = 15˚C |
+| jmL_SG_T15 | d -1 | Linear mortality of above-ground seagrass biomass at T = 15˚C |
+| mL_SG_T15 | d -1 | Linear mortality of below-ground seagrass biomass at T = 15˚C |
+| mS_SG_T15 | d -1 | Excessive DIN seagrass mortality (4) |
+| FDL_SG_roots | a | Split-up losses to detritus between labile and refractory detritus for SG roots |
+| FDL_SG_leaves | a | Split-up losses to detritus between labile and refractory detritus for SG leaves |
+
+The parameters in italic already exist in the parameter file, only the other ones should be added. (a stands for adimensional)
+
+The prey availabilities of the three seagrass compartments have to be specified aside from the diet matrix with the following arrays (leaves, roots, epiphytes) with an entry for every consumer groups:
+
+SG_pprey_FPL      3
+
+0 0 0
+
+SG_pprey_FPO     3
+
+0 0 0
+
+SG_pprey_FPS      3
+
+0 0 0
+
+SG_pprey_FVD      3
+
+0 0 0
+
+**Notes**
+
+(1)     Epiphytes are a very diverse group, with uncertain taxonomy and phylogeny, and highly debatable ecological function. In terms of functional form (sensu Littler and Littler, 1980), two very different functional forms of algae are epiphytic on seagrass. Crustose red algae have characteristics of "K-selected" organisms, including slow growth, great structural strength, and a high degree of resistance to herbivory. The other group (filamentous or sheet-like forms) is opportunistic or "r-selected," and members share features including rapid nutrient uptake and high growth rates that confer an advantage during erratic or pulsed nutrient events, high reproductive output, low structural development, and high vulnerability to herbivory (Littler and Littler, 1980). As recommended in Fong and Harwell (1984), the "epiphyte" compartment model should be parameterised based on to the second functional form of algae: “The primary reason for quantifying epiphytes in the model is to assess their effect on seagrass. In the model, we assume that crustose red epiphytes, although widespread, have relatively little effect on seagrass productivity or loss rates, because their biomass is limited by relatively low productivity compared to seagrass loss rates. Thus, we choose to consider crustose red algae as a "baseline" for epiphytic abundance, and consider only increases from this baseline. Changes in the abundance of "r-selected" strategists usually indicate the presence of disturbance and may forecast community change; we will concentrate on this important feedback loop.” (Fong and Harwell, 1984).
+
+(2)     This parameter, its value (4.8) and the associated formulation are all mentioned in Plus et al (2003) as coming from the model presented in Fong and Harwell (1984), but the Fong and Harwell (1984) paper do not present all the equations of the model nor the parameter values.
+
+(3)     I transposed this formulation from Bartleson et al (2005) from epiphytes growing on seagrass on to seagrass leaves growing on seagrass roots, and used a value of 0.3
+
+(4)     The excessive DIN seagrass mortality should be set to 0 in this version as the negative effects of excessive DIN are explicitly modelled with the epiphytes compartment.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

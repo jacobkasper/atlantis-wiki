@@ -1,0 +1,26 @@
+---
+title: "How to view"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+## Viewing Atlantis Output Files
+
+#### Olive
+
+This is the early version of DIVE and seems to be a bit easier for modelers to use.
+
+Windows Users:
+
+If you are a windows user you can download a [windows setup program](attachments/43156512.exe).
+
+If you have trouble running the setup program you can download the zip below, unzip it and use the olive.bat file to run olive.
+
+If you want to look at netCDF files that are greater than about 2G you will need to download the zip as this uses the updated code that will handle larger files.
+
+Mac and Linux Users:
+
+There is no setup program but you can download a [zip](attachments/43157301.zip). Unzip this and you should be able to run it by typing "./olive.sh"
+
+#### Dive
+
+The Dive software package is a very useful tool to view the output netcdf files. Unfortunately it seems to have been discontinued. We are folllowing up with CSIRO software engineers to see if it can be made avaialbel once again.

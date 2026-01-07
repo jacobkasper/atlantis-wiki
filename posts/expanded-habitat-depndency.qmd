@@ -1,0 +1,18 @@
+---
+title: "Expanded habitat depndency"
+date: "2014-09-02"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+We have removed one of the constraints on habitat dependency.
+
+This means if you are using the bec_dev branch you need to fill out XX_habdepend flag for every non bacteria non detritus group (i.e. for primary producers, invertebrates and vertebrates).
+
+If you are using AtlantisDem you need to add an additional column isHabDepend in the Groups.csv file
+
+In all cases if the flag is set to 1 then the group is habitat dependent, to make it habitat independent set it to 0.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

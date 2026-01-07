@@ -1,0 +1,50 @@
+---
+title: "BrokerLink"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+## Background
+
+## Work done to date:
+
+## Work yet to be done:
+
+## External Libraries Used:
+
+When Atlantis communicates with the external broker if does so using two additional technologies:
+
+protobuffers:
+
+This is used to serialise data structures ready for communication. See <https://developers.google.com/protocol-buffers/docs/overview> and <http://code.google.com/p/protobuf-c/> for more info.
+
+zmq:
+
+This is the communication protocol used to talk to the broker. See <http://www.zeromq.org/> for more info.
+
+## How to compile for use with broker
+
+**Linux/Mac**
+
+If you use the following configure command:
+
+./configure --enable-brokerlink
+
+Atlantis will compile and link to the brokerlink library. This will also require you to have the cprotobuf and zmq libraries installed.
+
+**cprotobuf**
+
+libprotobuf-dev  
+libprotoc-dev  
+protobuf-compiler
+
+Then download the latest c protobufs source code from <http://code.google.com/p/protobuf-c/> and install.
+
+**zmq**
+
+Install from source from <http://www.zeromq.org/community>
+
+**Windows**
+
+You will need to add the atBrokerLink project to the solution and define the 'BROKER_LINK_ENABLED' preprocessor value.
+
+## How to Use:

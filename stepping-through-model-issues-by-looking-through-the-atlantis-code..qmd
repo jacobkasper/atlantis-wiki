@@ -1,0 +1,22 @@
+---
+title: "Stepping through model issues by looking through the Atlantis code."
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+This is an attempt to help Atlantis modellers understand how to trace through the Atlantis code to track down model issues.
+
+As Bec helps people with model questions she will aim to document the process on this page. These examples may not be exactly what you are after - if not please let her know and she can create a new page for your problem.
+
+**Example 1. Icelandic model. Vertebrate not reproducing.**
+
+Erla is having trouble with one of the groups in the Icelandic model. This group FMI is never reproducing. Why?
+
+Code version - Atlantis trunk.
+
+**Example 2: JRE model. Unstable tracer NH3**
+
+Time: 0.000000e+00 The UNstable vari. 3 is NH3 in wc (offset: 0 NH3 in wc), its Pool = 0.06875, Netflux =0.0804023 on day: 0.000000e+00 in box: 6 layer 7
+
+How do i find out what is happening to cause this high HN3 value.
+
+Code version - Atlantis trunk.

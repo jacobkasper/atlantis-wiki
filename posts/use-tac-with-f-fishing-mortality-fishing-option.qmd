@@ -1,0 +1,13 @@
+---
+title: "Use TAC with F (fishing mortality) fishing option"
+date: "2014-11-16"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+When using fishing mortality harvest option (mFC) quotas are typically only used to dictate discarding (e.g. if catch > TAC, or trip limit exceeded, then all discarded). However if you set
+flag_stop_F_tac to 1 in harvest.prm then the TAC check and trip limit check occurs in the Fishing_Mortality() routine and if tripped fishing mortality is set to zero (so fishing stopped rather than all discarded).
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

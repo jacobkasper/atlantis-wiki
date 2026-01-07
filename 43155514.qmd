@@ -1,0 +1,35 @@
+---
+title: "Debug (fprintf calibration) options"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+When calibrating or debugging an Atlantis model there are a bunch of embedded fprintf statements you can trigger by setting the debug option in the run.prm file. I will endeavour to keep this up to date, but it is always good to check the master list in atlantisboxmodel.h
+
+| Debug value | ID used in Atlantis code | Comments |
+| --- | --- | --- |
+| 1 | debug_fishing | Fishing messages |
+| 2 | debug_discard | Discards messages |
+| 3 | debug_histfishing | Forced (historical) fishing messages. Used for when catches are read in from time series files |
+| 4 | debug_assess | Assessment messages |
+| 5 | debug_mpa | Spatial management messages |
+| 6 | debug_effort | Effort allocation messages |
+| 7 | debug_econeffort | Economics-based effort allocation messages |
+| 8 | debug_econ | Economics messages |
+| 9 | debug_quota | Quota messages |
+| 10 | debug_age | Aging messages |
+| 11 | debug_recruit | Recruitment messages |
+| 12 | debug_spawn | Spawning messages |
+| 13 | debug_migrate | Migration messages |
+| 14 | debug_move | Movement messages |
+| 15 | debug_stock | Stock structure messages |
+| 16 | debug_biom | Biomass calculation messages |
+| 17 | debug_eat | Feeding messages |
+| 18 | debug_general | All biological messages |
+| 20 | debug_biology_process | Print all the biology process function parameters |
+| 21 | debug_prey_biology_process | Print all the feeding process function parameters |
+| 22 | clam_debug | Messages about the clam - atlantis linkage |
+| 23 | debug_deposit | Messages about deposition |
+| 24 | debug_mL | Messages about the mortality scalar |
+| 25 | debug_mum | Messages about the growth scalar |
+| 26 | debug_FSPB | Messages about the FSPB additions |
+| 27 | debug_atomic | Messages about the C,P calculations |

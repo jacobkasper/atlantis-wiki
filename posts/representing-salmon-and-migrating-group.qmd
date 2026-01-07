@@ -1,0 +1,14 @@
+---
+title: "Representing salmon and migrating group"
+date: "2018-10-08"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+We've add functionality to the trunk code to allow for the representation of salmon and a more detailed representation of what happens when a migrating group is outside the model domain. For a detailed description of how to use this sub-model please read the documentation provided
+[here](/download/attachments/749077570/Implementing_Salmon_modification_Atlantis_code.docx?version=1&modificationDate=1538961208140&api=v2)
+.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

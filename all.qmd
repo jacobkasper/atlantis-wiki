@@ -1,0 +1,39 @@
+---
+title: "All"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+**Friday 19th December**
+
+Checked in the finalized code after running Atlantis through valgrind.  
+This has meant that i have created 'modules' for most libraries to store data. The long term idea is that each module will allocate and free its own memory. At present these modules are really only managing the modules input/output files. Most of these files were defined as static but this meant they were never closed.
+
+So the following new header and C files have been added:
+
+atAssessModule.c  
+atAssessModule.h  
+atEcologyModule.c  
+atEcomonicModule.c  
+atEcomonicModule.h  
+atManageModule.c  
+atManageModule.h  
+atphysics/include  
+atPhysicsModule.c  
+atPhysicsModule.h  
+atPhysics.h
+
+These have all been added to the makefile and visual studio project.  
+The em structure has also been moved into the box model structure, as have instances of each of the modules. So the box model now has the following variables:
+
+atPhysicsStructure *atPhysicsModule;  
+atEcologyStructure *atEcologyModule;  
+atManageStructure *atManageModule;  
+atAssessStructure *atAssessModule;  
+atEconomicStructure *atEconomicModule;
+
+Eventually all of the arrays/data associated with each library will be moved into these modules.
+
+Thursday 20th Nov 2008
+
+Fixed a number of small bugs that were causing memory leaks/stomps. Many of these were values not being intialised before use or memory not being freed.   
+Code now passes a valgrind with no errors.

@@ -1,0 +1,143 @@
+---
+title: "JRE model. Unstable tracer NH3"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Javier is getting the dreaded error:
+
+Time: 0.000000e+00 The UNstable vari. 3 is NH3 in wc (offset: 0 NH3 in wc), its Pool = 0.06875, Netflux =0.0804023 on day: 0.000000e+00 in box: 6 layer 7
+
+So how do you step through what is causing this?
+
+Like groups nutrients like NH3 flux values are calculated per box, per layer per timestep. This is done in the atNutrients.c file. For NH3 we are interested in Ammonium_ROC().
+
+This model has 8 layers so layer 7 is a water column layer - so we are interested in the WC code that looks like the following:
+
+boxLayerInfo->localWCFlux[*PhysioChemArray[index].tracerIndex] = gain - loss + (double)boxLayerInfo->NutsProd[WC][NH_id]  
+ - (double)boxLayerInfo->NutsLost[WC][NH_id];
+
+This is calculating the flux for this tracer. I would normally just print out this value using something like the following:
+
+```
+boxLayerInfo->localWCFlux[*PhysioChemArray[index].tracerIndex] = gain - loss + (double)boxLayerInfo->NutsProd[WC][NH_id]
+- (double)boxLayerInfo->NutsLost[WC][NH_id];
+/* Add in some additional print statements to help - just interested in particular box and layer combination. */
+if(bm->current_box == 6 && bm->current_layer == 7){
+	fprintf(bm->logFile, "flux = %e\n", boxLayerInfo->localWCFlux[*PhysioChemArray[index].tracerIndex] );
+	fprintf(bm->logFile, "boxLayerInfo->DONremin = %e\n", boxLayerInfo->DONremin);
+	fprintf(bm->logFile,"FunctGroupArray[LabDetIndex].reminc = %e\n", FunctGroupArray[LabDetIndex].remin);
+	fprintf(bm->logFile,"FunctGroupArray[RefDetIndex].remin = %e\n", FunctGroupArray[RefDetIndex].remin);
+	fprintf(bm->logFile,"FunctGroupArray[pelagicBactIndex].releaseNH[0] = %e\n", FunctGroupArray[pelagicBactIndex].releaseNH[0]);
+	fprintf(bm->logFile,"boxLayerInfo->NutsProd[WC][NH_id] = %Le\n",boxLayerInfo->NutsProd[WC][NH_id]);
+	fprintf(bm->logFile,"boxLayerInfo->NutsLost[WC][NH_id] = %Le\n", boxLayerInfo->NutsLost[WC][NH_id]);
+}
+```
+
+This prints out the following to the log file:
+
+flux = 8.040228e-02
+
+boxLayerInfo->DONremin = 1.032683e-07  
+FunctGroupArray[LabDetIndex].reminc = 0.000000e+00  
+FunctGroupArray[RefDetIndex].remin = 0.000000e+00  
+FunctGroupArray[pelagicBactIndex].releaseNH[0] = 0.000000e+00  
+boxLayerInfo->NutsProd[WC][NH_id] = 8.040810e-02  
+boxLayerInfo->NutsLost[WC][NH_id] = 5.921138e-06
+
+So you can see the cause of the high NH3 flux is the value in the boxLayerInfo->NutsProd[WC][NH_id]  array. This value is updated in Update_Detritus() and Do_Vertebrate_Living().
+
+The function Update_Detritus is called by functions in atGroupProcess.c that deal with each of the different types of invertebrate groups. So the boxLayerInfo->NutsProd[WC][NH_id] value is updated as each group in your model does each of its processes like eating a dying.
+
+In order to work out which group i normally use the following code:
+
+fprintf(bm->logFile, "After %s, boxLayerInfo->NutsProd[WC][NH_id] = %e\n", FunctGroupArray[guild].groupCode, boxLayerInfo->NutsProd[WC][NH_id]);
+
+If add this in atecology.c around line 776. There is code there that does the following:
+
+```
+for (guild = 0; guild < bm->K_num_tot_sp; guild++) {
+		flag_sp = (int) (FunctGroupArray[guild].speciesParams[flag_id]);
+		if (flag_sp && (FunctGroupArray[guild].isOncePerDt == FALSE || (it_count == 1 && FunctGroupArray[guild].isOncePerDt == TRUE))) {
+			switch (FunctGroupArray[guild].groupAgeType) {
+			case BIOMASS:
+			case AGE_STRUCTURED_BIOMASS:
+				if (FunctGroupArray[guild].habitatCoeffs[WC] > 0 ){
+						......
+						for (cohort = 0; cohort < FunctGroupArray[guild].numCohortsXnumGenes; cohort++) {
+							Call_Group_Process_Function(bm, llogfp, WC, guild, cohort, boxLayerInfo);
+						}
+					}
+				break;
+			case AGE_STRUCTURED:
+				/* Vertebrates*/totSp = Do_Vertebrate_Living(bm, llogfp, guild, WC, boxLayerInfo, 0.0, 0.0, 0.0, PREYinfo, GRAZEinfo, CATCHGRAZEinfo, VERTinfo);
+					boxLayerInfo->localWCTracers[FunctGroupArray[guild].totNTracers[0]] = totSp;
+				break;
+			}
+			// Add in new debugging information to help work out which group is causing such a high NH3 flux. 
+			if(bm->current_box == 6 && bm->current_layer == 7){
+				fprintf(bm->logFile, "After %s, boxLayerInfo->NutsProd[WC][NH_id] = %Le\n", FunctGroupArray[guild].groupCode, boxLayerInfo->NutsProd[WC][NH_id]);
+			}
+		}
+	}
+				
+```
+
+This prints out the following to the log file:
+
+```
+After SPL, boxLayerInfo->NutsProd[WC][NH_id] = 0.000000e+00
+After GCR, boxLayerInfo->NutsProd[WC][NH_id] = 0.000000e+00
+After BRC, boxLayerInfo->NutsProd[WC][NH_id] = 0.000000e+00
+After VID, boxLayerInfo->NutsProd[WC][NH_id] = 0.000000e+00
+After ORO, boxLayerInfo->NutsProd[WC][NH_id] = 0.000000e+00
+After ALF, boxLayerInfo->NutsProd[WC][NH_id] = 0.000000e+00
+After ANG, boxLayerInfo->NutsProd[WC][NH_id] = 0.000000e+00
+After CHO, boxLayerInfo->NutsProd[WC][NH_id] = 0.000000e+00
+After OTA, boxLayerInfo->NutsProd[WC][NH_id] = 0.000000e+00
+After DOL, boxLayerInfo->NutsProd[WC][NH_id] = 0.000000e+00
+After CET, boxLayerInfo->NutsProd[WC][NH_id] = 0.000000e+00
+After BIR, boxLayerInfo->NutsProd[WC][NH_id] = 0.000000e+00
+After SQD, boxLayerInfo->NutsProd[WC][NH_id] = 0.000000e+00
+After OCT, boxLayerInfo->NutsProd[WC][NH_id] = 0.000000e+00
+After LPF, boxLayerInfo->NutsProd[WC][NH_id] = 0.000000e+00
+After SPF, boxLayerInfo->NutsProd[WC][NH_id] = 0.000000e+00
+After SBF, boxLayerInfo->NutsProd[WC][NH_id] = 0.000000e+00
+After LBF, boxLayerInfo->NutsProd[WC][NH_id] = 0.000000e+00
+After SZO, boxLayerInfo->NutsProd[WC][NH_id] = 1.567728e-03
+After MZO, boxLayerInfo->NutsProd[WC][NH_id] = 7.312727e-02
+After LZO, boxLayerInfo->NutsProd[WC][NH_id] = 8.040810e-02
+After SCR, boxLayerInfo->NutsProd[WC][NH_id] = 8.040810e-02
+After BFF, boxLayerInfo->NutsProd[WC][NH_id] = 8.040810e-02
+After LPH, boxLayerInfo->NutsProd[WC][NH_id] = 8.040810e-02
+After SPH, boxLayerInfo->NutsProd[WC][NH_id] = 8.040810e-02
+After COR, boxLayerInfo->NutsProd[WC][NH_id] = 8.040810e-02
+After BCA, boxLayerInfo->NutsProd[WC][NH_id] = 8.040810e-02
+After MOL, boxLayerInfo->NutsProd[WC][NH_id] = 8.040810e-02
+After MA, boxLayerInfo->NutsProd[WC][NH_id] = 8.040810e-02
+After PB, boxLayerInfo->NutsProd[WC][NH_id] = 8.040810e-02
+After BB, boxLayerInfo->NutsProd[WC][NH_id] = 8.040810e-02
+After DL, boxLayerInfo->NutsProd[WC][NH_id] = 8.040810e-02
+After DR, boxLayerInfo->NutsProd[WC][NH_id] = 8.040810e-02
+After DC, boxLayerInfo->NutsProd[WC][NH_id] = 8.040810e-02
+```
+
+So you can see the cause of the problems are SZO and MZO. So why are these groups producing so much NH3? Both of these groups are MED_ZOO in this model. If you look in the function Call_Group_Process_Function() in atecology you will see that MED_ZOO groups use the Invert_Consumers_Process() function to calculate growth.
+
+Looking in the Update_Detritus() function mentioned before you can see the following:
+
+boxLayerInfo->NutsProd[WC][NH_id] += FunctGroupArray[guild].releaseNH[cohort];
+
+So we are interested in the releaseNH value calculated. The function Invert_Consumers_Process() calls Invert_Activities() which calculates:
+
+```
+	FunctGroupArray[guild].releaseNH[cohort] = SPmortNH * (1.0 - FDM_SP) + ((double)FunctGroupArray[guild].GrazeLive[cohort] + sp_GrazeFeed) * (1.0 - E_SP)
+			* (1.0 - FDG_SP) + SPgrazeDR * (1.0 - EDR_SP) * (1.0 - FDGDR_SP) + SPgrazeDL * (1.0 - EDL_SP) * (1.0 - FDGDL_SP);
+```
+
+So this value is tied to the amount of grazing. At this stage you will need to play with your values in the input files that impact on the amount a group can eat:
+
+1. The amount of prey - biomass of prey groups
+2. The amount of prey a group can eat (pprey values)
+3. Max growth rate
+4. Clearance rate
+5. Assimilation Efficiency values (for example E_SZO, EPlant_SZO, EDL_SZO, EDR_SZO)

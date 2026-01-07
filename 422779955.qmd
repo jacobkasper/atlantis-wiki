@@ -1,0 +1,62 @@
+---
+title: "Q&A"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+**My VNC session has frozen what should i do?**
+
+ Best thing to do is kill the existing vncserver instances you have and then start a new one. SSH into the machine using Putty on windows or ssh from linux.
+
+ To kill them you need to work out what what instances are currently running. Stay with me - the following is a bit daunting initially but you will get the hang of it.
+
+ To do this I would type the following in a terminal:
+
+ ps aux | grep vnc
+
+ This gives:
+
+aud007   13613 14.9  0.1  41408 23820 ?        R    May15 9025:14 Xvnc4 :1 -desktop **oa-16-mel:1 (aud007)** -auth /OSM/HOME-MEL/aud007/.Xauthority -geometry 1800x1000 -depth 16 -rfbwait 30000 -rfbauth /OSM/HOME-MEL/aud007/.vnc/passwd -rfbport 5901 -pn -fp usr/X11R6/lib/X11/fonts/Type1/,/usr/X11R6/lib/X11/fonts/Speedo/,/usr/X11R6/lib/X11/fonts/misc/,/usr/X11R6/lib/X11/fonts/75dpi/,/usr/X11R6/lib/X11/fonts/100dpi/,/usr/share/fonts/X11/misc/,/usr/share/fonts/X11/Type1/,/usr/share/fonts/X11/75dpi/,/usr/share/fonts/X11/100dpi/ -co /etc/X11/rgb
+
+aud007   13624  0.0  0.0   4180   488 ?        S    May15   0:00 /bin/sh /etc/vnc/xstartup
+
+gor171   17123  0.1  0.1  39596 21656 pts/10   S    10:50   0:00 Xvnc4 :3 -desktop **oa-16-mel:3 (gor171)** -auth /OSM/HOME-MEL/gor171/.Xauthority -geometry 1900x1000 -depth 16 -rfbwait 30000 -rfbauth /OSM/HOME-MEL/gor171/.vnc/passwd -rfbport 5903 -pn -fp /usr/X11R6/lib/X11/fonts/Type1/,/usr/X11R6/lib/X11/fonts/Speedo/,/usr/X11R6/lib/X11/fonts/misc/,/usr/X11R6/lib/X11/fonts/75dpi/,/usr/X11R6/lib/X11/fonts/100dpi/,/usr/share/fonts/X11/misc/,/usr/share/fonts/X11/Type1/,/usr/share/fonts/X11/75dpi/,/usr/share/fonts/X11/100dpi/ -co /etc/X11/rgb
+
+gor171   17134  0.0  0.0   4180   576 pts/10   S    10:50   0:00 /bin/sh /etc/vnc/xstartup
+
+gor171   19492  0.0  0.0   7844   860 pts/10   S+   10:57   0:00 grep vnc
+
+aud007   25366  6.9  0.1  38520 20492 ?        S    Jun05 2088:58 Xvnc4 :2 -desktop **oa-16-mel:2 (aud007)** -auth /OSM/HOME-MEL/aud007/.Xauthority -geometry 1800x1000 -depth 16 -rfbwait 30000 -rfbauth /OSM/HOME-MEL/aud007/.vnc/passwd -rfbport 5902 -pn -fp /usr/X11R6/lib/X11/fonts/Type1/,/usr/X11R6/lib/X11/fonts/Speedo/,/usr/X11R6/lib/X11/fonts/misc/,/usr/X11R6/lib/X11/fonts/75dpi/,/usr/X11R6/lib/X11/fonts/100dpi/,/usr/share/fonts/X11/misc/,/usr/share/fonts/X11/Type1/,/usr/share/fonts/X11/75dpi/,/usr/share/fonts/X11/100dpi/ -co /etc/X11/rgb
+
+aud007   25377  0.0  0.0   4180   484 ?        S    Jun05   0:00 /bin/sh /etc/vnc/xstartup
+
+ I have highlighted the important bits.
+
+ aside:
+
+ ps aux will show you all processes currently running. Then the '|' pipes or redirects the output of it to another process. In this case i'm passing it to 'grep' which will find lines in text matching a pattern and searching for the string 'vnc'.
+
+So the above output tells me that there are currently three vncserver sessions (Xvnc4) running. Number 1 and 2 are owned by you. And number 3 is owned by me.
+
+If you just wanted to see the ones owned by you, you could use:
+
+ps aux | grep vnc | grep aud007
+
+aud007   13613 14.9  0.1  41408 23820 ?        R    May15 9030:09 Xvnc4 :1 -desktop oa-16-mel:1 (aud007) -auth /OSM/HOME-MEL/aud007/.Xauthority -geometry 1800x1000 -depth 16 -rfbwait 30000 -rfbauth /OSM/HOME-MEL/aud007/.vnc/passwd -rfbport 5901 -pn -fp /usr/X11R6/lib/X11/fonts/Type1/,/usr/X11R6/lib/X11/fonts/Speedo/,/usr/X11R6/lib/X11/fonts/misc/,/usr/X11R6/lib/X11/fonts/75dpi/,/usr/X11R6/lib/X11/fonts/100dpi/,/usr/share/fonts/X11/misc/,/usr/share/fonts/X11/Type1/,/usr/share/fonts/X11/75dpi/,/usr/share/fonts/X11/100dpi/ -co /etc/X11/rgb
+
+aud007   13624  0.0  0.0   4180   488 ?        S    May15   0:00 /bin/sh /etc/vnc/xstartup
+
+aud007   25366  6.9  0.1  42036 23924 ?        S    Jun05 2089:01 Xvnc4 :2 -desktop oa-16-mel:2 (aud007) -auth /OSM/HOME-MEL/aud007/.Xauthority -geometry 1800x1000 -depth 16 -rfbwait 30000 -rfbauth /OSM/HOME-MEL/aud007/.vnc/passwd -rfbport 5902 -pn -fp /usr/X11R6/lib/X11/fonts/Type1/,/usr/X11R6/lib/X11/fonts/Speedo/,/usr/X11R6/lib/X11/fonts/misc/,/usr/X11R6/lib/X11/fonts/75dpi/,/usr/X11R6/lib/X11/fonts/100dpi/,/usr/share/fonts/X11/misc/,/usr/share/fonts/X11/Type1/,/usr/share/fonts/X11/75dpi/,/usr/share/fonts/X11/100dpi/ -co /etc/X11/rgb
+
+aud007   25377  0.0  0.0   4180   484 ?        S    Jun05   0:00 /bin/sh /etc/vnc/xstartup
+
+So this tells you that you should kill vncserver sessions 1 and 2. Do this using
+
+vncserver -kill :1
+
+vncserver -kill :2
+
+man vncserver gives you information about this.
+
+Then start a new session as per normal:
+
+vncserver -geometry 1900x1000

@@ -1,0 +1,31 @@
+---
+title: "Developers Area"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+These pages cover notes pages and scratch space for those adding Atlantis modules
+
+At presently it consists of pages of notes on things we've needed to do when
+- setting up laptops for training exercises
+- changes to code in redeveloping the code base
+- and other to do lists for Bec and Beth (others are welcome to join the fun).
+
+### Helpful Notes
+- [Migration to the new Atlantis code](migration-to-the-new-atlantis-code.qmd)
+- [Added in new biology input parameter](add-a-input-parameter.qmd)
+- [SVN notes](/pages/createpage.action?spaceKey=Atlantis&title=SVN+Notes&linkCreation=true&fromPageId=193889292)
+- [netCDF notes](useful-shortcuts-when-using-netcdf.qmd)[netCDF notes](useful-shortcuts-when-using-netcdf.qmd)
+- [Useful Mappings - mounting ebfm storage](useful-mappings.qmd)
+- [Change executable name under linux/mac](43155666.qmd)
+
+### Development Notes:
+- [Changes made to the input files that will effect people when using the new model code](input-files-changes.qmd)
+- [Change Log](change-log.qmd)
+- [Becs rants and updates](redev.qmd)
+- [Runtime differences under windows and linux](differences-in-windows-and-linux.qmd)
+- [Atlantis Modeling Project TODO list](43155502.qmd)
+- [Software Engineering Practices](software-engineering-practices.qmd)
+- [Atlantis Tags](atlantis_tags.qmd)
+- [Model_Redevelopment](model-redevelopment.qmd)
+- [Atlantis in Parallel](atlantis-in-parallel.qmd)
+- [Larval Dispersion](larval-dispersion.qmd)* [Larval Dispersion](larval-dispersion.qmd)

@@ -1,0 +1,98 @@
+---
+title: "Atlantis NetCDF Structure"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+### Depth Structure
+
+The following image shows how the layer are ordered in the model:
+
+![](attachments/43155904.png)
+
+### Input NetCDF Structure
+
+There should only be a single timestep in your initial conditions netCDF file.
+
+The generate structure of the variable is as follows:
+
+Assuming z = 7, numwc = 6, numsed = 1
+
+Box where numlayers = 6 (+ 1 sediment layer) data looks like:
+
+layer 0, layer 1, layer 2, layer 3, layer 4, layer 5, layer 6, sediment 0
+
+where layer 6 is the surface water column layer and layer 0 is the water column layer closest to the sediment.
+
+Box where numlayer = 3 (+ 1 sediment layer) data looks like:
+
+layer 0, layer 1, layer 2, 0, 0, 0, sediment 0
+
+where layer 2 is the surface water column layer and layer 0 is the water column layer closest to the sediment.
+
+Often the best way is to look at the dz or temperature variables.
+
+Temperature example:
+
+Temp =  
+15, 15, 15, 0, 0, 15,  
+15.75692, 18.54764, 18.55747, 0, 0, 11.8506063390378,  
+16.38466, 17.64911, 17.49957, 0, 0, 11.7739521098362,  
+15.66056, 17.34827, 17.31265, 0, 0, 11.5732538369471,  
+16.05924, 16.92816, 16.87717, 0, 0, 11.2929959545543,  
+5.152982, 11.85202, 17.02763, 19.01461, 19.83993, 0.327186732920063,  
+5.2956, 11.91765, 16.3935, 18.50452, 19.48259, 0.936462059214167,
+
+here we have warmer water on the surface.
+
+dz example:
+
+dz =  
+50, 100, 50, 0, 0, 1,  
+50.0008980607395, 100.001016436064, 47.7364553552973, 0, 0, 1.00053608029592,  
+50.0000086311325, 100.000102219634, 47.7364088557938, 0, 0, 1.00030413305374,  
+50.0001889261175, 100.000163259489, 47.7364117489861, 0, 0, 1.0002832508735,  
+50.0000055516363, 100.000162982956, 47.736412622015, 0, 0, 1.00044724712438,  
+900.001395164631, 450.000766659147, 99.9983202606676, 99.9924801598264, 54.9264866944315, 1.00006563744724,  
+900.002145639133, 450.002999281262, 100.001327120773, 100.001968639764, 54.9424943328129, 1.00021997830258,
+
+So we have the shallow layers near the surface and the deeper layers towards the sediment.
+
+### Output NetCDF structure
+
+Each layer variable in the netcdf file contains data per box, layer. Data is written out every toutinc days.
+
+The generate structure of the variable is as follows:
+
+Assuming z = 7, numwc = 6, numsed = 1
+
+Box where numlayers = 6 (+ 1 sediment layer) data looks like:
+
+layer 0, layer 1, layer 2, layer 3, layer 4, layer 5, layer 6, sediment 0
+
+where layer 6 is the surface water column layer and layer 0 is the water column layer closest to the sediment.
+
+Box where numlayer = 3 (+ 1 sediment layer) data looks like:
+
+0, 0, 0, layer 0, layer 1, layer 2, sediment 0
+
+where layer 2 is the surface water column layer and layer 0 is the water column layer closest to the sediment.
+
+If we look at the temperature and dz data again we see the difference, this is the same data at t = 0 of the model run.
+
+Temp =  
+0, 0, 15, 15, 15, 15,  
+0, 0, 15.75692, 18.54764, 18.55747, 11.8506063390378,  
+0, 0, 16.38466, 17.64911, 17.49957, 11.7739521098362,  
+0, 0, 15.66056, 17.34827, 17.31265, 11.5732538369471,  
+0, 0, 16.05924, 16.92816, 16.87717, 11.2929959545543,  
+5.152982, 11.85202, 17.02763, 19.01461, 19.83993, 0.327186732920063,  
+5.2956, 11.91765, 16.3935, 18.50452, 19.48259, 0.936462059214167,
+
+dz =  
+0, 0, 50, 100, 50, 1,  
+0, 0, 50.0008980607395, 100.001016436064, 47.7364553552973, 1.00053608029592,  
+0, 0, 50.0000086311325, 100.000102219634, 47.7364088557938, 1.00030413305374,  
+0, 0, 50.0001889261175, 100.000163259489, 47.7364117489861, 1.0002832508735,  
+0, 0, 50.0000055516363, 100.000162982956, 47.736412622015, 1.00044724712438,  
+900.001395164631, 450.000766659147, 99.9983202606676, 99.9924801598264, 54.9264866944315, 1.00006563744724,  
+900.002145639133, 450.002999281262, 100.001327120773, 100.001968639764, 54.9424943328129, 1.00021997830258,

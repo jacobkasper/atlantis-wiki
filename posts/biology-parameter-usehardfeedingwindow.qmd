@@ -1,0 +1,110 @@
+---
+title: "Biology Parameter - UseHardFeedingWindow"
+date: "2016-09-22"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+A new biology parameter has been added:
+
+UseHardFeedingWindow  1
+
+**Default Value - Hard Size Check**
+
+By default for existing models this value should be 1.
+
+If you turn this on then you will be applying a smoothing function predation.
+
+If this is set to 1 then a test is done on the size of prey (the SN value) to ensure it is within the KLP and KUP range. If the size is not within this range then predation does not accur.
+
+**Turn Hard Size Check Off**
+
+If you have UseHardFeedingWindow set to 0 a scalar between 0 and 1 is calculated using one of two options depending on the setting of UseBiLogisticFeedingWindow. Also if you use this setting (UseHardFeedingWindow  0) you will have to provide a (Kmax_coefft value for all predator groups.
+
+If
+*UseBiLogisticFeedingWindow is set to 0*
+then the feeding scalar is calculated
+as following:
+
+rel_size = SN_prey / (SN * KUP_SN);
+  
+sizeScalar = rel_size * exp(Kmax_coefft * (1.0 - rel_size));
+
+if(sizeScalar > 1.0)
+  
+sizeScalar = 1.0;
+  
+if(sizeScalar < 0.0)
+  
+sizeScalar = 0.0;
+
+Where
+
+SN = size of predator
+
+SN_prey = Size of prey
+
+Kmax_coefft = KMas value read in from biology prm file for the predator.
+
+KUP_SN = KUP value read in from biology.prm file for the predator.
+
+Alternatively, if
+*UseBiLogisticFeedingWindow is set to 1*
+then the feeding scalar is calculated
+as following:
+
+maxavail = KLP_SN + (KUP_SN - KLP_SN) *
+
+0.5
+
+;
+
+if
+
+(SP[prey][bpreychrt][SN_id] <= (maxavail * SN)){
+
+xmid = (KLP_SN + (maxavail - KLP_SN ) *
+
+0.5
+
+) * SN;
+
+sizeScalar =
+
+1.0
+
+/ (
+
+1.0
+
++ exp(-Kmax_coefft * (SP[prey][bpreychrt][SN_id] - xmid)));
+
+}
+
+if
+
+(SP[prey][bpreychrt][SN_id] > (maxavail * SN)){
+
+xmid = (KUP_SN - (KUP_SN - maxavail) *
+
+0.5
+
+) * SN;
+
+sizeScalar =
+
+1.0
+
+/ (
+
+1.0
+
++ exp(Kmax_coefft * (SP[prey][bpreychrt][SN_id] - xmid)));
+
+}
+
+sizeScalar /= max_scalar_SN;
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

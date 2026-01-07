@@ -1,0 +1,28 @@
+---
+title: "How to handle \"unrecognized command line option\""
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+When compiling Atlantis, especially on Mac and Linux (which means it can turn up in Docker too potentially) you may hit the compile error
+
+error: unrecognized command line option
+
+For example
+
+:::{note}
+cc: error: unrecognized command line option ‘-Wformat-overflow’Makefile:453: recipe for target 'atBioltoXML.o' failedmake[2]: *** [atBioltoXML.o] Error 1make[2]: Leaving directory '/home/Atlantis/atlantis-trunk/atlantis/ConvertAtlantis'Makefile:373: recipe for target 'all-recursive' failedmake[1]: *** [all-recursive] Error 1make[1]: Leaving directory '/ocean/dlatorne/Atlantis/atlantis-trunk/atlantis'Makefile:314: recipe for target 'all' failedmake: *** [all] Error 2
+:::
+
+This seems a bit confronting for new code users but the fix is usually fairly straightforward. The error is typically because different compilers have different assumed inbuilt compiler flags, if yours is an older compiler it might not recognise a flag so you just need to comment it out by following these steps
+
+1. Within the Atlantis code directory go to subdirectory atlantis
+2. Open the file PreRules.am
+3. Search on the unrecognsied option (in the example above that would be Wformat-overflow)
+4. Comment out that line of the file by putting a # at the start of the line, for example
+
+   #WARN += -Wformat-overflow
+5. Try to compile and see if that fixes the problem
+6. If you're still stuck email the development team at atlantis@csiro.au
+- Page:
+
+  [How to handle "unrecognized command line option"](/pages/viewpage.action?pageId=1498252587)

@@ -1,0 +1,45 @@
+---
+title: "HydroConstruct"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+## Background
+
+HydroConstruct creates the final format of the temperature, salinity and transport files required by Atlantis. It will read in files in a number of formats but its generally transport across each face as well as temperature, salinity and vertical flux per box.
+
+The majority of the data read in has the level in the water column in the opposite order to how Atlantis reads them in, so HydroConstruct reverses this order.
+
+It mainly changes the transport data into data per layer per box and handles hyperdiffusion.
+
+## Code location
+
+The hydroconstruct code in in the svn repository.
+
+Repository details:
+
+CSIRO Users: <https://svnserv.csiro.au/svn/atlantis/HydroConstruct>  
+ External Partners: <https://svnserv.csiro.au/svn/ext/atlantis/HydroConstruct>
+
+**Windows Users**
+
+The code should be checked out using the same method as that used for checking out the full Atlantis source tree. Please remember to NOT check code out to a path that contains a space. So code should not go in My Documents.
+
+Its best if you check out the hydroconstruct and Atlantis code in the following sort of structure.
+
+![](attachments/43156996.gif)
+
+If you do this it will make building the code heaps easier. If not following the following [instructions](updating-visual-studio-include-and-library-folders.qmd) to edit your Visual Studio projects to correctly map to your Atlantis code.
+
+**Linux and Mac Users**
+
+It doesn't matter where you check out the code. As long as you have installed the Atlantis libraries HydroConstruct will find them.
+
+## Building
+
+[Building HydroConstruct - Windows](hc-building-in-windows.qmd)
+
+[Building HydroConstruct - Linux/Mac](hc-building-in-linux-and-mac.qmd)
+
+## Running
+
+[Running Hydroconstruct](running-hydroconstruct.qmd)

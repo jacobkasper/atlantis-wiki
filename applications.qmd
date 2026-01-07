@@ -1,0 +1,12 @@
+---
+title: "Applications"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+These are example models or models that are being worked on
+- [AMS-Climate Model](ams-climate-model.qmd)
+- [AMS - SE Atlantis Model](ams-se-atlantis-model.qmd)
+- [Antarctica](antarctica.qmd)
+- [California-Current ECCAL](california-current-eccal.qmd) and the formal [review of the California Current model](atlantis-california-current-model-review.qmd)
+- [Storm Bay](storm-bay.qmd)
+- Inshore Tasmania ([tasCERF](tascerf.qmd))

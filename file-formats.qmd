@@ -1,0 +1,25 @@
+---
+title: "File Formats"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+### Background Information
+
+Best to have a read of this page if you don't know what this is all about - <http://en.wikipedia.org/wiki/Newline>
+
+### Converting Windows Atlantis Input files to Linux or Mac
+
+Before you can run Atlantis under Linux you will need to convert your windows input files. You should always assume that the files are in the wrong format when you get them from someone.  
+Unfortunately Linux and Windows use different line terminators (see <http://en.wikipedia.org/wiki/Newline> for more information).
+
+There is a very useful linux program called 'flip'.
+
+Usage is:
+
+flip -uv * - convert all ascii files in the current directory to linux file format.
+
+flip -mv * - convert all ascii files in the current directory to Windows format.
+
+### Converting to Windows
+
+If you need to convert a small number of files you can do so using your favorite text editor or follow instructions on the wikipedia link above.

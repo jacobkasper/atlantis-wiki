@@ -1,0 +1,8 @@
+---
+title: "Contaminant Modelling"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+The dispersal, uptake, transfer and decay mechanics of contaminants can be represented in Atlantis.
+
+A summary of the equations have been [summarised in a word document.](attachments/1627376296.docx) A [blog post](https://confluence.csiro.au/display/Atlantis/Contaminants+in+Atlantis) describing the required parameters has been updated as extra functionality is added, so please check there. If anything is missing please contact the Atlantis developers.

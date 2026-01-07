@@ -1,0 +1,45 @@
+---
+title: "Models & Scenarios - SVN"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+### Atlantis Summit Models
+
+The following area has been set up to allow people to share models.
+
+<https://svnserv.csiro.au/svn/atlantis/AtlantisSummit/Models/>
+
+Partners URL is:
+
+<https://svnserv.csiro.au/svn/ext/atlantis/AtlantisSummit/Models/>
+
+All existing Atlantis users with permission to access the code can import files into this area. Please ensure you create a folder for your files so they are not imported into the top level folder. If this happens Bec can help you resolve this so don't panic.
+
+Please be aware that everyone has read/write access to these folders so please don't submit any updates to other peoples models without discussion first.
+
+#### Information to include:
+- README file:
+
+Please include a README file or similar with your model files containing at least the following information:
+
+Contact Name:
+
+Contact Email:
+
+Model Name/Region:
+
+Contact Institution:
+- Image of model geometry:
+
+Where possible please include shapefiles, an image or similar of the model so people have a map of the model to look at.
+- Information on how to run the model:
+
+If you have many version of prm files please include information about which ones to use as a base run of the model. Including a run.bat or similar is a good option.
+
+**Importing into SVN using TortoiseSVN:**
+
+<http://tortoisesvn.net/docs/nightly/TortoiseSVN_en/tsvn-dug-import.html>
+
+**Importing into SVN using command line:**
+
+**<http://svnbook.red-bean.com/en/1.7/svn.tour.importing.html>**

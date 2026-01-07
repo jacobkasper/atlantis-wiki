@@ -1,0 +1,32 @@
+---
+title: "Changes to biology and physics to allow sediment light attenuation"
+date: "2009-07-24"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+**Run prm file**
+  
+Added a new flag to the run input file:
+  
+flagIsEstuary     1          Flag to indicate if the model is estuary. If true a sediment tracer is required in the initial conditions input file.
+
+Place this under the 'flaghemisphere' parameter.
+
+This should only be used if the model is tracing sediment in the water column.
+  
+If this is 1 the model will look for a SED tracer in your initial conditions file. If its 0 then your initial conditions will not need to change - this will be the case for most people.
+
+**Biology input prm file**
+  
+k_SED            0.05      Coefficient of light absoption due to sediment. Only used if flagIsEstuary is on.
+  
+This must be in your biology file - but it will only be used if the flagIsEstuary flag is set to 1.
+  
+Place it near the 'k_DON' parameter.
+  
+This coefficient is used in the light equation to calculate the light penetration in a box layer.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

@@ -1,0 +1,18 @@
+---
+title: "Updating the input files were JCEP and JPWN were 'separate' groups"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+In the old code there was the option of jCEP and jPWN as separate groups. In the new code you can just create a separate group for these biomass pool and call them something like JCP and JPW.
+
+You will need to update the tracer names in your initial conditions input file to match the names you give the groups in your functional group definition file.
+
+## Biology Input file
+
+You will have to update the diet composition matrix to include the new groups.
+
+## Fishing Files
+
+You will also need to make quite a few changes to the fisheries input file. The old code did not read in values for jCEP and jPWN for most values, it just used the CEP and PWN values. So you will need to replicate the values in most cases for JCP and JPW based on the values in the file for CEP and PWN.
+
+Any array where there is a value read in per fished species (such as target_) you will need to update the array to include a value for PWN and CEP. You might be best to do this in a spreadsheet so you can just copy and paste the columns.

@@ -1,0 +1,8 @@
+---
+title: "Error Message library"
+author: "Kaplan Issac"
+---
+
+I would like to keep  a running list of error messages here, for many models, so we can troubleshoot more effectively.
+
+Isaac

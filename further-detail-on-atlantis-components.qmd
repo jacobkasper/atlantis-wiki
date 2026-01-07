@@ -1,0 +1,19 @@
+---
+title: "Further detail on Atlantis components"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+These pages contain more detail on specific parts of Atlantis. The will be added to through time and compiled into and complemented by the Atlantis Manual (which is currently being written).
+- [atLink Module](atlink-module.qmd)
+- [Biology Equations](biology-equations.qmd)
+- [BioPhysics Equations](biophysics-equations.qmd)
+- [Contaminants in Atlantis](contaminants-in-atlantis.qmd)
+- [Effect of temperature on functional groups](effect-of-temperature-on-functional-groups.qmd)
+- [External Mortality, Growth and Recruitment Scaling](43155575.qmd)
+- [Fishing](fishing.qmd)
+- [FriendShip Network](friendship-network.qmd)
+- [Ice in Atlantis](ice-in-atlantis.qmd)
+- [Interaction with atecology](interaction-with-atecology.qmd)
+- [Land in Atlantis](land-in-atlantis.qmd)
+- [Mortality Output files](mortality-output-files.qmd)
+- [Recruitment Options](recruitment-options.qmd)

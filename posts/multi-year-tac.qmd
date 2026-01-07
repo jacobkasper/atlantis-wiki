@@ -1,0 +1,118 @@
+---
+title: "Multi year TAC"
+date: "2011-10-11"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+To get TAC that aren't reset annually there are some extra parmeters
+
+1) You need to add tac_resetperiodFXX for each fishable group (so put in group code instead of FXX). A default set for those who only want annual TAC use
+
+# Multi year TAC setting - put in the number of years between TAC reassessments
+
+  
+tac_resetperiodFPL      1
+  
+tac_resetperiodFPS      1
+  
+tac_resetperiodFPO      1
+  
+tac_resetperiodFVD      1
+  
+tac_resetperiodFVV      1
+  
+tac_resetperiodFVS      1
+  
+tac_resetperiodFVT      1
+  
+tac_resetperiodFVO      1
+  
+tac_resetperiodFVB      1
+  
+tac_resetperiodFMM      1
+  
+tac_resetperiodFMN      1
+  
+tac_resetperiodFBP      1
+  
+tac_resetperiodFDD      1
+  
+tac_resetperiodFDS      1
+  
+tac_resetperiodFDB      1
+  
+tac_resetperiodFDC      1
+  
+tac_resetperiodFDO      1
+  
+tac_resetperiodFDE      1
+  
+tac_resetperiodFDF      1
+  
+tac_resetperiodFDM      1
+  
+tac_resetperiodFDP      1
+  
+tac_resetperiodSHB      1
+  
+tac_resetperiodSHD      1
+  
+tac_resetperiodSHC      1
+  
+tac_resetperiodSHP      1
+  
+tac_resetperiodSHR      1
+  
+tac_resetperiodSSK      1
+  
+tac_resetperiodSB       1
+  
+tac_resetperiodSP       1
+  
+tac_resetperiodREP      1
+  
+tac_resetperiodPIN      1
+  
+tac_resetperiodWDG      1
+  
+tac_resetperiodWHB      1
+  
+tac_resetperiodWHS      1
+  
+tac_resetperiodWHT      1
+  
+tac_resetperiodZL       1
+  
+tac_resetperiodBD       1
+  
+tac_resetperiodMA       1
+  
+tac_resetperiodBFS      1
+  
+tac_resetperiodBFD      1
+  
+tac_resetperiodBFF      1
+  
+tac_resetperiodBG       1
+  
+tac_resetperiodBMS      1
+  
+tac_resetperiodBMD      1
+  
+tac_resetperiodBML      1
+  
+tac_resetperiodCEP      1
+  
+tac_resetperiodPWN      1
+
+2) Indicate whether or not the multiple year TAC is an annual TAC in effect its just not reassessed for x years or whether its a TAC that is the entire allocation for that period (e.g. 600 tonnes to be caught in the next 3 years with the actual year-to-year use up to the fsherman so long as the total for the 3 years doesn't exceed 600 tonnes).
+
+bulkTAC 0        Whether the TAC set across multiple years is consolidated annually (0) or if it is a bulk TAC to be used cumulatively across the entire period (1)
+
+**Note:**
+That even if using bulkTAC set to 1 you should still only enter annual TAC amounts in the harvest prm file (and annual allocations in economics prm) as the code will rescale it for the period given in resetperiod for that species/group
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

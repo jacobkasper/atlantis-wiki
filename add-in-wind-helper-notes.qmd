@@ -1,0 +1,557 @@
+---
+title: "Add in Wind - helper notes"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+To include wind, snaffle code (WindAdvectionRK4, from
+
+```
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+Created on Thu May  2 12:55:55 2019
+
+@author: bec
+"""
+
+import os
+import sys
+import math
+import numpy as np
+import geopandas as gpd
+import xarray as xr
+from os import environ
+from shapely.geometry import Polygon
+
+sys.path.append('/scratch1/gor171/connie_git/particle_tracking/parcels/')
+
+from datetime import timedelta
+from parcels import Field, FieldSet, ParticleSet, JITParticle, ParticleFile, ScipyParticle, NestedField, SummedField
+from parcels import AdvectionRK4, VectorField, Variable
+
+from util.parse_wildcards import parse_wildcards
+from util.seed_particles import get_release_times, get_particles
+from util.plotting import plotTrajectoriesFile
+from util.get_roam_nested import get_nested_roam_field_set
+from util.file_plotting import bec_plotTrajectoriesFile
+from do_plot import do_plots
+
+def WindAdvectionRK4(particle, fieldset, time):
+    """Advection of particles using fourth-order Runge-Kutta integration.
+
+    Function needs to be converted to Kernel object before execution"""
+    if particle.beached == 0:
+        wp = fieldset.wind_percentage
+
+        if wp > 0:
+
+            (wind_u1, wind_v1) = fieldset.UVwind[time, particle.depth, particle.lat, particle.lon]
+            wind_u1 = wind_u1 * wp
+            wind_v1 = wind_v1 * wp
+            wind_lon1, wind_lat1 = (particle.lon + wind_u1*.5*particle.dt, particle.lat + wind_v1*.5*particle.dt)
+
+
+            (wind_u2 ,wind_v2) = fieldset.UVwind[time + .5 * particle.dt, particle.depth, wind_lat1, wind_lon1]
+            wind_u2 = wind_u2 * wp
+            wind_v2 = wind_v2 * wp
+            wind_lon2, wind_lat2 = (particle.lon + wind_u2*.5*particle.dt, particle.lat + wind_v2*.5*particle.dt)
+
+            (wind_u3, wind_v3) = fieldset.UVwind[time + .5 * particle.dt, particle.depth, wind_lat2, wind_lon2]
+            wind_u3 = wind_u3 * wp
+            wind_v3 = wind_v3 * wp
+            wind_lon3, wind_lat3 = (particle.lon + wind_u3*particle.dt, particle.lat + wind_v3*particle.dt)
+
+            (wind_u4, wind_v4) = fieldset.UVwind[time + particle.dt, particle.depth, wind_lat3, wind_lon3]
+            wind_u4 = wind_u4 * wp
+            wind_v4 = wind_v4 * wp
+
+            particle.lon += (wind_u1 + 2*wind_u2 + 2*wind_u3 + wind_u4) / 6. * particle.dt
+            particle.lat += (wind_v1 + 2*wind_v2 + 2*wind_v3 + wind_v4) / 6. * particle.dt
+            particle.beached = 2
+            #print('after = ')
+            #print(particle)
+
+def BeachTesting(particle, fieldset, time):
+    if particle.beached == 2:
+        (u, v) = fieldset.UV[time, particle.depth, particle.lat, particle.lon]
+        #print(u, v)
+        if u == 0 and v == 0:
+            particle.beached = 1
+        else:
+            particle.beached = 0
+            
+    particle.age = particle.age + 1
+    if particle.age >= fieldset.max_age:
+        particle.delete()
+            
+
+def DeleteParticle(particle, fieldset, time):
+    particle.delete()
+
+def SampleNestedFieldIndex(particle, fieldset, time):
+    f = fieldset.F[0, particle.depth, particle.lat, particle.lon]
+    particle.f = f
+
+    #print(particle)
+    #print(particle.f)
+
+#ScipyParticle
+#JITParticle
+class WindParticle(JITParticle):
+    f = Variable('f', dtype=np.int32)
+    beached = Variable('beached', dtype=np.int32, initial=0.)
+    age = Variable('age', dtype=np.int32, initial=0.)
+
+'''
+my_domain= {'N':40,
+         'S':30,
+         'W':140,
+         'E':120 }
+'''
+
+def do_roam_nested(scenario_name, input_shapefile_name, roam_output_file, oceanmaps_path, release_index, 
+                   release_start_time, release_end_time, wind_percentage_value, dispersal_days, time_delta):
+        
+    ##############################################################################33
+    use_nested = 1
+    use_oceanMaps = 0
+    use_roam = 0
+    if wind_percentage_value > 0:
+        include_wind = 1    
+    else:
+        include_wind = 0    
+
+    ##############################################################3
+    
+    release_depth = -2.6
+    #release_start_time = np.datetime64('2017-08-01')
+    #release_end_time = np.datetime64('2017-08-02')
+    num_particles_per_day = 100
+    #num_particles_per_day = 1
+    
+    dispersal_length = 24*dispersal_days
+    
+    ##############################################################################
+    
+    [field_set, file_prefix, time_origin] = get_nested_roam_field_set(roam_output_file, 
+        oceanmaps_path, use_oceanMaps, use_roam, use_nested, include_wind)
+    
+    output_folder = 'plots/'
+    
+    try:
+        os.mkdir(scenario_name)
+    except:
+        pass
+    
+
+    field_set.add_constant('wind_percentage', wind_percentage_value/100.0)
+    field_set.add_constant('max_age', dispersal_length)
+    
+
+    output_file_name = scenario_name + '/' + scenario_name  + '_Particles_' + str(feature_release_index)
+    
+    #time_origin = field_set.U2.grid.time_origin.time_origin
+    print(time_origin)
+    [release_times, p, num_particles] = get_release_times(time_origin, num_particles_per_day, release_start_time, release_end_time)
+    
+    #get_particles(fieldset, num_particles, shapefile_name, particle_type, release_index, release_times, release_depth)
+    pset = get_particles(field_set, num_particles, input_shapefile_name, WindParticle, feature_release_index, release_times, release_depth)
+    
+    print(pset)
+    
+    my_kernel = AdvectionRK4
+    
+    if use_nested == 1:
+        beach_kernel = pset.Kernel(BeachTesting)
+        f_sample = pset.Kernel(SampleNestedFieldIndex)    # Casting the SampleP function to a kernel.
+        my_kernel = AdvectionRK4
+        if include_wind == 1:
+            f_wind = pset.Kernel(WindAdvectionRK4)
+            my_kernel = my_kernel + f_wind
+    
+        my_kernel = my_kernel + beach_kernel + f_sample
+
+    
+    #pset.show(field=field_set.U, savefile=output_folder + 'p_start_roam_v_' + str(release_index) + '.png')
+    #pset.show(field='vector', savefile=output_folder + 'p_start_vector_' + str(release_index) + '.png', domain=my_domain)
+    
+    print(output_file_name)
+    try:
+        os.system('rm ' + output_file_name + '.nc')
+    except:
+        pass
+    
+    total_execute_hours = dispersal_length + ((np.max(release_times) - np.min(release_times))/3600.0)
+    
+    pset.execute(my_kernel,                 # the kernel (which defines how particles move)
+                     runtime=timedelta(hours=total_execute_hours),    # the total length of the run
+                     dt=timedelta(hours=time_delta),      # the timestep of the kernel
+                     output_file=pset.ParticleFile(name=output_file_name + '.nc', outputdt=timedelta(hours=1)),
+                     recovery={ErrorCode.ErrorOutOfBounds: DeleteParticle})  # the recovery kernel  # the file name and the time step of the outputs
+    
+    print(total_execute_hours)
+    print(pset)
+    
+    
+    return output_file_name, field_set
+   
+
+
+oceanmaps_path = '/OSM/CBR/OA_CONNIE/work/connie_forcing_data/oceanmaps/an00/'
+oceanmaps_path = '/OSM/CBR/OA_CONNIE/work/connie_forcing_data/oceanmaps/2017/taiwan_'
+
+#oceanmaps_path = '/home/gor171/Backedup/Connie/connie_forcing_data/oceanmaps/'
+
+# run 3 - south africa.
+
+
+#scenario_name = 'simple_south_africa_coast'
+#roam_output_file = '/home/gor171/connie_work/ROAM_DATA/transferMDbb/3/out_cf.nc'
+
+roam_output_file = '/home/gor171/connie_work/ROAM_DATA/transferMDbb/3/out_std_surf_rotated.nc'
+'''
+dispersal_days = 75
+target_location = '/home/gor171/connie_work/connie_git/connie_batch_config/plastics/GISData/release_points/South_Africa_Coast_release_points/'
+input_shapefile_name = '/home/gor171/connie_work/connie_git/connie_batch_config/plastics/GISData/release_points/South_Africa_Coast_release_points/merged_df.shp'
+scenario_name = 'full_rotated_south_africa_coast'
+release_start_time = np.datetime64('2017-08-03')
+release_end_time = np.datetime64('2017-08-17')
+time_delta = 1
+
+'''
+
+
+# run 5 is bali.
+
+'''
+input_shapefile_name = '/home/gor171/connie_work/connie_git/connie_batch_config/plastics/GISData/release_points/Bali_Coast_release_points/merged_df.shp'
+target_location = '/home/gor171/connie_work/connie_git/connie_batch_config/plastics/GISData/release_points/Bali_Coast_release_points/'
+roam_output_file = '/home/gor171/connie_work/ROAM_DATA/transferMDbb/5/out_std_surf.nc'
+
+scenario_name = 'simple_bali_coast'
+roam_output_file = '/home/gor171/connie_work/ROAM_DATA/transferMDbb/5/out_cf.nc'
+
+scenario_name = 'rotated_bali_coast'
+roam_output_file = '/home/gor171/connie_work/ROAM_DATA/transferMDbb/5/out_std_surf_rotated.nc'
+
+release_start_time = np.datetime64('2017-03-12')
+release_end_time = np.datetime64('2017-03-13')
+'''
+
+roam_output_file = '/home/gor171/connie_work/ROAM_DATA/transferMDbb/1756/out_std_surf_rotated.nc'
+
+   
+
+feature_release_index = int(sys.argv[1])
+wind_percentage_value = float(sys.argv[2])
+scenario_name = sys.argv[3]
+dispersal_days = int(sys.argv[4])
+input_shapefile_name =  sys.argv[5]
+release_start_time = sys.argv[6]
+release_end_time = sys.argv[7]
+time_delta = float(sys.argv[8])
+roam_output_file = sys.argv[9]
+oceanmaps_path = sys.argv[10]
+land_shapefile = sys.argv[11]
+
+
+print('release_start_time = ' + str(release_start_time) + ' release_end_time = ' + str(release_end_time))
+print(time_delta)
+if time_delta == -1:
+    scenario_name = scenario_name + '_sink'
+else:
+    scenario_name = scenario_name + '_source'
+
+scenario_name = scenario_name  + '_wind_' + str(wind_percentage_value)
+
+release_start_time = np.datetime64(release_start_time)
+release_end_time = np.datetime64(release_end_time)
+
+#dispersal_days = 25
+    
+    
+#feature_release_index = 0
+#wind_percentage_value = 0.0
+
+plot_folder = 'plots/' + scenario_name + '/'
+plot_file_name = plot_folder + '/hist_' + scenario_name + '_' + str(feature_release_index) + '.png'
+print(plot_file_name)
+ideal_size = 1081
+
+#ideal_size = 25
+if not os.path.exists(plot_file_name):
+
+    output_file_name = scenario_name + '/' + scenario_name  + '_Particles_' + str(feature_release_index) + '.nc'
+
+    print('output_file_name = ' + output_file_name)
+    print(plot_file_name)
+
+    obs_size = 0
+    if os.path.exists(output_file_name):
+
+        environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
+        try:
+            pfile = xr.open_dataset(str(output_file_name), decode_cf=True)
+        except:
+            pfile = xr.open_dataset(str(output_file_name), decode_cf=False)
+
+
+        print(pfile.dims['obs'])
+
+        obs_size = pfile.dims['obs']
+
+        pfile.close()
+
+    if obs_size != ideal_size:
+
+        print('netcdf does not exist or is incorrect size. ')
+
+        [nc_output_file_name, field_set] = do_roam_nested(scenario_name, input_shapefile_name, roam_output_file, oceanmaps_path, feature_release_index, 
+
+                       release_start_time, release_end_time, wind_percentage_value, dispersal_days, time_delta)
+
+    else:
+        print('netcdf file exists and is correct size ')
+    
+    
+    do_plots(output_file_name, land_shapefile, scenario_name, feature_release_index) 
+   
+
+else:
+    print('file done')
+```
+
+you will need to add:
+
+field_set.add_constant('wind_percentage', wind_percentage_value/100.0)
+
+set up your wind kernel:
+
+f_wind = pset.Kernel(WindAdvectionRK4)  
+my_kernel = my_kernel + f_wind
+
+and in 
+
+```
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+Created on Wed Jun 12 16:24:47 2019
+
+@author: gor171
+"""
+
+
+import os
+import sys
+import numpy as np
+import xarray as xr
+from datetime import timedelta
+from parcels import Field, FieldSet, ParticleSet, JITParticle, ParticleFile, ScipyParticle, NestedField, SummedField
+from parcels import AdvectionRK4, VectorField, Variable
+from util.parse_wildcards import parse_wildcards
+from util.seed_particles import get_release_times, get_particles
+from util.plotting import plotTrajectoriesFile
+
+def get_nested_roam_field_set(roam_output_file, ocean_maps_path, use_oceanMaps, use_roam, use_nested, include_wind):
+
+    pad_value = 7
+    pad_time = 2*86400
+    defer_load = True
+    #defer_load = False
+    
+
+    if use_oceanMaps == 1 or use_nested == 1:
+        # Now the ocean maps data.
+        u_data_path = ocean_maps_path + 'u/an*.nc'
+        v_data_path = ocean_maps_path + 'v/an*.nc'
+        wind_data_path = ocean_maps_path + 'wind/*.nc'
+
+        print('v_data_path = ' + v_data_path)
+        print('u_data_path = ' + u_data_path)
+
+        u_paths = parse_wildcards(u_data_path, 'u')
+        v_paths = parse_wildcards(v_data_path, 'v')
+
+        if include_wind == 1:
+            wind_paths = parse_wildcards(wind_data_path, 'wind')
+
+        filenames = {'U1': u_paths, 'V1': v_paths}
+        variables = {'U1': 'u', 'V1': 'v'}
+        dimensions = {'lat': 'yu_ocean',
+                      'lon': 'xu_ocean',
+                      'time': 'Time',
+                      'depth': 'st_ocean'}
+
+
+        wind_dimensions = {'lat': 'lat',
+                      'lon': 'lon',
+                      'time': 'time'}
+
+
+        #indices = {'depth':[0]}
+
+        oceanmaps_u = Field.from_netcdf(u_paths, ('U1', 'u'), dimensions, fieldtype='U',
+                                        allow_time_extrapolation=True, transpose=False,
+                                        deferred_load=defer_load, field_chunksize='auto')
+        oceanmaps_v = Field.from_netcdf(v_paths, ('V1', 'v'), dimensions, fieldtype='V',
+                                        allow_time_extrapolation=True, transpose=False,
+                                        deferred_load=defer_load, field_chunksize='auto')
+
+        #oceanmaps_u.show()
+        if include_wind == 1:
+
+            defer_load = False
+
+            oceanmaps_u_wind = Field.from_netcdf(wind_paths, ('U_Wind', 'u10'),
+                                                 wind_dimensions,
+                                                 fieldtype='U',
+                                                 allow_time_extrapolation=True,
+                                                 transpose=False,
+                                                 deferred_load=defer_load)
+            oceanmaps_v_wind = Field.from_netcdf(wind_paths, ('V_Wind', 'v10'),
+                                                 wind_dimensions,
+                                                 fieldtype='V',
+                                                 allow_time_extrapolation=True,
+                                                 transpose=False,
+                                                 deferred_load=defer_load)
+
+            print(oceanmaps_u_wind.grid)
+
+        #oceanmaps_u.show()
+    # Now set up the roam high res output files.
+    if use_roam == 1 or use_nested == 1:
+
+        try:
+            pfile = xr.open_dataset(str(roam_output_file), decode_cf=True)
+        except:
+            pfile = xr.open_dataset(str(roam_output_file), decode_cf=False)
+            
+        
+        lon = np.ma.filled(pfile.variables['longitude'], np.nan)
+        zc = np.ma.filled(pfile.variables['zc'], np.nan)
+        
+        
+        dimensions = {'U': {'lat': 'latitude', 'lon': 'longitude',
+                      'time': 'time','depth': 'zc'},
+                      'V': {'lat': 'latitude', 'lon': 'longitude',
+                      'time': 'time','depth': 'zc'}}
+            
+        u_var_name = 'u'
+        v_var_name = 'v'
+        '''
+        
+        
+        lon = np.ma.filled(pfile.variables['x_grid'], np.nan)
+        zc = np.ma.filled(pfile.variables['z_centre'], np.nan)
+        
+        dimensions = {'U': {'lon': 'x_left', 'lat': 'y_left', 'depth': 'z_centre', 'time': 't'},
+                      'V': {'lon': 'x_back', 'lat': 'y_back', 'depth': 'z_centre', 'time': 't'}}
+        
+        u_var_name = 'u1'
+        v_var_name = 'u2'
+        
+        '''
+
+
+        [m, n] = lon.shape
+        print(m, n)
+
+        cs = 256
+        chunk_size = (1, cs, cs)
+        depth_index = zc.shape[0] - 1
+        p = range(pad_value, m-pad_value)
+        q = range(pad_value, n-pad_value)
+        indices = {'depth':[depth_index], 'lon':q, 'lat':p}
+
+        
+        roam_u = Field.from_netcdf(roam_output_file, ('U2', u_var_name), dimensions['U'], fieldtype='U',
+                                   indices=indices, allow_time_extrapolation=False,
+                                   transpose=False, deferred_load=defer_load, field_chunksize='auto')
+        roam_v = Field.from_netcdf(roam_output_file, ('V2', v_var_name), dimensions['V'], fieldtype='V',
+                                   indices=indices, allow_time_extrapolation=False,
+                                   transpose=False, deferred_load=defer_load, field_chunksize='auto')
+
+        #$lon_max = np.nanmax(roam_u.grid.lon)
+        #lat_max = np.nanmax(roam_u.grid.lat)
+
+        #roam_u.grid.lon[np.isnan(roam_u.grid.lon)] = lon_max + 0.1
+        #roam_u.grid.lat[np.isnan(roam_u.grid.lat)] = lat_max + 0.1
+        
+        time_origin = roam_u.grid.time_origin.time_origin
+
+
+    # now create the nested dataset
+    
+    if use_nested == 1:
+        nested_field_U = NestedField('U', [roam_u, oceanmaps_u])
+        nested_field_V = NestedField('V', [roam_v, oceanmaps_v])
+
+        field_set = FieldSet(nested_field_U, nested_field_V)
+        file_prefix = 'nested_'
+
+        print(field_set.U)
+    else:
+        if use_oceanMaps == 1:
+            oceanmaps_u.name = 'U'
+            oceanmaps_v.name = 'V'
+            field_set = FieldSet(oceanmaps_u, oceanmaps_v)
+            file_prefix = 'ocean_maps_'
+        else:
+            field_set = FieldSet(roam_u, roam_v)
+            file_prefix = 'roam_'
+            roam_u.name = 'U'
+            roam_v.name = 'V'
+
+
+    # now create the wind fields
+    if include_wind == 1:
+        field_set.add_field(oceanmaps_u_wind)
+        field_set.add_field(oceanmaps_v_wind)
+        wind_fieldset = VectorField('UVwind', oceanmaps_u_wind, oceanmaps_v_wind)
+        field_set.add_vector_field(wind_fieldset)
+
+    
+    if use_nested == 1:
+        F1_data = np.ones((roam_u.grid.zdim, roam_u.grid.ydim, roam_u.grid.xdim), dtype=np.float32)
+        F2_data = 2*np.ones((oceanmaps_u.grid.zdim, oceanmaps_u.grid.ydim, oceanmaps_u.grid.xdim), dtype=np.float32)
+        print(F1_data.shape)
+
+        print(F2_data.shape)
+        print(roam_u.grid.lon)
+        F1 = Field('F1', F1_data, lon=roam_u.grid.lon, lat = roam_u.grid.lat, allow_time_extrapolation=True)
+        F2 = Field('F2', F2_data, lon=oceanmaps_u.grid.lon, lat = oceanmaps_u.grid.lat, allow_time_extrapolation=True)
+
+        F = NestedField('F', [F1, F2])
+        field_set.add_field(F)
+
+
+    return field_set, file_prefix, time_origin
+```
+
+```
+  oceanmaps_u_wind = Field.from_netcdf(wind_paths, ('U_Wind', 'u10'),
+                                                 wind_dimensions,
+                                                 fieldtype='U',
+                                                 allow_time_extrapolation=True,
+                                                 transpose=False,
+                                                 deferred_load=defer_load)
+            oceanmaps_v_wind = Field.from_netcdf(wind_paths, ('V_Wind', 'v10'),
+                                                 wind_dimensions,
+                                                 fieldtype='V',
+                                                 allow_time_extrapolation=True,
+                                                 transpose=False,
+                                                 deferred_load=defer_load)
+
+
+field_set.add_field(oceanmaps_u_wind)
+        field_set.add_field(oceanmaps_v_wind)
+        wind_fieldset = VectorField('UVwind', oceanmaps_u_wind, oceanmaps_v_wind)
+        field_set.add_vector_field(wind_fieldset)
+# that will mean you can use the UVwind data in the wind kernel WindAdvectionRK4
+
+```
+
+and

@@ -1,0 +1,12 @@
+---
+title: "Sponge functional group type"
+date: "2019-01-23"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+We have added a new functional group type - SPONGE. It acts largely like a coral (or other filter feeder) except that it is silica dependent and can be a bioeroder. To activate this functionality, in the functional_groups.csv file set the group type to SPONGE and in the isBioEroder column enter 1 instead of 0.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

@@ -1,0 +1,59 @@
+---
+title: "Updating Visual Studio include and library folders"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+If you are trying to build HydroConstruct, CDFdistiller or AtlantisNCGen on Windows and you get some errors around sjwlib.h or netcdf.h not being found then these instructions are for you.
+
+These tools point to the netcdf and sjwlib folders within Atlantis2. The default values assume that you have the following setup:
+
+CodeFolderName  
+->Atlantis  
+    ->sjwlib  
+    ->netcdf  
+->cdfDistiller/HydroConstruct/AtlantisNCGen
+
+If for some reason you have a different folder structure to this you will have to change the settings in the cdfDistiller project to tell it where to find the  
+sjwlib and netcdf headers and .lib files.
+
+These are set by right clicking on the project (not solution) name and selecting properties.
+
+![](attachments/43157396.png)
+
+Expand the 'Configuration Properties' -> C/C++ ->General option.
+
+![](attachments/43157395.png)
+
+You can expand and edit the 'Additional Include Directories' properties by clicking on the button to the right of the field.
+
+![](attachments/43157392.png)
+
+The 'Additional Include Directories' field will by default contain the following:
+
+"$(SolutionDir)..\atlantis\sjwlib\include";"$(SolutionDir)..\atlantis\netcdf\include"
+
+Where $(SolutionDir) will be the location you have placed the cdfDistiller code.
+
+![](attachments/43157377.png)
+
+You will need to change the relative reference to where your atlantis code is.
+
+You also need to edit the path of the sjwlib and netcdf libs.
+
+These are also set in the Configuration Properties panel under the 'Linker->Input' option.
+
+ ![](attachments/43157375.png)
+
+You want to edit the 'Additional Dependencies' field in a similar fashion to how you edited the 'Additional Include Directories' property.
+
+![](attachments/43157394.png)
+
+The Additional Dependancies field will contain the following default value:  
+$(SolutionDir)..\atlantis\sjwlib\Debug\sjwlib.lib $(SolutionDir)..\atlantis\netcdf\lib\netcdfs.lib
+
+![](attachments/43157390.png)
+
+So you will also need to change the relative location to the atlantis directory.
+
+If you can't get this working contact Bec or move you cdfDistiller code to the default location as  
+indicated above.

@@ -1,0 +1,403 @@
+---
+title: "Marie Savina's Seagrass Model"
+date: "2015-08-06"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+# Marie Savina's Seagrass Model
+
+Marie has written a seagrass model (I'm sure she share documentation on request, but the fortran file is attached here
+[seagrassparameter.txt](#)
+- and
+[seagrasspopdyn_only.f](#)
+).
+
+It involves a serious of parameters, initial conditions and modification of the functionalGroup,csv file
+
+##### **Not using new Seagrass Model:**
+
+If you don't want to use this new model you will just have to add three new parameters:
+
+**run.prm file**
+
+flag_age_output 0
+
+**biology.prm file**
+
+flag_macro_model  0
+
+mL3_SG_T15 0   Linear mortality of seagrass epiphytes, 15 deg C d-1 - not used but need to add.
+
+You should be good to continue running Atlantis as normal once these are added. If you do need to make any additional changes please update this wiki page or get in contact with Beth/Bec.
+
+**Using new Seagrass Model:**
+
+If you are using the new model then you will need to make all of the following changes:
+
+###### functionalGroup.csv
+
+Need to up the number of cohorts for SEAGRASS habitat type to 3 - which stand for
+
+0 = main_biomass_id (above ground biomass)
+  
+1 = below_ground_biomass_id (roots of the seagrass)
+  
+2 = epiphyte_biomass_id (epiphytes on the leaves)
+
+###### Parameters - in biol.prm file
+
+The following parameters must be added to the biol.prm file
+
+flag_macro_model which must be set to 1 to turn this type of model on (0 to use standard Australian formulation for seagrass)
+
+# Linear Mortality - mL needs to be made a vector with an entry for each of the 3 biomass "cohorts" in the new code or for the old code
+
+~~mL_SG_T15 0.0 #Mortality for roots of seagrass.~~
+  
+~~jmL_SG_T15 0.001 #Linear mortality of seagrass leaves (above-ground biomass), 15 deg C d-1~~
+  
+~~mL3_SG_T15 0.05 #Linear mortality of seagrass epiphytes, 15 deg C d-1~~
+
+In the trunk code now enter linear mortality as a vector
+
+SG_mL  3
+
+0.001 0.0 0.05
+
+assuming the following order or entry:
+
+leaves  roots  epiphytes
+
+# Light Limitation values
+
+  
+~~KI_L_SG_T15 5 Light parameter associated with this light penetration~~
+
+L__KI_SG_T15 5 Light parameter associated with this light penetration
+  
+Kext_SG 2 Extinction coefficient of light passing through the epiphytes to the leaf
+
+# Space limitation parameters
+
+  
+# if refined seagrass model (flag_macro_model=1) use KN_SG
+
+  
+Ksub_SG 500 Space limitation associated with seagrass growth
+  
+KsubEpi_SG 300 Space limitation associated with epiphyte growth
+  
+Ktrans_SG 0.1 Allocation of space growth between leaves and roots
+
+The existing parameters also used are:
+
+SGmax (maximum possible biomass for SG at high density packing)
+
+KN - nutrient half saturation level
+
+# Maximum Growth Rates
+
+# if refined seagrass model (flag_macro_model=1) mum_SG_T15 is for the above-ground biomass
+
+  
+mum_SG_T15 0.04 Maximum growth rate, seagrass at 15 deg C d-1 0.05
+  
+mumEpi_SG_T15 0.1 Maximum growth rate of epiphyte biomass at 15 deg C d-1
+
+# The proportion of each biomass going to DL vs DR when it dies. The epiphyte cohort goes completely to DL.
+
+  
+FDL_SG_roots 0.3
+  
+FDL_SG_leaves 0.5
+
+#Predation - if the flag_macro_model value is set to 1 then the following arrays will be read in:
+  
+# At present we don't have different predation for adult and juv predators but we can add that if required.
+
+# Order of values are - leaves, roots then epiphytes.
+
+SG_pprey_FPL 3
+  
+0 0 0
+  
+SG_pprey_FPO 3
+  
+0 0 0
+  
+SG_pprey_FPS 3
+  
+0 0 0
+  
+SG_pprey_FVD 3
+  
+0 0 0
+  
+SG_pprey_FVV 3
+  
+0 0 0
+  
+SG_pprey_FVS 3
+  
+0 0 0
+  
+SG_pprey_FVB 3
+  
+0 0 0
+  
+SG_pprey_FVT 3
+  
+0 0 0
+  
+SG_pprey_FVO 3
+  
+0 0 0
+  
+SG_pprey_FMM 3
+  
+0.1 0.1 0.1
+  
+SG_pprey_FMN 3
+  
+0.1 0.1 0.1
+  
+SG_pprey_FBP 3
+  
+0 0 0
+  
+SG_pprey_FDD 3
+  
+0 0 0
+  
+SG_pprey_FDE 3
+  
+0.1 0.1 0.1
+  
+SG_pprey_FDS 3
+  
+0.1 0.1 0.1
+  
+SG_pprey_FDM 3
+  
+0 0 0
+  
+SG_pprey_FDP 3
+  
+0.1 0.1 0.1
+  
+SG_pprey_FDB 3
+  
+0 0 0
+  
+SG_pprey_FDC 3
+  
+0.05 0.05 0.05
+  
+SG_pprey_FDO 3
+  
+0.05 0.05 0.05
+  
+SG_pprey_FDF 3
+  
+0.001 0.001 0.001
+  
+SG_pprey_SHB 3
+  
+0 0 0
+  
+SG_pprey_SHD 3
+  
+0 0 0
+  
+SG_pprey_SHC 3
+  
+0 0 0
+  
+SG_pprey_SHP 3
+  
+0 0 0
+  
+SG_pprey_SHR 3
+  
+0 0 0
+  
+SG_pprey_SSK 3
+  
+0 0 0
+  
+SG_pprey_SB 3
+  
+0 0 0
+  
+SG_pprey_SP 3
+  
+0.1 0.1 0.1
+  
+SG_pprey_PIN 3
+  
+0 0 0
+  
+SG_pprey_REP 3
+  
+0 0 0
+  
+SG_pprey_WHB 3
+  
+0 0 0
+  
+SG_pprey_WHS 3
+  
+0 0 0
+  
+SG_pprey_WHT 3
+  
+0 0 0
+  
+SG_pprey_WDG 3
+  
+0 0 0
+  
+SG_pprey_CEP 3
+  
+0 0 0
+  
+SG_pprey_jCEP 3
+  
+0 0 0
+  
+SG_pprey_BFS 3
+  
+0 0 0
+  
+SG_pprey_BFF 3
+  
+0.05 0.05 0.05
+  
+SG_pprey_BFD 3
+  
+0 0 0
+  
+SG_pprey_BG 3
+  
+0.01 0.01 0.01
+  
+SG_pprey_BMD 3
+  
+0 0 0
+  
+SG_pprey_BML 3
+  
+0 0 0
+  
+SG_pprey_BMS 3
+  
+0.005 0.005 0.005
+  
+SG_pprey_PWN 3
+  
+0 0 0
+  
+SG_pprey_jPWN 3
+  
+0 0 0
+  
+SG_pprey_ZL 3
+  
+0 0 0
+  
+SG_pprey_BD 3
+  
+0 0 0
+  
+SG_pprey_BC 3
+  
+0 0 0
+  
+SG_pprey_ZG 3
+  
+0 0 0
+  
+SG_pprey_DF 3
+  
+0 0 0
+  
+SG_pprey_ZM 3
+  
+0 0 0
+  
+SG_pprey_ZS 3
+  
+0 0 0
+  
+SG_pprey_PB 3
+  
+0 0 0
+  
+SG_pprey_BB 3
+  
+0 0 0
+  
+SG_pprey_BO 3
+  
+0 0 0
+
+###### Initial conditions nc file
+
+Replace the existing header information for seagrass with
+
+double Seagrass_N1(t, b) ;
+  
+Seagrass_N1:bmtype = "epibenthos" ;
+  
+Seagrass_N1:units = "mg N m-2" ;
+  
+Seagrass_N1:long_name = "Seagrass Above Ground Leaf Nitrogen" ;
+  
+Seagrass_N1:dtype = 0 ;
+  
+Seagrass_N1:sumtype = 1 ;
+  
+Seagrass_N1:_FillValue = 0. ;
+
+double Seagrass_N2(t, b) ;
+  
+Seagrass_N2:bmtype = "epibenthos" ;
+  
+Seagrass_N2:units = "mg N m-2" ;
+  
+Seagrass_N2:long_name = "Seagrass Below Ground Root Nitrogen" ;
+  
+Seagrass_N2:dtype = 0 ;
+  
+Seagrass_N2:sumtype = 1 ;
+  
+Seagrass_N2:_FillValue = 0. ;
+
+double Seagrass_N3(t, b) ;
+  
+Seagrass_N3:bmtype = "epibenthos" ;
+  
+Seagrass_N3:units = "mg N m-2" ;
+  
+Seagrass_N3:long_name = "Seagrass Epiphyte Nitrogen" ;
+  
+Seagrass_N3:dtype = 0 ;
+  
+Seagrass_N3:sumtype = 1 ;
+  
+Seagrass_N3:_FillValue = 0. ;
+
+Then provide data entries for each of these biomass pools too - i.e something like following, with one value per box in the model
+
+Seagrass_N1 = 0, 0, 3;
+
+Seagrass_N2 = 0, 0, 1;
+
+Seagrass_N3 = 0, 0, 2.3;
+
+Note that you still only need one cover value - as that is based on above ground biomass alone
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

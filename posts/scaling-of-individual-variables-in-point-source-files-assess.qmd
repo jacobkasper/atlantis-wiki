@@ -1,0 +1,21 @@
+---
+title: "Scaling of individual variables in point source files + Assessment"
+date: "2010-10-11"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+#### Changes to point source scaling
+
+[
+[Scaling point sources](/display/Atlantis/Scaling+point+sources)
+
+#### Changes to Assessment input file
+
+The Assessment input file is now sampling an increased number of physical parameters. These are used as indicators in the CLAM-Atlantis project. The standard deviation of these parameters is needed so we are sampling the physical properties multiple times - the number of times these values is sampled is determined by the following new parameter (add before flagphys)
+
+phys_samplingsize 1 # The number of times each physical sample should be sampled per sampling event. Unless you are have a need for a standard dev value then set this to 1.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

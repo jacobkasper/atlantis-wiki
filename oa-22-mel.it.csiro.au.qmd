@@ -1,0 +1,25 @@
+---
+title: "oa-22-mel.it.csiro.au"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+## Bowen Storage:
+
+Storage attached to oa-22-mel:
+
+|  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- |
+| Storage type | Description | Example Label |  | **Maximum storage quota** | Data protection |
+| Work |  | **/input** | **Windows (CIFS) access from local Windows workstations:**  [\\osm-09-mel.it.csiro.au\OSM_MEL_OA_ALANTIS_input](file:///osm-09-mel.it.csiro.au/OSM_MEL_OA_ALANTIS_input)  **Linux (NFS) access only available from [OA-22-MEL.it.csiro.au](http://oa-22-mel.it.csiro.au/)**  /OSM/MEL/OA_ALANTIS/input | **1 TB** | Yes, data protected.    The Work category is for data sets that are currently being operated on. It is anticipated that data stored in a work area can be reproduced from Reference or Source data. |
+| Work |  | **/output** | **Windows (CIFS) access from local Windows workstations:**  [\\osm-09-mel.it.csiro.au\OSM_MEL_OA_ALANTIS_output](file:///osm-09-mel.it.csiro.au/OSM_MEL_OA_ALANTIS_output)  **Linux (NFS) access only available from [OA-22-MEL.it.csiro.au](http://oa-22-mel.it.csiro.au/)**  /OSM/MEL/OA_ALANTIS/output | **1 TB** | Yes, data protected.    The Work category is for data sets that are currently being operated on. It is anticipated that data stored in a work area can be reproduced from Reference or Source data. |
+| Work |  | **/archive** | **Windows (CIFS) access from local Windows workstations:**  [\\osm-09-mel.it.csiro.au\OSM_MEL_OA_ALANTIS_input](file:///osm-09-mel.it.csiro.au/OSM_MEL_OA_ALANTIS_input)  **Linux (NFS) access only available from [OA-22-MEL.it.csiro.au](http://oa-22-mel.it.csiro.au/)**  /OSM/MEL/OA_ALANTIS/archive | **2 TB** | Yes, data protected.    The Work category is for data sets that are currently being operated on. It is anticipated that data stored in a work area can be reproduced from Reference or Source data. |
+
+Security Groups associated with this virtual machine and storage.
+
+|  |  |  |
+| --- | --- | --- |
+| *Group* | *Role* | *Members* |
+| ACL_STACC_OA-ALANTIS_ADM | Admin group – ability to add/remove users from other groups.  Also grants sudo access on compute node | Gorton, Bec (O&A, Hobart) Fuller, Mike (O&A, Hobart) |
+| ACL_STACC_OA-ALANTIS_RW | Read/Write access to dataset | Gorton, Bec (O&A, Hobart) Fuller, Mike (O&A, Hobart) Fulton, Beth (O&A, Hobart) Pethybridge, Heidi (O&A, Hobart) Porobic Garate, Javier (O&A, Hobart) |
+| ACL_STACC_OA-ALANTIS_RO | Read Only access to dataset |  |
+| ACL_STACC_OA-ALANTIS_CON | Console – remote access to existing Bowen Research Cloud compute appliance. | Gorton, Bec (O&A, Hobart) Fuller, Mike (O&A, Hobart) Fulton, Beth (O&A, Hobart) Pethybridge, Heidi (O&A, Hobart) Porobic Garate, Javier (O&A, Hobart) |

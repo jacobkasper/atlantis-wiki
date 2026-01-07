@@ -1,0 +1,69 @@
+---
+title: "Change to prescribed movement - flexible number of time periods per year."
+date: "2016-07-19"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Historically Atlantis has had prescribed spatial distribution assuming that there are a fixed 4 time periods or seasons per year. The Trunk code from revision 6049 now forces modellers to specify the number of time periods that each year is split into.
+
+**How do you specify the number of entries?**
+
+You must now provide the 'numMovePeriods' value for each group. This must now be added as a column in the Groups definition input file. See
+[Functional Group Definition File](/display/Atlantis/Functional+Group+Definition+File)
+for details of this new parameter
+
+This column should be an integer.
+
+The number of entries you should have is determined by the smallest temporal resolution you need and the number of days in each period is constant. At present there is no way to have one very short period and the rest of the year covered by another single entry.
+
+The length of each period is calculated as follows:
+
+delta = 364.0 / numMoveEntries;
+
+The index of the current period is:
+
+index = floor(day in year / delta).
+
+where day in year is 0-364.
+
+**How does this change the biology prm file?**
+
+The number of spatial distribution parameters per group will depend on the numMovePeriods value specified for each group. There is no limit on the number of entries you can use but remember that increasing the complexity of your model is not always the best option.
+
+Many modellers have historically duplicated the values for all 4 entries in the distribution parameters in the biology.prm file  - these can now be simplify to a single distribution that will be used for the entire year by setting the numMovePeriods value to 1.
+
+For example in the SETas model we had:
+
+FFPS_S1 11
+  
+0 0.34 0.25 0.25 0.08 0.08 0 0 0 0 0
+  
+  
+FFPS_S2 11
+  
+0 0.34 0.25 0.25 0.08 0.08 0 0 0 0 0
+  
+  
+FFPS_S3 11
+  
+0 0.34 0.25 0.25 0.08 0.08 0 0 0 0 0
+  
+  
+FFPS_S4 11
+  
+0 0.34 0.25 0.25 0.08 0.08 0 0 0 0 0
+
+In the new code this can be simplified to a single entry:
+
+FFPS_S1 11
+  
+0 0.34 0.25 0.25 0.08 0.08 0 0 0 0 0
+
+**Does this change the model output?**
+
+There will be no change to the model output unless you change the number of entries.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

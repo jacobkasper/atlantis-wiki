@@ -1,0 +1,167 @@
+---
+title: "Finding all the options for the flags"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+When filling in the biol.prm file you are presented with a lot of choices and flags to fill in. It can seem daunting but the best bet is to talk to others, but also to check the master list in atlantisboxmodel.h
+
+In that file we define the mapping from the flag setting values in the prm file and the options used inside Atlantis itself. Below I am slowing filling in what these options are. However these are likely to get out of date as they are added to often. I will update this as I can, but the best bet is to look here and then double check in the code itself.
+
+I apologise for how many of these they are, they've been added in an ad hoc fashion as the thing grew. We are trying to consolidate and simplify!
+
+#### Overall flags
+
+| Flag | Settings |
+| --- | --- |
+| ecotest | This (along with verbose in rum.prm) dictates how many messages are sent to the screen as Atlantis does its calculations. The typical setting is 2 (which is major events and the timestep counter).  POSSIBLE SETTINGS: Messages: 0=no, 1=part, 2=more, 3=all, 4=fluxs, 5= do 1 iter only. |
+| availflag | Switch to filter flows based on active groups. The typical setting is 1.  POSSIBLE SETTINGS: 0=all groups in Groups.csv file are reported even if isTurnedOn = 0, 1=only active groups (isTurnedOn=1) are reported |
+| flagrandom | Flag indicating whether add random wobble in aging and spawning dates (i.e. data +/- x days, where x is up to 14). Typically set to users preference (ie,e, whether desire complete determinism or not)  POSSIBLE SETTINGS: 0=no random wobble, 1=random noise (of up to a fortnight) added |
+| readin_popratio | Switch to indicate whether loading pre-existing age distributions or no. Typically set to 0 for new models.  POSSIBLE SETTINGS: 0=uniform age distributions with ageclasses (i.e. all ages within ageclass assumed of equal strength at model start), 1= read in age structures within age class (popratio parameter), this is used for fully conditioned models that are using previous model output as the new input file. |
+| flag_report_water_detritus | Flag indicating whether to report (in BiomIndx.txt output files) the detritus in the water column as well as in the sediment. Traditionally Atlantis has only reported detritus in the sediment. Typically set to 0.  POSSIBLE SETTINGS: 0=do not include water column detritus in reporting. 1=do include detritus in the water column. |
+| flagresp | Switch to indicate which type of respiration to use.  POSSIBLE SETTINGS: 0=off (no respiration explicitly used and simple growth only with no explicit metabolic costs so E_XX parameters need to be lower to account for metabolic costs), 1=on (so explicit respiration and metabolic costs are calculated, so E_XX will need to be at full value to leave for those costs), 2=DEB formulation |
+| flagavgmig | Switch to turn averaging of migrant sizes on/off. Typically set to 1.  POSSIBLE SETTINGS: 0=size of migrating species are set to the size of any animals inside the dynamic model domain, 1 = size of entering migrants is retained and then the new average size calculated from these migrants and any animals already in the model domain. |
+| flagkdrop | Switch to turn cubic bacterial growth on/off. Typically set to 0.  POSSIBLE SETTINGS: 1=cubic form of bacterial colonisation of detritus equation used, 0=simple asymptotic used. |
+| flagbactstim | Switch to turn stimulation of bacterial growth by benthic activity on/off. Typically set to 0.  POSSIBLE SETTINGS: 0=no extract scaling, growth is based on available dettitus, 1=benthos stimulate bacteria via bioturbation levels and sediment porosity effect, the porosity effect is from Fig 7 (bottom plot) in Blackburn, 1987. Microbial food webs in sediments. In: Sleigh (ed), Microbes in the sea. Ellis Horwood:New York. pp 39 |
+| flagtrackpops | Flag to indicate whether yearly stock value required. Typical value is 1 (in fact I always recommend this to be 1)  POSSIBLE SETTINGS: 0=no, 1=yes output overall sock sizes at the frequency of tsumout (from run.prm) |
+| flagseason | Flag of seasonal change in environmental drivers and light. Typical value is 0.  POSSIBLE SETTINGS: 0=no, 1=yes |
+| flag_framebased | Flag to turn on frame-based management.  POSSIBLE SETTINGS: 0=no, 1=yes |
+| flaglight | Flag indicating whether light adaptation is on/off for phytoplankton. Typically set to 0  POSSIBLE SETTINGS: 0=off, 1=on |
+| flaglightopt | Flag indicating which light model is used.  POSSIBLE SETTINGS: See "Light options" options in the table below. |
+| flagmodeltemp | Flag indicating which temperature model is to be used. Typically set to 0 (should always be set to 0 if you are generating data in a ROMS model etc as it is better have to have environmental conditions consistent with your current flow).  POSSIBLE SETTINGS: 0=from data (read in from files specified in the force.prm file), 1=based on a CARS regression algorithm (using depth and latitude), 2=fixed value |
+| flagmodelpH | Flag indicating whether to calculate model pH off temperature, salinity and atmospheric CO2.  POSSIBLE SETTINGS: 0=off (for cases where you do not want to consider pH effects), 1= on (for models looking at climate scenarios) |
+| flagq10 | Flag indicating whether metabolic rates are sensitive to environmental conditions or not. Typically set to 1.  POSSIBLE SETTINGS: 0=no, 1=yes |
+| O2case | Flag indicating which Oxygen limitation formulation is used.  POSSIBLE SETTINGS: See "Oxygen limitation options" in the table below. |
+| flagnut | Flag indicating the nutrient limitation formulation used.  POSSIBLE SETTINGS: See "Nutrient limitation options" in the table below. |
+| flagmicro | Flag indicating whether there is micronutrient limitation or not. Typically set to 0  POSSIBLE SETTINGS: 0=off, 1=on |
+| flagtempchange | Flag indicating whether to force a trend in the baseline temperature levels. Typically set to 0 now (as often read in via temperature files listed in force.prm, generated by GCM).  POSSIBLE SETTINGS: 0=no, 1=yes |
+| flagsaltchange | Flag indicating whether to force a trend in the baseline salinity levels. Typically set to 0 now (as often read in via salinity files listed in force.prm, generated by GCM)  POSSIBLE SETTINGS: 0=no, 1=yes |
+| flagstarve | Flag to indicate whether to record starvation notices in log.txt. Typically set to 1.  POSSIBLE SETTINGS: 0=no, 1=yes |
+| flagdegrade | Flag to indicate whether want to change the seabed types to represent the effects of coastal or industrial developments.  POSSIBLE SETTINGS: 0=no, 1=yes |
+| flagroc | Flag indicating which density dependent option to use with the forage and density dependent movement option (i.e. whether use ideal free prey-based spatial distribution or a more steep drop off based on local population densities).  POSSIBLE SETTINGS: See "Density dependent model options" in the table below. |
+| flaghomog_sp | Flag indicating whether to homogenise age structured body condition across the entire area (i.e. assume perfect mixing or not).  POSSIBLE SETTINGS: 0=no, 1=yes |
+| flagagestruct | Flag indicating whether to track individual year classes within age cohorts or not. Typically set to 1.  POSSIBLE SETTINGS: 0=homogeneous cohorts (no tracking of individual year classes), 1=track year classes within cohorts. |
+| flagsenesce | Flag indicating whether the oldest year class within the final age cohort senesces or not. Typically set to 1.  POSSIBLE SETTINGS:  0=no, 1=yes |
+| flagtsforcerecruit | Flag indicating whether forcing recruitment with an environmental signal read in from a time series file.  POSSIBLE SETTINGS:  0=no, 1=yes |
+| flag_olddiet | Flag indicating whether to use the original or updated diet calculations  POSSIBLE SETTINGS: 0=new diet calculations, 1=original calculations |
+| flag_macro_model | Flag indicating which seagrass model to use.  POSSIBLE SETTINGS: 0=simple biomass pool encompassing all parts of the plant, 1=three part model (roots, leaves and epiphytes). |
+| flag_fine_ontogenetic_diets | Flag indicating whether want to use diets per age cohort or just for juveniles and adults.  POSSIBLE SETTINGS: 0=only juvenile and adult diets, 1=diets defined per age cohort. |
+| lim_sun_hours | Flag indicating whether to dynamically calculate light levels at different latitudes and times of the year or not.  POSSIBLE SETTINGS: 0=simple day and night cycle, 1=dynamic calculation of light. |
+| flagstockingXX | Flag indicating where functional group XX has input time series of stocking.  POSSIBLE SETTINGS: 0=off, 1=on.  If set to 1 it triggers the same code as if flagrecruit is set to option 18. This stocking will happen in addition to any natural recruitment (i.e. you can have flagrecruit set to any option you want other than 18 and that will happen, but in addition to that stocking will happen using time series files defined in force.prm - see description [here](https://confluence.csiro.au/pages/viewpage.action?pageId=43155509)) |
+| flag_do_evolution | Flag indicating whether to allow for evolution of some parameters  POSSIBLE SETTINGS: 0=off, 1=on. |
+| flag_do_var_express | Flag indicating whether to allow for variable phenotypic expression (if evolution is on)  POSSIBLE SETTINGS: 0=off, 1=on. |
+| flag_mult_grow_curves | Flag indicating whether to use multiple growth curves (parameterisations) rather than a single set of parameters per age class (it uses a spread of parameterisations across "genotypes" within each age class and phenotypic expression, but with no evolution of parameters through time).  POSSIBLE SETTINGS: 0=off, 1=on. |
+| flag_bound_change | Whether evolution is effecting the bound or the impact - for the for temperature, pH and salinity effects traits  POSSIBLE SETTINGS: 0=bound, 1=impact. |
+| flag_inheritance | Flag indicating what kind of inheritance and evolutionary model is being used  POSSIBLE SETTINGS: 0=explicit mechanisms (complex), 1=simple, 2=straight (1:1) inheritance model. |
+| flag_evolvar_capped | Flag indicating whether the breadth of variability across genotypes has a minimum threshold or not  POSSIBLE SETTINGS: 0=no, 1=yes. |
+| flag_satiation | Flag indicating whether there is satiation in feeding (mainly for Holling feeding functional responses)  POSSIBLE SETTINGS: 0=no, 1=yes. |
+| flag_shrinkfat | Flag indicating whether growth of fish allows fish to lose fat or not. By default if fish in Atlantis cannot find food they won't grow but they won't use reserve for metabolism either (as metabolism is often implicit). However, if this flag is set to 1 the group will draw on reserves when there is no food and so will "shrink" their "fat" stores.  POSSIBLE SETTINGS: 0=no, 1=yes. |
+| flagconstrain_epiwander | Flag to indicate whether to constrain epibenthic biomass pool groups to the distribution in the initial conditions file or let them occupy any cell that meets their tolerances based on the temperature, salinity, oxygen and depth settings. This test is only applied to epibenthic groups with HorizontallyMigrates set to 0 in the *functional_groups.csv* file. Only use this flag as a last resort (it is better to use the tolerances to constrain their distributions instead).  POSSIBLE SETTINGS: 0=no, 1=yes. |
+| UseHardFeedingWindow | Flag indicating whether to use the traditional hard edge feeding window for gape limitation or a smoother (though asymmetric feeding window). If a smooth curve is chose use UseBiLogisticFeedingWindow to define the shape of the curve.  POSSIBLE SETTINGS: 0=smooth curve, 1=hard edge feeding window. |
+| UseBiLogisticFeedingWindow | Flag indicating whether using a humped or bi-logistic shape smoothed feeding curve for gape limited predators.  POSSIBLE SETTINGS: 0=asymmetric curve, 1=symmetric bi-logistic curve. |
+| InvadersEntering | Flag indicating whether invaders are entering from outside the model (i.e. zero in the initial conditions and some number entering at a later point to begin colonisation)  POSSIBLE SETTINGS: 0=no (if any invasion occurs this happens by amplifying an existing functional group), 1=yes. |
+| norm_larval_distrib | Flag indicating whether to normalise the larval distribution  POSSIBLE SETTINGS: 0=no, 1=yes. |
+| larvae_connect_only | Flag indicating whether to use the larval connectivity matrix only or whether to scale recruit_hdistrib. If larval_dispersal is not using larval connectivity read in from a forcing file this **must** be set to 0 (or you will get an error message).  POSSIBLE SETTINGS: 0=no (use in combination with recruit_hdistrib), 1=yes. |
+| enviro_independ_larvae | Flag indicating whether larvae are independent of environmental conditions (i.e. do not reset recruit_hdistrib based on environmental conditions like temperature). This only influences the recruit_hdistrib used. If settlers are delivered to an unsuitable box or layer they may still move away or die in the movement phase as juveniles (age class 0).  POSSIBLE SETTINGS: 0=no, 1=yes. |
+| flag_recruit_effect | Flag indicating the rough age of larvae effected by environmental conditions (i.e. when to reset recruit_hdistrib based on environmental conditions like temperature). This is only important if enviro_independ_larvae is set to 0.  POSSIBLE SETTINGS: 0=effects are calculated at the time of spawning (i.e. effects are for very young larvae, 1=effects are calculated at the start of the recruitment period (i.e. the effects are for the oldest larvae or very small juveniles settling out into the model domain). |
+| flag_dynamicXRS | Flag indicating whether to use a dynamically changing ratio between reserve and structural mass or only a fixed value (as in the standard Atlantis code)  POSSIBLE SETTINGS: 0=use a static value, 1=use a dynamic value. |
+| flag_modify_KWSR | Flag indicating whether recruit size will be modified through time based on a forcing file (provided in force.prm). POSSIBLE SETTINGS: 0=no, 1=yes. |
+| flagkeep_plusgroup | For each species group this specifies whether to have the oldest age class act as a plus group (where individuals accumulate unless hit by direct mortality or whether they die as they would have "aged out" of the group. POSSIBLE SETTINGS: 0=no, 1=yes. |
+| flagenviro_displace | For each species group this specifies whether the species disperses across the entire domain when avoiding unfavourable conditions or just to adjacent cells.  POSSIBLE SETTINGS: 0=domain wide, 1=adjacent only. |
+| flagenviro_kill | For each species group this specifies whether the species simply move away when avoiding undesirable environmental conditions or die in place.  POSSIBLE SETTINGS: 0=disperse (even if completely outside the model), 1= die in place if conditions are unfavourable. |
+| flagO2depend | This specifies whether oxygen levels influence mobile species movement (distributions). POSSIBLE SETTINGS: 0=no, 1= yes. |
+| flagsaltdepend | This specifies whether salinity influences mobile species movement (distributions). POSSIBLE SETTINGS: 0=no, 1= yes. |
+| flagtempdepend_move | This specifies whether water temperature influences mobile species movement (distributions). POSSIBLE SETTINGS: 0=no, 1= yes. |
+| flagtempdepend_reprod | This specifies whether water temperature influences reproduction in age structured groups or biomass pools. POSSIBLE SETTINGS: 0=no, 1= yes. |
+
+#### Some specific options
+
+| Option | Flag value | Meaning or Notes |
+| --- | --- | --- |
+| **Light options** |  |  |
+| light_orig | 0 | Original PPBIM light model |
+| light_bott | 1 | Light is calculated at the bottom of each depth layer |
+| light_top | 2 | Light is calculated at the top of each light layer |
+| light_mid | 3 | Light is calculated at the midpoint of each light layer |
+|  |  |  |
+| **pH Effects options** |  |  |
+| no_pH_effect_id | 0 | No effect of acidification on biological processes |
+| monod_pH_id | 1 | Acidification effects follow a Monod function |
+| nonlin_pH_id | 2 | Acidification effects follow a nonlinear curve (based on Hinga's work) |
+| lin_pH_id | 3 | Acidification effects follow a linear function empirically calculated based on a meta-analysis of observations and experiments |
+| piecewise_pH_id | 4 | Acidification effects follow a piece wise function |
+|  |  |  |
+| **Stock structure options** |  |  |
+| horiz_only | 0 | Genetic stocks are only defined box to box (but the same stock is found in each depth layer of the box) |
+| vert_only | 1 | Genetic stocks are only defined per depth layer (the same stock is found at the same depth box to box, but there are different stocks in different depth layers). |
+| mixed_stock | 2 | Genetic stocks are defined box to box and per depth |
+|  |  |  |
+| **Density dependent movement model options** |  |  |
+| no_ddepend_id | 0 | No drop off (basic calculation) |
+| step_ddepend_id | 1 | Ratio drop off |
+| decay_ddepend_id | 2 | Exponential decline |
+|  |  |  |
+| **Movement options** |  |  |
+| prescribed_move | 0 | Prescribed movement (the distribution is defined per calendar quarter and there is a linear interpolation between them) |
+| sedentary_move | 1 | Site attached so movement from the box an individual recruits to |
+| weight_ddepend | 2 | Combine density dependent and prescribed movement (a means of including non-feeding drivers of movement like spawning) |
+| sticky_ddepend | 3 | Use forage and density dependent movement, but they don't follow peaks in the prey distribution if the local conditions cover their metabolic and growth requirements (i.e. above a threshold for rate of change and density dependent effects) |
+| no_move | 4 | No movement (especially for biomass pool groups) |
+| switch_ddepend | 5 | If use forage and density dependent movement and don't feed during the spawning period |
+| homerange_move | 6 | Use homeranges (these may be overlapping or discrete) |
+| only_ddepend | 7 | Do not allow any influence of the quarterly prescribed movement, even in the spawning period |
+|  |  |  |
+| **Nutrient limitation options** |  |  |
+| leibig_id | 0 | Leibig's law - most limiting nutrient sets the limitation level |
+| mult_nut_id | 1 | The limitation effect of each nutrient is multiplied together |
+| WQI_id | 2 | WQI formulation |
+| monod_nut_id | 3 | Monod representation based on the major nutrient |
+|  |  |  |
+| **Oxygen limitation options** |  |  |
+| O2_ambient_id | 0 | Apply a Michelis-Menten formulation using ambient oxygen levels |
+| O2_depth_id | 1 | Based on O2depth not the variable oxygen |
+| O2_IGBEM_id | 2 | The formulation used in IGBEM and ERSEM (simple asymptotic) |
+| O2_quad_id | 3 | Maximum of limitation found using a Michelis-Mentin and depth based formulation |
+|  |  |  |
+| **Feeding functional response options** |  |  |
+| eat_holling2 | 0 | Holling type II |
+| eat_holling1 | 1 | Holling type I with saturation |
+| eat_holling3 | 2 | Holling type III |
+| eat_ecosim | 3 | Ecosim based representation - no longer supported |
+| eat_minmax | 4 | Michelis-Menten based representation |
+| eat_holling3size | 5 | Size dependent Holling III |
+| eat_ratio_dependent | 6 | Ratio dependent representation (not fully implemented as yet) |
+|  |  |  |
+| **Recruitment function options** |  |  |
+| no_recruit | 0 | No recruitment model |
+| const_recruit | 1 | Constant recruitment |
+| chl_recruit | 2 | Recruitment based on Chl levels |
+| BevHolt_recruit | 3 | Beverton-Holt recruitment based on larval spawn production |
+| rand_recruit | 4 | Lognormal random recruitment |
+| plank_recruit | 5 | Recruitment based on total plankton biomass |
+| BevHolt_rand_recruit | 6 | Beverton-Holt recruitment with log-normal variation imposed on top |
+| recover_recruit | 7 | Beverton-Holt recruitment with a pre-specified recovery rate imposed (to boost the number of recruits) after a "recovery_span" years of depressed stock levels. One way of representing stocking. |
+| force_recover_recruit | 8 | Beverton-Holt recruitment with a pre-specified recovery rate imposed (to boost the number of recruits). One way of representing stocking. |
+| Ricker_recruit | 9 | Ricker recruitment curve based on total population biomass |
+| SSB_BevHolt_recruit | 10 | Classic Beverton-Holt based on total population biomass |
+| linear_recruit | 11 | Pupping or calving linearly dependent on maternal condition |
+| fixed_linear_recruit | 12 | Fixed number of pups or calves per parent |
+| ts_recruit | 13 | Read in a time series of recruitment |
+| larval_recruit | 14 | Larval recruitment connectivity read in from a netcdf file |
+| jackknife_recruit | 15 | Jack-knife recruitment |
+| coral_recruit | 16 | Coral recruitment function (dependent on the presence of facilitating habitat) |
+| baltic_ricker | 17 | Form of the ricker used in the Baltic |
+| multiple_ts_recruit | 18 | When entering a time series of recruitment for each box |
+| BevHolt_num_recruit | 19 | Based on numbers of larvae not biomass of the population |
+| SSB_ricker | 20 | Ricker recruitment curve using SSB not total population biomass |
+|  |  |  |
+| **Invading species model options** |  |  |
+| no_invader | 0 | No invading species |
+| simple_invader | 1 | Simple drip feed invading species model |
+| conditional_invader | 2 | Dispersal of invaders dependent on depth, temperature, salinity, oxygen, habitat and prey preferences |
+| complex_invader | 3 | More detailed invading species dispersal model |
+|  |  |  |
+| **Overwintering options** |  |  |
+| no_overwintering | 0 | No overwintering |
+| date_overwintering | 1 | Date based overwintering triggers |
+| enviro_overwintering | 2 | Environment based overwintering triggers |
+|  |  |  |

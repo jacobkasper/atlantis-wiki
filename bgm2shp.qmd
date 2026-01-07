@@ -1,0 +1,17 @@
+---
+title: "BGM2SHP"
+author: "Fuller, Mike (Environment, Hobart)"
+---
+
+## BGM2SHP
+
+Creates a shapefile from an Atlantis BGM file. Output is in the same coordinate system as the BGM file.
+
+The java code has been checked into the SVN repository at:
+
+<https://svnserv.csiro.au/svn/atlantis/BGM2SHP>
+
+For most people you should just be able to use the [runnable jar](attachments/43157333.jar)  
+To run this via command line type:
+
+java -jar BGM2SHP.jar

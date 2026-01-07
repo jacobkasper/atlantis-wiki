@@ -1,0 +1,20 @@
+---
+title: "groupAgeType"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+#### GroupAgeType
+
+This is an important definition within the Atlantis code. The following groupAgeType values are currently used:
+
+AGE_STRUCTURED:
+
+These are the vertebrate groups. The number of cohorts is now unlimited, in the past it was fixed at 10.
+
+AGE_STRUCTURED_BIOMASS:
+
+These are invertebrate groups where there are adult and juvenile pools. For invertebrates the max number of cohorts is 2.
+
+BIOMASS:
+
+These are the rest of the invertebrates where there is a single biomass pool.

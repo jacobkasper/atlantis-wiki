@@ -1,0 +1,54 @@
+---
+title: "Ecological Process Changes"
+date: "2008-08-21"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+I have slowly been redeveloping the ecology process code to support generic functional groups. Of course the model is more complicated that i thought and things have to be updated based on the food web. So things that are eaten need to be updated before anything that eats that functional group.
+
+Before any of this code can be made generic the data structure needs to be tidied up and this is what i have been working on for the last couple of weeks. There were hundreds of global variables that were used to store invertebrate properties such as primary producer light requirements and growth coefficients. These are being moved into the FunctGroupArray structure. At present some of these are stored in a new structure called invertProps and some (ones that are also relevant for vertebrates) are stored in processProps. This will need to be fixed a bit as at present there is only a single processProps structure per functional group but many of these properties are stored per cohort for the age structured groups such as the vertebrates and the age structured biomass groups such as the prawns. I'll having issues getting my head around the age structured biomass groups, the CEP and PWN groups. When these are treated as a single group and when they are treated separately still confusing the hell out of me.
+
+Moving these invert properties into the invertProps structure has meant i can use function calls to perform the invertebrate processes. At the moment they are still done in groups. The primary production is done, then the DinoFlag, then the Zooplankton, then the larger groups. What i want is to be able to loop over all the functional groups and call the function to process that group. But this is complicated by the fact that the smaller groups need to be updated before the larger ones can eat them. This is complicated by the fact that the groups are not presently orders in size. And looking at the Atlantis food web this wouldn't make much difference as its all very complicated.
+
+Ideally the code would be changed so that anything that is eaten by a group is updated, then the group goes ahead and eats (or whatever it is doing). In my opinion this is prime for a recursive function (this first in Atlantis !!!!) along the lines of:
+
+for all groups
+  
+UpdateAndEat();
+
+void UpdateAndEat()
+  
+for all prey
+  
+UpdateAndEat()
+  
+DoProcess()
+
+There will be lots of code changes to make before this can happen. The DoProcess code for each functional group requires lots and lots of parameters. Many of these are currently local variables within the WaterColumnBox, SedimentBox or EpiBenthicBox function in the ecology code. In order for the process code for each group to be moved into other function stehse will either have to be passes as variables or they will have to be stored globally, probably in the EcologyModule structure. The second option is nicer as it allow state testing to be simplified.
+
+There are two options for the DoProcess code.
+
+1. Use function pointers to define a doProcess function pointer for each type of functional group.
+
+2, Write a big switch statement with a case statement for each functional group in the model.
+
+Option 1 is nice as the function pointers can just be set up once at the start of the model run, but option 2 will be nice and easy to read and follow. Option 1 also has the disadvantage of needing to pass the same parameters to the function call but as all of the state variables need to be moved into the EcologyModule structure anyway this isn't really an issue.
+
+I think option 1 will be the best option, though perhaps the hardest to code. But it would fit in with the other CMAR models that are structured in this manner like ERM. I could also write other function pointers to perform the equations of state for each group that are calculated after all of the groups are updated.
+
+Ok. Lets see how this will work.
+
+---
+
+* Need to set up a linkage from the guild to the prey ids until i can get rid of the prey ids. At present there are links from the prey_ids to the guilds but not the other way around.
+  
+This will allow me to write the change of state functions as i go through and write the process ones.  I'll get this out of the way now. I'll add these linkages to the FunctGroup structures instead of creating another array for them.
+
+* It would be good to have some way of defining default values for the species parameteres. For example feed_while_spawn should default to 1 for inverts.
+
+* Interested in using ROAM to run Atlantis. Going to be used hydrodynamic model.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

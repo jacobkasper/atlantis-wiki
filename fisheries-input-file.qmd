@@ -1,0 +1,42 @@
+---
+title: "Fisheries Input File"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+## Harvest Strategies
+
+### Broken Stick harvest strategy
+
+Algorithm:
+
+Bcurr = current biomass
+
+Fcurr = current fishing mortality
+
+BrefA = targ_refA  * initial estBo biomass
+
+BrefB = targ_refB * initial estBo biomass
+
+Blim = lim_ref * * initial estBo biomass
+
+FrefA = Fref value from input file.
+
+if(Bcurr >= BrefA)
+
+  FTarg = Fcurr;
+
+else if(Bcurr < BrefA && Bcurr >= BrefB
+
+  FTarg = FrefA
+
+else if (Bcurrn < BRefB && Bcurr > Blim
+
+ FTarg = (Bcurr - Blim)/(BrefB - Blim)
+
+else
+
+ Ftarg = 0; /* Bcurr < Blim)
+
+The the mFC value is scaled by:
+
+scaler = FTarg / Fcurr.

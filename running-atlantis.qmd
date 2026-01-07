@@ -1,0 +1,22 @@
+---
+title: "Running Atlantis"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+Atlantis is an old style program that runs from a command line. If you've never done this read over "[command prompt](windows-command-prompt.qmd)" if on Windows or google "using the mac terminal" if on a Mac or Linux. Also please familiarise yourself with how to navigate around using the cd command (e.g. google pages on command lines as links often change, but one example is the [mac guide on using the terminal](http://guides.macrumors.com/Terminal)).
+
+Once in your terminal window move to your run directory (the folder you've created where you would like to run the model) - e.g.
+
+```
+> cd runs
+```
+
+then type the name of the Atlantis executable (atlantismain on Windows, on mac and linux it is whatever you have called the binary - e.g. atlantisNew) and the program will return an example of the command line needed to run the model. It will look something like
+
+```
+Util_Usage: atlantis -i input.nc dump -o output.nc -r run.prm -f force.prm -p physics.prm -b biology.prm -h harvest.prm -a assess.prm -e economics.prm -s functionGroupFile.xml -q fisheries.xml [-d destinationFolder] [-t inputFolder]
+```
+
+The best way to learn is to play with an existing model. [Sample input files](sample-input-files.qmd) are available - this is the SETas training model. This is a small model is quick to run but covers most of the functionality in Atlantis.
+
+See the page [How to run atlantis](how-to-run.qmd) for more detailed information on running Atlantis.

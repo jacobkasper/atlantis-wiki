@@ -1,0 +1,13 @@
+---
+title: "Atlantis SVN Repository is ready for use!"
+date: "2009-02-03"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Atlantis code repository is now ready for use. It provides access for CSIRO and non-CSIRO staff. If you would like access to this repository please contact Bec. For more information see
+<https://wiki.csiro.au/confluence/display/Atlantis/Getting+the+source+code>
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

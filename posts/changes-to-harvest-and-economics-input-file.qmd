@@ -1,0 +1,761 @@
+---
+title: "Changes to harvest and economics input file"
+date: "2009-10-07"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+## Harvest prm file
+
+Add the following to the harvest input file:
+
+**1. Add after 'pseudo_assess'**
+
+dynDAS 0 1=use dynamic days-at-sea cap (recalculated each year), 0=static days-at-sea cap
+
+**2. Add this after the _mFCscale parameters**
+
+# Max proportion of the effort allowed in any one cell (for use with effort model 8 and flagcap_peak)
+
+  
+midwcCEP_mFCpeak     1.0                                                                       1
+  
+jigCEP_mFCpeak       1.0                                                                       1
+  
+midwcFP_mFCpeak      1.0                                                                       1
+  
+dredgeBFS_mFCpeak    1.0                                                                       1
+  
+netFD_mFCpeak        1.0                                                                       1
+  
+netSH_mFCpeak        1.0                                                                       1
+  
+plineFVO_mFCpeak     1.0                                                                       1
+  
+pseineFVO_mFCpeak    1.0                                                                       1
+  
+pseineFP_mFCpeak     1.0                                                                       1
+  
+trapBMS_mFCpeak      1.0                                                                       1
+  
+trapFD_mFCpeak       1.0                                                                       1
+  
+dtrawlBMS_mFCpeak    1.0                                                                       1
+  
+dtrawlCEP_mFCpeak    1.0                                                                       1
+  
+dtrawlFD_mFCpeak     1.0                                                                       1
+  
+dtrawlFDB_mFCpeak    1.0                                                                       1
+  
+dtrawlFDO_mFCpeak    1.0                                                                       1
+  
+midwcFD_mFCpeak      1.0                                                                       1
+  
+dseineFDB_mFCpeak    1.0                                                                       1
+  
+dlineFD_mFCpeak      1.0                                                                       1
+  
+dlineFVS_mFCpeak     1.0                                                                       1
+  
+dlineSH_mFCpeak      1.0                                                                       1
+  
+diveBG_mFCpeak       1.0                                                                       1
+  
+pseineFVS_mFCpeak    1.0                                                                       1
+  
+cullPIN_mFCpeak      1.0                                                                       1
+  
+REC_mFCpeak          1.0                                                                       1
+  
+ptrawlPWN_mFCpeak    1.0                                                                       1
+  
+dtrawlFBP_mFCpeak    1.0                                                                       1
+  
+midwcZL_mFCpeak      1.0                                                                       1
+  
+trapFDE_mFCpeak      1.0                                                                       1
+  
+dlineFDE_mFCpeak     1.0                                                                       1
+  
+netFDE_mFCpeak       1.0                                                                       1
+  
+midwcPWN_mFCpeak     1.0                                                                       1
+  
+mowMA_mFCpeak        1.0                                                                       1
+
+**3. After the '_effortmodel' parameters add:**
+
+# Flags indicating whether effort per cell is capped (especially if using effort model 8) 0=no, 1=yes.
+
+  
+midwcCEP_flagcap_peak  0                                                                         0
+  
+jigCEP_flagcap_peak    0                                                                         0
+  
+midwcFP_flagcap_peak   0                                                                         0
+  
+dredgeBFS_flagcap_peak 0                                                                         0
+  
+netFD_flagcap_peak     0                                                                         0
+  
+netSH_flagcap_peak     0                                                                         0
+  
+plineFVO_flagcap_peak  0                                                                         0
+  
+pseineFVO_flagcap_peak 0                                                                         0
+  
+pseineFP_flagcap_peak  0                                                                         0
+  
+trapBMS_flagcap_peak   0                                                                         0
+  
+trapFD_flagcap_peak    0                                                                         0
+  
+dtrawlBMS_flagcap_peak 0                                                                         0
+  
+dtrawlCEP_flagcap_peak 0                                                                         0
+  
+dtrawlFD_flagcap_peak  0                                                                         0
+  
+dtrawlFDB_flagcap_peak 0                                                                         0
+  
+dtrawlFDO_flagcap_peak 0                                                                         0
+  
+midwcFD_flagcap_peak   0                                                                         0
+  
+dseineFDB_flagcap_peak 0                                                                         0
+  
+dlineFD_flagcap_peak   0                                                                         0
+  
+dlineFVS_flagcap_peak  0                                                                         0
+  
+dlineSH_flagcap_peak   0                                                                         0
+  
+diveBG_flagcap_peak    0                                                                         0
+  
+pseineFVS_flagcap_peak 0                                                                         0
+  
+cullPIN_flagcap_peak   0                                                                         0
+  
+REC_flagcap_peak       0                                                                         0
+  
+ptrawlPWN_flagcap_peak 0                                                                         0
+  
+dtrawlFBP_flagcap_peak 0                                                                         0
+  
+midwcZL_flagcap_peak   0                                                                         0
+  
+trapFDE_flagcap_peak   0                                                                         0
+  
+dlineFDE_flagcap_peak  0                                                                         0
+  
+netFDE_flagcap_peak    0                                                                         0
+  
+midwcPWN_flagcap_peak  0                                                                         0
+  
+mowMA_flagcap_peak     0                                                                         0
+
+# Flags indicating whether use all species caught to define CPUE for CPUE based effort models (1=yes) or not (0=use target species only).
+
+  
+midwcCEP_flaguseall  1                                                                         1
+  
+jigCEP_flaguseall    1                                                                         1
+  
+midwcFP_flaguseall   1                                                                         1
+  
+dredgeBFS_flaguseall 1                                                                         1
+  
+netFD_flaguseall     1                                                                         1
+  
+netSH_flaguseall     1                                                                         1
+  
+plineFVO_flaguseall  1                                                                         1
+  
+pseineFVO_flaguseall 1                                                                         1
+  
+pseineFP_flaguseall  1                                                                         1
+  
+trapBMS_flaguseall   0                                                                         1
+  
+trapFD_flaguseall    1                                                                         1
+  
+dtrawlBMS_flaguseall 1                                                                         1
+  
+dtrawlCEP_flaguseall 1                                                                         1
+  
+dtrawlFD_flaguseall  1                                                                         1
+  
+dtrawlFDB_flaguseall 1                                                                         1
+  
+dtrawlFDO_flaguseall 1                                                                         1
+  
+midwcFD_flaguseall   1                                                                         1
+  
+dseineFDB_flaguseall 1                                                                         1
+  
+dlineFD_flaguseall   1                                                                         1
+  
+dlineFVS_flaguseall  1                                                                         1
+  
+dlineSH_flaguseall   1                                                                         1
+  
+diveBG_flaguseall    1                                                                         1
+  
+pseineFVS_flaguseall 1                                                                         1
+  
+cullPIN_flaguseall   1                                                                         1
+  
+REC_flaguseall       1                                                                         1
+  
+ptrawlPWN_flaguseall 1                                                                         1
+  
+dtrawlFBP_flaguseall 1                                                                         1
+  
+midwcZL_flaguseall   1                                                                         1
+  
+trapFDE_flaguseall   1                                                                         1
+  
+dlineFDE_flaguseall  1                                                                         1
+  
+netFDE_flaguseall    1                                                                         1
+  
+midwcPWN_flaguseall  1                                                                         1
+  
+mowMA_flaguseall     1                                                                         1
+
+**4. At the end of the file add:**
+
+## Effort panalties applied for fishing in different locations - Chris Wilcox idea to steer people to desired locaiton when using effort caps and ITE
+
+  
+EffortPenaltymidwcCEP    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltyjigCEP    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltymidwcFP    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltydredgeBFS    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltynetFD    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltynetSH    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltyplineFVO    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltypseineFVO    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltypseineFP    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltytrapBMS    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltytrapFD    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltydtrawlBMS    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltydtrawlCEP    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltydtrawlFD    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltydtrawlFDB    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltydtrawlFDO    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltymidwcFD    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltydseineFDB    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltydlineFD    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltydlineFVS    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltydlineSH    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltydiveBG    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltypseineFVS    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltycullPIN    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltyREC        71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltyptrawlPWN    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltydtrawlFBP    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltymidwcZL    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltytrapFDE    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltydlineFDE    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltynetFDE    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltymidwcPWN    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+EffortPenaltymowMA    71
+  
+0.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+
+## Economics File:
+
+**1. Add the following to the economics file under 'prop_boatbound'**
+
+UseConstPrice     0    switch to use constant fish price read in from, for example, FPSsaleprice, rather than dynamic fish price.
+  
+This will be dimensioned by fleet, not by box (EconExprice is dimensioned by box).
+  
+UseMinValue       0   Set price coefficients to zero in Newell model for species that have no landed price
+
+UseEconQuotaDefine 0  Use the TAC as sety in harvest.prm (0) as in QuotaAlloc in this file (1)
+
+## Byctach incentives flags
+
+  
+UsingEffortIncentive    0    Whether using effort-based incentives (0=no, 1=yes) - i.e. using ITE and effort penalties if fish in certain places etc
+  
+BycatchCountDiscards    0    Whether bycatch counted in discards (0=no, 1-yes)
+  
+TemporalBycatchAvoid    0    Whether taking temporal exposure to bycatch species (and discards) into account when scheduling effort (0=no, 1=yes)
+  
+SpatialBycatchAvoid     0    Whether using non-penalty/non-cap incentives to steer fleets away from areas where they discard the most (0=no, 1=yes)
+
+**2. Add the following under 'ZLsaleprice':**
+
+## Penalty tax ($/kg) - as disincentive on bycatch - one entry per fishery (needn't be identical, but is in AMS case).
+
+  
+# Assumes order is
+
+  
+# midwcCEP_id jigCEP_id midwcFP_id dredgeBFS_id netFD_id netSH_id plineFVO_id pseineFVO_id
+
+  
+# pseineFP_id trapBMS_id trapFD_id dtrawlBMS_id dtrawlCEP_id dtrawlFD_id dtrawlFDB_id
+
+  
+# dtrawlFDO_id midwcFD_id dseineFDB_id dlineFD_id dlineFVS_id dlineSH_id diveBG_id
+
+  
+# pseineFVS_id cullPIN_id recfish_id ptrawlPWN_id dtrawlFBP_id midwcZL_id trapFDE_id
+
+  
+# dlineFDE_id netFDE_id midwcPWN_id mowMA_id
+
+  
+FPStax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FPLtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FPOtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FVStax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FVDtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FVVtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FVTtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FVOtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FVBtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FMMtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FMNtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FBPtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FDStax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FDDtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FDEtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FDFtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FDBtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FDCtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FDPtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FDMtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+FDOtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+SHDtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+SHBtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+SHCtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+SHPtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+SHRtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+SSKtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+SBtax    33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+SPtax    33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+REPtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+PINtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+WDGtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+WHStax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+WHBtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+WHTtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+CEPtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+BFStax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+BFFtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+BFDtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+BGtax    33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+BMStax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+BMDtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+BMLtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+PWNtax   33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+ZGtax    33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+BCtax    33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+BDtax    33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+MBtax    33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+MAtax    33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+SGtax    33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+ZLtax    33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+## Vessel characteristics
+
+  
+# Form of deemed values used (0=noene, 1=simple proportion of price, 2=complex based on costs etc)
+
+  
+midwcCEP_flagDV      0
+  
+jigCEP_flagDV        0
+  
+midwcFP_flagDV       0
+  
+dredgeBFS_flagDV     0
+  
+netFD_flagDV         0
+  
+netSH_flagDV         0
+  
+plineFVO_flagDV      0
+  
+pseineFVO_flagDV     0
+  
+pseineFP_flagDV      0
+  
+trapBMS_flagDV       0
+  
+trapFD_flagDV        0
+  
+dtrawlBMS_flagDV     0
+  
+dtrawlCEP_flagDV     0
+  
+dtrawlFD_flagDV      0
+  
+dtrawlFDB_flagDV     0
+  
+dtrawlFDO_flagDV     0
+  
+midwcFD_flagDV       0
+  
+dseineFDB_flagDV     0
+  
+dlineFD_flagDV       0
+  
+dlineFVS_flagDV      0
+  
+dlineSH_flagDV       0
+  
+diveBG_flagDV        0
+  
+pseineFVS_flagDV     0
+  
+cullPIN_flagDV       0
+  
+REC_flagDV           0
+  
+ptrawlPWN_flagDV     0
+  
+dtrawlFBP_flagDV     0
+  
+midwcZL_flagDV       0
+  
+trapFDE_flagDV       0
+  
+dlineFDE_flagDV      0
+  
+netFDE_flagDV        0
+  
+midwcPWN_flagDV      0
+  
+mowMA_flagDV         0
+
+# Deemed value rates used
+
+  
+midwcCEP_deemedvalue      0
+  
+jigCEP_deemedvalue        0
+  
+midwcFP_deemedvalue       0
+  
+dredgeBFS_deemedvalue     0
+  
+netFD_deemedvalue         0
+  
+netSH_deemedvalue         0
+  
+plineFVO_deemedvalue      0
+  
+pseineFVO_deemedvalue     0
+  
+pseineFP_deemedvalue      0
+  
+trapBMS_deemedvalue       0
+  
+trapFD_deemedvalue        0
+  
+dtrawlBMS_deemedvalue     0
+  
+dtrawlCEP_deemedvalue     0
+  
+dtrawlFD_deemedvalue      0
+  
+dtrawlFDB_deemedvalue     0
+  
+dtrawlFDO_deemedvalue     0
+  
+midwcFD_deemedvalue       0
+  
+dseineFDB_deemedvalue     0
+  
+dlineFD_deemedvalue       0
+  
+dlineFVS_deemedvalue      0
+  
+dlineSH_deemedvalue       0
+  
+diveBG_deemedvalue        0
+  
+pseineFVS_deemedvalue     0
+  
+cullPIN_deemedvalue       0
+  
+REC_deemedvalue           0
+  
+ptrawlPWN_deemedvalue     0
+  
+dtrawlFBP_deemedvalue     0
+  
+midwcZL_deemedvalue       0
+  
+trapFDE_deemedvalue       0
+  
+dlineFDE_deemedvalue      0
+  
+netFDE_deemedvalue        0
+  
+midwcPWN_deemedvalue      0
+  
+mowMA_deemedvalue         0
+
+**3. Add after the 'GDP_Coefft' parameter:**
+
+minValue            0.01   minimum price per kg of fish
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

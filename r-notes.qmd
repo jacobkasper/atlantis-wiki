@@ -1,0 +1,18 @@
+---
+title: "R Notes"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+#### Installing R
+
+Follow installation instructions at <http://cran.r-project.org/>.
+
+#### Netcdf and R
+
+You will probably want to use the netcdf library in R so you need to install that.
+
+Follow the [instructions](http://www.image.ucar.edu/GSP/Software/Netcdf/) to install netcdf.
+
+##### R and Linux:
+
+Follow the instructions on the link above for Linux - you will need to download the ncdf package from <http://cran.r-project.org/>.

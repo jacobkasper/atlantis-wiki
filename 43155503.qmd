@@ -1,0 +1,28 @@
+---
+title: "Debian (or other Debian-based distributions, e.g. Ubuntu)"
+author: "Sturludóttir, Erla (University of Iceland)"
+---
+
+The following instructions have been found to work for Debian 7.2 Wheezy 64-bit.
+
+1. Install all the necessary prerequisites (either as root or if you have set up sudo permissions by running visudo as root):  
+     
+   apt-get install subversion build-essential autoconf libnetcdf-dev libxml2-dev libproj-dev
+2. Run subversion:  
+     
+   mkdir ~/AtlantisBuild  
+   cd AtlantisBuild  
+   svn co <https://svnserv.csiro.au/svn/ext/atlantis/Atlantis/trunk/atlantis>
+3. Compile and build:  
+     
+   cd atlantis  
+   aclocal  
+   autoheader  
+   autoconf  
+   automake -a  
+   ./configure  
+   make  
+   sudo make install
+4. Test Atlantis:  
+     
+   atlantisMerged -v

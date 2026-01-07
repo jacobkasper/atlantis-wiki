@@ -1,0 +1,22 @@
+---
+title: "Biology XML"
+date: "2009-01-23"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Still working on the conversion to XML.
+  
+There are a couple of big things i have to finish.
+  
+1. Input Paramater Groupings
+  
+I would like to add the input file groupings to the xml file. This shouldn't be too much work but i will need to change the xml paths used to read in the parameters to allow for the group names.
+
+2. Units and recommended values
+  
+I really want to parse in the units and recommended values from the input file. This is not the easiest file parsing issue.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

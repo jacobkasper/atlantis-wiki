@@ -1,0 +1,39 @@
+---
+title: "New age specific mortality files"
+date: "2013-05-01"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+After updating to the latest in the repository, anyone using Atlantis will now find some extra output files, specifically
+
+1) SpecificMort.txt - this reports the non-predation, predation and fishing mortality per age class per stock for each group through time.
+With the format of the column headers being
+
+group-cohort-stock-mortality type
+
+where
+  
+  
+M1 = mortality due to mL, mQ etc
+  
+M2 = predation mortality
+  
+F = fishing mortality
+  
+  
+This follows the US stock assessment convention regarding the definition of natural mortality types. Stock refers to genetic stock
+
+2) SpecificPredMort.txt - this reports the predation mortality per cohort, per stock per predator for each group through time. With the format of the column headers in this case being
+
+group-cohort-stock-predator-M2
+
+These files effectively replace MortPerPred (which will eventually be retired). That old file was indicative (and potentially confusing) while the new file is the actual mortality experienced.
+
+These new files can be quite large (!!) and so will need to be post-processed in R. Asta has donated some scripts she uses for anyone who might like a start script to modify (you will obviously need to modify species codes etc). The scripts can be found
+[here](/download/attachments/43155511/SpecMort.r?version=1&modificationDate=1366530721553&api=v2)
+(check attachments if the link is broken)
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

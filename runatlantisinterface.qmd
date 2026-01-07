@@ -1,0 +1,25 @@
+---
+title: "runAtlantisInterface"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+### Background
+
+The runAtlantisInterface is used to do system end-to-end test on the atlantis code.  
+Its is used to check that the bec_dev code produces the same results are the original code does.
+
+### Code Location
+
+The runAtlantisInterface code is in the svn repository at:
+
+<https://svnserv.csiro.au/svn/atlantis/runAtlantisInterface>
+
+### Project Information
+
+The runAtlantisInterface code not intended to be a generic test interface yet. At present many of the paths are hard coded. But with the change to using autoconf for the building of Atlantis this should no longer be necessary.
+
+### Cunit Library
+
+The runAtlantisInterface uses the CUnit test suite.   
+One problem with the Cunit framework is when you fail a test and call CU_FAIL you can't pass it a string like CU_FAIL(STR) - it has to be CU_FAIL("test failed"). This makes it very hard to write generic tests like i am where you just change the file file.   
+But what i can do i print a message to stderr and redirect all of the Atlantis stderr and stdout messages to a file.

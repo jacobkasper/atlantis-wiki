@@ -1,0 +1,8 @@
+---
+title: "Biology input file"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+This page is an attempt to document the biology parameters for Atlantis. At present most of the comments are within the relevant prm file.
+
+A page summarising the meaning and potential values of many of the flags can be found [here](finding-all-the-options-for-the-flags.qmd). Note all of this is under construction (slowly) so watch for potholes!!

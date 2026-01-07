@@ -1,0 +1,67 @@
+NetCDFName,CODE,EMOCCName,VirgBToCurrentB,IsFished
+Diatom_N,PL,Large Phytoplankton,1,FALSE
+PicoPhytopl_N,PS,Small Phytoplankton,1,FALSE
+Gelat_Zoo_N,ZG,Gelatinous Zooplankton,1,FALSE
+Carniv_Zoo_N,ZL,Large Zooplankton (e.g. euphausids),1,FALSE
+Zoo_N,ZM,MesoZooplankton (eg. Copepods),1,FALSE
+MicroZoo_N,ZS,MicroZooplankton,1,FALSE
+Cephalopod_N2,CEP,Cephalopods,1,TRUE
+Prawn_N1,PWN1,Juv. Shrimp,1,FALSE
+Prawn_N2,PWN2,Adult Shrimp,1,FALSE
+Pelag_Bact_N,PB,Pelagic Bacteria,1,FALSE
+Sed_Bact_N,BB,Benthic Bacteria,1,FALSE
+Deposit_Feeder_N,BD,Benthic Deposit Feeders (crustaceans),1,FALSE
+Planktiv_O_Fish_N,FPO,Canary Rockfish,1,FALSE
+Demersal_P_Fish_N,FDP,English sole,1,TRUE
+Demersal_M_Fish_N,FDM,Bocaccio,1,TRUE
+Shark_C_N,SHC,Pacific ocean perch,1,TRUE
+Pisciv_V_Fish_N,FVV,Chilipepper rockfish,1,TRUE
+Whale_Small_N,WHS,Widow rockfish,1,TRUE
+NH3,NH3,NH3,1,FALSE
+NO3,NO3,NO3,1,FALSE
+Chl_a,Chl_a,Chl. A,1,FALSE
+Carrion_N,DC,Carrion,1,FALSE
+NA,NA,NA,1,FALSE
+NA,NA,NA,1,FALSE
+Macrobenth_Shallow_N,BMS,Octopus,1,FALSE
+Macrobenth_Deep_N,BMD,Deep Macrozoobenthos (e.g. seastars),1,FALSE
+Megazoobenthos_N,BML,Megazoobenthos (crabs),1,FALSE
+Benthic_Carniv_N,BC,Carnivorous Infauna,1,FALSE
+NA,NA,NA,1,FALSE
+NA,NA,NA,1,FALSE
+Macroalgae_N,MA,Macroalgae (kelp),1,FALSE
+Seagrass_N,SG,Seagrass,1,FALSE
+Filter_Shallow_N,BFS,Shallow Benth. Filter Feeders (corals+sponges),1,FALSE
+Filter_Deep_N,BFD,Deep Benth. Filter Feeders (e.g. anemone),1,FALSE
+Filter_Other_N,BFF,Other Benth. Filter Feeders (e.g. bivalves),1,FALSE
+Benthic_grazer_N,BG,Benth. Herbivorous Grazers (urchins),1,FALSE
+Pisciv_D_Fish_N,FVD,Large Flatfish,1,TRUE
+Pisciv_S_Fish_N,FVS,Lg. Dem. Predators,1,TRUE
+Mesopel_M_Fish_N,FMM,Hake,1,TRUE
+Mesopel_N_Fish_N,FMN,Sablefish,1,TRUE
+Demersal_F_Fish_N,FDF,Small Flatfish,1,TRUE
+Demersal_D_Fish_N,FDD,Deep Misc Fish,1,TRUE
+Planktiv_S_Fish_N,FPS,Small Planktivores,1,TRUE
+Planktiv_L_Fish_N,FPL,Large Planktivores,1,TRUE
+Pisciv_T_Fish_N,FVT,Large Pelagic Predators,1,TRUE
+Pisciv_B_Fish_N,FVB,Salmon,1,TRUE
+Benthopel_Fish_N,FBP,Deep Vertical Migrators,1,TRUE
+Demersal_E_Fish_N,FDE,Misc. Nearshore Demersal,1,TRUE
+Shark_B_N,SHB,Sm. Dem. Sharks,1,TRUE
+Shark_D_N,SHD,Lg. Demersal Sharks,1,TRUE
+Shark_P_N,SHP,Misc. Pelagic Sharks,1,TRUE
+Pisciv_O_Fish_N,FVO,Migrating Birds,1,TRUE
+Seabird_N,SB,Surface Seabirds,1,TRUE
+Penguin_N,SP,Diving Seabirds,1,TRUE
+Demersal_S_Fish_N,FDS,Midwater Rockfish,1,TRUE
+Demersal_B_Fish_N,FDB,Shallow Sm. Rockfish,1,TRUE
+Demersal_DC_Fish_N,FDC,Deep Small Rockfish,1,TRUE
+Demersal_O_Fish_N,FDO,Deep Lg. Rockfish,1,TRUE
+Shark_R_N,SHR,Shallow Lg. Rockfish,1,TRUE
+SkateRay_N,SSK,Skates and Rays,1,TRUE
+Pinniped_N,PIN,Pinnipeds,1,TRUE
+Whale_Baleen_N,WHB,Baleen Whales,1,TRUE
+Whale_Tooth_N,WHT,Toothed Whales,1,TRUE
+Reptile_N,REP,Transient Orcas,1,TRUE
+Dugong_N,WDG,Sea Otters,1,TRUE
+NA,NA,NA,1,FALSE

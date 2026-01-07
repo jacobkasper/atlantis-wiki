@@ -1,0 +1,21 @@
+---
+title: "GeoTools"
+date: "2008-09-09"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Doing some work to help Mike with geotools libraries to make his spatial processing more streamlined.
+
+To use the geotools java libraries i have had to install the following:
+
+<http://www.vividsolutions.com/jts/jtshome.htm>
+<http://geotools.codehaus.org/>
+  
+Oracle JDBC jar
+  
+and the oracle client - runtime developer option.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

@@ -1,0 +1,104 @@
+---
+title: "Future functionality"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+## Future functionality for Atlantis
+
+This page outlines some random thoughts on potential future functionality for Atlantis
+
+KEY:
+
+| Symbol | Meaning |
+| --- | --- |
+| (lightbulb) | Bright idea but not acted on as yet (basically a wish list) |
+| (info) | This has reached the thinking and discussing stage (and is very likely to happen), but isn't underway as yet |
+| (tick) | Already being acted on (project exists to cover this work or code is part way implemented) |
+| (warning) | Partially solved, but the request can not be completely met |
+| (minus) | Its been decided this one can't be done in Atlantis (hopefully some kind soul will suggest an alternative approach that can handle it) |
+
+| Rating | Description |
+| --- | --- |
+| (tick) | Climate change - increased sophistication of metabolic influences (like temperature modification of rate processes); species envelope drivers (like salinity, pH, temperature preferences modifying feeding, spawning or movement) |
+| (tick) | Fully flexible definition of functional groups (so no longer dictated by trophic level) across the following general types: (1)  biomass pools, (2) age structure biomass pools and (3) fully age structured |
+| (lightbulb) | Having staged introduction of functional groups - these groups can either turn on at some "start date" (after the general model start time) or have "trigger conditions" (e.g. temperature > 26 deg C) that see a group become active in the model (otherwise it sits dormant or slowly decays or something); this would allow for consideration of invading species |
+| (tick) | Start and end times for fisheries |
+| (tick) | Mortality estimates (including mortality per predator) |
+| (tick) | [Larval dispersal - transition matrix](larval-dispersion.qmd) |
+| (info) | [Larval dispersal - markov chain](larval-dispersion.qmd) of steps so can apply mortality along the way (exposure to environment and predation) |
+| (info) | Update dates in prm file for start date in cdf file (so TimeOfYear isn't tied to Julian calendar so simply) |
+| (tick) | Ratio dependent functional responses implemented |
+| (lightbulb) | Suspend model mid-run (saving data structure) so can restart - useful for people going on planes etc (or if about to lose UPS) |
+| (tick) | Have food quality vary with conditions or plankton type (like in Flynn work). Might come anyway once C and P reintroduced for estuarine work (i.e. base it on istope ratios) |
+| (lightbulb) | Have stable isotopes as tracers so can test them as indicators (and for monitoring purposes and so can validate the model) |
+| (tick) | Oil impacts, bioaccumulation etc sub-model |
+| (tick) | Ice as a habitat - for ice algae and for vertebrates to use/interact with (read state in from a hydro model and respond to that, need different grades of ice) |
+| (lightbulb) | Dynamically change in diet matrix so that links can shift when invasive species enter a system or a species is lost from the system. Allow for adaptive shifts or size based opportunistic attacks (where the predator will take on available prey with similar characteristics to any of their original prey, especially of the original prey becomes rare or is absent) |
+| (info) | Dynamic boxes (model map) to allow for shoreline change (with land reclamation, sea level rise etc). |
+| (lightbulb) | Catastrophic events |
+| (lightbulb) | Vessel movement in model forced with real VMS data |
+| (tick) | Change in habitats (for vulnerability assessment) |
+| (tick) | Agriculture, gas extraction, tourism and other marine use sectors (including socioeconomic aspects, like the value of the activity, sense of place index (SOPI) etc) |
+| (lightbulb) | Phenology changes (shift in timing of migration, spawning etc… based on temperature etc not date) |
+| (tick) | Larval connectivity matrix |
+| (lightbulb) | Invertebrate size transition matrix (so size based rather than age based representation) |
+| (tick) | Dynamic land use change |
+| (tick) | Dynamic human population change |
+| (info) | MSE links – spin off/link to real world assessment and get implementation uncertainty inserted (e.g. link to Schaefer model) |
+| (info) | Couple to hydrodynamic or biogeochemical NPZD models |
+| (info) | Seasonally varying parameters (primary production, photosynthetic efficiency) |
+| (lightbulb) | Allow for spatial structure sensitivity (easy method of using different model maps) |
+| (tick) | Additional assessment monitoring schemes (e.g. accoustics) |
+| (info) | Social behaviour and drivers and feedbacks on sector dynamics (of governance and operators in model) |
+| (lightbulb) | Dynamic governance (allow for management changes in levers in response to performance…. change from spatial to quota management etc). How governance and management approaches shift through time (spatially along coast as different jurisdictions change in response to success/failure of other jurisdictions, like info sharing model; shifts through time from quota to spatial focus etc) |
+| (info) | Couple different Atlantis models that overlap |
+| (tick) | Allow for modelling of open ocean only systems |
+| (tick) | Benthopelagic coupling |
+| (lightbulb) | Ecosystem service valuation |
+| (info) | Sea level rise and associated processes - erosion etc |
+| (info) | Ecological indicator based control rules:Use of ecological indicators with thresholds in assessments and to dictate management actions (like performance measures in single species management) |
+| (info) | Cumulative effects/impacts (synergistic action of processes so effects are intensified); quantification of the level of interaction of the different stressors |
+| (lightbulb) | Inclusion of stochasticity in dynamics and probability of outputs |
+| (warning) | GUI (etc) for inputs. *A true GUI has been attempted multiple times but resource shortages have killed each effort. R packages are beginning to fill this role.* |
+| (warning) | Better/standard graphical outputs *(R will help here too)* |
+| (warning) | When new functionality do not always require parameter files to be updated with countless parameters *(We are endeavouring to keep extraneous parameter requests to a minimum, but it is not always avoidable)* |
+| (info) | Facilitate linking to external models (like assessment models, other industries) |
+| (info) | Architecture and functionality documented. New functionality should detail equations, where the change was made in the code (in a general sense) and how to activate and parameterise it. *(We are doing what we can as we go but concerted pushes are being organised)* |
+| (tick) | Users manual |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |

@@ -1,0 +1,13 @@
+---
+title: "ratlantis:  an R package for interfacing with Atlantis ecosystem modeling software"
+author: "Gosnell, Stephen (Florida State University)"
+---
+
+I have been developing a package with the goal of letting Atlantis models be built from R (by calling the java and C++ programs that have already been developed and using cloud-based datasets to automate data collection and file development) and associated documentation (vignette and help files) to serve as a development guide and R-based intro to Atlantis. So far I have up functions to
+- run the bgmeriser from R (user supplies a polygon shapefile, location of bathymetry file, and desired depths; the code uses gis function to get depths for each polygon, sets up the input file for the bgmeriser, and runs the java applet)
+- use a user-supplied species list to collect data from online repositories (fishbase and rglobi for now, with plans to add sealife base and specific data from Gulf of Mexico repositories), suggest functional groupings, calculate Atlantis parameters (mum, clearance, etc) and produce the bio.prm file (current working point in project)
+- call Atlantis from the R console
+
+The code is available on github (<https://github.com/jsgosnell/ratlantis>) and can be downloaded using the devtools package (devtools::install_github("jsgosnell/ratlantis").
+
+If you are interested in contributing to or have questions about the package, please contact me (Stephen Gosnell, stephen.gosnell@baruch.cuny.edu).  You can also submit bug and issue requests @ <https://github.com/jsgosnell/ratlantis/issues.>

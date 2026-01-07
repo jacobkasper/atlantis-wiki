@@ -1,0 +1,21 @@
+---
+title: "Habitat Parameters"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+The new code release allows you to define any Epibenthic groups are cover types. You can specify this in the functional group definition file by setting the 'IsCover' flag to 1. The groups you define as cover types must be found in the epibethic layer or Atlantis will generate an error and quit.
+
+The order in which you define the groups in your functional group input file determine the order that they are expected in arrays that are read in. The cover groups are no different.
+
+In the biology input parameter file there are parameters called the following:
+
+habitat_BFS 10  
+1 1 1 0 0 0 1 1 1 1
+
+In the functional group the following 6 groups are defined as cover groups:
+
+BFS, BFF, BFD, MA, MB, SG
+
+and the following 4 habitat groups:
+
+reef, flat, soft, canyon

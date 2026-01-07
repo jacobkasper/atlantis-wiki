@@ -1,0 +1,16 @@
+---
+title: "Merging trunk into bec_dev"
+date: "2008-12-02"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Merging the trunk changes into bec_dev as there are some changes in output.
+
+I have tagged my branch pre_trunk_merge_01-Dec_2008
+
+and then done a cvs update -j HEAD. Lots of conflicts - not surprising. Will sort these out.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

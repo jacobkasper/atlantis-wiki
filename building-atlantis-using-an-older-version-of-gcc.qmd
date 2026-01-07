@@ -1,0 +1,19 @@
+---
+title: "Building Atlantis using an older version of gcc"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+You can specify a gcc version to build/run Atlantis using a custom dockerfile. For example the following will use gcc 5.4:
+
+```
+FROM ubuntu:16.04
+RUN apt-get update && apt-get install -yq gcc-5 build-essential autoconf libnetcdf-dev libxml2-dev libproj-dev subversion
+
+
+COPY old_version/atlantis /app/src
+RUN cd /app/src && aclocal && autoheader && autoconf && automake -a && ./configure && make clean && make && make install
+
+RUN mkdir /app/output
+COPY model /app/model
+CMD  cd /app/model/ && ./RunAtlantis.sh
+```

@@ -1,0 +1,85 @@
+---
+title: "Fedora"
+author: "Desjardins, Christopher (Liberal Arts College Vermont)"
+---
+
+**Install the netcdf developer package:**
+
+yum install netcdf-devel
+
+**Install Subversion**
+
+yum install subversion
+
+**Install the proj4 projection package**
+
+yum install proj-devel
+
+**Install the libxml developer package**
+
+yum install libxml2-devel
+
+**Install automake**
+
+yum install automake
+
+**Install pkgconfig**
+
+yum install pkgconfig
+
+**Build Atlantis.**
+
+Go to the folder where you have checked out Atlantis (see parent page). Type the following:
+
+aclocal  
+ autoheader  
+ autoconf  
+ automake -a  
+ ./configure  
+ make  
+ sudo make install
+
+and hopefully all these commands will work properly. If not make sure you installed the above libraries correctly. If its still not working email Bec with the error message you are getting and which operating system you are using.
+
+OLD INSTRUCTIONS FOR BUILDING AND INSTALLING PKG-CONFIG FROM SOURCE. THOUGH YOU SHOULDN'T NEED TO DO THIS (AT LEAST ON FEDORA 20).
+
+**Install the pkg-config tool from source**
+
+Download the most recent stable source code release from <http://pkg-config.freedesktop.org/>  
+ Follow the same process as above to unpack and install.
+
+It will be a tar.gz file which needs to be unpacked via a terminal.
+
+eg. tar -xvf pkg-config-0.25.tar.gz
+
+This will create a folder called pkg-config-0.25
+
+In this new folder type the following:
+
+./configure  
+ make  
+ sudo make install
+
+This should hopefully build and install the pkg-config header and library files.
+
+**Update the library paths.**
+
+Some of the libraries above will have been installed into /usr/local instead of /usr. So you may need to tell your computer to look in the /usr/local/lib folder for libraries (similar to the concept of PATH in windows).
+
+You need to edit the file /etc/ld.so.conf. You need to do this as super user:
+
+So type something similar to:
+
+sudo gedit /etc/ld.so.conf
+
+And add the following line to the end of the file:
+
+/usr/local/lib
+
+save the file and close it.
+
+Then run ldconfig (<http://linux.die.net/man/8/ldconfig>) to update the links:
+
+sudo ldconfig
+
+Then you can proceed to the **Build Atlantis** section above.

@@ -1,0 +1,34 @@
+---
+title: "Handling Light in Atlantis"
+date: "2017-04-06"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+There are two (soon to be three options) for handling light, which are set in the biology parameter file. There is a parameter
+
+Added the following to the biology input file;
+  
+lim_sun_hours   0         # Variable daylength: 0=no (i.e. always 12 hours), 1=yes (changes with season and latitude)
+  
+add swr_scalar       0.45      # Proportion of shortwave radiation available to photosynthesis
+  
+lim_sun_hours   0         # Variable daylength: 0=no (i.e. always 12 hours), 1=yes (changes with season and latitude)
+
+If lim_sun_hours set to 0 then the light time series will be read in from the solar irradiance read in from the force.prm file
+
+If lim_sun_hours set to 1 then a formal calculation of short wave radiation per cell is directly calculated and will need to make sure the chosen projection (so lat-long can be related to x-y) is in the bgm file and that the swr_scalar value has been included in the biol.prm file so that get correct surface irradiance calculated add the swr_scalar to the biology parameter file, e.g:
+
+swr_scalar       0.45      # Proportion of shortwave radiation available to photosynthesis
+  
+swr_const        1367.0  #  Constant in the equation for the shortwave radiation available to photosynthesis
+  
+swr_cos_coefft      0.034   #  Coefficient of the cos term in the equation for the shortwave radiation available to photosynthesis
+  
+swr_cos_offset      0.0      #  Offset term in the cos term in the equation for the shortwave radiation available to photosynthesis
+
+Into a third option will be introduced that allows for variable number of sun hours but also for light to be read in per cell in the same way temperature, salinity etc currently are.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

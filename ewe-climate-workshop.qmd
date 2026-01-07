@@ -1,0 +1,14 @@
+---
+title: "EwE Climate Workshop"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+## Integrating climate and Australian Ecopath models to predict climate change impacts on Australian marine systems
+
+CSIRO Climate Adaptation Flagship - Hobart, Tuesday the 2nd to Thursday the 4th of September 2008
+
+**Workshop Overview**
+
+|  |  |
+| --- | --- |
+| The flexibility of the Ecopath with Ecosim modelling framework allows for examination of quesitons regarding impacts on and management of marine ecosystems. Fisheries and climate change are perhaps two of the greatest pressures on marine natural resources. Using EwE as a shared tool, a workshop was held to facilitate exploratory analyses of the combined effects of fishing and climate on Australian marine ecosystems (click on thumbnail to the right or see "attachments" in the column on left of the page - under page operations). This involved sketching biological interactions or forcing functions into Ecopath with Ecosim, which were based on primary production projections provided by Richard Matear (CSIRO). The workshop also involved a combination of short talks, introduction of models from around Australia and discussion of topics such as: key climate and other anthropogenic drivers of change in the ecosystems; integration of climate impacts into the models; key response groups, variables and indices; and managing ecosystems for resilience to climate change.     These pages exist to facilitate discussion of the results of this workshop. Few rules apply (beyond being polite) so feel free to post relevant information and discussion here. |  |

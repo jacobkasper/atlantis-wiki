@@ -1,0 +1,66 @@
+---
+title: "Rain and Evaporation"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+#Rain and evaporation
+
+Precipitation precipitation.nc  
+Evaporation evaporation.nc
+
+These are both netcdf files with the following formats:
+
+netcdf precipitation {  
+dimensions:  
+    t = UNLIMITED ; // (4017 currently)  
+    e2 = 7 ;  
+    e1 = 9 ;  
+variables:  
+    double x(e2, e1) ;  
+        x:units = "m" ;  
+        x:long_name = "X coordinate (AMG)" ;  
+    double y(e2, e1) ;  
+        y:units = "m" ;  
+        y:long_name = "Y coordinate (AMG)" ;  
+    double t(t) ;  
+        t:units = "days since 1990-01-01 00:00:00 +10" ;  
+        t:long_name = "Time" ;  
+    float precipitation(t, e2, e1) ;  
+        [precipitation:units](http://precipitationunits) = "mm day-1" ;  
+        [precipitation:long_name](http://precipitationlong_name) = "Precipitation" ;  
+// global attributes:  
+        :title = "Port Phillip Bay EPAV rain, 10km grid" ;  
+        :gridtype = "rectangular" ;  
+        :xorigin = 260000. ;  
+        :yorigin = 5750000. ;  
+        :dx = 10000. ;  
+        :dy = 10000. ;  
+        :rotation = 0. ;  
+}  
+netcdf evaporation {  
+dimensions:  
+    t = UNLIMITED ; // (4017 currently)  
+    e2 = 7 ;  
+    e1 = 9 ;  
+variables:  
+    double x(e2, e1) ;  
+        x:units = "m" ;  
+        x:long_name = "X coordinate (AMG)" ;  
+    double y(e2, e1) ;  
+        y:units = "m" ;  
+        y:long_name = "Y coordinate (AMG)" ;  
+    double t(t) ;  
+        t:units = "days since 1990-01-01 00:00:00 +10" ;  
+        t:long_name = "Time" ;  
+    float evaporation(t, e2, e1) ;  
+        [evaporation:units](http://evaporationunits) = "mm day-1" ;  
+        [evaporation:long_name](http://evaporationlong_name) = "Evaporation" ;  
+// global attributes:  
+        :title = "Port Phillip Bay EPAV evaporation, 10km grid" ;  
+        :gridtype = "rectangular" ;  
+        :xorigin = 260000. ;  
+        :yorigin = 5750000. ;  
+        :dx = 10000. ;  
+        :dy = 10000. ;  
+        :rotation = 0. ;  
+}

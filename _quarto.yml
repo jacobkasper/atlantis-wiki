@@ -1,0 +1,67 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - "*.qmd"
+    - "posts/*.qmd"
+
+website:
+  title: "Atlantis Ecosystem Model"
+  navbar:
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "Documentation"
+        href: atlantis-documentation.qmd
+      - text: "FAQ"
+        href: atlantis-faq.qmd
+      - text: "Changelog"
+        href: changelog.qmd
+    right:
+      - icon: github
+        href: https://github.com/
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - section: "Getting Started"
+        contents:
+          - index.qmd
+          - atlantis-ecosystem-model-home-page.qmd
+          - new-user-atlantis-workflow.qmd
+          - atlantis-faq.qmd
+          - getting-help.qmd
+      - section: "Documentation"
+        contents:
+          - atlantis-documentation.qmd
+          - further-detail-on-atlantis-components.qmd
+          - biology-equations.qmd
+          - biophysics-equations.qmd
+      - section: "Building & Running"
+        contents:
+          - building-atlantis.qmd
+          - running-atlantis.qmd
+          - how-to-run.qmd
+      - section: "Parameters & Input Files"
+        contents:
+          - atlantis-parameter-files.qmd
+          - functional-group-definition-file.qmd
+          - initial-conditions-netcdf-file.qmd
+          - forcing-files.qmd
+      - section: "Updates & Changes"
+        contents:
+          - changelog.qmd
+      - section: "All Pages"
+        contents: auto
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    toc-depth: 3
+    code-copy: true
+    code-overflow: wrap
+
+execute:
+  freeze: auto

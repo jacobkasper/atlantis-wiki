@@ -1,0 +1,26 @@
+---
+title: "CSIRO Bowen Research Cloud"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+The CSIRO Bowen Research Cloud is a pool of generic high speed storage and compute facilities which has been engineered by CSIRO for the purpose of accelerating research in a cost effective, scalable and protected environment.
+
+For general Bowen information please see the [IM&T Bowen confluence site](https://confluence.csiro.au/pages/viewpage.action?pageId=278168063).
+
+The CSIRO Atlantis team has a number of Bowen compute appliances and storage that are used as a shared resource and are managed by Bec Gorton. Please talk to Bec about access. She will give you information about the machine names and storage locations that you should use.
+
+Use of these resources takes time to organise - assume that it will take about two weeks between the time that you contact Bec and the time that you will be able to start using the resources. The resources may be fully utilised and it takes time to get additional resources. We can potentially request additional machines or increase the number of cores (and therefore the number of Atlantis runs that can be done at any time). Increasing the number of cores involves IM&T restating the machine so any existing processing/Atlantis runs on a machine needs to be completed before this can happen. We may also need to demonstrate a need for the increased resources to IM&T. Basically it all takes time, so be organised before you need the resources.
+
+If you have trouble with any of these Bowen machines first contact Bec Gorton then try the Scientific Computing help desk ([schelp@csiro.au](mailto:schelp@csiro.au)) . Mike Fuller also has full administrator rights on all of these machines so he can help you with permission issues if its urgent and you can't get in touch with Bec.
+
+Only Bec and Mike have Sudo access on these machines.
+
+[Open connection to Bowen Compute](open-connection-to-bowen-compute.qmd)
+
+[Connect to Bowen Storage](connect-to-bowen-storage.qmd)
+
+[Learn now to navigate the Linux Terminal](learn-now-to-navigate-the-linux-terminal.qmd)
+
+[Running Atlantis on the Bowen](running-atlantis-on-the-bowen.qmd)
+
+[Useful Linux Commands](useful-linux-commands.qmd)

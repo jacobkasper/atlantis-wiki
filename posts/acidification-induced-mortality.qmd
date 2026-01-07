@@ -1,0 +1,32 @@
+---
+title: "Acidification induced mortality"
+date: "2015-05-14"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+In addition to the other effects of acidification a specific extra mortality term due to ocean acidification has been added. This uses a logistic curve which begins when pH drops below
+pHmortstart_FXX. The shape of the curve is given by:
+
+mPH =
+pHmortA / (1.0 + exp(-
+pHmortB * (
+pHmortmid - currentPH)))
+
+where
+
+pHmortA is the maximum acidification induced mortality rate
+
+pHmortB is the steepness of the curve
+
+pHmortmid is the pH of the mid point of the curve
+
+This new functionality requires
+pHmortstart_FXX,
+pHmortA_FXX,
+pHmortB_FXX,
+pHmortmid_FXX to be added for each functional group (FXX) in biol.prm
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

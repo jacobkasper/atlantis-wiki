@@ -1,0 +1,17 @@
+---
+title: "Daylight"
+date: "2022-07-02"
+author: "Fulton, Beth (Environment, Hobart)"
+version: "6638"
+---
+
+**Version: 6638**
+
+Code version: v6638
+
+Daylight has been added as a fixed tracer so you get consistent reporting of light levels even in tidal models when could be recording at night. This needs to be added to the initial conditions file. Just copy the Light entries and rename the duplicate DayLight. Likely won't influence many models, but very helpful for some so sorry for the inconvenience.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

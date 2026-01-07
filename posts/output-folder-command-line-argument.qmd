@@ -1,0 +1,22 @@
+---
+title: "Output Folder command line argument"
+date: "2011-06-07"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Atlantis now provides functionality to store all output files in a specified folder. This is optional.
+
+Usage is now:
+
+Usage: atlantis -i input.nc dump -o output.nc -r run.prm -f force.prm -p physics.prm -b biology.prm -h harvest.prm -a assess.prm -e economics.prm -s functionGroupFile.prm [-d destinationFolder]
+
+For example:
+
+atlantis -i inams71_2011.nc 0 -o ams71_DynoutputRules.nc -r run_short.prm -f ams71_force_dyn.prm -p ams71_physics.prm -b ams71_biol_dynND.prm -h ams71_harvest_rules_fishingOrig.prm -a ams71_assess.prm -e ams71_economics_ND.prm -s functionalGroupsOld.csv -d OutputFolder
+
+If the destination folder is provided it will be created and output files will be placed here. If the output folder already exists then the output files will overwrite any existing files.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

@@ -1,0 +1,21 @@
+---
+title: "New User Atlantis Workflow"
+author: "Porobic Garate, Javier (Environment, Hobart)"
+---
+
+For brand new users of Atlantis, the typical way of getting across the topic and starting a model is to
+
+1. Join the wiki - so step 1 is already done (wink)
+2. Have a quick look around the wiki and read the [useful reading page](useful-reading.qmd) - which has some example papers to see if Atlantis is really what you want to do, as well as some general things that are helpful when modelling
+3. Check out [Atlantis GitHub](https://github.com/Atlantis-Ecosystem-Model/Atlantis_example_and_instructions) page for further documentation and an example model application
+4. If you do want to try Atlantis please go to the [licence page](csiro-licence-and-repository-request.qmd) and follow those directions (emailing the results to [Atlantis support](mailto:atlantis@csiro.au)) to get access to the code
+5. Check out the code from the SVN repository (directions will be supplied when you send the licence agreement to Bec and Beth)
+6. Get the code compiling on your machine (see the [developers part of the wiki](43155693.qmd) for guidance on that)
+7. Play with the example [SETas model](sample-input-files.qmd), which also provides so useful example input files
+8. Read the [useful tools and tips page](useful-tools-and-tips.qmd) and also the ["Asking for help" page](asking-for-help-with-your-atlantis-model.qmd) so you can start self-help (this along with asking on the google group is much faster than waiting on Beth and Bec, but also see [Set-up - Software & Code](43155693.qmd))
+9. Use the wiki, [existing documentation](atlantis-documentation.qmd), the pages on [Parameterising](parameterising-atlantis.qmd) and [Running](running-atlantis.qmd) Atlantis and the Atlantis User Manual (being written now, contact Beth for progress update) to see what's needed to start building a model
+10. Useful tools for building the model, calibrating models and using the output for answering specific questions can be found in the [tools section](atlantis-helper-tools.qmd). A google search of GitHub for any other/new Atlantis tools is a good idea too (e.g r4atlantis).
+11. Looking over other Atlantis [applications](applications.qmd) might also be useful
+12. Lastly, if you want to contribute to the [extension or modification](193889298.qmd) of Atlantis just let us know - the more the merrier.
+
+If you have any other questions about how people have tackled different parts of the task don't forget to visit the [google group](atlantis-google-group.qmd) and ask.

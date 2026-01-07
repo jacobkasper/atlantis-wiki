@@ -1,0 +1,381 @@
+---
+title: "Biology - New Temperature correction algorithm"
+date: "2016-05-10"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+This is an non-compulsory change to your biology input files.
+
+There is a new algorithm for calculating the temperature correction to apply for clearance, mortality etc.
+
+Documentation of the temperature correction is now on the wiki at:
+[Effect of temperature on functional groups](/display/Atlantis/Effect+of+temperature+on+functional+groups)
+
+**New Parameters**
+
+As mentioned above these are not compulsory changes to your file. If you don't specify a q10_method value for a functional group it will default to 0. The optimum temperature and correction values are only read in for grousp where the q10_method value is 0.
+
+1. The method of calculating Q10 0 is the 'normal' way of calculating it. 1 is the 'new' climate change method from Gary G.
+     
+   q10_method_PL 0
+     
+   q10_method_PS 0
+     
+   q10_method_DF 0
+     
+   q10_method_MA 0
+     
+   q10_method_MB 0
+     
+   q10_method_SG 0
+     
+   q10_method_ZG 0
+     
+   q10_method_ZL 1
+     
+   q10_method_ZM 0
+     
+   q10_method_ZS 0
+     
+   q10_method_FPS 0
+     
+   q10_method_FPL 0
+     
+   q10_method_FPO 0
+     
+   q10_method_FVD 0
+     
+   q10_method_FVV 0
+     
+   q10_method_FVS 0
+     
+   q10_method_FVT 0
+     
+   q10_method_FVO 0
+     
+   q10_method_FVB 0
+     
+   q10_method_FMM 0
+     
+   q10_method_FMN 0
+     
+   q10_method_FBP 0
+     
+   q10_method_FDD 0
+     
+   q10_method_FDS 0
+     
+   q10_method_FDB 0
+     
+   q10_method_FDC 0
+     
+   q10_method_FDO 0
+     
+   q10_method_FDE 0
+     
+   q10_method_FDF 0
+     
+   q10_method_FDP 0
+     
+   q10_method_FDM 0
+     
+   q10_method_SHD 0
+     
+   q10_method_SHC 0
+     
+   q10_method_SHP 0
+     
+   q10_method_SHB 0
+     
+   q10_method_SHR 0
+     
+   q10_method_SSK 0
+     
+   q10_method_SB 0
+     
+   q10_method_SP 0
+     
+   q10_method_REP 0
+     
+   q10_method_PIN 0
+     
+   q10_method_WDG 0
+     
+   q10_method_WHB 0
+     
+   q10_method_WHT 0
+     
+   q10_method_WHS 0
+     
+   q10_method_PB 0
+     
+   q10_method_BB 0
+     
+   q10_method_BO 0
+     
+   q10_method_BD 0
+     
+   q10_method_BC 0
+     
+   q10_method_BFS 0
+     
+   q10_method_BFD 0
+     
+   q10_method_BFF 0
+     
+   q10_method_BG 0
+     
+   q10_method_BMS 0
+     
+   q10_method_BMD 0
+     
+   q10_method_BML 0
+     
+   q10_method_CEP 0
+     
+   q10_method_PWN 0
+
+1. The optimum temperature of each functional group - this is only read in for groups where the q10_method is 1.
+     
+   q10_optimal_temp_PL 0
+     
+   q10_optimal_temp_PS 0
+     
+   q10_optimal_temp_DF 0
+     
+   q10_optimal_temp_MA 0
+     
+   q10_optimal_temp_MB 0
+     
+   q10_optimal_temp_SG 0
+     
+   q10_optimal_temp_ZG 0
+     
+   q10_optimal_temp_ZL 10.0
+     
+   q10_optimal_temp_ZM 0
+     
+   q10_optimal_temp_ZS 0
+     
+   q10_optimal_temp_FPS 0
+     
+   q10_optimal_temp_FPL 0
+     
+   q10_optimal_temp_FPO 0
+     
+   q10_optimal_temp_FVD 0
+     
+   q10_optimal_temp_FVV 0
+     
+   q10_optimal_temp_FVS 0
+     
+   q10_optimal_temp_FVT 0
+     
+   q10_optimal_temp_FVO 0
+     
+   q10_optimal_temp_FVB 0
+     
+   q10_optimal_temp_FMM 0
+     
+   q10_optimal_temp_FMN 0
+     
+   q10_optimal_temp_FBP 0
+     
+   q10_optimal_temp_FDD 0
+     
+   q10_optimal_temp_FDS 0
+     
+   q10_optimal_temp_FDB 0
+     
+   q10_optimal_temp_FDC 0
+     
+   q10_optimal_temp_FDO 0
+     
+   q10_optimal_temp_FDE 0
+     
+   q10_optimal_temp_FDF 0
+     
+   q10_optimal_temp_FDP 0
+     
+   q10_optimal_temp_FDM 0
+     
+   q10_optimal_temp_SHD 0
+     
+   q10_optimal_temp_SHC 0
+     
+   q10_optimal_temp_SHP 0
+     
+   q10_optimal_temp_SHB 0
+     
+   q10_optimal_temp_SHR 0
+     
+   q10_optimal_temp_SSK 0
+     
+   q10_optimal_temp_SB 0
+     
+   q10_optimal_temp_SP 0
+     
+   q10_optimal_temp_REP 0
+     
+   q10_optimal_temp_PIN 0
+     
+   q10_optimal_temp_WDG 0
+     
+   q10_optimal_temp_WHB 0
+     
+   q10_optimal_temp_WHT 0
+     
+   q10_optimal_temp_WHS 0
+     
+   q10_optimal_temp_PB 0
+     
+   q10_optimal_temp_BB 0
+     
+   q10_optimal_temp_BO 0
+     
+   q10_optimal_temp_BD 0
+     
+   q10_optimal_temp_BC 0
+     
+   q10_optimal_temp_BFS 0
+     
+   q10_optimal_temp_BFD 0
+     
+   q10_optimal_temp_BFF 0
+     
+   q10_optimal_temp_BG 0
+     
+   q10_optimal_temp_BMS 0
+     
+   q10_optimal_temp_BMD 0
+     
+   q10_optimal_temp_BML 0
+     
+   q10_optimal_temp_CEP 0
+     
+   q10_optimal_temp_PWN 0
+
+1. The q10 correction factor for each functional group - this is only read in for groups where the q10_method is 1.
+     
+   q10_correction_PL 0
+     
+   q10_correction_PS 0
+     
+   q10_correction_DF 0
+     
+   q10_correction_MA 0
+     
+   q10_correction_MB 0
+     
+   q10_correction_SG 0
+     
+   q10_correction_ZG 1000.0
+     
+   q10_correction_ZL 0
+     
+   q10_correction_ZM 0
+     
+   q10_correction_ZS 0
+     
+   q10_correction_FPS 0
+     
+   q10_correction_FPL 0
+     
+   q10_correction_FPO 0
+     
+   q10_correction_FVD 0
+     
+   q10_correction_FVV 0
+     
+   q10_correction_FVS 0
+     
+   q10_correction_FVT 0
+     
+   q10_correction_FVO 0
+     
+   q10_correction_FVB 0
+     
+   q10_correction_FMM 0
+     
+   q10_correction_FMN 0
+     
+   q10_correction_FBP 0
+     
+   q10_correction_FDD 0
+     
+   q10_correction_FDS 0
+     
+   q10_correction_FDB 0
+     
+   q10_correction_FDC 0
+     
+   q10_correction_FDO 0
+     
+   q10_correction_FDE 0
+     
+   q10_correction_FDF 0
+     
+   q10_correction_FDP 0
+     
+   q10_correction_FDM 0
+     
+   q10_correction_SHD 0
+     
+   q10_correction_SHC 0
+     
+   q10_correction_SHP 0
+     
+   q10_correction_SHB 0
+     
+   q10_correction_SHR 0
+     
+   q10_correction_SSK 0
+     
+   q10_correction_SB 0
+     
+   q10_correction_SP 0
+     
+   q10_correction_REP 0
+     
+   q10_correction_PIN 0
+     
+   q10_correction_WDG 0
+     
+   q10_correction_WHB 0
+     
+   q10_correction_WHT 0
+     
+   q10_correction_WHS 0
+     
+   q10_correction_PB 0
+     
+   q10_correction_BB 0
+     
+   q10_correction_BO 0
+     
+   q10_correction_BD 0
+     
+   q10_correction_BC 0
+     
+   q10_correction_BFS 0
+     
+   q10_correction_BFD 0
+     
+   q10_correction_BFF 0
+     
+   q10_correction_BG 0
+     
+   q10_correction_BMS 0
+     
+   q10_correction_BMD 0
+     
+   q10_correction_BML 0
+     
+   q10_correction_CEP 0
+     
+   q10_correction_PWN 0
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

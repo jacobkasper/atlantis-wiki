@@ -1,0 +1,14 @@
+---
+title: "Flag for age structured overall biomass output txt files"
+date: "2012-05-15"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+To get age structured versions of the overall biom.txt file go to run.prm and set
+
+flag_age_output  1        # 1 = age structured overall biomass output desired, 0 = off
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

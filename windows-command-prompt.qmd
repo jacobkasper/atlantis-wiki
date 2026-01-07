@@ -1,0 +1,54 @@
+---
+title: "Windows Command Prompt"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+## Why do i need this?
+
+Atlantis and many of the tools written for Atlantis are run via either a linux terminal or the Windows Command Prompt.
+
+## How to start
+
+The best thing to do is have a look at a tutorial that shows you some basic commands and how to start the command prompt.
+
+Windows Users - <http://www.cs.princeton.edu/courses/archive/spr05/cos126/cmd-prompt.html>
+
+Linux Users - <http://www.tuxfiles.org/linuxhelp/cli.html>
+
+## Windows Users
+
+Its a really good idea to run Atlantis using the command prompt rather than just double clicking on a .bat file. This means you can easily see error messages that Atlantis displays rather than the command prompt quitting when Atlantis finishes.
+
+For more info have a read of the following page - <http://www.computerhope.com/issues/chdos.htm>
+
+**Add command to copy Atlantis exe in your batch file:**
+
+You can add a command to copy your atlantismain.exe to your working folder to the top of your batch file using the following command:
+
+copy C:\Code\AtlantisTrunk\atlantismain\Debug\atlantismain.exe .
+
+The '.' means copy to 'here'.
+
+If you are making regular code changes and want to compile via the command line, instead of using the Visual Studio GUI you can do something like the following:
+
+cd C:\Code\AtlantisTrunk
+
+call VS2005_windowsBuild.bat
+
+cd C:\runFiles\SETas_model_New_Trunk
+
+copy C:\Code\AtlantisTrunk\atlantismain\Debug\atlantismain.exe .
+
+atlantismain -i [INIT_VMPA_Jan2015.nc](http://INIT_VMPA_Jan2015.nc) 0 -o [outputSETAS.nc](http://outputSETAS.nc) -r VMPA_setas_run_fishing_F_Trunk.prm -f VMPA_setas_force_fish_Trunk.prm -p VMPA_setas_physics.prm -b VMPA_setas_biol_fishing_Trunk.prm -h VMPA_setas_harvest_F_Trunk.prm -s SETasGroupsDem_NoCep.csv -q SETasFisheries.csv -d outputTrunk
+
+Make sure you change the 'VS2005_windowsBuild.bat' to match the version of Visual Studio that you have installed. Only use this option if you are regularly making code changes as it is quite slow to compile Atlantis on windows.
+
+**Updating windows path to include your atlantismain.exe folder:**
+
+Another option is to update your path to include folder where the atlantismain.exe progarm is generated - for example the C:\Code\AtlantisTrunk\atlantismain\Debug folder. Windows search the folders included in your path for executables so if you add the Atlantis folder to your path you will NOT need to copy the atlantismain.exe file to your local model run folder. Its important to note the order in which windows searches for programs:
+
+"When a command is entered in a command shell or a system call is made by a program to execute a program, the system first searches the [current working directory](https://en.wikipedia.org/wiki/Current_working_directory "Current working directory") and then searches the path, examining each directory from left to right, looking for an [executable](https://en.wikipedia.org/wiki/Executable "Executable") filename that matches the command name given."
+
+If you have a copy of atlantismain.exe in your working folder that version will be used instead of looking in any folders included in the PATH list..
+
+Follow the same instructions in [NetCDF 4 in Windows](netcdf-4-in-windows.qmd) to update your path but this time add the folder where the atlantismain.exe is created.

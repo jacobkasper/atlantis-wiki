@@ -1,0 +1,180 @@
+---
+title: "Getting rid of jCEP"
+date: "2008-10-02"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+how exciting. Lots of work to do to get this done.
+
+Need to change the species properties structure to store values per cohort for the age structured biomass groups.
+  
+This is the biggest change. I'll also need to rewrite some of the input file parsing to do this.
+
+Also one strangeness. In epibenthicBox the CEP growth and grazing values are not added to the prodnTracers
+[0](/pages/createpage.action?spaceKey=Atlantis&title=0)
+and GrazingTracers
+[0](/pages/createpage.action?spaceKey=Atlantis&title=0)
+like PWN are. I wonder if this is due to values not being set to zero after the call to water column tracers. Will look into it.
+
+I need to have some distinction between values that will be stored and calculated per cohort and those that are per group.
+  
+These really need to be stored separately even though this is not super nice.
+
+I really need to rename processProps to be called cohortProcessProps and then have another structure called something different. Any properties that are ever needed per cohort will be stored in cohortProcessProps.
+  
+There also needs to be a distinction between those properties that are read in from the input file. These really need to be stored in the species parameters structure.
+
+I really want to reorganise the species parameters now. The question is the best way to do this. I could leave these values in a seperate array or i could move them into the functGroup structure. For the age structured biomass groups we want a value for each cohort but for all other groups we just want a single value. this makes things a bit ugly. But thats ok.
+  
+I htink the best thing will be to move the values into the funct group structure and allocate the array size based on the group type and the number of cohorts. This will mean huge changes to the code.
+
+I think that this will be the way to go for all these types of arrays. If the group is an age structured biomass then the array size will be num cohorts otherwise it will be 1. When using these arrays we just want to have a switch statement and if its age structured then loop over the cohorts else just set the cohort value to 0. All the other options involve lots of casting which might be more elegant but will make the code harder to read and understand.
+
+Right - big changes. Time to go through and change all references to sp_prms. Cool. 1450 references. This is going to take a while. Need to check in code before i do this. OK. Code checked in.
+
+Code will become
+  
+FunctGroupArray
+[guild](/pages/createpage.action?spaceKey=Atlantis&title=guild)
+.speciesParams
+[cohort](/pages/createpage.action?spaceKey=Atlantis&title=cohort)
+[param_id](/pages/createpage.action?spaceKey=Atlantis&title=param_id)
+
+I'm not going to bother keeping original copies of the code. This is what cvs is for. The code i'm changing covers all components of the model so i need to use them all. OK. This is happening - all libs are being called.
+  
+Time to make the changes.
+
+I also need to get rid of the cat_id values at some time. This would be soooo nice. I just need to replace this with isFished. The cat values are no different to the guild values so it should be fine to get rid of them. One thing at a time.
+  
+I will need to add additional parameters isFished and isImpacted.
+
+Quite a few of the parameters can be global replaced. For example isbird - the values are not going to change for adult and juv (one would hope). This will be the same for a number of these types of params and i'm going to just do the global search and replace and hope it doesn't stuff up the world. One issue with global replace is that comments can be changed which is not cool.
+
+The following parameters have just been dealt with using global find and replace:
+  
+isbird_id
+  
+ismammal_id
+
+Its temping to split the parameters into two groups. One that is independent of the cohort for example isbird. And the other that is dependent on the cohort. This is the same as what i'm doing for the process properties.
+  
+One could be called cohortSpeciesParams and the other could just be speciesParams. I have implemented this in the code. It does mean that in a number of places i need to check the species group type but thats ok. Its a nice solution.
+
+I need to work out what parameters are cohort dependent. Time to trawl through the input files.
+  
+mQ_T15_id
+  
+mL_T15_id
+  
+jmL_T15_id
+  
+jmQ_T15_id
+  
+jmL_id
+  
+jmQ_id
+  
+num_migrate_id
+  
+Time_Spawn_id
+
+and i think this is it. So i'll just move these into a separate array and i can just do a huge global replace for the rest of them. Nice.
+
+Got rid of
+  
+, *Time_Age_PWNi, *Time_Age_CEPi, *Time_Spawn_CEPi, *Time_Spawn_PWNi;
+  
+and moved these values into the CohortSpeciesParams arrays and added Time_Age_id to the cohortSpeciesParams.
+  
+So at present there are 9 cohort dependant species parameters.
+
+The code has finally compiled and i'm trying to get it to run. I have had to make a few changes to the input files. I really need to table these in a separate page - these have been linked to the main page.
+
+OK. I have sorted out the species params. Obviously the output of the model is now quite different from what it was before. This is to be expected.
+  
+Need to get rid of Inv_Spawn_Now. Might need to
+
+When FunctGroupArray
+[sp](/pages/createpage.action?spaceKey=Atlantis&title=sp)
+.cohortSpeciesParams
+[adult_id](/pages/createpage.action?spaceKey=Atlantis&title=adult_id)
+[mL_id](/pages/createpage.action?spaceKey=Atlantis&title=mL_id)
+is being set the printf( "FunctGroupArray
+[%d](/pages/createpage.action?spaceKey=Atlantis&title=%25d)
+.cohortSpeciesParams
+[juv_id](/pages/createpage.action?spaceKey=Atlantis&title=juv_id)
+[mQ_id](/pages/createpage.action?spaceKey=Atlantis&title=mQ_id)
+value is also being set. Very strange. Some sort of memory leack somewhere which will be
+  
+great fun to track down.
+
+OK. Thats sorted. i was allocating the cohortSpeciesParams array before the group types had been set. So all of the arrays were being allocated assuming that the broup type was age structured.
+
+OK. MOving on. I need to work out what values in the invertProps stucture needs to be moved into the processProps structure.
+
+C_T15
+  
+mum_T15
+  
+sn
+
+These can stay:
+
+vl
+  
+ht
+  
+KDEP
+
+Again processProps might not be the best name for this sructure. For now i'll leave it how it is but i can do a global find and replace later once i have a better idea of the name. Perhaps cohortProps and props would be good. There doesn;t really need to be any distinction between the values that are read in from the input files and those that change during the calculations. These issues can be commented.
+
+OK. Getting rid of all the refercnes to teh processGuild in groupProcesses.c.
+  
+This means EAT will no longer need to take two guild values. Slowly moving towards getting rid of jCEP and jPWN.
+
+OK. Hit another issue. The debug arrays don't have space for cohorts. I'll have to add this. I wonder what happens for the verts? These seem to be a sum of the cohorts. I wonder if the values for CEP and PWN are printed if they
+  
+are not seperate groups. If this is the case i can leave it as it is. Its hard to know what there is code in to deal with the cohorts and when its to do with the groups being seperate. I think that i can leave this a guild sized arrays and not worry about cohort data. Should this be needed i can change it later.
+
+Right. The code has compiled. I will have to see what the damage is. OK. There are some differences. The next big thing that needs to be sorted is the pSPeat array. This needs to be resized to allow for different cohorts
+  
+to eat different things. To start this i'll find where these values are set. OK data is read in from the input files. Parameters are like:
+
+pPREYCEP1 67
+  
+0.0001 0.00075 0.001 0.0005 0.0007 0.0004 0.00015 0.0001 0.00001 0.00006 0.003 0.00015 0.0015 0.0005 0.0005 0 0.0002 0.00005 0.00075 0 0.0015 0 0 0 0 0 0 0 0.00065 0 0 0 0 0 0 0.0001 0 0 0 0 0 0 0 0 0.02 0 0 0 0 0 0 0 0 0 0.01 0 0 0 0 0 0 0 0 0 0 0.01 0
+
+pPREYCEP2 67
+  
+0.00015 0.0007 0.0015 0.0008 0.002 0.001 0.0008 0.001 0.00015 0.00015 0.0025 0.005 0.007 0.0005 0.0005 0 0.0008 0.00008 0.00125 0 0.005 0 0 0 0 0 0 0 0.0009 0 0 0 0 0 0 0.00025 0 0 0 0 0 0 0 0 0.015 0 0 0 0 0 0 0 0 0 0.008 0 0 0 0 0 0 0 0 0 0 0.05 0
+
+pPREYPWN1 67
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.001 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.0001 0.0001 0.25 0.01 0 0 0 0.0005 0.005 0 0.015 0.00007 0 0.000005 0.01 0 0 0 0 0 0 0 0 0.0001 0 0 0.9 0 0 0 0 0.005
+
+pPREYPWN2 67
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.0001 0.25 0.01 0 0.05 0 0.001 0.0005 0.1 0.005 0.00007 0 0.000008 0.05 0 0 0 0 0.05 0 0 0.001 0.001 0.0001 0 0.9 0.0001 0 0 0 0.00005
+
+for the normal inverts there is just a single value. We can see from about there are different values. I'm not sure if this is because of the groups being treated as different groups or not but its probably good functionality for the
+  
+different cohorts to be able to have different eating habits. It would be good to check one of the other models where these groups were seperate and see if these values are still different.
+  
+Hmmm...in vicmpa these groups are seperate and the values for the prey are the same. OK. But in one of the others they are no seperate but the eating habits are different for the adult and juv. SO we do need this functionality.
+  
+I'll move this information into the functgroup array. I guess the values will have to be the same of the processProps. For groups other than age structured biomass the array cohort dimension will be 0, otherwise it will be numCohorts.
+
+125 matches for bm->pSPeat. Cool.
+
+It would also be good to change dietpref to accept adult and juv data. Yeah that whole chunk of code needs to be rewritten to get rid of the hard coded adult and juv ids for each group.
+
+OK. bm->pSPeat is done. Code compiled. Lets see how the output compares. Seg fault. Into debug mode.
+
+OK. Got that sorted. Diff.
+  
+The outcomes of Eat are different. The grazeLive and CLEAR values are different.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

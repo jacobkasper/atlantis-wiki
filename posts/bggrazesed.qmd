@@ -1,0 +1,28 @@
+---
+title: "BGgrazeSed"
+date: "2008-11-20"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+OK. getting rid of this now i have sorted teh NH issues.
+
+For the debugInfo i have just left it how it is except for the age structured biomass groups. These values are now accumulations over the cohorts like the verts - the debug values are now set before teh process functions are called. That all looks good - obviously the value displayed for PWn and CEP are now the sum of the ad and juv values so they are now different.
+
+OK. Sorting out the BGgrazeSed stuff. OK - think that is sorted. This will allow me to generalise the rate of change equations in epi box.
+
+OK - this code is written - just debugging it now.
+  
+There is also some nasty code at the end of epibenthic box that needs to be cleaned up.
+  
+There is an issue with some of the tracers. The epi benthic tracers are wrong. No they aren't - MB is not calculated in the epibenthic layer. Even though it has a coeff of > 0. I might need to talk to Beth about why this group is soooo special.
+
+OK. Have potentially found a bug in the epibenthic code. The rate of change equ for BO is only being done when it_count ==1 but this is generally a finer scale group. I have sent beth an email to ask whey this it - it could be a bug or something could happen in the epibenthic layer to slow this group down - its just a group that is eaten. I think it is a bug.
+
+OK. The code is loooking quite nice. Time to tidy it up a bit.
+
+In WaterColumnBox i now have a super nice loop for teh process calls. Annoyingly i'm getting slightly different values as preyEaten will be added in a different order now. Doing a 50 day run to look at the difference.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

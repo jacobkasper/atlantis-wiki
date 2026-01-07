@@ -1,0 +1,86 @@
+---
+title: "Getting the source code"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+## Repository Details.
+
+##### New Atlantis Models- from Jan 2015.
+
+Normal users should use the following URL:
+
+CSIRO staff: [https://svnserv.csiro.au/svn/atlantis/Atlantis/trunk/](https://svnserv.csiro.au/svn/atlantis/Atlantis/trunk/atlantis)
+
+External Partners: [https://svnserv.csiro.au/svn/ext/atlantis/Atlantis/trunk/](https://svnserv.csiro.au/svn/ext/atlantis/Atlantis/trunk/atlantis)
+
+If you are a CSIRO user you should always use the first URL. When you are offsite use VPN to connect to the CSIRO domain to do an update.
+
+If you need information on how to check out the code from SVN please use your favourite search engine to find a tutorial. I'd love to supply you with one but the links break (smile)
+
+As a quick pointer though you can either use an app (e.g. Tortoise SVN on Windows or Versions app on Mac). Or there is the age old commandline method which will look something like
+
+> svn co --username Atlantis_wiki_ID URL_path_to_Atlantis
+
+So if your Atlantis wiki IF is AWID007 and you were a non-CSIRO employee then the command line would look like
+
+> svn co --username AWID007 https://svnserv.csiro.au/svn/ext/atlantis/Atlantis/trunk/
+
+**Sample input files and expected outputs** are included in the example folder.
+
+**Sample input files and expected outputs** are included in the example folder.
+
+##### Old Atlantis Models - Pre Jan 2015.
+
+Existing Atlantis users should be use the redeveloped Atlantis Code - Atlantis2.
+
+The url for this version of Atlantis is:  
+CSIRO users: <https://svnserv.csiro.au/svn/atlantis/Atlantis/branches/bec_dev>   
+External Partners: <https://svnserv.csiro.au/svn/ext/atlantis/Atlantis/branches/bec_dev>
+
+It you already have a model that is stable and you are happy with the results then it is possibly best to stick with this version. No new functionality will be added to this version of the code - we will of course fix bugs as required.
+
+##### Full repository access
+
+Using the URL is not recommended as it will contain the full repository tree including all tags and branches. Please do not use this URL - i've only put these details here for longevity reasons.
+
+Repository Details:  
+CSIRO Users: <https://svnserv.csiro.au/svn/atlantis>   
+External Partners: <https://svnserv.csiro.au/svn/ext/atlantis>
+
+The repository structure is:
+
+Atlantis  
+-trunk  
+-tags  
+-branches
+
+This repository also contains the source code for the NCGen and [HydroConstruct](hydroconstruct.qmd) tools.
+
+### Windows users:
+
+You can either use command line svn commands or use the nice GUI called <http://tortoisesvn.tigris.org/>.
+
+This is like a plugin for Windows Explorer. If you have not used subversion or a similar tool before then this is definitely recommended.   
+Following the [instructions for using TortoiseSVN](tortoisesvn.qmd) to check out the code. Follow the instructions on the previous page to compile the code using Visual Studio.
+
+Instructions for Linux users will be posted later if required but the RedBean instructions are very good - <http://svnbook.red-bean.com/en/1.6/svn.ref.svn.c.checkout.html>
+
+### Repository Permissions
+
+Are mentioned above you will have to be given permission to access the code repository. By default you will only be given read only access.
+
+### When to update your code.
+
+If a major bug is fixed in the Atlantis source we will post a news item on the main page of the Atlantis wiki. You can get email notifications of changes to this page (and therefore know when to do an update) by clicking the little envelope icon on the top right corner of the page. This icon will allow you to 'watch this page'.
+
+Its a good idea to do regular updates as well.
+
+### Migrating existing changes.
+
+The Atlantis CVS repository is now read only. This mean that you will have to migrate any changes you have made into your subversion code tree.
+
+To do this make sure you have the most up to date changes from the cvs repository by doing a cvs update on your old code tree. Please make sure you make a backup of your code here in case anything does wrong.   
+Then check out a new code tree from the subversion repository.  
+Then copy your old .c and .h files into the new code tree.  
+You will then have to change the format of these files using the unix2dos command. For some reason subversion isn't happy with the end of line markers used by cvs - this step will change all EOL markers to windows. Obviously is you are using linux then use dos2unix.   
+You should now be able to check your code in.

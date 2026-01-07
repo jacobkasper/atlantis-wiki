@@ -1,0 +1,22 @@
+---
+title: "Parameterising initial abundance and distribution"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+The biol.prm holds all the biological information and the init.cdf file holds all the initial conditions.
+
+ I’d suggest starting with the abundance of each group in the init.cdf file (you can then use this information to set up the horizontal distribution in the biol.prm file).
+
+1. For each of your age structured groups, work out the total abundance of each age class in each box
+2. Open the init.cdf file and do a search for: ‘*groupname*1_Nums *=’*  (i.e. if your group name is Planktiv_S_Fish, then you would search for Planktiv_S_Fish1_Nums =). This will take you to the section where you need to enter the initial abundance data for age class one of Planktiv_S_Fish. (If you are using the init.cdf file from another model you may need to look for an already existing group name and then replace it with one that you are using in your model).
+3. For each age class, each row represents a box and each column represents a layer (including any sediment layers).
+4. Generally you only need to fill in abundance data for one layer (I use the left most column). Atlantis should sort out the vertical distribution when the run starts based on information that you will put in the biol.prm file.
+5. For each box (row) enter the number of individuals of that group and age class. The rest of the columns can be filled with 0, or with _, (if using _, you will need to make sure your FillValue = 0, but don’t worry too much about that now).
+
+To parameterise the distribution in the biol.prm file:
+
+1. You can use the abundance data above to work out the proportion of biomass (not abundance) of adults and juveniles of each group in each box.
+2. If your group changes its distribution over the year you will need to calculate the proportion of biomass of juveniles and adults in each box for each season separately.
+3. These values are place in the biology file (biol.prm) under F*code*_S1. For example, for adult FPS in season 1 the parameter name would be FFPS_S1, for season 2 it would be FFPS_S2 etc. Each of these parameters will have as many values as the number of boxes in your model and will add up to 1 in total.
+
+If you have biol.prm and init.cdf files from another model it shouldn’t be too hard to follow the format that is in them already.

@@ -1,0 +1,17 @@
+---
+title: "VicMPA 7300 day results"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+##### Biomass Data:
+
+![](attachments/43157592.png)  
+![](attachments/43157588.png)
+
+![](attachments/43157587.png)  
+![](attachments/43157584.png)
+
+##### Catch Data
+
+![](attachments/43157585.png)  
+![](attachments/43157586.png)

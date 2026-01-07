@@ -1,0 +1,30 @@
+---
+title: "atLink"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+If you turn this on (using configure --enable-link) then you must have the following libraries installed:
+
+libnanohttp-dev  
+libcsoap-dev (<http://csoap.sourceforge.net/>)
+
+On most operating systems you will have to install these libraries from scratch.
+
+Ubuntu - you can simply install the above packages using:
+
+sudo apt-get install libnanohttp-dev  
+sudo apt-get install libcsoap-dev
+
+Other versions of linux and mac:
+
+You will need to build from source. You can do this by building and installing a single package:
+
+<http://csoap.sourceforge.net/downloads.php>
+
+Follow the normal build and install process:
+
+./configure  
+make  
+sudo make install
+
+You may need to pass the configure script some variables depending on how you have set up your machine.

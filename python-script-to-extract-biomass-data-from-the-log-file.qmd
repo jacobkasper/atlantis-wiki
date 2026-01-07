@@ -1,0 +1,28 @@
+---
+title: "Python script to extract biomass data from the log file"
+author: "Michael Smith"
+---
+
+This is a very simple python script that reduces the large log.txt file down to two much smaller files. The file names can be customised by editing the script, but by default it creates the following two files:
+
+log_stripped.txt
+ - this contains only the SN-, RN-, and DEN- data for each functional group.
+
+log_strippedB.txt
+ - this contains the biomass data for each functional group.
+
+I use this script to pull out the bits of the logfile that I most often need, and then use other scripts to plot the resulting data. You can edit the script by opening it up in a text editor. There are four globals at the top of the file (which are pretty self-explanatory) that you may want to adapt to your run configuration:
+
+    directoryPath = "C:\Atlantis\\"
+
+    inputFileName = "log.txt"
+
+    outputFileName = "log_stripped.txt"
+
+    outputFileNameB = "log_stripped_B.txt"
+
+The directory path is where the script expects to find log.txt, and also the directory into which it will write its output files.
+
+The script was written for Python 2.7. For help on installing and running Python on your system, check out the [Python.org](http://www.python.org/) website. If you have Python 2.7 installed on your system, you can probably run it by double-clicking the file (on a Windows machine) or calling it from the command line (on any machine).
+
+[LogStripper.py](attachments/43157355.py)

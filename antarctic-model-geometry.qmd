@@ -1,0 +1,17 @@
+---
+title: "Antarctic Model Geometry"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+Draft map drawn in Google Earth - to be done up in GIS and bgm format
+
+![](attachments/43156521.png)
+
+Final box geometry map.
+
+![](attachments/43156232.png)
+
+And with polygons numbered.
+
+![](attachments/43156236.png)  
+Also final [bgm file](attachments/43156235.bgm) .

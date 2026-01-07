@@ -1,0 +1,146 @@
+---
+title: "Changes to physics input file to support different scaling per point source"
+date: "2009-07-24"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+This change has been made to allow users to scale each point source differently. Originally each point source had to be scaling by the same pss_mult value, starting at the same pss_start and lasting for pss_period.
+  
+The physics module has been changed to allow a value to be specified by pss_mult, pss_start and pss_period for each point source.
+
+So the old format was:
+
+# Multiplier which represents degree of total change of the
+
+  
+# nutrients (i.e. 3 => final amt = 3xinitial; 0.3 => final=initial/3)
+
+  
+pss_mult 1.0
+
+# Period of time over which change in nutrients occurs
+
+  
+pss_period 1
+
+# Start day of nutrient increase
+
+  
+pss_start 3666666666660
+
+# Switch to indicate whether or not a second gradual nutrient change
+
+  
+# is allowed in the model
+
+  
+nutrientchange2 0
+
+# Multiplier which represents size of nutrient levels after second change
+
+  
+# So if to end at 0.5x standard input file levels then this
+
+  
+# value would be 0.5 etc.
+
+  
+pss_mult2 1.0
+
+# Period of time over which second change in nutrients occurs
+
+  
+# here = 1 year of model run. This value must be at least 1.
+
+  
+pss_period2 1
+
+# Start day of second change in nutrients
+
+  
+pss_start2 0
+
+and the new format is:
+
+# Multiplier which represents degree of total change of the
+
+  
+# nutrients (i.e. 3 => final amt = 3xinitial; 0.3 => final=initial/3)
+
+  
+# There must be a value per point source - so an array of npointss (npointss is defined in your forcing prm #file)
+
+  
+pss_mult 38
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0
+
+# Period of time over which change in nutrients occurs - must be an array of npointss values.
+
+  
+pss_period 38
+  
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+
+# Start day of nutrient increase - must be an array of npointss values.
+
+  
+pss_start 38
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+# Switch to indicate whether or not a second gradual nutrient change
+
+  
+# is allowed in the model
+
+  
+# Note if this is 0 then the following values are not read in - they will just be set to 0 and never used.
+
+  
+nutrientchange2 0
+
+# Multiplier which represents size of nutrient levels after second change
+
+  
+# So if to end at 0.5x standard input file levels then this
+
+  
+# value would be 0.5 etc.
+
+  
+# There must be a value per point source - so an array of npointss (npointss is defined in your forcing prm #file)
+
+  
+pss_mult2 38
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+# Period of time over which second change in nutrients occurs
+
+  
+# here = 1 year of model run. This value must be at least 1. - - must be an array of npointss values.
+
+  
+pss_period2 38
+  
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+
+# Start day of second change in nutrients - - must be an array of npointss values.
+
+  
+pss_start2 38
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+If you don't make these changes to your input file you will see errors like:
+
+Array pss_mult is wrong size (expecting 38 and got 1 as defined size from param file).
+  
+There is some additional information about how the point source scaling works at:
+<https://wiki.csiro.au/confluence/display/Atlantis/Physics+Input+File>
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

@@ -1,0 +1,23 @@
+---
+title: "Handy Excel Spreadsheets"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+# Spreadsheets to help visualise .txt output
+
+Beth has cobbled these files together over the last few years. They're handy for looking at the outputs stored .txt files
+
+One [zip file](attachments/43156987.zip) with all the xls files in one spot or you can grab them individually below:
+
+[biol_trajectories.xls](attachments/43157162.xls)  
+[catch_trajectories.xls](attachments/43157165.xls)  
+[catch_per_fishery_trajectories.xls](attachments/43157163.xls)  
+[diets.xls](attachments/43157161.xls)  
+[discards_per_fishery_trajectories.xls](attachments/43157159.xls)  
+[econ_indx_trajectories.xlsx](attachments/43157169.xlsx)  
+[effort_schedule.xls](attachments/43157170.xls)  
+[effort_trajectories.xls](attachments/43157171.xls)  
+[mort_per_pred_trajectories.xlsx](attachments/43157168.xlsx)  
+[quota_trades.xlsx](attachments/43157173.xlsx)  
+[quota_per_fishery_trajectories.xls](attachments/43157166.xls)  
+[trade_matrix.xlsx](attachments/43157150.xlsx)

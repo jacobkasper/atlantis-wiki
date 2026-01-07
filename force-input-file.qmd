@@ -1,0 +1,90 @@
+---
+title: "Force Input File"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+The forcing input file contains information about forcing data for your model. This include current, temperature and salinity data as well as definitions of any point sources required.
+
+#### Hydrodynamic files
+
+These are netcdf files that are generated using the [HydroConstruct](hydroconstruct.qmd) code.  
+ These files specify the flow between each box layer within the model.
+
+sample input data:  
+ nhdfiles 5  
+ hd0.name ../../../AMS/inputs/forcisets/AMShydroA.nc  
+ hd1.name ../../../AMS/inputs/forcisets/AMShydroB.nc  
+ hd2.name ../../../AMS/inputs/forcisets/AMShydroC.nc  
+ hd3.name ../../../AMS/inputs/forcisets/AMShydroD.nc  
+ hd4.name ../../../AMS/inputs/forcisets/AMShydroE.nc
+
+The structure of these netCDF files is described [here](https://wiki.csiro.au/confluence/display/Atlantis/Forcing+Files).
+
+#### Environmental forcing
+
+A number of environmental time series can be added:
+- BottomStress
+- Point source/sinks
+- Precipitation
+- Evaporation
+- Tracer area inputs
+- [Solar radiation](solar-radiation.qmd)
+
+These time series are detailed more below, but it is important to flag which time stamp they are assumed to be relative to - the time stamp in the first hydrodynamics file (hydro.nc), or the time stamp in the initial conditions file (in.nc). If you are getting the information from the hydrodynamics model used to generate the hydro files (or the forcing files used by that model) then it makes most sense to set the time stamp relative to hydro.nc. To do this set the flag ts_on_hydro_time to 1. However, if you are generating the data from other sources it may be easier to do it relative to the start time set in in.nc, in that case set ts_on_hydro_time to 0.
+
+All the other time series (recruitment, growth forcing etc) are automatically set relative to the time stamp in the initial conditions file (in.nc).
+
+#### Point source list
+
+The point source files are used to force tracer values in individual box layers in the model. The location of the point source is specified in the location attribute of the point source read in from the forcing input file. The values are x y z in model co-ordinates. The x and y values should match the 'inside' attribute of the box in the bgm file. The z value is the depth of the layer where you want the point source values to be added to the model.
+
+Sample input data:
+
+# Point source\sink lists  
+
+ npointss 30 # The number of point source input files.
+
+pss0.name Yarra  
+ # position and depth  
+ # if should use this file for all eternally - 0 = don't 1 = rewind the data  
+ # if 0 then it may use the last value in the file - this depends on the type of value read in.  
+ pss0.location 3951091.318 1789202.772 -1 # The centre point of the point source box. Should match your BGM file.  
+ pss0.data ../../../AMS/inputs/flows/yarraflow.ts  
+ pss0.rewind 0
+
+pss1.name Derwent  
+ pss1.location 4128352.691 1189741.205 -1  
+ pss1.data ../../../AMS/inputs/flows/derwentflow.ts  
+ pss1.rewind 0
+
+There is also functionality to scale the point source values during the model run duration. Individual ts file values are also be split across multiple point sources if required (saving you having to split them into separate files).
+
+Information about scaling point sources can be found [here](https://wiki.csiro.au/confluence/display/Atlantis/Scaling+point+sources)
+
+#### Rain and evaporation
+
+[Precipitation and evaporation input files](rain-and-evaporation.qmd) can be specified in the forcing input file.
+
+#### Linear Mortality Scaling
+
+[Scaling Linear Mortality](https://confluence.csiro.au/pages/viewpage.action?pageId=43155506)
+
+#### Size Change scaling
+
+[Scaling Vertebrate Size](https://confluence.csiro.au/pages/viewpage.action?pageId=43155551)
+
+#### Scaling Vertebrate Growth Rates
+
+[Scaling Vertebrate Growth Rates](https://wiki.csiro.au/confluence/display/Atlantis/2011/03/03/Changing+growth+rates+and+FSPB+over+time)
+
+#### Scaling Vertebrate FSPB Rates
+
+[Scaling Vertebrate FSPB Rates](https://wiki.csiro.au/confluence/display/Atlantis/2011/03/03/Changing+growth+rates+and+FSPB+over+time)
+
+#### Recruitment forcing
+
+[Recruitment forcing](recruitment-forcing.qmd)
+
+#### Forcing tracers
+
+[Forcing tracers](https://confluence.csiro.au/pages/viewpage.action?pageId=43155672) - like nutrients or biomass (in water column, sediments or epibenthic layer)

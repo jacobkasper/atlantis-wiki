@@ -1,0 +1,73 @@
+---
+title: "Atlantis on Mavericks with Homebrew"
+author: "Desjardins, Christopher (Liberal Arts College Vermont)"
+---
+
+This way also works on Yosemite and with GCC 5.1.
+
+An interesting discussion of Homebrew vs Macports or Fink can be found [here](http://apple.stackexchange.com/questions/32724/what-are-pros-and-cons-for-macports-fink-and-homebrew).
+
+An alternative way to install Atlantis on Mavericks involves Homebrew. Here is how to do it. This was updated as the Homebrew instructions changed and because you can install proj directly from Homebrew.
+
+#### 1. Install Xcode
+
+make sure CLI tools are installed (they should be by default).
+
+#### 2. Install Homebrew
+
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+#### 3. Install gcc (I installed gcc49)
+
+brew tap homebrew/versions  
+ brew install gcc49
+
+#### 4. Install autoconf
+
+brew install autoconf
+
+#### 5. Install netcdf
+
+brew tap homebrew/science  
+ brew install netcdf
+
+#### 6. Install proj
+
+brew install proj
+
+#### 7. Install libxml2
+
+brew install libxml2
+
+#### 8. Install automake
+
+brew install automake
+
+#### 9. Pull in Atlantis via svn
+
+svn co <https://svnserv.csiro.au/svn/ext/atlantis/Atlantis/branches/bec_dev>
+
+#### 10. Setup configure script
+
+Save the following as configure_macbrew
+
+./configure \  
+CC='gcc-4.9' \  
+CFLAGS='-I/usr/local/Cellar/netcdf/4.3.2_1/include -I/usr/local/Cellar/proj/4.8.0/include -I/usr/local/Cellar/libxml2/2.9.2/include/libxml2 ' \  
+CXXFLAGS='-I/usr/local/Cellar/netcdf/4.3.2_1/include -I/usr/local/Cellar/proj/4.8.0/include -I/usr/local/Cellar/libxml2/2.9.2/include/libxml2' \  
+CPPFLAGS='-I/usr/local/Cellar/netcdf/4.3.2_1/include -I/usr/local/Cellar/proj/4.8.0/include -I/usr/local/Cellar/libxml2/2.9.2/include/libxml2' \  
+LDFLAGS='-L/usr/local/Cellar/netcdf/4.3.2_1/lib -L/usr/local/Cellar/proj/4.8.0/lib -L/usr/local/Cellar/libxml2/2.9.2/lib -lcurl'
+
+Note, you might need to update the version numbers in the path.
+
+#### 11. Compile, make, and test
+
+aclocal  
+ autoheader  
+ autoconf  
+ automake -a  
+ chmod +x configure_macbrew  
+ ./configure_macbrew  
+ make  
+ sudo make install  
+ atlantisNew -v

@@ -1,0 +1,37 @@
+---
+title: "Jackknife recruitment"
+date: "2013-04-23"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+A new recruitment options has been added (for use initially in the north sea model).
+
+##### Equations used
+
+if SSB < B then R = jack_a * SSB
+
+if SSB >= B then R = jack_a * jack_B
+
+with R = recruitment in numbers of individuals
+
+SSB = total biomass of spawners in [g] wet weight
+
+jack_a is the slope (usually set as initial biomass of recruits / SSB)
+
+jack_B is an empirical proxy for a relationship with the carrying capacity (in the north sea they used 0.3 * long term average total biomass).
+
+##### Using the new option
+
+In the biol.prm files you will need to add the following parameters for each age structured group (zero entries fine if the option is off). To turn the option on set flagrecruit to 15
+
+# Jack-Knife recruitment
+
+  
+jack_a_XX 0 Slope in Jack-knife for XX
+
+jack_b_FPL 0 Carrying capacity proxy in Jack-knife for XX
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

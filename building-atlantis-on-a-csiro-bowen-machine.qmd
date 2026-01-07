@@ -1,0 +1,26 @@
+---
+title: "Building Atlantis on a CSIRO Bowen Machine"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+1. Install required libs
+
+sudo apt-get install subversion autoconf libnetcdf-dev libxml2-dev libproj-dev
+
+Also install the following:
+
+flip, netcdf-bin, nco
+
+Useful Linux Commands:
+
+1. top - show cpu usages
+2. who
+3. df -h - show disk space
+4. chmod - change file permission.
+5. man - show manual on a command.
+
+Change files from windows to linux:
+
+[File Formats](file-formats.qmd)
+
+Building under linux - [Building under linux](building-under-linux.qmd)

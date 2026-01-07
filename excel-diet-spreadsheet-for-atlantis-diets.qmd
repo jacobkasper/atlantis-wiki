@@ -1,0 +1,20 @@
+---
+title: "Excel diet spreadsheet for Atlantis Diets"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+### Documentation
+
+ This spreadsheet helps interpret predation pressure on prey groups. Major tool for figuring out how to redirect predation pressure during calibration.
+
+### Files
+
+Template [excel spreadsheet](attachments/43156984.xls) and the [documentation](attachments/43156980.doc) on how to use it. Note that as we have used Atlantis in more and more systems it has become obvious that diet connections for age structured groups > 0.6 can be common in some systems. So while you should always pay attention to that level of links they're not as rare as presumed 5 years ago when the documentation was first drafted.
+
+### Discussion and Bug Fixes
+
+Feel free to report any problems or extra features that are desired.
+
+### Contributed By
+
+Beth Fulton

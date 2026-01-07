@@ -1,0 +1,61 @@
+---
+title: "Basket Quotas"
+date: "2022-07-17"
+author: "Fulton, Beth (Environment, Hobart)"
+version: "6641"
+---
+
+**Version: 6641**
+
+Basket quotas are when groups of species are lumped when considering whether a catch quota has been exceeded or not. To use basket quotas set the size of the quota (the number of groups that will be in the quota in
+*run.prm*
+using K_num_basket
+
+Basket species TACs are often issued for data poor species, where TACs are identified for different groups, such as demersal sharks or small pelagics. The user still provides a TAC_XXX for individual species and sets the routines as described in the box for individual species, but Atlantis will pool the TACs for all species listed as being in one basket into one large TAC and will only assess the overall catch of all species in the basket against this basket TAC. So for example if the basket TAC for three demersal sharks is 1000 tons, all three options below will give the same TAC (the example assumes only one fishery in the model)
+
+|  |  |  |
+| --- | --- | --- |
+| **Option 1:**  TAC_sharkA 1  1000  TAC_sharkB 1  0  TAC_sharkC 1  0 | **Option 2:**  TAC_sharkA 1  0  TAC_sharkB 1  500  TAC_sharkC 1  500 | **Option 3:**  TAC_sharkA 1  0  TAC_sharkB 1  0  TAC_sharkC 1  1000 |
+
+Irrespective of how the basket is made up, if the cumulative catch of shark (i.e. the sum of the catch of sharkA, sharkB and sharkC) exceeds the basket then the fishery is closed even if the cumulative catch is made up of a single species and the other species are largely untouched.
+
+**To set up basket TAC management**
+- Set the size of a basket quota (the maximum number of groups in the quota) using
+  **K_num_basket**
+  in
+  *prm*
+  .
+- Set
+  **isTAC**
+  to 1 in the
+  *groups.csv*
+  file for all the basket TAC species
+- Set a fishery specific flag
+  **YYY_flagmanage**
+  = 3 (or 6, 7, or 8 if combined with other management options, see Table 11 in
+  [volume 2 of the Atlantis manual](/download/attachments/43155557/AtlantisUserGuide_PartII.pdf?version=20&modificationDate=1715335876290&api=v2)
+  )
+- Give TACs in the
+  **TAC_XXX**
+  parameter for each fishery for species
+- Set the number of species for which the TAC must be meet/exceeded before a multispecies fishery is closed (
+  **YYY_max_num_sp**
+  )
+- Indicate which species are members of the basket TAC with
+  **basketSPXXX**
+  set to 1.
+- For each basket species XXX give the number of other species that are in the same basket using the
+  **basket_sizeXXX**
+- Then provide ID numbers of the species that are in the basket with species XXX. This is given in the parameter
+  **basketTAC_XXX**
+  . If a species is not in a basket with any other species, put the ID number larger than the ID of the last species in the
+  *groups.csv*
+  file. This means that if there are 41 functional groups and the last ID number is 40 (since Atlantis counts from zero!), then for a single quota species
+  **basketTAC_XXX**
+  should say 41 (or 42 or any other number greater than 40).
+- Make sure that the parameters above are consistent for all basket species, as currently Atlantis does not have internal checks for this. This means that if species A is in a basket with species B and C, the parameters for all three species should show that they are in the basket quota with each other.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

@@ -1,0 +1,67 @@
+---
+title: "Changes made to forcing input file to allow for multiple temperature and salinity files"
+date: "2009-07-24"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+**Change made: 20-07-2009**
+  
+Changed the temperature and salinity input files to allow for more than a single temperature and salinity input file.
+  
+The old format was:
+  
+  
+#Temperature time series data file
+  
+use_tempfiles 1
+  
+Temperature /home/bec/Code/atlantis/runFiles/trunk/StormNew/copy/inputs/forcisets/StormTemp.nc
+  
+# Salinity time series data file
+
+  
+use_saltfiles 1
+  
+Salinity /home/bec/Code/atlantis/runFiles/trunk/StormNew/copy/inputs/forcisets/StormSalt.nc
+  
+  
+The new format is:
+  
+# Temperature time series data file
+
+  
+use_tempfiles 1
+  
+# The number of temperature input files
+
+  
+ntempfiles 1
+  
+# The names of the temperature input files.
+
+  
+Temperature0.name /home/bec/Code/atlantis/runFiles/trunk/StormNew/copy/inputs/forcisets/StormTemp.nc
+  
+  
+  
+# Salinity time series data file
+
+  
+use_saltfiles 1
+  
+# The number of salinity files
+
+  
+nsaltfiles 1
+  
+# The names of the salinity input files
+
+  
+Salinity0.name /home/bec/Code/atlantis/runFiles/trunk/StormNew/copy/inputs/forcisets/StormSalt.nc
+
+This change allows people to break large temperature and salinity files up to allow easier viewing.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

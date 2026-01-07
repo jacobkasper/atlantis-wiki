@@ -1,0 +1,16 @@
+---
+title: "Branching cvs repository"
+date: "2008-10-27"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Before i check in the new changes i'm going to do a branch so that Beth can keep working on stable code and i will also have a stable version of code at all times to compare my output to.
+
+I'll call my branch bec_dev.
+
+This code has the FPTYPE key word for the floating type precision. The precision can now be changed by change FPTYPE from double to long double - atlantisMem.h for more information.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

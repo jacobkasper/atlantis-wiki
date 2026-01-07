@@ -1,0 +1,94 @@
+---
+title: "EPI Tracers"
+date: "2008-09-17"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+I now want to automate the building of the epi tracer arrays similar to how the other tracers are built. As there is already an iscover variable in the input file this should be nice and easy.
+
+Changed the diagtol values from 0 to 1 for the following groups:
+  
+FilterShallow
+  
+FilterOther
+  
+FilterDeep
+
+OK. this was fine. No change to output.
+
+Time to build the epi tracers and test that this works.
+
+OK. In order to test this i need to get rid of all the references to the following tracers.
+
+Unknown macro: {"Macroalgae_N", &Macroalgae_N_i, 0, 1, 1}
+
+,
+
+Unknown macro: {"Seagrass_N", &Seagrass_N_i, 0, 1, 1}
+
+,
+
+Unknown macro: {"Filter_Shallow_N", &Filter_Shallow_N_i, 0, 1, 1}
+
+,
+
+Unknown macro: {"Filter_Deep_N", &Filter_Deep_N_i, 0, 1, 1}
+
+,
+
+Unknown macro: {"Filter_Other_N", &Filter_Other_N_i, 0, 1, 1}
+
+,
+
+Unknown macro: {"Macrobenth_Shallow_N", &Macrobenth_Shallow_N_i, 0, 2, 1}
+
+,
+
+Unknown macro: {"Macrobenth_Deep_N", &Macrobenth_Deep_N_i, 0, 2, 1}
+
+,
+
+Unknown macro: {"Megazoobenthos_N", &Megazoobenthos_N_i, 0, 2, 1}
+
+,
+
+Unknown macro: {"Benthic_grazer_N", &Benthic_grazer_N_i, 0, 2, 1}
+
+,
+
+Unknown macro: {"Macroalgae_Cover", &Macroalgae_Cover_i, 1, 0, 0}
+
+,
+
+Unknown macro: {"Seagrass_Cover", &Seagrass_Cover_i, 1, 0, 0}
+
+,
+
+Unknown macro: {"MicroPB_Cover", &MicroPB_Cover_i, 1, 0, 0}
+
+,
+
+Unknown macro: {"Filter_Shallow_Cover", &Filter_Shallow_Cover_i, 1, 0, 0}
+
+,
+
+Unknown macro: {"Filter_Deep_Cover", &Filter_Deep_Cover_i, 1, 0, 0}
+
+,
+
+Unknown macro: {"Filter_Other_Cover", &Filter_Other_Cover_i, 1, 0, 0}
+
+,
+
+these will all now be referenced using the coverTracer index in the FunctGroupStruct or the totNTracer
+[0](/pages/createpage.action?spaceKey=Atlantis&title=0)
+value.
+
+hmm. This isn't working. For some reason the MA biomass is being reset to 1e-08 after one iteration. Trying to track it. I'm sure i have stuffed up a variable somewhere.
+
+OK. Thats working now. The issue was the the MB cover tracer wan't being set. This meant it was over writing the MA totN tracer. Sorted now.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

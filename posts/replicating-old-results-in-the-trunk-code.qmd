@@ -1,0 +1,82 @@
+---
+title: "Replicating old results in the Trunk code."
+date: "2015-06-26"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Due to some changes in the trunk code people are seeing quite different results in their model results.
+
+These differences are due to a few things - these are documented below in quite a bit of detail - mostly so keep track of things in the future.
+
+At present i have added in a 'flag_replicated_old' in the run.prm input file to make the results more like the bec_dev results. It would be good to get rid of this later so this page will be updated as we work to find better ways to resolve these issues such as better parameters in your input files.
+
+There are still some small differences in model output but its a lot better than it was.
+
+Here is a summary of what changed output in the Baltic model:
+
+#### 1. PHCorr code.
+
+This model doesn't have pH values. In this instance the current_ph value was set to 1.0. So the value:
+  
+  
+
+pHCorr = -1.5 + 0.3 * current_PH;
+  
+  
+
+was being set to -1.2 - this was being applied to all of the growth, clearance values etc. This obviously had a massive impact. This might be why the Iceland model is crashing so quickly.
+**This has been fixed in the Trunk code so no change is required for this.**
+
+#### 2. Scaling of mum and C in vertebrates when flagtempsensitive_id is true.
+
+In the trunk code - when the tempsenstive flag is set to true the mum and C values are scaled for temperature. This isn't happening in the old code - the flagtempsensitive_id value only impacted reproduction.
+  
+
+Again - this had a impact from the very start of the model.
+
+#### 3. Vertebrate Movement Code
+
+The trunk movement code is doing an additional normalisation of init_stock_struct_prop. Again this impact nums of vertebrates from the very start of the model. These changes are very small but it does trickle through as the model runs.
+
+**Environmental impact on movement:**
+
+The old version of the code checked the environmental conditions if the flagtempdepend or flagsaltdepend or flagO2depend values are set to true. In the trunk code this is based on the species level flagtempsensitive and flagSaltSensitive values.
+
+#### 4. Fish eating code.
+
+This is the most ugly. In the bec_dev code the UseHardFeedingWindow flag is only checked when in the Avail_Fish function. It is not checked in the Partition_Grazed_Fish function.
+
+This has two impacts;
+  
+  
+- So atlantis was saying some groups could be eaten and added them to avail_fish but then when it was time to divide up the amount of fish eaten into the actual fish groups to set the preyEaten values the code was saying thet were not in the correct size range.
+
+The UseHardFeedingWindow flag should be checked in both Avail_Fish and Partition_Grazed_Fish to get the same results as the trunk code. This will not impact on models where the UseHardFeedingWindow flag is set to 1
+  
+  
+- If UseHardFeedingWindow was set to 0 then the sizeScalar is being used in the Avail_Fish code but not in the Partition_Grazed_Fish code. So the amount of fish eaten was being scaled incorrectly.
+
+#### 5. Vertebrate Reproduction code.
+
+Salinity impacts:
+
+The bec_dev code was only checking the salinity was within the min_spawn_salt and max_spawn_salt values when working out which boxes recruitment should occur in, but not scaling the actual number of recruits that should happen. This is really new functionality that has been completed in the trunk code.
+
+The trunk code does do this. In the Baltic model some of the groups are sensitive to salinity values so this had a significant impact on model results.
+
+If you have a wide range of salinity values that won't have any impact then this change will not impact on your model.  If you do actually want the salinity limitation on recruitment then you will have to deal with the changes in model output.
+
+#### 6. Temperature and salinity rewinding.
+
+The trunk code had a bug that resulted in the temperature, salinity and pH files not rewinding to the start. New flags have been added (to the force.prm file)
+
+temp_rewind 1
+
+salt_rewind 1
+
+that allows the modeller to set if these files are rewound when the end of the files is reached.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

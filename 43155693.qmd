@@ -1,0 +1,93 @@
+---
+title: "Set-up - Software & Code"
+author: "Pethybridge, Heidi (Environment, Hobart)"
+---
+
+This section of the Atlantis wiki contains information for people who are reading and/or making changes to the Atlantis code base.
+
+## **Getting Started**
+
+#### C Coding
+
+This is a good C tutorial - <http://www.imada.sdu.dk/~svalle/courses/dm14-2005/mirror/c/> other useful ones might be  [www.cprogramming.com](http://www.cprogramming.com) and [www.tutorialspoint.com/cprogramming](http://www.tutorialspoint.com/cprogramming)
+
+#### Atlantis Source Code
+
+The Atlantis code base is hosting in a subversion repository. This repository is accessible by both CSIRO staff and members of this wiki. You will not by default have access to the code so please email Bec to get access to this.
+
+Please follow [these instructions](getting-the-source-code.qmd) to check out a copy of the Atlantis code from the new SVN repository.
+
+#### Building Atlantis
+
+Before you start using Atlantis you will need to compile the Atlantis model - see the [build pages](building-atlantis.qmd) for instructions.
+
+#### Running Atlantis
+
+Now you have an executable binary you should move to that section of the wiki with [directions on how to run Atlantis](parameterising-atlantis.qmd).
+
+## **Digging into the Code**
+
+For those who want to dig further into the code the pages below can be helpful for understanding the code structure and standard software engineering tools for interacting with the code.
+
+#### Code Documentation
+
+A brief outline of the [code documentation](code-documentation.qmd) done as requested by contributors.
+
+There is also [doxygen generated documentation](http://cmar-dev-hba.vm.csiro.au:8080/AtlantisDocumentation/html/index.qmd).
+
+## Adding new functionality to Atlantis:
+
+See the [Modifying and Extending Atlantis](193889298.qmd) section of the Wiki, which includes information on [writing new functionality in Atlantis](writing-new-functionality-in-atlantis.qmd).
+
+## Software Engineering Tools:
+
+### Coding Standard
+
+The Atlantis code base is attempting to move to the ICT Centre - Autonomous Systems Lab C Coding standard  
+ This will take some time but hopefully all new code will be written following this standard.
+
+### Bug Tracking
+
+|
+|  |
+| type | key | summary | assignee | reporter | priority | status | resolution | created | updated | due |
+| Can't show details. Ask your admin to add this Jira URL to the allowlist. [View these issues in Jira](http://jira.csiro.au/secure/IssueNavigator.jspa?reset=true&pid%3D10048%26sorter%2Ffield%3Dissuekey%26sorter%2Forder%3DDESC%26tempMax%3D20&src=confmacro) | | | | | | | | | | |
+
+We have an automated systems for this which allows CSIRO staff to see the Atlantis issues in Jira. When the IM&T group offer enterprise wide access we are hoping that non CSIRO members of this wiki will be able to view these issues. We are currently in a group of early adopters which Bec had to beg for so we don't want to push our luck and make any demands.
+- [Yearly income set to zero after 365 days](yearly-income-set-to-zero-after-365-days.qmd)
+
+### Testing
+
+The Atlantis test code that is currently written is in the [runAtlantisInterface](runatlantisinterface.qmd) svn project. At present the necessary run files are not in the repository.  
+ The test code uses CUnit as the test platform.
+
+#### Valgrind
+
+If you have any strange behaviour - particularly if the model starts crashing at a strange location - run your code through valgrind. It is the fastest way of finding strange memory problems.
+
+common arguments:
+
+valgrind --log-file=valgrind%p.log --track-origins=yes --leak-check=full --track-fds=yes --show-reachable=yes
+
+#### Code Coverage
+
+The gcov gnu code coverage tool is being used to assess the coverage of the testing being done.  
+ [Current Coverage Results](current-coverage-results.qmd)
+
+The gcov eclipse plugin is useful <http://sourceforge.jp/projects/ginkgo/wiki/EnglishPage>
+
+#### Subversion Help
+
+See the pages on using the code repository to understand how to interact with the repository and to do things like [switching the working copy to another branch](switch-working-copy-to-another-branch.qmd).
+
+### CI System
+
+We are using CruiseControl as a ContinuousIntegeration server.
+
+#### Third party libraries:
+
+csoap (<http://csoap.sourceforge.net/>)  
+ libxml  
+ nanohttp
+
+Using jFreeChart as an additional tool to generate plots.

@@ -1,0 +1,58 @@
+---
+title: "Interaction with atecology"
+author: "Unknown User (hep016)"
+---
+
+#### Linkage between EwE and Atlantis
+
+In [the linkage work Mark has been doing](atlink-module.qmd) EwE is called by Atlantis each month.  
+The EwE model will return mortality values for non-detritus groups and a flux value for the detritus groups.
+
+Mark will unpack these values in a value per box, layer and cohort for each functional group affected.
+
+These values are stored in the atEcologyModule in the following new arrays:
+
+/*The additional mortality values that are used when atlantis links to other models such as Ewe */
+
+double ****linkageWCMortality;  
+double ****linkageSEDMortality;  
+double ***linkageEPIMortality;
+
+/* The additional detritus flux values that are used to change the atlantis detritus biomass values  
+* when Atlantis links with other models such as EwE  
+*/
+
+double ***linkageWCDetritusFlux;  
+double ***linkageSEDDetritusFlux;
+
+These are allocated as:
+
+bm->atEcologyModule->linkageWCDetritusFlux = AllocInit3DArrayDouble(bm->K_num_tot_sp, bm->wcnz, bm->nbox, 0.0);  
+bm->atEcologyModule->linkageSEDDetritusFlux = AllocInit3DArrayDouble(bm->K_num_tot_sp, bm->sednz, bm->nbox, 0.0);
+
+bm->atEcologyModule->linkageWCMortality = AllocInit4DArrayDouble(bm->K_num_cohorts, bm->K_num_tot_sp, bm->wcnz, bm->nbox, 0.0);  
+bm->atEcologyModule->linkageSEDMortality = AllocInit4DArrayDouble(bm->K_num_cohorts, bm->K_num_tot_sp, bm->sednz, bm->nbox, 0.0);  
+bm->atEcologyModule->linkageEPIMortality = AllocInit3DArrayDouble(bm->K_num_cohorts, bm->K_num_tot_sp, bm->nbox, 0.0);
+
+**Non-Detritus Groups**  
+The appropriate mortality value is then used in each rate of change (ROC) equation for all functional groups. These values are subtracted similar to how the mortality values are indicating a reduction in biomass.
+
+The units of the mortality values should be mgN /m^3 for water column and sediment and mgN/m^2 for the epibenthic layer (2D).
+
+So the standard ROC equation is:
+
+flux = growth - naturalmortality - mortalityDueToPredator;
+
+So we have now included an additional term in these equations:
+
+flux = growth - naturalmortality - mortalityDueToPredator - linkageMortality.
+
+**Detritus Groups**
+
+The detritus groups are treated a bit differently. The EwE model will return a flux value for each detritus group which is then distributed through the water column and sediment layers (not sure if the sediment values are relevant here but thought i should include them now in case we need them).
+
+So the new detritus linkage flux is added to the generate flux equation for detritus:  
+DetritusgroupFlux =  
+detritusProduction + linkageDetritus - detritusList - breakdown - uptake.
+
+The tracer values are then multiplied by the timestep to get a change in biomass for this timestep and this is added to the actual tracer value ( this happens in IntegrateDynamicVariables());

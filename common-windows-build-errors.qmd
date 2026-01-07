@@ -1,0 +1,22 @@
+---
+title: "Common Windows Build Errors"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+### 1. 'subwcrev' is not recognized as an internal or external command,
+
+How to fix:
+
+The version of TortiseSVN you are using is too old. Download and install the most recent version from <http://tortoisesvn.net/>.
+
+### 2. The application has built, but it won't run and crashes immediatel
+
+**"The application was unable to start correctly (0xc000007b). Click Okay to close the application"**
+
+One option to see what is happening is to download [depency walker](http://www.dependencywalker.com/) (or similar) to profile the application.  Make sure you use the 32-bit version if your application is 32-bit (even if your machine is 64-bit), otherwise you get a whole lot of version errors which makes it impossible to find out what is actually wrong.
+
+When I did this, I found the application couldn't find the netcdf dll file. I removed netcdf, then put it back, and checked it was correctly included in the system path variable.
+
+### 3. "the application has failed to start because its side by side configuration is incorrect"
+
+This is usually an indication that you have compiled an executable on one windows machine and copied it to another machine which does not have the Windows Visual Studio run time libraries.

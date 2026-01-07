@@ -1,0 +1,18 @@
+---
+title: "Min vertebrate reproduction size"
+date: "2009-08-17"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Added minimum size of reproduction option for vertebrates in biology prm
+  
+min_li_mat_FXX
+
+This is the minimum size (in cm) that FXX can spawn - if don't want this option on set it to 0.
+  
+This will be read in for all vertebrates.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

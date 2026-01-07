@@ -1,0 +1,42 @@
+---
+title: "Sample input files"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+## Sample input files
+
+These sample files are the training model called the SETTas model.
+
+You can check these files out from the following url in the Atlantis svn repository.
+
+DOWNLOAD THESE FILES USING AN SVN CLIENT SUCH AS TORTOISESVN - DO NOT TRY TO DOWNLOAD VIA A WEB BROWSER. The process is the same as checking out the code. If you try to download via a web browser you will not get files that match your operating system.
+
+Contact Bec or Beth for permission to access these files.
+
+**Atlantis Trunk code version:**
+
+CSIRO users: <https://svnserv.csiro.au/svn/atlantis/runFiles/trunk/SETas_model_New_Trunk/>
+
+External partners: <https://svnserv.csiro.au/svn/ext/atlantis/runFiles/trunk/SETas_model_New_Trunk/>
+
+Files last updated 28th September 2017 by Bec Gorton.
+
+This folder also includes some example output so you know if Atlantis is running correctly on your computer. This can also be downloaded [here](attachments/446371361.zip).
+
+**Atlantis Bec Dev (old version):**
+
+CSIRO users: <https://svnserv.csiro.au/svn/atlantis/runFiles/trunk/SETas_model_New/>
+
+External partners: <https://svnserv.csiro.au/svn/ext/atlantis/runFiles/trunk/SETas_model_New/>
+
+The process of checking these files out is explained [here](https://wiki.csiro.au/confluence/display/Atlantis/TortoiseSVN)
+
+Files last updated 15th October 2015 by Bec Gorton.
+
+## Update files for your model
+
+If you are using these as the sample files for your new Atlantis model you will need to update the prm files to match your custom group definitions. For example in the SETas model there is a Seagrass group called 'SG', you may wish to call that group 'SGS' for small seagrass and you might want to add a second seagrass group called 'SGL' for large seagrass.
+
+In an ideal world there would be a 1:1 matching between the SETas functional groups and your groups. If this is the case you can do a simple find and replace using your favorite tool. If there are more groups in the SETas model than in your model it is a good idea to remove the additional groups from the files to reduce clutter. If there are more groups in your model than in the SETas model you will have to replicate the variables in the file. Choose a group that is the same [GroupType](https://wiki.csiro.au/display/Atlantis/AtlantisGroupTypes) to ensure you replicate the correct variables.
+
+There is an R script on the wiki at [R Script to duplicate group values in prm file](r-script-to-duplicate-group-values-in-prm-file.qmd) to help your duplicate values.

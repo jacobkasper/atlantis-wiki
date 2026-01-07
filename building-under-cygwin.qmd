@@ -1,0 +1,45 @@
+---
+title: "Building under cygwin"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Before you start its best to have the following software installed on windows:
+
+textpad  
+winzip
+
+1. Install cygwin
+
+Get the latest version from <http://www.cygwin.com/>. To install simply click on the setup icon. Select any mirror.
+
+You will need to install a few things that are non standard. Not sure if these are all required but this works.
+
+Install all of the following packages:
+
+Math  
+Devel  
+System
+
+2. Update gcc
+
+I have upgraded my version of gcc to 4.3. This is so that the versions on both my machines match. This takes quite a while as you need to make gcc.
+
+To get the source for gcc 4.3 download from <ftp://mirrors.kernel.org/gnu/gcc/>
+
+Open cygwin (Programs->Singular Cas->Cygwin->Start X - server + xterm) This will start the X server and give you onw xterm. You can get more xterms (windows) by typing xterm &. The & means run in background.
+
+You will need to unzip gcc. (Type "bzip2 -d gcc-4.3.0.tar.bz2 then tar -xvf ggg-4.3.0.tar)
+
+You will now be ready to compile gcc.   
+To do this you go through the usual linux installion routine.   
+./configure  
+make  
+make install
+
+This will take a long time. On my laptop it took close to 7 hours to make. The otehr two steps are faster but ist best to start this before you go home at night.
+
+3. Build netcdf
+
+You will need to build netcdf from scratch as well.
+
+Download the netcdf library from

@@ -1,0 +1,29 @@
+---
+title: "Useful Reading"
+author: "Audzijonyte, Asta (University of Tasmania)"
+---
+
+This page is intended to be a drop off point for papers that people have found useful when pulling a model together or when thinking about modelling in general.
+
+Its starting small, but will hopefully grow through time as people drop more in.
+
+1. [Plankton modelling and how using simpler models](attachments/43157521.pdf) can help you understand more complex ones
+2. [Qualitative modelling](attachments/43157524.pdf) as a way of thinking about system structure
+
+The following are reports that were important during the development of Atlantis that provide useful information on parts of its internal formulation and structure
+
+1. [Port Phillip Bay Integrated Model (PPBIM) technical report](attachments/341447354.pdf) and a paper by [Murray and Parslow (1999)](attachments/341447389.pdf) on the effect of the way mortality is formulated in plankton models.
+2. The complete set of papers on the development of [ERSEM](attachments/341447434.zip) and [ERSEM II](attachments/341447435.zip)
+3. [Fulton 2001](attachments/341447356.zip) - Beth's PhD thesis (where it all began) which was published in a series of papers available [here](attachments/341447436.zip) (covering model complexity, representation of morality and functional feeding responses, influence of physiological representations and spatial resolution effects).
+
+Below is a list of papers that provide some useful examples of how Atlantis has been used to date - **please add** others you have found useful (upload as attachments to the page).
+
+1. [Fulton et al 2004](attachments/192578029.pdf) - Testing ecological indicators
+2. [Fulton et al 2007](attachments/43156986.pdf) - tech report on testing alternative management strategies (AMS) for SE Australia
+3. [Fulton et al 2014](attachments/192578018.pdf) - paper version of the AMS tech report
+4. [Fulton et al 2011](attachments/43156988.pdf) - a general lessons learnt about EBM from various Atlantis models
+5. [Fulton and Gorton 2014](attachments/192578032.pdf) - report on simulating climate effects
+6. [Link et al 2011](attachments/341447378.pdf) - technical report on the construction and calibration of the NEUS model
+7. [Kaplan et al. 2014](attachments/383423726.pdf) - study using the Economics submodel
+8. [Hutton et al. 2010](attachments/383424378.pdf) - AFMA report on bycatch management using Economics submodel
+9. [Ihde et al. 2016](attachments/396657130.pdf) - Design and parameterization of the Chesapeake Bay Atlantis Model

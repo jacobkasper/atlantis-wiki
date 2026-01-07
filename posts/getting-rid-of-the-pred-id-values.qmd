@@ -1,0 +1,452 @@
+---
+title: "Getting rid of the pred_id values."
+date: "2008-10-16"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+OK. To get this started i need to add another column to the functional group input file for pred.
+
+I want to get rid of these values first:
+
+#define PLpred_id 0
+  
+#define DFpred_id 1
+  
+#define PSpred_id 2
+  
+#define ZSpred_id 3
+  
+#define ZMpred_id 4
+  
+#define ZLpred_id 5
+  
+#define ZGpred_id 6
+  
+#define CEPpred_id 7
+  
+#define PWNpred_id 8
+  
+#define BDpred_id 9
+  
+#define BCpred_id 10
+  
+#define BFSpred_id 11
+  
+#define BFFpred_id 12
+  
+#define BFDpred_id 13
+  
+#define BGpred_id 14
+  
+#define BMSpred_id 15
+  
+#define BMLpred_id 16
+  
+#define BMDpred_id 17
+  
+#define MApred_id 18
+  
+#define MBpred_id 19
+  
+#define SGpred_id 20
+  
+#define DLpred_id 91
+  
+#define DLsedpred_id 92
+  
+#define DRpred_id 93
+  
+#define DRsedpred_id 94
+  
+#define DCpred_id 95
+  
+#define DCsedpred_id 96
+
+ok. I have added a new column. Now need to resize the arrays that use these values:
+
+SPpreyid, SPmappreyid - want to get rid of this anyway.
+
+food
+  
+dietpref
+  
+availfood
+  
+biolbiom
+  
+biolprod
+  
+samplebiom
+  
+cvsample
+  
+sampleprod
+  
+bm->INVERT_PREYeaten
+
+eatnetwk
+  
+prodnetwk
+  
+biomnetwk
+  
+mortnetwk
+
+I really need to get rid of the K_num_tot_assess value.
+
+OK. Lets get started with bm->INVERT_PREYeaten as this is the big one that i need to get sorted for atbiology/
+  
+bm->INVERT_PREYeaten = AllocInit1DArrayDouble(nprey_id, 0.0);
+
+It would be good to incorporate the vert and invert data. Perhaps store this information in the FunctGroupStructure.
+  
+For now i'll just move the values into the functGroup structure and always make the cohort index 0 regardless of the cohort.
+
+Ok. I have added a new value preyEaten and preyEatenGlobal to the processProps structure. I'll replace all refernences to bm->INVERT_PREYeaten abd bm->INVERT_PREYeatenGlobal with these values. For now the age structured biomass groups will only use the first cohort (0) slot to store values - but this will allow us to add additional functionlity to store data at the cohort level.
+
+Also want to get rid of the PREYinfo array. These values are just the tracers.
+
+bm->INVERT_PREYeaten
+[MBwcinv_id](/pages/createpage.action?spaceKey=Atlantis&title=MBwcinv_id)
+is an issue. Not sure what is going on here. We really need to generalize this code.
+  
+I think i probably want to change these arrays to be habitat type values similar to the global array and then use the co-eff values in the functional groups input file. OK. I have done that.
+
+Need to resize the GRAZEinfo array as well. I could add these to the funct group array structure as well. This is complicated by the avail_fish and avail_catch values. We also don't really need an array per group as these values are really only temp values. I will just resize this array to bm->K_num_tot_sp + fish_avail + catch_avail.
+  
+I will also resize this to store habitat values.
+  
+The sed values are only used when the habitat typ eis sed.
+
+Changed GRAZEinfo to GRAZEinfo = (double **)d_alloc2d(3, bm->K_num_tot_sp);
+
+Need to resize FEEDinfo and EATINGinfo next. The only place that this is used is in Eat.
+
+OK. prey_avail and prey_active values are based on guild. Nothing to do with habitat.
+
+spPreyInfo does store values for sed and wc variants of the guilds. Is this read in? No its just the biomass of the groups. I think all these arrays need to include the habitat values. Calculate values for each habitat and then use the co-eff to zero these terms out at the start.
+
+I could change the preyInfo array to store info for each habitat. Most of teh time most of these values will be 0.
+  
+Then when we loop over the possible preys we can also loop over the habitats - don't need to worry about what habiat we are dealing with at any time.
+
+Then when we want to use these values we can us the coeff values.
+
+ok. start with resizing the preyinfo array in atecology. Need to use the co-effs in the functional group input file. If the group is epi then i also need to check the water column and sediment values as well ( i think)
+
+If the group is epi only then the epi values are used in epibenthic box.
+
+availfish_id will have to be a variable now as well.
+
+Need to sort this out later:
+
+#define availfish_id 31
+  
+#define availcatch_id 32
+  
+#define nprey_id 33
+
+Also need to resize spAGE_PREYid.
+
+The arrays are now the following:
+
+EATINGinfo = (double **)d_alloc2d(3, bm->K_num_tot_sp + 2);
+
+FEEDinfo = (double **)d_alloc2d(3, bm->K_num_tot_sp + 2);
+  
+GRAZEinfo = (double **)d_alloc2d(3, bm->K_num_tot_sp + 2);
+
+OK. Eat is now rewritten.
+  
+Next is invert activities. I want to be looping over the habitats - not looking at the current habitat type.
+
+OK. code is compiling - trying to work out what is causing the bugs. Getting incorrect outcomes from Eat.
+  
+The EATINGinfo values are being set correctly in Eat but the spGRAZEinfo values are wrong. No the spGRAZEinfo values are correct. It seems that the grazeLive value is not being calculated correctly.Perhaps the issue is when these values are scaled. OK. That issue is sorted.
+  
+the labdet and refdet values in eat are wrong when sp_id == 54 (ZM).
+
+OK. diff is now:
+
+< graze_live = 9.50890725580132121e-07
+  
+< Eat outcomes: sp_id = 54, GrazeLive = 9.50890725580132121e-07, CLEAR = 1.14527746645654087e-06
+  
+—
+  
+> graze_live = 9.50890725580132015e-07
+  
+> Eat outcomes: sp_id = 54, GrazeLive = 9.50890725580132015e-07, CLEAR = 1.14527746645654087e-06
+
+The grazelive value for ZM is still different but i'm getting closer. the spGRAZEInfor values are correct. Not sure why the grazeLive value is wrong. I think the issue is due to very small differences. Its due to a difference in the order that the values are added together - goodie - another compiler issue.
+  
+OK. best thing to do at this stage is to not print stuff out at 17dp.
+
+It would be good to sort this out. I'll have a little play with my test code in StructureTest to see if there is something i can do. NO - i'll just have to deal with this.
+
+sum = 0.0;
+  
+sum += 1.87681194159893947e-07;
+  
+sum += 3.18195659871463391e-09;
+  
+sum += 6.40259690981746898e-07;
+  
+sum += 1.17527400762024561e-07;
+  
+sum += 2.24048307775209509e-09;
+  
+printf("sum = %.17e\n", sum);
+
+and
+
+sum = 0.0;
+
+sum += 2.24048307775209509e-09;
+  
+sum += 3.18195659871463391e-09;
+  
+sum += 1.87681194159893947e-07;
+  
+sum += 1.17527400762024561e-07;
+  
+sum += 6.40259690981746898e-07;
+
+printf("sum = %.17e\n", sum);
+  
+yeilds different results.
+
+I'll change the printing of results across the board to use %14 not %17.
+
+Lets see the differences now. Also a bit concerned that its running a bit slower now. I really need to get this code as optimised as possible.
+
+These inv values are only going to be removed from ecology not the rest of the libs yet. I will work to get rid of these once i have this first batch of changes sorted.
+
+OK. working through to trace bugs. Not going to write details of each debugging as its easier to write these on paper.
+
+It looks like the bm->pSPeat values are wrong. This this is due to teh old spAGE_PREYid values. Will resize this array to k_num_to_sp instead of nprey. Yep that has sorted the issue. Lovely.
+
+The time issues look to be resolved. I think this was probably due to additional printing to stdout.
+
+< em->PB_DR = 3.26646437347716e-02
+  
+—
+  
+> em->PB_DR = 3.26646437347731e-02
+
+need to resolve this difference. Seems to be due to DR - which is due to
+  
+bm->DetritusProd
+[wc_id](/pages/createpage.action?spaceKey=Atlantis&title=wc_id)
+[DRdet_id](/pages/createpage.action?spaceKey=Atlantis&title=DRdet_id)
+- this was due to not including all the correct values in sp_GrazePlant. Thats sorted now.
+
+FunctGroupArray
+[guild](/pages/createpage.action?spaceKey=Atlantis&title=guild)
+.processProps
+[0](/pages/createpage.action?spaceKey=Atlantis&title=0)
+.preyEaten
+[processType](/pages/createpage.action?spaceKey=Atlantis&title=processType)
+are now different. where guild = PL.
+
+OK. the issue was that i was resetting the value instead of using +=. Bit of a silly bug.
+
+Diff is now:
+
+> Eat outcomes: sp_id = 58, GrazeLive = 2.24312021475746e-04, CLEAR = 1.81840541003928e-03
+  
+—
+  
+> Eat outcomes: sp_id = 58, GrazeLive = 6.35742207450588e-06, CLEAR = 1.91844100698698e-03
+
+Right. This is due to the different prey availability values for DR, DL, and DC in the sediment layer. I really need to change the bm->pSPeat array to include habitat data. For all values other than the det groups the values will be copied for all habitats.
+
+bm->pSPeat = AllocInit2DArrayDouble(bm->K_num_tot_sp,bm->K_num_tot_sp, 0.0); is now
+  
+bm->pSPeat = AllocInit3DArrayDouble(3, bm->K_num_tot_sp,bm->K_num_tot_sp, 0.0);
+
+what a pain.
+
+ok. The following flus values are wrong:
+
+< Gelatinous zooplankton N flux: 1.182805e-08
+  
+< Carnivorous zooplankton N flux: 2.644487e-08
+  
+—
+  
+> Gelatinous zooplankton N flux: 1.125976e-08
+  
+> Carnivorous zooplankton N flux: 1.740776e-08
+  
+17807,17808c17807,17808
+  
+< Cephalopod juv flux: -1.129088e-24
+  
+< Cephalopod adult flux: -3.893963e-23
+  
+—
+  
+> Cephalopod juv flux: -9.900439e-14
+  
+> Cephalopod adult flux: -1.707216e-12
+  
+17810c17810
+  
+< Prawn adult flux: -2.964624e-25
+  
+—
+  
+> Prawn adult flux: -9.427208e-14
+  
+17819c17819
+  
+< Carrion N flux: 1.451298e-17
+  
+—
+  
+> Carrion N flux: 1.451297e-17
+  
+17831,17832c17831,17832
+  
+< Deposit feeder N sedflux: 1.060433e-16
+  
+< Benthic carnivore N sedflux: -1.743384e-09
+  
+—
+  
+> Deposit feeder N sedflux: 1.005267e-16
+  
+> Benthic carnivore N sedflux: -6.163479e-09
+
+Sorted most of those. Having issues with PL now in the second pass. I think this is due to a species eating PL. I need some way of checking the preyEaten values at the end of each loop. But the issue is that i now have three values (1 per habitat) where there was 1. Thats cool. I have written now code in atfluxbreakdown. I also need to display the global values.
+
+So the global values are just saving the values in each habitat. The issue that i have is that for each habitat type there are now habitat values. So i think i really need to resize the globalpreyEaten array to include an additional habitat dimension.
+
+so this will now be:
+
+preyEatenGloba
+[habitat_type](/pages/createpage.action?spaceKey=Atlantis&title=habitat_type)
+[hab](/pages/createpage.action?spaceKey=Atlantis&title=hab)
+  
+where habitat_type is the type of habitat that we are currently dealing with . Ie we are in waterColumnBox and hab is the species level habitat info.
+  
+I think i will have to custom write some code here.
+
+OK. getting super close now. The differences are very small. A couple of species are still getting strange values now.
+
+Still having issues with the order of values being added together. I can't seem to get this worked out. I guess in the bigger scheme of things this won't make a difference. I hope.
+
+I'm going to change the output precision from .14e to .10e.
+
+< preyValue DL (59) wc 1.1372326146e+01
+  
+—
+  
+> preyValue DL (59) wc 1.0000000000e+01
+
+this is due to me not doing the follow:
+
+PREYinfo
+[DLguild_id](/pages/createpage.action?spaceKey=Atlantis&title=DLguild_id)
+[wc_id](/pages/createpage.action?spaceKey=Atlantis&title=wc_id)
+= PREYinfo
+[DLguild_id](/pages/createpage.action?spaceKey=Atlantis&title=DLguild_id)
+[wc_id](/pages/createpage.action?spaceKey=Atlantis&title=wc_id)
+* DLscale;
+  
+PREYinfo
+[DRguild_id](/pages/createpage.action?spaceKey=Atlantis&title=DRguild_id)
+[wc_id](/pages/createpage.action?spaceKey=Atlantis&title=wc_id)
+= PREYinfo
+[DRguild_id](/pages/createpage.action?spaceKey=Atlantis&title=DRguild_id)
+[wc_id](/pages/createpage.action?spaceKey=Atlantis&title=wc_id)
+* DRscale;
+  
+PREYinfo
+[DLguild_id](/pages/createpage.action?spaceKey=Atlantis&title=DLguild_id)
+[sed_id](/pages/createpage.action?spaceKey=Atlantis&title=sed_id)
+= PREYinfo
+[DLguild_id](/pages/createpage.action?spaceKey=Atlantis&title=DLguild_id)
+[wc_id](/pages/createpage.action?spaceKey=Atlantis&title=wc_id)
+* sDLscale;
+
+I really want to see the debugging info for all boxes. I have added an addition condition to call printFlux at the end of epibenthic box. Condition is now:
+  
+if ( (verbose && (bm->current_box == bm->checkbox) && (bm->dayt >= bm->checkstart)) || bm->debug == debug_biology_process){
+
+It looks like the only differences are due to small addition errors as outlined above.
+  
+The following files are different:
+
+diff newOutput/ams71_DynoutputRulesBiomIndx.txt correctOutput5/ams71_DynoutputRulesBiomIndx.txt
+  
+3c3
+  
+< 0.000000e+00 181935.803747 82881.154332 549918.915714 132732.779326 19339.843867 768505.214812 96753.596113 60912.506152 31523.895327 249742.677823 405769.833133 105078.005229 234662.654392 96481.102063 770421.353062 37061.406678 3641.892260 35942.968038 16690.376389 44280.656347 7317.570542 9595.707098 221791.001613 6894.446533 177529.481175 16253.394714 69217.574579 607.313610 29136.868917 8292.506103 4766.604530 150661.198247 5724.758509 10634.552784 2527.919574 2968043.222450 1712226.723142 61732212.441869 247789108.768079 4930010.092743 13051254.077244 1787207.630677 1551107.205721 621672.419716 333114437.757484 349472953.880466 62883924.336207 9436550.829983 119728557.879368 290271887.548364 176516046.344148 513229871.853561 140425718.443634 1743534076.606436 678282173.563564 3886424.915193 18185416622.186897 26397239.260102 198145237.271470 473.335573 36072352610.409019 1.000412 0.999969 0.997689 0.998985 1.000630 1.000094 1.000949 0.999710 0.998560 0.999997 1.000498 1.000108 0.999989 0.999942 0.999939 0.999974 0.999989 0.999578 1.001101 1.000057 0.999998 0.999098 0.999933 0.999960 0.999967 0.999345 0.999996 1.016182 1.000317 1.000034 0.999967 1.045620 1.000038 1.000178 1.000304 0.999977 0.999961 1.000000 0.999999 0.999980 0.999993 0.999996 0.999988 1.000015 1.000321 0.999993 1.000000 1.000000 0.999994 1.000103 1.145197 1.028100 0.999444 0.999876 1.000027 1.001808 1.000001 1.005637 1.000161 4.994267 0.998996 0.389425 0.099312 34.232143 23640767404.370953 8705.562370 1.858452
+  
+—
+  
+> 0.000000e+00 181935.803747 82881.154332 549918.915714 132732.779326 19339.843867 768505.214812 96753.596113 60912.506152 31523.895327 249742.677823 405769.833133 105078.005229 234662.654392 96481.102063 770421.353062 37061.406678 3641.892260 35942.968038 16690.376389 44280.656347 7317.570542 9595.707098 221791.001613 6894.446533 177529.481175 16253.394714 69217.574579 607.313610 29136.868917 8292.506103 4766.604530 150661.198247 5724.758509 10634.552784 2527.919574 2968043.222450 1712226.723142 61732212.441869 247789108.768079 4930010.092743 13051254.077244 1787207.630677 1551107.205721 621672.419716 333114437.757484 349472953.880466 62883924.336207 9436550.829983 119728557.879368 290271887.548364 176516046.344147 513229871.853561 140425718.443634 1743534076.606436 678282173.563564 3886424.915193 18185416622.186897 26397239.260102 198145237.271470 473.335573 36072352610.409019 1.000412 0.999969 0.997689 0.998985 1.000630 1.000094 1.000949 0.999710 0.998560 0.999997 1.000498 1.000108 0.999989 0.999942 0.999939 0.999974 0.999989 0.999578 1.001101 1.000057 0.999998 0.999098 0.999933 0.999960 0.999967 0.999345 0.999996 1.016182 1.000317 1.000034 0.999967 1.045620 1.000038 1.000178 1.000304 0.999977 0.999961 1.000000 0.999999 0.999980 0.999993 0.999996 0.999988 1.000015 1.000321 0.999993 1.000000 1.000000 0.999994 1.000103 1.145197 1.028100 0.999444 0.999876 1.000027 1.001808 1.000001 1.005637 1.000161 4.994267 0.998996 0.389425 0.099312 34.232143 23640767404.370953 8705.562370 1.858452
+  
+diff newOutput/ams71_DynoutputRulesBiomReg.txt correctOutput5/ams71_DynoutputRulesBiomReg.txt
+  
+4c4
+  
+< 0.000000e+00 0 120324.637960 0.000000 294020.969968 48076.196292 9023.285072 361149.817447 44699.832522 28434.348202 5664.150282 82456.358967 133896.788442 46559.957575 148882.292942 15571.343407 475295.657265 35545.882905 890.837190 27662.294897 9143.430820 6799.058698 3026.400529 960.176906 92200.120893 1923.571815 39757.001082 1626.509422 29016.404562 205.825564 0.000000 6310.083810 1425.229214 108024.041023 2446.956420 3796.148975 2527.919574 424875.750421 1088745.812705 38476984.525014 136655880.877696 2949422.810559 6748903.409901 1147502.509165 1015224.032129 103297.424668 145456163.680230 181083372.144633 40732960.021027 7987498.517908 63736873.458950 127336449.232441 61661823.205985 286436932.140136 61102940.563479 767840055.201993 158744096.888915 1230569.756482 3655077446.803154 6213998.436069 68654675.365511 62.047463 17704397290.167950 1.000385 1.000000 0.997421 0.998128 1.000601 1.000134 1.000927 1.000553 0.998728 0.999998 1.000455 1.000298 0.999995 0.999907 0.999982 0.999983 0.999992 0.999969 1.000951 1.000079 0.999999 0.999405 0.999973 0.999973 1.000110 0.999959 0.999999 1.016090 1.428257 0.999993 0.999971 1.045620 1.000009 1.000129 1.000304 1.037440 0.999961 1.000000 1.000000 0.999978 0.999997 0.999995 0.999985 1.020498 1.000284 0.999992 1.000000 1.000000 0.999996 1.000097 1.012694 1.042282 0.998137 1.000110 1.000091 1.001677 1.000002 1.008283 1.000185 2.535297 0.999303
+  
+—
+  
+> 0.000000e+00 0 120324.637960 0.000000 294020.969968 48076.196292 9023.285072 361149.817447 44699.832522 28434.348202 5664.150282 82456.358967 133896.788442 46559.957575 148882.292942 15571.343407 475295.657265 35545.882905 890.837190 27662.294897 9143.430820 6799.058698 3026.400529 960.176906 92200.120893 1923.571815 39757.001082 1626.509422 29016.404562 205.825564 0.000000 6310.083810 1425.229214 108024.041023 2446.956420 3796.148975 2527.919574 424875.750421 1088745.812705 38476984.525014 136655880.877696 2949422.810559 6748903.409901 1147502.509165 1015224.032129 103297.424668 145456163.680230 181083372.144633 40732960.021027 7987498.517908 63736873.458950 127336449.232441 61661823.205984 286436932.140136 61102940.563479 767840055.201993 158744096.888915 1230569.756482 3655077446.803154 6213998.436069 68654675.365511 62.047463 17704397290.167950 1.000385 1.000000 0.997421 0.998128 1.000601 1.000134 1.000927 1.000553 0.998728 0.999998 1.000455 1.000298 0.999995 0.999907 0.999982 0.999983 0.999992 0.999969 1.000951 1.000079 0.999999 0.999405 0.999973 0.999973 1.000110 0.999959 0.999999 1.016090 1.428257 0.999993 0.999971 1.045620 1.000009 1.000129 1.000304 1.037440 0.999961 1.000000 1.000000 0.999978 0.999997 0.999995 0.999985 1.020498 1.000284 0.999992 1.000000 1.000000 0.999996 1.000097 1.012694 1.042282 0.998137 1.000110 1.000091 1.001677 1.000002 1.008283 1.000185 2.535297 0.999303
+  
+Binary files newOutput/ams71_DynoutputRules.nc and correctOutput5/ams71_DynoutputRules.nc differ
+  
+Binary files newOutput/ams71_DynoutputRulesPROD.nc and correctOutput5/ams71_DynoutputRulesPROD.nc differ
+  
+Binary files newOutput/ams71_DynoutputRulesTOT.nc and correctOutput5/ams71_DynoutputRulesTOT.nc differ
+
+I'll start off with checking the ams71_DynoutputRulesBiomIndx.txt files.
+
+PL is slightly different.Thats the only difference. The difference is:
+  
+-0.00000101327896118164
+
+OK. i think this is due to not adding the preyEaten values for each habitat. But the biologicalChangeEqnFunction functions only take into account the current habitat. Can i change these functions to compound the values. OK. Thats sorted.
+
+I really think the differences are just due to the changes in order of values being added. I need to check the output of the nc files.
+
+Ok. There are quite large differences. Certianly in the log files. I really want to get rid of DLsed etc.
+
+ok. The bugs are getting fixed. I seem to have stuff up quite a few of the habitat type code. For example i need to make sure that all the spGRAZEinfo
+[availfish_id](/pages/createpage.action?spaceKey=Atlantis&title=availfish_id)
+values are in the wc_id habitat.
+
+PBguild_id is also always wc.
+
+My god. I think i have finally got it working. Will test with a longer time period. OK. the only diff in teh log files are the dietCheck matrices.
+
+Checking the nc file. There are some differences in these - but i suspect they will be very small due to the different adding order issues.
+
+ams71_DynoutputRules.nc is ok. Differences are tiny.
+  
+ams71_DynoutputRulesPROD.nc ok.
+  
+ams71_DynoutputRulesCATCH.nc ok.
+
+OK. they are all ok. Slightly longer time frame 50 days. OK. the differences are now reasonably significant. Doing a 20 day run with more logging on.
+
+I need to change my new code to start logging after toutstart. Done that. Still having issues with the adding issues. Having a play with changing the doubles to long double.
+  
+It might be quite nice to make all doubles a defined precision. To do this i would need to change all the instances of "double" to FPTYPE which is how the original box model did it. It would be cool to do this. I suspect many of my issues will be resolved by doing this. I will also need to change all %e and %f to %Le and %Lf which will be a pain.
+
+NO - that was not a good idea. I hit all sorts of issues with the netcdf and sjwlib code. Trying just changing the temporary variables in Eat to long double. This in theory should sort out the issue. I could hopefully change all the diffed code to long double and it should all be the same. Hopefully. This seems to have got rid of the issues with eat. They are still some other differences which i will now track. Good progress. Finally.
+
+Issues to resolve:
+- At present the preyEaten value for the age structured biomass is split between the cohorts based on the biomass ratios. Do we want to change it to happen the same as the vert does?
+- It would be good to get rid of the DCsedguild_id groups. I really need to do this. And this means i need to sort out bm->DebugFluxInfo. This is a lot of work to keep track of all teh losses and gain when only a single value is used in teh array. It might be nicer to work out another way of doing this - or finding out how much of this functionality is used. Perhaps there is a better way that we could do this.
+- Might need a better way of determining if a group is epibenthic.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

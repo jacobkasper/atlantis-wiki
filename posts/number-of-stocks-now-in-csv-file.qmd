@@ -1,0 +1,13 @@
+---
+title: "Number of stocks now in csv file"
+date: "2014-05-13"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+The number of stocks per group is now listed in the Groups.csv file. To add it put in a column NumStocks after the column called
+NumAgeClassSize. The contents of this column will be 1 for most models, but of you want to have spatially defined reproductive stocks (in stock_struct) put the number of stocks in here.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

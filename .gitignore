@@ -1,0 +1,5 @@
+﻿/.quarto/
+/_site/
+/.luarc.json
+*.html
+!posts/*.html

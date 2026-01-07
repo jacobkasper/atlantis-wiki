@@ -1,0 +1,46 @@
+---
+title: "invertProps"
+date: "2008-09-15"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+OK. I need to change the invertProps array to be 2D so that i can store values for each cohort of the age structured biomass groups. Better to do this now instead of later. Ideally i want to get rid of the jPWN and jCEP groups. If they are treated as seperate groups then they can be, but there isn't (i think) any need to have them are seperate functional groups. It just makes the code too ugly.
+
+I need to talk to Beth about this to clarify before i make any changes.
+
+OK> talked to beth about this and we are definitely going to get rid of the jPWN and jCEP. cool.
+  
+This is going to take heaps of fluffing around. and the world will be broken for a while while it all happens. While doing the massive rewrite i want to keep thinking OO.
+
+64 matches for jPWNguild.
+
+Instead of resizing all the arrays like bm->pSPeat it might be a better way of working to move these values into the functgroupstructure. This means the data allocated is as small as possible and it follows the OO approach. I'll have ot do this one array at a time. Also not sure that i'm happy with the name FunctGroupArray. But i guess i can do a global replace later if i can come up with a better name.
+
+OK. So one array at a time. First up is bm->pSPeat. This is allocated as
+  
+bm->pSPeat = AllocInit2DArrayDouble(bm->K_num_tot_sp,bm->K_num_tot_sp, 0.0);.
+
+This will be moved into the FunctGroup structure as:
+
+if(groupType == AGE_STRUCTURED_BIOMASS)
+  
+SPeat = AllocInit2DArrayDouble(bm->K_num_tot_sp,numCohorts, 0.0);
+  
+else
+  
+SPeat = AllocInit1DArrayDouble(bm->K_num_tot_sp, 0.0);
+
+It would be good to be able to use the same array name. hmmmm but they are different dimensions. This is why C++ would be good. What might be a good way to get around this is to have a seperate structure for each group type. And within the structure have a SPeat which will be 1 D for all groups types other than age structured biomass. I'm sure that there are lots of other instances where we are going to need stuff like this.
+
+OK - thats array touched into the assessment stuff a bit too much for now. Bloody hell. They all do. The idea of making the functional groups generic within one component is rapidly falling down as all data structures (which will need to be resized) are used by them all.
+
+Instead of working out where each group resides i want to have multipliers for each group for each habitat. This means all the code can be generic and i just multiply tthrough the values. Pretty sure there isn't anything in the input files for this yet. These parameters will be added to the functional group input file.
+
+OK. Have done this in the TotalAbundance and initPopulations code. The DR and DL groups are strange. There are values calculated for these groups in the water column at atecology but these values are not added to the total biomass of the groups. I have emailed beth to ask her about this. This is the same for both functions. The new code works fine except for these groups.
+
+OK - beths answer was that including the water column values would be ok as this wouldn't make much difference and the orders of magnitude difference in the uncertainly are higher than the difference would be. What i might do is include another set of parameters that will allow the user to specify if the biomass values of a group in a habitat are included in the total biomass for the group. This would get around this issue and also provide additional functionality that might be useful for other groups.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

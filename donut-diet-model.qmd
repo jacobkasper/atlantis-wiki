@@ -1,0 +1,24 @@
+---
+title: "Donut Diet Model"
+author: "Klasky, Ronald (NOAA)"
+---
+
+### Documentation
+
+This model calculates a diet based on overlap, probability of detection, capture and attractiveness of prey per predator. Output is diet composition under assumptions of ambient (eat in proportion to biomass) or selectivity. Validation shows resulting diets are correct in about 80% of cases.
+
+The model is available for Windows and Linux and may be downloaded from the Ecosystems drawer of the NOAA Fisheries Integrated Toolbox at:
+
+<https://nmfs-ecosystem-tools.github.io/>
+
+### References
+
+The associated paper can be downloaded [here](https://www.tandfonline.com/doi/abs/10.1577/T02-142.1).
+
+### Discussion and Bug Fixes
+
+Feel free to report any problems or extra features that are desired.
+
+### Contributed By
+
+Ronald Klasky, Howard Townsend, Jason Link

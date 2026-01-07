@@ -1,0 +1,6 @@
+---
+title: "CatchPerFishery.txt"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+If the flagTACincludeDiscard is true then the data in the CatchPerFishery.txt out file includes Discards.

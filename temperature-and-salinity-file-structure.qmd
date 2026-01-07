@@ -1,0 +1,41 @@
+---
+title: "Temperature and Salinity File Structure"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+The layer structure of the Atlantis temperature and salinity forcing files is the same as the initial conditions netCDF files.
+
+The layers are in the following order:
+
+Assuming z = 7, numwc = 6, numsed = 1
+
+Box where numlayers = 6 (+ 1 sediment layer) data looks like:
+
+*layer 0, layer 1, layer 2, layer 3, layer 4, layer 5, layer 6, sediment 0*
+
+where layer 6 is the surface water column layer and layer 0 is the water column layer closest to the sediment.
+
+Box where numlayer = 3 (+ 1 sediment layer) data looks like:
+
+*layer 0, layer 1, layer 2, 0, 0, 0, sediment 0*
+
+where layer 2 is the surface water column layer and layer 0 is the water column layer closest to the sediment.
+
+Here is a sample of a section of a temperature file:
+
+netcdf tempSmall {  
+ dimensions: t = UNLIMITED ; // (6 currently) b = 132 ; z = 7 ;  
+ variables: double t(t) ; t:units = "seconds since 1990-01-01 00:00:00 +10" ; t:dt = 43200. ; double temperature(t, b, z) ; temperature:_FillValue = 0. ;  
+ // global attributes: :title = "trivial" ; :geometry = "SEAP_14052012_aea.bgm" ; :parameters = "" ; :history = "Thu Oct  4 13:27:20 2012: ncks -d t,0,5 SEAP132_temp_1Year.nc tempSmall.nc" ; :NCO = "4.0.8" ;  
+ data:  
+  t = 43200, 86400, 129600, 172800, 216000, 259200 ;  
+  temperature =  
+   24.543282, 24.420105, 24.420105, 24.420105, 24.420105, _, 24.543282,  
+   15.066911, 15.066911, _, _, _, _, 15.066911,  
+   18.361917, 18.362057, 18.362057, 18.362057, _, _, 18.361917,  
+   18.188761, 18.223467, 18.223862, _, _, _, 18.188761,  
+   17.655779, 17.689005, _, _, _, _, 17.655779,  
+   20.303896, 20.309582, _, _, _, _, 20.303896,  
+   18.210901, 17.923788, 17.917063, 17.917063, _, _, 18.210901,  
+   18.39819, 18.318493, 18.318493, 18.318493, 18.318493, _, 18.39819,  
+   23.756937, 23.761934, 23.73678, 23.734312, 23.734312, 23.734312, 23.756937,

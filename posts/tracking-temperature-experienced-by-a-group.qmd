@@ -1,0 +1,16 @@
+---
+title: "Tracking temperature experienced by a group"
+date: "2012-10-19"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+A new parameter has been added to run.prm to allow for tracking of the average temperature experienced by the group and resulting temeprarure based corrections made to their rate parameters
+
+flag_avgTcorr_output 1    # 1 = want avg Tcorr output, 0 = 0ff
+  
+flag_avgTcorr_output 1    # 1 = want avg Tcorr output, 0 = 0ff
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

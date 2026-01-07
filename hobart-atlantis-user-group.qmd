@@ -1,0 +1,10 @@
+---
+title: "Hobart Atlantis user group"
+author: "Jessica Melbourne-Thomas"
+---
+
+### Aka 'Tune or perish'
+
+Group meets on Fridays to discuss tools and approaches to assist in model tuning, as well as other discussions pertinent to understanding and using Atlantis.This page is for notes and sharing links to resources.
+- Javier's Atlantis general tools: <https://github.com/jporobicg/Atlantis_General_tools>
+- Shane's shinyrAtlantis tools: <https://github.com/shanearichards/shinyrAtlantis>

@@ -1,0 +1,21 @@
+---
+title: "Connect to Bowen Storage"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Its important to remember that the Atlantis bowen machines are shared resources so please structure your folders/files in a way that will be clear to other users, don't clutter up other peoples areas and clean up after you have finished a block of work.
+
+On the Bowen Research Cloud disk storage and compute are two different and separate building blocks. You will be sent an email with information about the bowen storage that is attached to the Bowen compute machine that you are using.
+
+The email will contain information in the following structure:
+
+|  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- |
+| Storage type | Description | Example Label |  | **Maximum storage quota** | Data protection |
+| Work |  | **/input** | **Windows (CIFS) access from local Windows workstations:**    [\\osm-09-mel.it.csiro.au\OSM_MEL_OA_ALANTIS_input](file://///osm-09-mel.it.csiro.au/OSM_MEL_OA_ALANTIS_input)    **Linux (NFS) access only available from [OA-22-MEL.it.csiro.au](http://OA-22-MEL.it.csiro.au)**    /OSM/MEL/OA_ALANTIS/input | **1 TB** | Yes, data protected.    The Work category is for data sets that are currently being operated on. It is anticipated that data stored in a work area can be reproduced from Reference or Source data. |
+| Work |  | **/output** | **Windows (CIFS) access from local Windows workstations:**    [\\osm-09-mel.it.csiro.au\OSM_MEL_OA_ALANTIS_output](file://///osm-09-mel.it.csiro.au/OSM_MEL_OA_ALANTIS_output)    **Linux (NFS) access only available from [OA-22-MEL.it.csiro.au](http://OA-22-MEL.it.csiro.au)**    /OSM/MEL/OA_ALANTIS/output | **1 TB** | Yes, data protected.    The Work category is for data sets that are currently being operated on. It is anticipated that data stored in a work area can be reproduced from Reference or Source data. |
+| Work |  | **/archive** | **Windows (CIFS) access from local Windows workstations:**    [\\osm-09-mel.it.csiro.au\OSM_MEL_OA_ALANTIS_input](file://///osm-09-mel.it.csiro.au/OSM_MEL_OA_ALANTIS_input)    **Linux (NFS) access only available from [OA-22-MEL.it.csiro.au](http://OA-22-MEL.it.csiro.au)**    /OSM/MEL/OA_ALANTIS/archive | **2 TB** | Yes, data protected.    The Work category is for data sets that are currently being operated on. It is anticipated that data stored in a work area can be reproduced from Reference or Source data. |
+
+There are good instructions on how to connect to Bowen storage on the Scientific Computer bowen space [How to: Connect to supplied Research Cloud Storage](#).
+
+The above table means that there are three storage blocks attached to this particular Bowen compute. On the bowen machine the storage can be accessed via the NFS paths provided. For example the inputs storage block is mounted at /OSM/MEL/OA_ALANTIS/input

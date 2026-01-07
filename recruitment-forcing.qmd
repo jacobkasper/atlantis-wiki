@@ -1,0 +1,54 @@
+---
+title: "Recruitment forcing"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+Recruitment forcing can be done in two ways.
+
+#### Directly reading in recruits
+
+If you would like to directly read in a time series of recruits set flagrecruit for the species to 13 in biol.prm if you want the same time series applied in every box or set flagrecruit to 18 if you want to specify a recruit time series in each box.
+
+If using a single time series for all boxes then in force.prm set
+
+Recruitment_time_series filename.ts
+
+If using a value per box instead then follow the directions outlined [here](https://confluence.csiro.au/pages/viewpage.action?pageId=43155509) instead.
+
+#### Scaling spawn
+
+To have an environmental forcing pattern (e.g. variability) imposed on top of the spawn calculated using the Atlantis spawning equations then in biol.prm set
+
+flagtsforcerecruit 1
+
+And set the flagrecruit value for that species to what ever stock-recruit relationship you prefer (see [here](finding-all-the-options-for-the-flags.qmd) for the possible list).
+
+Then in force.prm put
+
+Recruitment_enviro_forcing filename.ts
+
+Inside that ts file identify (using the species code from the Groups.csv file) which species is being scaled with the values in that column of the file being the scalars for the recruitment. Like the following example:
+
+# Scalar to produce spikes in grenadier recruitment  
+
+#  
+## COLUMNS 2  
+
+##  
+## COLUMN1.name Time  
+
+## COLUMN1.long_name Time  
+## COLUMN1.units days since 2000-01-01 00:00:00 +10  
+
+## COLUMN1.missing_value 0  
+##  
+
+## COLUMN2.name FDE  
+## COLUMN2.long_name FDE  
+
+## COLUMN2.units scalar  
+## COLUMN2.missing_value 1.0
+
+1 1.0  
+2 1.0  
+3 1.0

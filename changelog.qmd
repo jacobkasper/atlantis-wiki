@@ -1,0 +1,1488 @@
+---
+title: "Atlantis Changelog"
+---
+
+This page consolidates all updates, changes, bug fixes, and new features for Atlantis across multiple sources including blog posts, update notices, and bug fix reports.
+
+## Version History
+
+### 2023
+
+#### [Companion Species and linked TACs](posts/companion-species-and-linked-tacs.qmd)
+
+*Oct 14 - **v6682** - Fulton, Beth (Environment, Hobart)*
+
+We have expanded how companion species (in the catch) and companion TACs are treated - expanded beyond just 2 species.This is set up by following these steps (also described in the manual volume 2):Set isTAC to 1 in thecsvfile for both target and companion speciesSet a fishery specific flag YY...
+
+---
+
+#### [Guild vs Species Assessments](posts/guild-vs-species-assessments.qmd)
+
+*May 26 - **v6678** - Fulton, Beth (Environment, Hobart)*
+
+A new parameter setting has been added to the assessment options based on reference points (see theoriginal blogon the topic as this new addition builds on that). A new flag has been added toharvest.prm-do_sumB_HCR. If do_sumB_HCR is set to 0 then the Broken Stick is applied per species as des...
+
+---
+
+#### [Updated movement options](posts/updated-movement-options.qmd)
+
+*May 26 - **v6678** - Fulton, Beth (Environment, Hobart)*
+
+If using options where there are effects of environmental sensitivity on spatial distribution, if cells with environmental conditions outside the species tolerance then the species distribution to that cell is zeroed (i.e. they avoid the cell). We have expanded the options of what happens in t...
+
+---
+
+#### [Reference Points](posts/reference-points.qmd)
+
+*May 22 - Fulton, Beth (Environment, Hobart)*
+
+Reference points for fisheries include four options in Atlantis:For target speciesFor forage species (or species of secondary importance)For byproduct speciesFor bycatch speciesA broken stick pattern of management is assumed for all these options. This means target reference points (refA, refB for q...
+
+---
+
+#### [Migration Upgrade](posts/migration-upgrade.qmd)
+
+*Mar 05 - **v6673** - Fulton, Beth (Environment, Hobart)*
+
+(latest version of migration updates - Feb 2023)It is possible to allow a part or all of an age cohort or biomass pool to leave the model domain for a set period of time. This is used to imitate seasonal migrations to areas outside the model domain. This option is typically used for large mam...
+
+---
+
+#### [Calling R from Atlantis - Stock Assessment and TAC setting](posts/calling-r-from-atlantis-stock-assessment-and-tac-setting.qmd)
+
+*Jan 30 - **v6669** - Fulton, Beth (Environment, Hobart)*
+
+We have added the capacity to call R-based assessments live from Atlantis. It will run the assessment, wait for completion, and continue. Depending on which R option the parameters needed differ a little.CompilingTo enable the code inside Atlantis during the compile steps instead of runningcon...
+
+---
+
+### 2022
+
+#### [Changed Handling of Reproduction Parameters](posts/changed-handling-of-reproduction-parameters.qmd)
+
+*Nov 16 - **v6656** - Fulton, Beth (Environment, Hobart)*
+
+We've had to change how we handle the recruitment and reproduction flagsflaglocalrecruit has now been removed from the prm file read-in. Instead we have moved this functionality to ExternalReproduction and RecruitType in the groups.csv fileSet ExternalReproduction to 0 if the group spawns with...
+
+---
+
+#### [Aquaculture](posts/aquaculture.qmd)
+
+*Nov 12 - Fulton, Beth (Environment, Hobart)*
+
+We have now enabled aquaculture as an explicit activity in the AtlantisDem branch of the code (contact Beth for access). The biology for these animals is as for a standard Atlantis group (i.e. pick whether its age structure or biomass pool, fill in the initial conditions and all the parameters as us...
+
+---
+
+#### [End age for the application of fishing mortality](posts/end-age-for-the-application-of-fishing-mortality.qmd)
+
+*Sep 27 - **v6650** - Fulton, Beth (Environment, Hobart)*
+
+We have added XXX_mFC_endage as a mirror for XXX_mFC_startageWhereas XXX_mFC_startage is the first age class (counting from 0) of species XXX for which the fishing mortality should be applied, XXX_mFC_endage is the age class of species XXX where mFC is set back to zero. The the same fishing mo...
+
+---
+
+#### [Basket Quotas](posts/basket-quotas.qmd)
+
+*Jul 17 - **v6641** - Fulton, Beth (Environment, Hobart)*
+
+Basket quotas are when groups of species are lumped when considering whether a catch quota has been exceeded or not. To use basket quotas set the size of the quota (the number of groups that will be in the quota inrun.prmusing K_num_basketBasket species TACs are often issued for data poor spec...
+
+---
+
+#### [Daylight](posts/daylight.qmd)
+
+*Jul 02 - **v6638** - Fulton, Beth (Environment, Hobart)*
+
+Code version: v6638Daylight has been added as a fixed tracer so you get consistent reporting of light levels even in tidal models when could be recording at night. This needs to be added to the initial conditions file. Just copy the Light entries and rename the duplicate DayLight. Likely won't influ...
+
+---
+
+### 2021
+
+#### [Handling effects of acidification](posts/handling-effects-of-acidification.qmd)
+
+*Jul 25 - Fulton, Beth (Environment, Hobart)*
+
+Ocean pH state has been added to the environmental drivers that can modify rates and behaviour in Atlantis.Calculating pHpH can be read in from an external file (in the same way temperature and salinity are or it can be calculated dynamically in Atlantis using the equations from Chapter 9 "Chemistry...
+
+---
+
+#### [Noise and Light Pollution](posts/noise-and-light-pollution.qmd)
+
+*Jun 20 - Fulton, Beth (Environment, Hobart)*
+
+A simple representation of noise and light pollution from human sources can be represented as a forcing file. More advanced code linking this pollution to levels of human activity is present in the development branch but not the trunk as yet. In the main trunk code, for now the levels of noise and l...
+
+---
+
+#### [Calculation of rugosity related habitat refuge](posts/calculation-of-rugosity-related-habitat-refuge.qmd)
+
+*May 16 - Audzijonyte, Asta (University of Tasmania)*
+
+by Mariska Weijerman (updated 2019 to reflect addition of sponges)New options have been added to calculate rugosity related habitat refuge. This refuge isonlyavailable for1)     models that include corals or sponges and2)     is only used for species that are dependent on (interact with) reefs forme...
+
+---
+
+#### [Discard TAC](posts/discard-tac.qmd)
+
+*Jan 26 - Fulton, Beth (Environment, Hobart)*
+
+In the harvest.prm there is a new parameter.discardTACcan be applied once B < Blim for TAC managed groups.This is currently only used for tiered management options.
+
+---
+
+#### [Update to recruitment due to expanded migration code](posts/update-to-recruitment-due-to-expanded-migration-code.qmd)
+
+*Jan 26 - Fulton, Beth (Environment, Hobart)*
+
+We have had to add an additional parameterXXX_cohort_recruit_entrythat identifies which cohort recruits enter in. Typically, this is zero, but for multi-year and complicated migration patterns this may be set to a value of one or more.
+
+---
+
+### 2020
+
+#### Allow for a broader range of catch and discard forcing options so that allow for a wider range of time steps
+
+*Nov 17 - **v6536***
+
+Allow for a broader range of catch and discard forcing options so that allow for a wider range of time steps
+
+---
+
+#### Biomass assimilation of non-physical drivers added to forcing files - so can bring in phytoplankton, habitats etc. Trigged by use_weighted_assim - an updated version of what is discussed atForce box eddy values using netCDF file
+
+*Aug 06 - **v6530** - Beth Fulton*
+
+Biomass assimilation of non-physical drivers added to forcing files - so can bring in phytoplankton, habitats etc. Trigged by use_weighted_assim - an updated version of what is discussed atForce box eddy values using netCDF file
+
+---
+
+#### Improved coral bleaching code, including the addition of delta H+
+
+*Mar 01 - **v6498** - Beth Fulton*
+
+Improved coral bleaching code, including the addition of delta H+
+
+---
+
+#### Added delta H+ handling and improved handling of bleaching and rugosity code
+
+*Jan 30 - **v6498***
+
+Added delta H+ handling and improved handling of bleaching and rugosity code
+
+---
+
+#### Improved handling of small fluxes in sediments
+
+*Jan 01 - **v6532** - Beth Fulton*
+
+Improved handling of small fluxes in sediments
+
+---
+
+### 2019
+
+#### Larval stocking options expanded
+
+*Oct 15 - **v6482***
+
+Larval stocking options expanded
+
+---
+
+#### KMIGa updated to work better for multi-year migration option
+
+*Sep 15 - **v6465***
+
+KMIGa updated to work better for multi-year migration option
+
+---
+
+#### Muti-year migrations and external structured populations added to the code as new options. isExternal added to groups.csv and a number of parameters to biol.prm to allow for parameterisation of multiyear migrations (see the manual for details).
+
+*Jun 16 - **v6449** - Beth Fulton*
+
+Muti-year migrations and external structured populations added to the code as new options. isExternal added to groups.csv and a number of parameters to biol.prm to allow for parameterisation of multiyear migrations (see the manual for details).
+
+---
+
+#### [Wondering about Turbidity in Atlantis and what turbid_refuge is?](posts/wondering-about-turbidity-in-atlantis-and-what-turbid-refuge.qmd)
+
+*Feb 16 - Fulton, Beth (Environment, Hobart)*
+
+Turbidity effect on mortalityA logistic curve is applied to represent the escapement from predation due to turbidity (please see the manual section 10.6.6. for the equation).The value of the escapement is a proportion (i.e. between 0 and 1). At present this escapement only modifies the availability ...
+
+---
+
+#### Fixed migration return issue. Added sponge functionality (like corals, but silica dependent and can be bio-eroding). Added error to Broken Stick management option.
+
+*Jan 23 - **v6425***
+
+Fixed migration return issue. Added sponge functionality (like corals, but silica dependent and can be bio-eroding). Added error to Broken Stick management option.
+
+---
+
+#### [Adding noise (error) to biomass estimate used with the Broken Stick Management option](posts/adding-noise-error-to-biomass-estimate-used-with-the-broken-.qmd)
+
+*Jan 23 - Fulton, Beth (Environment, Hobart)*
+
+The broken stick case can be applied with perfect knowledge or with error (noise) added. There are three error options – set using estError (a vector with one entry per functional group): uniform (0), normal (1), lognormal (2). The specification of the error is set using estCV (the variance of the e...
+
+---
+
+#### [isBioEroder](posts/isbioeroder.qmd)
+
+*Jan 23 - Fulton, Beth (Environment, Hobart)*
+
+In the functional_groups.csv file you must now have an additional column 'isBioEroder'. Set this to 0 for all groups but those who you want to bioerode corals (e.g. sponges).
+
+---
+
+#### [Sponge functional group type](posts/sponge-functional-group-type.qmd)
+
+*Jan 23 - Fulton, Beth (Environment, Hobart)*
+
+We have added a new functional group type - SPONGE. It acts largely like a coral (or other filter feeder) except that it is silica dependent and can be a bioeroder. To activate this functionality, in the functional_groups.csv file set the group type to SPONGE and in the isBioEroder column enter 1 in...
+
+---
+
+### 2018
+
+#### Updated the definition of SP_POP_LIM check to include all macrophyes and turfing algae - so that they can now also using the max parameter to dictate cover calculations
+
+*Dec 04 - **v6414***
+
+Updated the definition of SP_POP_LIM check to include all macrophyes and turfing algae - so that they can now also using the max parameter to dictate cover calculations
+
+---
+
+#### [Relaxing the flux tolerance check for an individual box](posts/relaxing-the-flux-tolerance-check-for-an-individual-box.qmd)
+
+*Nov 27 - Fulton, Beth (Environment, Hobart)*
+
+There are times (e.g. during an extreme event, which might be implemented for a specific scenario, or if including restocking/replanting of seagrass for example) when the flux of a variable can legitimately be at a level that would breach the flux tolerance checks in place to ensure numerical stabil...
+
+---
+
+#### Added the capacity to filter out disturbance boxes that are crashing the model runs even during bonafide events - required adding relax_tol to each box definition in bgm file
+
+*Nov 13 - **v6381***
+
+Added the capacity to filter out disturbance boxes that are crashing the model runs even during bonafide events - required adding relax_tol to each box definition in bgm file
+
+---
+
+#### Additional entry in bgm (relax_tol) to indicate whether to ignore this box in calculating adaptive difference threshold imbalance. If this is set to 1 then this box is ignored.
+
+*Nov 13 - **v6381** - Beth Fulton*
+
+Additional entry in bgm (relax_tol) to indicate whether to ignore this box in calculating adaptive difference threshold imbalance. If this is set to 1 then this box is ignored.
+
+---
+
+#### extra_feed added biol.prm to allow for supplemented feeding from outside the model (e.g. by aquaculture)
+
+*Oct 11 - **v6377** - Beth Fulton*
+
+extra_feed added biol.prm to allow for supplemented feeding from outside the model (e.g. by aquaculture)
+
+---
+
+#### Added the capacity for a fully age structured population model to run when a group exits the dynamic model domain - added external_populations to run.prm
+
+*Oct 10 - **v6362***
+
+Added the capacity for a fully age structured population model to run when a group exits the dynamic model domain - added external_populations to run.prm
+
+---
+
+#### Added the multi-yr code migration - added flag_multiyr_migs to run.prm
+
+*Oct 08 - **v6361***
+
+Added the multi-yr code migration - added flag_multiyr_migs to run.prm
+
+---
+
+#### [Representing salmon and migrating group](posts/representing-salmon-and-migrating-group.qmd)
+
+*Oct 08 - Fulton, Beth (Environment, Hobart)*
+
+We've add functionality to the trunk code to allow for the representation of salmon and a more detailed representation of what happens when a migrating group is outside the model domain. For a detailed description of how to use this sub-model please read the documentation providedhere.
+
+---
+
+#### [Transport exchanges updated](posts/transport-exchanges-updated.qmd)
+
+*Aug 28 - Fulton, Beth (Environment, Hobart)*
+
+While checking the code was working for the Antarctic model I tweaked the code a little to make sure the correct scalars are used for vertical vs horizontal mixing within the transport model (it used to us horizmix even if delivering to the same box).If you don't want to feel the outcome of this twe...
+
+---
+
+#### Added checks to prevent reproduction fold-over bug that was causing an artificial inflation of recruitment - added flag_sanity_check to run.prm
+
+*Aug 10 - **v6348***
+
+Added checks to prevent reproduction fold-over bug that was causing an artificial inflation of recruitment - added flag_sanity_check to run.prm
+
+---
+
+#### Added code for passive tracer tracking - added flagpassivetracer to run.prm
+
+*May 22 - **v6337***
+
+Added code for passive tracer tracking - added flagpassivetracer to run.prm
+
+---
+
+#### Include flagpassivetracer in the run.prm so can track passive tracer for checking advection
+
+*May 22 - **v6338** - Beth Fulton*
+
+Include flagpassivetracer in the run.prm so can track passive tracer for checking advection
+
+---
+
+#### [Passive tracer tracking](posts/passive-tracer-tracking.qmd)
+
+*May 22 - Fulton, Beth (Environment, Hobart)*
+
+We have added a flag into the trunk code so that the SED tracer will be read into the model even if the model is not estuarine. This should allow for a passive tracer to be tracked. You might want to do this when checking to seeif the model transports correctly capture hydrodynamic exchanges and cur...
+
+---
+
+#### FC_high_thresh now allowed to be a scalar rather than a proportion
+
+*May 12 - **v6331***
+
+FC_high_thresh now allowed to be a scalar rather than a proportion
+
+---
+
+#### Frame-based fishing rules added - requires flag_framebased in harvest.prm
+
+*May 12 - **v6330** - Beth Fulton*
+
+Frame-based fishing rules added - requires flag_framebased in harvest.prm
+
+---
+
+#### [Frame-based fisheries management](posts/frame-based-fisheries-management.qmd)
+
+*May 12 - Fulton, Beth (Environment, Hobart)*
+
+We've added frame based fisheries management. At the present moment that is only for F based fishing, but if you need it for other modes of fishing please let us know. This option allows fishing if biomass is greater than a threshold level.To use this form of managementSet the species to be a TAC ma...
+
+---
+
+#### Allow for biomass groups to also have min and max temperature for reproduction
+
+*Apr 29 - **v6322***
+
+Allow for biomass groups to also have min and max temperature for reproduction
+
+---
+
+#### All species now have a min-max environmental limits to allow for climate change driven shifts
+
+*Apr 29 - **v6322** - Beth Fulton*
+
+All species now have a min-max environmental limits to allow for climate change driven shifts
+
+---
+
+### 2017
+
+#### Fixed a bug in the invertebrate movement code. The code that was checking if the current temperature was within the specified range was not using the temperature in the current box.This will change model output if you have an invertebrate with prescribed movement that is also temperature sensitive. A warning will now be printed to the screen if the invert movement values are limited by the environmental values.
+
+*Nov 27 - **v6260** - Bec Gorton*
+
+Fixed a bug in the invertebrate movement code. The code that was checking if the current temperature was within the specified range was not using the temperature in the current box.This will change model output if you have an invertebrate with prescribed movement that is also temperature sensitive. A warning will now be printed to the screen if the invert movement values are limited by the environmental values.
+
+---
+
+#### [Update to the way time is handled in Atlantis](posts/update-to-the-way-time-is-handled-in-atlantis.qmd)
+
+*Nov 26 - Fulton, Beth (Environment, Hobart)*
+
+Until the September 2017 version of Atlantis, the model worked out the timing of each coming year's calendar at the stroke of midnight December 31 in each simulated year - planning what would occur in the next 365 days in terms of when each group would age, spawn, settle etc. However, to allow for m...
+
+---
+
+#### [Mortality scale time series input - non-compulsory change to forcing input file](posts/mortality-scale-time-series-input-non-compulsory-change-to-f.qmd)
+
+*Jul 29 - Gorton, Bec (Environment, Hobart)*
+
+There is a new non-compulsory parameter in the forcing input prm file. This can be used to read in a time series file containing scaling to apply to linear mortality.If the group is age structured or an age structured biomass group then a scaling value can be specified for adults and juv. If the gro...
+
+---
+
+#### Added code from the evolutionary (Asta Audzijonyte) branch to allow for negative growth (shrinking fat), bilogistic feeding form and dynamic XRS setting. Negative growth (reduction in reserve levels) only makes sense when respiration is turned on, which means that negative energy balance is compensated by reducing reserve density
+
+*Jul 28 - **v6219***
+
+Added code from the evolutionary (Asta Audzijonyte) branch to allow for negative growth (shrinking fat), bilogistic feeding form and dynamic XRS setting. Negative growth (reduction in reserve levels) only makes sense when respiration is turned on, which means that negative energy balance is compensated by reducing reserve density
+
+---
+
+#### Added Norwegian fisheries tiers and larval movement
+
+*Jun 25 - **v6209***
+
+Added Norwegian fisheries tiers and larval movement
+
+---
+
+#### Made temperature and salinity checks group specific rather than a global variable
+
+*May 05 - **v6193***
+
+Made temperature and salinity checks group specific rather than a global variable
+
+---
+
+#### Added the flagconstrain_epiwander option. This prevents epibenthos having non-zero values in any box that has zero biomass in the initial conditions for that group. This willsignificantly impactany model that previously allowed free growth of epibenthos in all boxes.Also added a check for biomass pool groups (even ones that do not move) that will zero out biomass of groups in boxes/layers where environmental conditions are outside their min, max ranges (e.g. min temp, max temp). This will now apply for temperature if flagtempdepend is on (similarly for for flagsaltdepend, flagO2depend) and if the species is marked as sensitive to that driver. This will effect models which previously used temperature bounds to constrain vertebrates, but not invertebrates (unless you now set the bounds for the invertebrates very wide so still effectively unconstrained).
+
+*May 05 - **v6191** - Beth Fulton*
+
+Added the flagconstrain_epiwander option. This prevents epibenthos having non-zero values in any box that has zero biomass in the initial conditions for that group. This willsignificantly impactany model that previously allowed free growth of epibenthos in all boxes.Also added a check for biomass pool groups (even ones that do not move) that will zero out biomass of groups in boxes/layers where environmental conditions are outside their min, max ranges (e.g. min temp, max temp). This will now apply for temperature if flagtempdepend is on (similarly for for flagsaltdepend, flagO2depend) and if the species is marked as sensitive to that driver. This will effect models which previously used temperature bounds to constrain vertebrates, but not invertebrates (unless you now set the bounds for the invertebrates very wide so still effectively unconstrained).
+
+---
+
+#### [ATL-557] Fixed a bug in the diet calculations. Two bugs were fixed:If you had 0 values for juv vertebrate predators then these values were overwritten by the adult values.When it came to actually eating, the resulting juv values were being used for both adult and juv predators.Updating to this version of the code will havesignificant impacton model output if your juv diet values are different to your adult values. Any small changes in diet preference trickle through the model and the resulting changes in output can be significant.This bug was only present in the trunk version of the code.
+
+*May 04 - **v6190** - Bec Gorton*
+
+Fixed a bug in the diet calculations. Two bugs were fixed:If you had 0 values for juv vertebrate predators then these values were overwritten by the adult values.When it came to actually eating, the resulting juv values were being used for both adult and juv predators.Updating to this version of the code will havesignificant impacton model output if your juv diet values are different to your adult values. Any small changes in diet preference trickle through the model and the resulting changes in output can be significant.This bug was only present in the trunk version of the code.
+
+---
+
+#### [Force box eddy values using netCDF file](posts/force-box-eddy-values-using-netcdf-file.qmd)
+
+*Apr 19 - Gorton, Bec (Environment, Hobart)*
+
+Atlantis trunk code now allows users to set the eddy values associated with a box from a netcdf file similar to the forcing temperature values.If you do not want to use this functionality thenno change is required to your files and your model output will not change.Changes required if you do want to...
+
+---
+
+#### Added multiple spawning per year and moved the code call for semelparous life history so that squid work
+
+*Apr 13 - **v6180***
+
+Added multiple spawning per year and moved the code call for semelparous life history so that squid work
+
+---
+
+#### [Handling Light in Atlantis](posts/handling-light-in-atlantis.qmd)
+
+*Apr 06 - Fulton, Beth (Environment, Hobart)*
+
+There are two (soon to be three options) for handling light, which are set in the biology parameter file. There is a parameterAdded the following to the biology input file;lim_sun_hours   0         # Variable daylength: 0=no (i.e. always 12 hours), 1=yes (changes with season and latitude)add swr_sca...
+
+---
+
+#### Fixed a bug in the code that was using the temperature from the last box/layer for environmental forcing impacts on spawning. This may change model output in a significant way if groups are temperature sensitive and the temperature was below the min allowed spawning temperature. If this was the case no spawning will have been happening. The code will now use the correct temperature of the box/layer when doing these calculations.Should only impact models where the dt of the forcing files is greater than the model timestep. For example daily forcing data and 12 hourly model run dt. The correct temperature values were being used when the forcing data was loaded but not the second model dt within the forcing dt.
+
+*Mar 21 - **vTrunk = 6166BecDev = 6168** - Bec Gorton*
+
+Fixed a bug in the code that was using the temperature from the last box/layer for environmental forcing impacts on spawning. This may change model output in a significant way if groups are temperature sensitive and the temperature was below the min allowed spawning temperature. If this was the case no spawning will have been happening. The code will now use the correct temperature of the box/layer when doing these calculations.Should only impact models where the dt of the forcing files is greater than the model timestep. For example daily forcing data and 12 hourly model run dt. The correct temperature values were being used when the forcing data was loaded but not the second model dt within the forcing dt.
+
+---
+
+#### Fixed a bug in the movement code. The global current_depth value was not initialised - was always 0. Changed the code to use the botz of the box under consideration. This has the potential to impact on model output if the mindepth and maxdepth values were set to real values.This bug was only present in the trunk code.
+
+*Feb 28 - **v6145** - Bec Gorton*
+
+Fixed a bug in the movement code. The global current_depth value was not initialised - was always 0. Changed the code to use the botz of the box under consideration. This has the potential to impact on model output if the mindepth and maxdepth values were set to real values.This bug was only present in the trunk code.
+
+---
+
+#### Updated Get_Fishing_Mortality to call generic catch selectivity code to allow users to change selectivity over time if they are using a fishing mortality term
+
+*Feb 06 - **v6111***
+
+Updated Get_Fishing_Mortality to call generic catch selectivity code to allow users to change selectivity over time if they are using a fishing mortality term
+
+---
+
+#### Added Australian tiered assessments - required new RBC parameters and a very large extension to atassess.prm
+
+*Jan 11 - **v6095***
+
+Added Australian tiered assessments - required new RBC parameters and a very large extension to atassess.prm
+
+---
+
+### 2016
+
+#### [Biology Parameter - UseHardFeedingWindow](posts/biology-parameter-usehardfeedingwindow.qmd)
+
+*Sep 22 - Gorton, Bec (Environment, Hobart)*
+
+A new biology parameter has been added:UseHardFeedingWindow  1Default Value - Hard Size CheckBy default for existing models this value should be 1.If you turn this on then you will be applying a smoothing function predation.If this is set to 1 then a test is done on the size of prey (the SN value) t...
+
+---
+
+#### [Read in forcing data for tracers](posts/read-in-forcing-data-for-tracers.qmd)
+
+*Sep 22 - Gorton, Bec (Environment, Hobart)*
+
+There is now functionality to read in files to overload tracer values within Atlantis. This functionality was requested by modellers in the states to force the oxygen tracer within Atlantis. It has since been extended so that any tracer in the water column, sediments or epibenthic layer can be force...
+
+---
+
+#### [A useful poster on Atlantis processes in the Chesapeake Bay model (by Tom Ihde and others)](posts/a-useful-poster-on-atlantis-processes-in-the-chesapeake-bay-.qmd)
+
+*Sep 16 - Audzijonyte, Asta (University of Tasmania)*
+
+Atlantis_Process_Table.pdfHere is a very useful table listing all (or at least most) processes in Chesapeake Bay Atlantis Model (zoom in!).The reference is:Ihde, T. F., I. C. Kaplan, E. A. Fulton, I. A. Gray, M. Hasan, D. Bruce, W. Slacum, and H. M. Townsend. 2016. Design and parameterization of the...
+
+---
+
+#### [Shrinkfat update to feeding](posts/shrinkfat-update-to-feeding.qmd)
+
+*Aug 26 - Fulton, Beth (Environment, Hobart)*
+
+We are slowly adding the capacity to have respiration and metabolism more explicitly followed - so that DEB-like options exist in Atlantis. A part of this was adding a few new flags (covered in theflag options page). But if you're trying to get a model going and can't be bothered tracking down the o...
+
+---
+
+#### [ATL-550] Fixed a bug in the biology param read in code. A recent code change meant that the max parameter using in habitat limination calculations should have been read in for MOB_EP_OTHER groups but it was not. This means this value was defaulting to 0. If you need to replicate results before this revision set the max parameter to 0 for these groups.
+
+*Jul 19 - **v6052** - Bec Gorton*
+
+Fixed a bug in the biology param read in code. A recent code change meant that the max parameter using in habitat limination calculations should have been read in for MOB_EP_OTHER groups but it was not. This means this value was defaulting to 0. If you need to replicate results before this revision set the max parameter to 0 for these groups.
+
+---
+
+#### [Change to prescribed movement - flexible number of time periods per year.](posts/change-to-prescribed-movement-flexible-number-of-time-period.qmd)
+
+*Jul 19 - Gorton, Bec (Environment, Hobart)*
+
+Historically Atlantis has had prescribed spatial distribution assuming that there are a fixed 4 time periods or seasons per year. The Trunk code from revision 6049 now forces modellers to specify the number of time periods that each year is split into.How do you specify the number of entries?You mus...
+
+---
+
+#### Added MOB_EP_OTHER to the list of groups that use the max parameter to allow for spatial crowding
+
+*Jul 09 - **v6052***
+
+Added MOB_EP_OTHER to the list of groups that use the max parameter to allow for spatial crowding
+
+---
+
+#### [Invertebrate size calculations for use in size based selectivity](posts/invertebrate-size-calculations-for-use-in-size-based-selecti.qmd)
+
+*Jun 02 - Gorton, Bec (Environment, Hobart)*
+
+Previously the size of inverts was assumed to be 1.0 when calculating selectivity. The updated code reads in two new values from the biology.prm file.li_a_invert 0.01li_b_invert 3.0These values are used for all inverts much the same way the li_a and li_b values are set for all vertebrates.For invert...
+
+---
+
+#### Fixed a bug in the eating code in the trunk version of the code. This will impact on model output - particularly age structured invert groups from what i can see. Twice the correct amount of mortality due to predation was being accounted for when calculating the flux for this group. No impact on predator growth rate.
+
+*May 17 - **v6022** - Bec Gorton*
+
+Fixed a bug in the eating code in the trunk version of the code. This will impact on model output - particularly age structured invert groups from what i can see. Twice the correct amount of mortality due to predation was being accounted for when calculating the flux for this group. No impact on predator growth rate.
+
+---
+
+#### [Biology - New Temperature correction algorithm](posts/biology-new-temperature-correction-algorithm.qmd)
+
+*May 10 - Gorton, Bec (Environment, Hobart)*
+
+This is an non-compulsory change to your biology input files.There is a new algorithm for calculating the temperature correction to apply for clearance, mortality etc.Documentation of the temperature correction is now on the wiki at:Effect of temperature on functional groupsNew ParametersAs mentione...
+
+---
+
+#### Added the capacity o have spawning events before the model begins using calculations consistent with what is done internal to the model simulations
+
+*Apr 20 - **v5994***
+
+Added the capacity o have spawning events before the model begins using calculations consistent with what is done internal to the model simulations
+
+---
+
+#### Allow users to enter time series to scale mortality rates through time
+
+*Mar 03 - **v5945***
+
+Allow users to enter time series to scale mortality rates through time
+
+---
+
+#### [Frequency of inputs.ts and export.ts](posts/frequency-of-inputsts-and-exportts.qmd)
+
+*Feb 22 - Gorton, Bec (Environment, Hobart)*
+
+A new parameter has been added to the force.prm file. This will set the frequency in which data is written to the inputs.ts and export.ts output files.If you would like no change to this frequency you can use the following (assuming your model dt is 43200)# Frequency of inputs.ts and exports.ts outp...
+
+---
+
+#### [Check for PRM Duplicates](posts/check-for-prm-duplicates.qmd)
+
+*Feb 08 - Gorton, Bec (Environment, Hobart)*
+
+Change to run.prm file:check_dups 1When this is set to true Atlantis will check for duplicate values in your prm files. This will make the file read in code very very slow so only turn this on every once in a while to make sure your prm files are free from duplicates.When a duplicate entry is found ...
+
+---
+
+#### Allow users to set the frequency of output in input.ts and export.ts
+
+*Feb 02 - **v5927***
+
+Allow users to set the frequency of output in input.ts and export.ts
+
+---
+
+#### check_dups added. Turn this on in run.prm to check for duplicate parameter entries in prm files
+
+*Jan 28 - **v5902***
+
+check_dups added. Turn this on in run.prm to check for duplicate parameter entries in prm files
+
+---
+
+#### Simple contaminant handling added
+
+*Jan 20 - **v5892***
+
+Simple contaminant handling added
+
+---
+
+#### Added code to read in ice flows and updated how light is handled in ice
+
+*Jan 18 - **v5838***
+
+Added code to read in ice flows and updated how light is handled in ice
+
+---
+
+### 2015
+
+#### [New debug flag option included - debug = 24](posts/new-debug-flag-option-included-debug-24.qmd)
+
+*Oct 10 - Fulton, Beth (Environment, Hobart)*
+
+New debug flag option included - debug = 24So can "debug" mortality scaling forcing added the option 23 for debug so the full list is nowDebug optionDebug value in run.prmTopic being covereddebug_fishing1debug fishingdebug_discard2debug discardsdebug_histfishing3debug histfishingdebug_assess4debug a...
+
+---
+
+#### [Multiple growth curves and Evolution](posts/multiple-growth-curves-and-evolution.qmd)
+
+*Sep 05 - Fulton, Beth (Environment, Hobart)*
+
+In the trunk code it is possible to have multiple growth curves per age class per functional group (typically for age structured groups) and evolution. The following parameters are needed in biol.prm. Values given is the default values to use if you do not want evolution or multiple growth curves ac...
+
+---
+
+#### [Marie Savina's Seagrass Model](posts/marie-savinas-seagrass-model.qmd)
+
+*Aug 06 - Fulton, Beth (Environment, Hobart)*
+
+Marie Savina's Seagrass ModelMarie has written a seagrass model (I'm sure she share documentation on request, but the fortran file is attached hereseagrassparameter.txt- andseagrasspopdyn_only.f).It involves a serious of parameters, initial conditions and modification of the functionalGroup,csv file...
+
+---
+
+#### [Replicating old results in the Trunk code.](posts/replicating-old-results-in-the-trunk-code.qmd)
+
+*Jun 26 - Gorton, Bec (Environment, Hobart)*
+
+Due to some changes in the trunk code people are seeing quite different results in their model results.These differences are due to a few things - these are documented below in quite a bit of detail - mostly so keep track of things in the future.At present i have added in a 'flag_replicated_old' in ...
+
+---
+
+#### [Set start date for fixed MPAs](posts/set-start-date-for-fixed-mpas.qmd)
+
+*Jun 03 - Fulton, Beth (Environment, Hobart)*
+
+It is possible to put in a time series of MPA coverage in a box to represent spatial management change through time. However, if you really just need to start/stop a static MPA once (i.e. start an MPA after a period of time or to stop an MPA after a period of time) then setflagSimpleStartStopMPAs 1a...
+
+---
+
+#### [Acidification induced mortality](posts/acidification-induced-mortality.qmd)
+
+*May 14 - Fulton, Beth (Environment, Hobart)*
+
+In addition to the other effects of acidification a specific extra mortality term due to ocean acidification has been added. This uses a logistic curve which begins when pH drops belowpHmortstart_FXX. The shape of the curve is given by:mPH =pHmortA / (1.0 + exp(-pHmortB * (pHmortmid - currentPH)))wh...
+
+---
+
+#### [Inter-species dependency of stock recruitment](posts/inter-species-dependency-of-stock-recruitment.qmd)
+
+*May 14 - Fulton, Beth (Environment, Hobart)*
+
+To represent potential interactions (e.g. feeding) during the larval phase inter-species dependency has been added for the recruitment of age structured functional groups. This allows for representation of herring consuming larval cod etc.The following parameters need to be added to the biol.prm fil...
+
+---
+
+#### Updated movement to include environmental checks for biomass pools (invertebrates) in addition to age structured (vertebrate) groups
+
+*May 05 - **v6192***
+
+Updated movement to include environmental checks for biomass pools (invertebrates) in addition to age structured (vertebrate) groups
+
+---
+
+#### [Multiple recruitment time series turning up in different boxes](posts/multiple-recruitment-time-series-turning-up-in-different-box.qmd)
+
+*Mar 24 - Fulton, Beth (Environment, Hobart)*
+
+A new flagrecruit option has been added to both the bec_dev Atlantis2 branch as well as AtlantisDem. If you set flagrecruit to 18 you can now enter different recruitment time series into each box (or as many boxes as you like). This same code is triggered if flagstockingXX is set to 1 for group XX.I...
+
+---
+
+#### [Recruit stocking](posts/recruit-stocking.qmd)
+
+*Mar 24 - Fulton, Beth (Environment, Hobart)*
+
+A new flag has been added to biol.prmflagstockingXX indicates whether stocking for group XX is on (1) or not (0).This occurs in addition to whatever natural recruitment happens as a result of flagrecruit setting. However the code it triggers is the same as for the flagrecruit option 18 so to see wha...
+
+---
+
+#### [ATL-483] Updated MFC code for the GOM model. SeeChanges to the MFC code - flag_useOldMFCfor more info.
+
+*Mar 05 - **v5066** - Bec Gorton*
+
+Updated MFC code for the GOM model. SeeChanges to the MFC code - flag_useOldMFCfor more info.
+
+---
+
+#### [Changes to the MFC code - flag_useOldMFC](posts/changes-to-the-mfc-code-flag-useoldmfc.qmd)
+
+*Mar 05 - Gorton, Bec (Environment, Hobart)*
+
+These changes have been made to help the GOM model with the use of the MFC code.These changes have fixed a few bugs in the MFC code. The GOM model has an interesting migration model which meant that the fishing mortality was being over recorded and so fishing was basically never happening. These cha...
+
+---
+
+#### [Turning off quarterly movement influences](posts/turning-off-quarterly-movement-influences.qmd)
+
+*Jan 07 - Fulton, Beth (Environment, Hobart)*
+
+Most ddepend movement options have some contribution of the quarterly movement during the spawning period. If you want to disable it completely set the ddepend flag for that species to 7.
+
+---
+
+### 2014
+
+#### [Use TAC with F (fishing mortality) fishing option](posts/use-tac-with-f-fishing-mortality-fishing-option.qmd)
+
+*Nov 16 - Fulton, Beth (Environment, Hobart)*
+
+When using fishing mortality harvest option (mFC) quotas are typically only used to dictate discarding (e.g. if catch > TAC, or trip limit exceeded, then all discarded). However if you setflag_stop_F_tac to 1 in harvest.prm then the TAC check and trip limit check occurs in the Fishing_Mortality() ro...
+
+---
+
+#### [Added max_available_habitat value to biology file.](posts/added-max-available-habitat-value-to-biology-file.qmd)
+
+*Oct 30 - Gorton, Bec (Environment, Hobart)*
+
+The max_available_habitat value has been added to the biology prm file. This will only be used and read in if the flag_competing_epiff flags is set to true.The max_available_habitat default value should be 1.0 - this implies that the maximum available habitat is 100%. If you have habitat groups that...
+
+---
+
+#### [Atmosphere-sea fluxes of nutrients and gases](posts/atmosphere-sea-fluxes-of-nutrients-and-gases.qmd)
+
+*Oct 08 - Fulton, Beth (Environment, Hobart)*
+
+Nutrient atmosphere-sea fluxAtlantis has always allowed for atmospheric deposition of NH and NO. We've now made that explicit (i.e. parameters in physics.prm) and added the capacity to have P, CO2, Si and micronutrients flux too.This new functionality is optional. You can turn it on by adding the fo...
+
+---
+
+#### Fixed bug in invertebrate movement code.
+
+*Sep 10 - **v4710** - Bec Gorton*
+
+Fixed bug in invertebrate movement code.
+
+---
+
+#### [Expanded habitat depndency](posts/expanded-habitat-depndency.qmd)
+
+*Sep 02 - Fulton, Beth (Environment, Hobart)*
+
+We have removed one of the constraints on habitat dependency.This means if you are using the bec_dev branch you need to fill out XX_habdepend flag for every non bacteria non detritus group (i.e. for primary producers, invertebrates and vertebrates).If you are using AtlantisDem you need to add an add...
+
+---
+
+#### [Padding out mixing](posts/padding-out-mixing.qmd)
+
+*Aug 28 - Fulton, Beth (Environment, Hobart)*
+
+Given that ROMS and other hydrodynamic models don't always resolve coastlines well you may find you have the odd small box that gets no fluxes. A verycrudefix for this has been added to the physics.prm file of AtlantisDem. If this option is activated then if a box hasn't had any flow in/out for a us...
+
+---
+
+#### [Shot by shot CPUE generation](posts/shot-by-shot-cpue-generation.qmd)
+
+*Jul 28 - Fulton, Beth (Environment, Hobart)*
+
+So that the properties of CPUE data (and CPUE standardisation methods) can be tested in a multi-species environment an extra routine has been added to Atlantis to allow for generation of shot-by-shot level catch and effort data. This takes the per time step catch in each box by each fishery and crea...
+
+---
+
+#### [Atmosphere-sea flux of gases](posts/atmosphere-sea-flux-of-gases.qmd)
+
+*Jul 10 - Fulton, Beth (Environment, Hobart)*
+
+Nutrient atmosphere-sea fluxAtlantis has always allowed for atmospheric deposition of NH and NO. We've now made that explicit (i.e. parameters in physics.prm) and added the capacity to have P, CO2, Si and micronutrients flux too.This sees the following parameters added to physics.prm# Atmospheric co...
+
+---
+
+#### [Controlling time series relative time stamp - ts_on_hydro_time](posts/controlling-time-series-relative-time-stamp-ts-on-hydro-time.qmd)
+
+*Jun 27 - Fulton, Beth (Environment, Hobart)*
+
+Originally Atlantis assumed all the physical environmental forcing time series would be in synch with the time stamp set in the first hydro.nc file listed in force.prm file. This can be confusing if you are generating the timeseries by hand and you may want to set it relative to the time in the init...
+
+---
+
+#### [Habitat dependent movement - flag_move_habdepend](posts/habitat-dependent-movement-flag-move-habdepend.qmd)
+
+*Jun 24 - Fulton, Beth (Environment, Hobart)*
+
+In the AtlantisDem branch to make vertebrate movement habitat dependent set flag_move_habdepend to 1 (setting it to 0 means that habitat is not considered when doing movement, it will still be considering in feeding etc).
+
+---
+
+#### [Number of stocks now in csv file](posts/number-of-stocks-now-in-csv-file.qmd)
+
+*May 13 - Fulton, Beth (Environment, Hobart)*
+
+The number of stocks per group is now listed in the Groups.csv file. To add it put in a column NumStocks after the column calledNumAgeClassSize. The contents of this column will be 1 for most models, but of you want to have spatially defined reproductive stocks (in stock_struct) put the number of st...
+
+---
+
+#### [More habitat modifications](posts/more-habitat-modifications.qmd)
+
+*May 09 - Fulton, Beth (Environment, Hobart)*
+
+In the AtlantisDem branch we now have stronger space competition option (flag_competing_epiff). We have also added an option for a stronger tie of the benthic invertebrates to the habitat types too (flag_invert_biohab).You will need to add the following to biol.prm and if you want to turn on these o...
+
+---
+
+#### [New Input Folder Argument](posts/new-input-folder-argument.qmd)
+
+*May 09 - Gorton, Bec (Environment, Hobart)*
+
+There is now a new optional command line argument in Atlantis that allows the user to specify an input folder where Atlantis will expect to find input files.This new argument specifies a path that is inserted before all file paths that are opened in Atlantis.The command line arguments are now:Util_U...
+
+---
+
+#### [Mapping fleets in assessments - assess_nf](posts/mapping-fleets-in-assessments-assess-nf.qmd)
+
+*Apr 11 - Fulton, Beth (Environment, Hobart)*
+
+We are in the process of allowing Atlantis to call SS3, as part of the assessment library code. This means that the fleets in the model need to be mapped to fleets in the assessment (it can't be assumed that all the fleets will automatically be recognised in the assessment). Thus for each fished gro...
+
+---
+
+#### [Stronger habitat growth restrictions for benthos](posts/stronger-habitat-growth-restrictions-for-benthos.qmd)
+
+*Feb 06 - Fulton, Beth (Environment, Hobart)*
+
+Minimum and maximum depths for benthos (both infauna and epifauna)As of the current revision of the main Atlantis branches (both Beth's personal madness branch and the main Atlantis2 branch available under bec_dev) the depth restrictions on benthos will be enforced so if you want to have benthos eve...
+
+---
+
+### 2013
+
+#### [Allowing for more sensitive habitat dependency](posts/allowing-for-more-sensitive-habitat-dependency.qmd)
+
+*Sep 03 - Fulton, Beth (Environment, Hobart)*
+
+Age structured groups can be sensitive to the level of habitat (and the refuge that provides from predators). These equations have been slightly tweaked to allow for more sensitive habitat responses.This calculation is done for adults and juveniles separately andthe equation is nowrefuge_status= Aco...
+
+---
+
+#### [flag_report_water_detritus - Include detritus in water column in reporting.](posts/flag-report-water-detritus-include-detritus-in-water-column-.qmd)
+
+*Jun 26 - Gorton, Bec (Environment, Hobart)*
+
+flag_report_water_detritusFlag indicating whether to report detritus in the water column as well as in the sediment. Traditionally Atlantis has only reported detritus in the sediment.Typically set to 0.POSSIBLE SETTINGS:0=do not include water column detritus in reporting. 1=do include detritus in th...
+
+---
+
+#### [New Phosphorus tracking](posts/new-phosphorus-tracking.qmd)
+
+*May 02 - Gorton, Bec (Environment, Hobart)*
+
+There is now functionality in Atlantis to track the ratio of P:N:C in in group.Turn P:N:C tracking off:In most models, certainly new models, it is recommended that you turn this functionality off.To do this add the following to your run.prm file:trackAtomicRatio 0This will turn this tracking off.Tur...
+
+---
+
+#### [New age specific mortality files](posts/new-age-specific-mortality-files.qmd)
+
+*May 01 - Fulton, Beth (Environment, Hobart)*
+
+After updating to the latest in the repository, anyone using Atlantis will now find some extra output files, specifically1) SpecificMort.txt - this reports the non-predation, predation and fishing mortality per age class per stock for each group through time.With the format of the column headers bei...
+
+---
+
+#### [Ontogenetic diets](posts/ontogenetic-diets.qmd)
+
+*May 01 - Fulton, Beth (Environment, Hobart)*
+
+In Atlantis in addition to the juvenile and adult prey matrices you can read in more fine scale feeding (i.e. values per age class) for the feeding of age structured groups on biomass pools (e.g. p_ZMFDD with 10 values, one for each of the 10 age classes). If you don't need such finely resolved feed...
+
+---
+
+#### [Overwintering & Encystment](posts/overwintering-encystment.qmd)
+
+*Apr 25 - Fulton, Beth (Environment, Hobart)*
+
+Logic behind the ideaSome species encyst or go into hiatus over winter. These animals don't eat but drop to depth and effectively drop out of the system (although it is possible in some instances for predators to attack them). For the biomass pool groups the biomass drops as animals forms cysts and ...
+
+---
+
+#### [Jackknife recruitment](posts/jackknife-recruitment.qmd)
+
+*Apr 23 - Fulton, Beth (Environment, Hobart)*
+
+A new recruitment options has been added (for use initially in the north sea model).Equations usedif SSB < B then R = jack_a * SSBif SSB >= B then R = jack_a * jack_Bwith R = recruitment in numbers of individualsSSB = total biomass of spawners in [g] wet weightjack_a is the slope (usually set as ini...
+
+---
+
+#### [Updated Diet Input Matrix](posts/updated-diet-input-matrix.qmd)
+
+*Feb 27 - Gorton, Bec (Environment, Hobart)*
+
+The old Atlantis code read in the diet matrix parameters (pPREY) assuming the following order:FPL FPO FPS FVD FVV FVS FVB FVT FVO FMM FMN FBP FDD FDE FDS FDM FDP FDB FDC FDO FDF SHB SHD SHC SHP SHR SSK SB SP PIN REP WHB WHS WHT WDG CEP BFS BFF BFD BG PWN BMD BML BMS ZL MA ZG BD SG BC PL DF PS ZM ZS ...
+
+---
+
+### 2012
+
+#### [new seagrass modelling option](posts/new-seagrass-modelling-option.qmd)
+
+*Dec 19 - Gorton, Bec (Environment, Hobart)*
+
+SEAGRASS DETAILED MODEL    (flag_macro_model 1)In this version, the seagrass compartment is described with 3 state variables: the above-ground biomass (i.e the leaves), the below-ground biomass (i.e. the roots and rhizomes), and the epiphyte biomass. Its main interest is the more realistic represent...
+
+---
+
+#### [New debug check](posts/new-debug-check.qmd)
+
+*Oct 28 - Fulton, Beth (Environment, Hobart)*
+
+Extra debug check added to run.prm (original code base only)To facilitate doing some runs consistent with older code versions flagasta has been added to run.prmIf you set it to 0 then you have the more correct code versionIf you set it to 1 then it reverses a bug fix - it makes the predators super a...
+
+---
+
+#### [Tracking temperature experienced by a group](posts/tracking-temperature-experienced-by-a-group.qmd)
+
+*Oct 19 - Fulton, Beth (Environment, Hobart)*
+
+A new parameter has been added to run.prm to allow for tracking of the average temperature experienced by the group and resulting temeprarure based corrections made to their rate parametersflag_avgTcorr_output 1    # 1 = want avg Tcorr output, 0 = 0ffflag_avgTcorr_output 1    # 1 = want avg Tcorr ou...
+
+---
+
+#### [ATL-367] Changed vertical mixing code to correctly use the eddy_scale and eddy value .Will impact on models where the eddy_vertmix value is false in physics prm files.Previously the eddy_mixscale value was used even if theeddy_vertmix was false.
+
+*Sep 03 - **v3384** - Bec Gorton*
+
+Changed vertical mixing code to correctly use the eddy_scale and eddy value .Will impact on models where the eddy_vertmix value is false in physics prm files.Previously the eddy_mixscale value was used even if theeddy_vertmix was false.
+
+---
+
+#### [Previous changes made to input files](posts/previous-changes-made-to-input-files.qmd)
+
+*Jul 05 - Gorton, Bec (Environment, Hobart)*
+
+Moved the changes to input files into a news format.Sep-2008Added the following to the biology input file:C_PB_T15 0.0 Clearance rate of pelagic bact mg3(mg N)-1d-1 0.0002 - 0.004C_BB_T15 0.0 Clearance rate of sed bact mg3(mg N)-1d-1 0.0002 - 0.004Generalising the biology input file parsing30-sep-20...
+
+---
+
+#### [Flag for age structured overall biomass output txt files](posts/flag-for-age-structured-overall-biomass-output-txt-files.qmd)
+
+*May 15 - Fulton, Beth (Environment, Hobart)*
+
+To get age structured versions of the overall biom.txt file go to run.prm and setflag_age_output  1        # 1 = age structured overall biomass output desired, 0 = off
+
+---
+
+#### Fixed bug in Temperature_At_Depth() function in atBiophysics.c .Updated the Temperature_At_Depth function to only do temperature changes if the temperature model is greater than 1.Significant impacts on old model output.
+
+*Feb 29 - **v3053** - Bec Gorton*
+
+Fixed bug in Temperature_At_Depth() function in atBiophysics.c .Updated the Temperature_At_Depth function to only do temperature changes if the temperature model is greater than 1.Significant impacts on old model output.
+
+---
+
+#### [Input file changes](posts/input-file-changes.qmd)
+
+*Jan 10 - Gorton, Bec (Environment, Hobart)*
+
+Physics fileThe following changes have been added to add support for reading in pH files as we do temperature and salinity.If using pH files:use_phFiles 1Number of pH filesnpHfiles 1The names of the pH input filespH0.name ../../../AMS/inputs/forcisets/AMSpH.ncIf not using pH files:use_phFiles 0Biolo...
+
+---
+
+#### Updated movement routine for forage dependent movement so doesn't go negative for fast species, but allows for timely vertical migration.Impacts on existing models with vertebrate movement.
+
+*Jan 01 - **v3321** - Beth Fulton*
+
+Updated movement routine for forage dependent movement so doesn't go negative for fast species, but allows for timely vertical migration.Impacts on existing models with vertebrate movement.
+
+---
+
+### 2011
+
+#### [Multi year TAC](posts/multi-year-tac.qmd)
+
+*Oct 11 - Fulton, Beth (Environment, Hobart)*
+
+To get TAC that aren't reset annually there are some extra parmeters1) You need to add tac_resetperiodFXX for each fishable group (so put in group code instead of FXX). A default set for those who only want annual TAC use# Multi year TAC setting - put in the number of years between TAC reassessments...
+
+---
+
+#### [R code for graphical analyses of vertebrate numbers, mass and length-at-age](posts/r-code-for-graphical-analyses-of-vertebrate-numbers-mass-and.qmd)
+
+*Aug 22 - Fulton, Beth (Environment, Hobart)*
+
+An R code has been uploaded that allows you to make graphs of vertebrate biomass, length-at-age, numbers-at-age, etc.
+
+---
+
+#### [Handling discards dependent on the catch of a species](posts/handling-discards-dependent-on-the-catch-of-a-species.qmd)
+
+*Aug 18 - Fulton, Beth (Environment, Hobart)*
+
+Handling discards dependent on the catch of a speciesI have overloaded the ability to have discards dependent on a species. What this means is that if:Imposing catch (i.e. flagimposecatch > 0)Then the discards of a species will be dependent on the catch of the other species for which catch is being ...
+
+---
+
+#### [Added new option for using fishing mortality and selectivity](posts/added-new-option-for-using-fishing-mortality-and-selectivity.qmd)
+
+*Jul 04 - Fulton, Beth (Environment, Hobart)*
+
+Using mFC (fishing mortality) and selectivityPreviously when driving a fishery via fishing mortality (using flagF) you could only quarantine some ages where the mortality didn't apply by setting a minimum age of effect (using mFC_start_age). Now its possible to use a selectivity curve instead. To do...
+
+---
+
+#### [Output Folder command line argument](posts/output-folder-command-line-argument.qmd)
+
+*Jun 07 - Gorton, Bec (Environment, Hobart)*
+
+Atlantis now provides functionality to store all output files in a specified folder. This is optional.Usage is now:Usage: atlantis -i input.nc dump -o output.nc -r run.prm -f force.prm -p physics.prm -b biology.prm -h harvest.prm -a assess.prm -e economics.prm -s functionGroupFile.prm [-d destinatio...
+
+---
+
+#### [Species specific mStarve](posts/species-specific-mstarve.qmd)
+
+*Mar 27 - Fulton, Beth (Environment, Hobart)*
+
+The following species specific entry format has replaced the generic mStarve in biol.prm# Invertebrate - for completeness, not actual as yet can't starve a biomass poolmStarve_ZG        0.0       Starvation mortality rate of gelatin. zoopl            d-1              0.0mStarve_ZL        0.0       S...
+
+---
+
+#### [Changing growth rates and FSPB over time](posts/changing-growth-rates-and-fspb-over-time.qmd)
+
+*Mar 03 - Gorton, Bec (Environment, Hobart)*
+
+Non-Compulsory functionality has been added to allow model users to vary the vertebrate growth rates and FSPB rates over time.Growth Rate scalingThe scaled growth rate is calculated each time step based on the value read in from the time series. The scaling from the TS file is applied to the origina...
+
+---
+
+#### [Group size scale time series input - non-compulsory change to forcing input file](posts/group-size-scale-time-series-input-non-compulsory-change-to-.qmd)
+
+*Mar 02 - Gorton, Bec (Environment, Hobart)*
+
+There is a new non-compulsory parameter in the forcing input  prm file. This can be used to read in a time series file containing scaling to apply to functional groups. The scaling factor is applied to the sn and rn tracers for the identified groups in each box and each layer once each year.The grou...
+
+---
+
+### 2010
+
+#### [Scaling of individual variables in point source files + Assessment](posts/scaling-of-individual-variables-in-point-source-files-assess.qmd)
+
+*Oct 11 - Gorton, Bec (Environment, Hobart)*
+
+Changes to point source scaling[Scaling point sourcesChanges to Assessment input fileThe Assessment input file is now sampling an increased number of physical parameters. These are used as indicators in the CLAM-Atlantis project. The standard deviation of these parameters is needed so we are samplin...
+
+---
+
+#### [Potential Atlantis course](posts/potential-atlantis-course.qmd)
+
+*Sep 02 - Fulton, Beth (Environment, Hobart)*
+
+NewsAtlantis  course - February 7-11 2010. No charge to attend, but will need to  cover own airfares, accommodation and other expenses. To see if any  spots are left emailBeth FultonWe are in the process of organising a training workshop on the use of the Atlantis end-to-end (ecosystem) modelling fr...
+
+---
+
+#### [Extra parameters](posts/extra-parameters.qmd)
+
+*Jun 07 - Fulton, Beth (Environment, Hobart)*
+
+In tinkering with bioeconomic and assessment code I've added at least the following a probably a few more 9sorry if I missed any)harvest.prmUpdateMaxSalePrice    0          Whether want to dynamically update maximum sale price as prices change through time (1) or not (0) - if the later than making i...
+
+---
+
+#### [New economic flag - immed_cost_only](posts/new-economic-flag-immed-cost-only.qmd)
+
+*Jun 07 - Fulton, Beth (Environment, Hobart)*
+
+New economic flag - immed_cost_onlyIn the economic.prm file a new flag has been addedimmed_cost_only  0   Use only variable (immediate) costs in effort allocation calculations (1) or use all costs (including fixed and capital costs) when determining effort levels (0)
+
+---
+
+#### [Climate in the biology file](posts/climate-in-the-biology-file.qmd)
+
+*Apr 08 - Fulton, Beth (Environment, Hobart)*
+
+Environmental Drivers for Movement and SpawningThe following parameters have been added to the biol.prm file to fill out environmental drivers of movement behaviourTemperature and salinity effects on movement and spawningAfter flagtempdepend insertflagsaltdepend   0         0 = off, 1 = salinity pre...
+
+---
+
+#### [Biology File - minDepth](posts/biology-file-mindepth.qmd)
+
+*Jan 27 - Gorton, Bec (Environment, Hobart)*
+
+Add the following to the biology input file. The actual values should via per model:## Parameters to use with home range movement# Minimum depth (m) for each groupFPS_mindepth     0FPL_mindepth     0FPO_mindepth     0FVD_mindepth     0FVV_mindepth     0FVS_mindepth     0FVT_mindepth     0FVO_mindept...
+
+---
+
+#### [Harvest File](posts/harvest-file.qmd)
+
+*Jan 27 - Gorton, Bec (Environment, Hobart)*
+
+The following parameters need to be added to the harvest input file.1. Under flagTradeTACvsMPA add:flagQuotaBound       0
+
+---
+
+### 2009
+
+#### [New economics parameter](posts/new-economics-parameter.qmd)
+
+*Dec 21 - Fulton, Beth (Environment, Hobart)*
+
+The following needs to be added to the economics file (only if you're using economics)EconLimDemand     0   Whether to limit trading based on potential effort levels vs days left in month (1) or not (0)
+
+---
+
+#### [New burn-in day setting and Management parameters](posts/new-burn-in-day-setting-and-management-parameters.qmd)
+
+*Nov 25 - Fulton, Beth (Environment, Hobart)*
+
+Run.prmTo allow for more flexibke initialisation of the model the following has been added to the run.prm file (note in most cases this shold be set to 1 day)tburnday   1 day       # period of time want to use as burn-in (using read-in distributions to initialise fisheries etc)Harvest.prmThe followi...
+
+---
+
+#### [harvest control rule](posts/harvest-control-rule.qmd)
+
+*Oct 14 - Gorton, Bec (Environment, Hobart)*
+
+This is Beths explanation of the required changes. Bec is talking to Penny about getting more information about what any of this means as she has no idea!1) that estBo now neesd an entry for each of the fished groups (47 in total) not just vertebrates (so up the size of the vector from 35 to 47)In e...
+
+---
+
+#### [Changes to harvest and economics input file](posts/changes-to-harvest-and-economics-input-file.qmd)
+
+*Oct 07 - Gorton, Bec (Environment, Hobart)*
+
+Harvest prm fileAdd the following to the harvest input file:1. Add after 'pseudo_assess'dynDAS           0         1=use dynamic days-at-sea cap (recalculated each year), 0=static days-at-sea cap2. Add this after the _mFCscale parameters# Max proportion of the effort allowed in any one cell (for use...
+
+---
+
+#### [Species specific Q10 - biology.prm](posts/species-specific-q10-biologyprm.qmd)
+
+*Aug 18 - Gorton, Bec (Environment, Hobart)*
+
+This is a non-compulsory change the model 'should' still run without making these changes.There is now support for supplying species specific Q10 values.The Q10 value is used to calculate the following temperature correction value:Tcorr = Q10^((T-15)/10.)The Tcorr values is used to in a number of ca...
+
+---
+
+#### [Min vertebrate reproduction size](posts/min-vertebrate-reproduction-size.qmd)
+
+*Aug 17 - Gorton, Bec (Environment, Hobart)*
+
+Added minimum size of reproduction option for vertebrates in biology prmmin_li_mat_FXXThis is the minimum size (in cm) that FXX can spawn - if don't want this option on set it to 0.This will be read in for all vertebrates.
+
+---
+
+#### [Changes to assessment input file](posts/changes-to-assessment-input-file.qmd)
+
+*Jul 28 - Gorton, Bec (Environment, Hobart)*
+
+These variables were added a while ago but they were not compulsory. This resulted in some memory problems in atlantis. So its perhaps better for people to have then in the input files.The following values are those used for the AMS model.Add the following between teatassessinc and nfzonesflaggen   ...
+
+---
+
+#### [Changes made to forcing input file to allow for multiple temperature and salinity files](posts/changes-made-to-forcing-input-file-to-allow-for-multiple-tem.qmd)
+
+*Jul 24 - Gorton, Bec (Environment, Hobart)*
+
+Change made: 20-07-2009Changed the temperature and salinity input files to allow for more than a single temperature and salinity input file.The old format was:#Temperature time series data fileuse_tempfiles 1Temperature /home/bec/Code/atlantis/runFiles/trunk/StormNew/copy/inputs/forcisets/StormTemp....
+
+---
+
+#### [Changes to biology and physics to allow sediment light attenuation](posts/changes-to-biology-and-physics-to-allow-sediment-light-atten.qmd)
+
+*Jul 24 - Gorton, Bec (Environment, Hobart)*
+
+Run prm fileAdded a new flag to the run input file:flagIsEstuary     1          Flag to indicate if the model is estuary. If true a sediment tracer is required in the initial conditions input file.Place this under the 'flaghemisphere' parameter.This should only be used if the model is tracing sedime...
+
+---
+
+#### [Changes to physics input file to support different scaling per point source](posts/changes-to-physics-input-file-to-support-different-scaling-p.qmd)
+
+*Jul 24 - Gorton, Bec (Environment, Hobart)*
+
+This change has been made to allow users to scale each point source differently. Originally each point source had to be scaling by the same pss_mult value, starting at the same pss_start and lasting for pss_period.The physics module has been changed to allow a value to be specified by pss_mult, pss_...
+
+---
+
+#### [Atlantis SVN Repository is ready for use!](posts/atlantis-svn-repository-is-ready-for-use.qmd)
+
+*Feb 03 - Gorton, Bec (Environment, Hobart)*
+
+Atlantis code repository is now ready for use. It provides access for CSIRO and non-CSIRO staff. If you would like access to this repository please contact Bec. For more information seehttps://wiki.csiro.au/confluence/display/Atlantis/Getting+the+source+code
+
+---
+
+#### [Biology XML](posts/biology-xml.qmd)
+
+*Jan 23 - Gorton, Bec (Environment, Hobart)*
+
+Still working on the conversion to XML.There are a couple of big things i have to finish.1. Input Paramater GroupingsI would like to add the input file groupings to the xml file. This shouldn't be too much work but i will need to change the xml paths used to read in the parameters to allow for the g...
+
+---
+
+#### [Moving cvs to svn](posts/moving-cvs-to-svn.qmd)
+
+*Jan 23 - Gorton, Bec (Environment, Hobart)*
+
+We have got a new subversion respository. But before everyone can use it Randall and I need to import our cvs repository into svn.Reading the documentation on cvs2svn:I want the full conversion which will give use complete history.Tried checking out the currently empty svn but i'm getting a eclipse ...
+
+---
+
+#### [Annual biology](posts/annual-biology.qmd)
+
+*Jan 20 - Gorton, Bec (Environment, Hobart)*
+
+OK. I need to make the annual biology code more generic.The invert spawning values are per cohorts which is annoying. I've moved the Inv_Spawn_Now and Inv_Spawn_age arrays into the functional group structure as well as the INVpopratio and tempINVpopratio. These might be better in a seperate structur...
+
+---
+
+#### [Eating code.](posts/eating-code.qmd)
+
+*Jan 20 - Gorton, Bec (Environment, Hobart)*
+
+The plan for today is to tidy up the calculations for prey availability.So i basically want to create a new array that can be used in the getPreyAvail to get the prey availability of a group. This way we can get rid of the checks in pSPageeat and pSPEat and just use one array.So the new array will b...
+
+---
+
+#### [Finishing the jCEP and jPWN work in biology](posts/finishing-the-jcep-and-jpwn-work-in-biology.qmd)
+
+*Jan 13 - Gorton, Bec (Environment, Hobart)*
+
+ok. Need to check the pSPEat values. Are these different for the jPWN and jCEP. That was me commenting out code while i was working on the XML code. Thats all sorted now.Having an issue with the preyEatenGlobal values after ZS processFunction is called. Its strange that non of the other groups are s...
+
+---
+
+#### [Input files to XML](posts/input-files-to-xml.qmd)
+
+*Jan 13 - Gorton, Bec (Environment, Hobart)*
+
+As part of the mini development i need to change the atlantis input files to XML. The reason for doing this is to tidy up the structure so that the Mini can generate these input files easily from database content.There are still lots of issues to be sorted out in regards to the logic of the input pa...
+
+---
+
+### 2008
+
+#### [Atlantis memory](posts/atlantis-memory.qmd)
+
+*Dec 18 - Gorton, Bec (Environment, Hobart)*
+
+Trying to clean up the atlantis memory allocation/freeing using valgrind.This mostly done - but one issue that i haven't solved yet are all the static variables in functions. I can understand why these are like this but it means these files are not closed and the arrays are not freed. I need to move...
+
+---
+
+#### [Merging trunk into bec_dev](posts/merging-trunk-into-bec-dev.qmd)
+
+*Dec 02 - Gorton, Bec (Environment, Hobart)*
+
+Merging the trunk changes into bec_dev as there are some changes in output.I have tagged my branch pre_trunk_merge_01-Dec_2008and then done a cvs update -j HEAD. Lots of conflicts - not surprising. Will sort these out.
+
+---
+
+#### [EwE Integration](posts/ewe-integration.qmd)
+
+*Dec 01 - Gorton, Bec (Environment, Hobart)*
+
+OK. To view the trace from the web service the trace enabaled flag has to be enabled in the web.config file.This is normally in c:\Inetpub\wwwrott\WebService1\Web.configWhen this is on you should be able to view a trace athttp://140.79.22.193/WebService1/trace.axdThere is a webservice project on Lin...
+
+---
+
+#### [Atlantis VS VPN](posts/atlantis-vs-vpn.qmd)
+
+*Nov 20 - Gorton, Bec (Environment, Hobart)*
+
+Beth has consistantly had issue running Atlantis while VPN is running. I'm trying to track this issue down.Running a 50 day aims run with VPN on - not connected.  NO issues.OK - with VPN on i got an assertion failed. VPN has also killed the music playing on my laptop - which is not a good sign.Tryin...
+
+---
+
+#### [BGgrazeSed](posts/bggrazesed.qmd)
+
+*Nov 20 - Gorton, Bec (Environment, Hobart)*
+
+OK. getting rid of this now i have sorted teh NH issues.For the debugInfo i have just left it how it is except for the age structured biomass groups. These values are now accumulations over the cohorts like the verts - the debug values are now set before teh process functions are called. That all lo...
+
+---
+
+#### [Canada DLL issues](posts/canada-dll-issues.qmd)
+
+*Nov 18 - Gorton, Bec (Environment, Hobart)*
+
+Isaac is having more issues with dlls while trying to get Atlantis running on the computers in Canada.I suspect this is because he has old code that was trying to use the debug dynamic link runtime library.I have copied a run scenario to a clean windows vb and testing to make sure it runs. Its does....
+
+---
+
+#### [NetCDF input files](posts/netcdf-input-files.qmd)
+
+*Nov 18 - Gorton, Bec (Environment, Hobart)*
+
+There is an issue with ncopen. If the netcdf file is not found its spitting the dummy.I have added a seperate fopen before all ncopen calls that are just going to read the file to check that the file exists. If it does not a quit message is produced, else the file is closed and ncopen is called like...
+
+---
+
+#### [Fishing](posts/fishing.qmd)
+
+*Nov 07 - Gorton, Bec (Environment, Hobart)*
+
+Beth has asked me to look into the fishing stuff. The guys on the west coast of the states are having issues with the fishing output. Beth thinks this is due to the code in atecology being hard coded.What do we want long term:for each fishery we want the ability to catch each fish.So we want an arra...
+
+---
+
+#### [Merge jPWN changes](posts/merge-jpwn-changes.qmd)
+
+*Nov 06 - Gorton, Bec (Environment, Hobart)*
+
+ok. Now that i have got rid of the inv_id values in atecology i should be able to merge the jPWN code into my branch. This code was put on hold as i needed to do this before i could go on with this redev.Once this is merged i really need to tidy up the functional group data structure and sort out th...
+
+---
+
+#### [KUP, KLP and KDEP](posts/kup-klp-and-kdep.qmd)
+
+*Nov 05 - Gorton, Bec (Environment, Hobart)*
+
+As requested i have changed the biology input code to read in values for KUP, KLP and KDEP for each functional group.I have added these species parameters to the ecol_readSpeciesParam function so these are read in as per the rest of the species parameters. I have also got rid of the invertProps KDEP...
+
+---
+
+#### [Adding continues](posts/adding-continues.qmd)
+
+*Oct 27 - Gorton, Bec (Environment, Hobart)*
+
+OK. I did a 350 day run and the results are the same. I have to think that the Eat bug was having a significant effect. The problem with going to long double is that the code is much slower. I'm having a play with the Intel complier which will make it much faster but for some reason i keep getting v...
+
+---
+
+#### [Branching cvs repository](posts/branching-cvs-repository.qmd)
+
+*Oct 27 - Gorton, Bec (Environment, Hobart)*
+
+Before i check in the new changes i'm going to do a branch so that Beth can keep working on stable code and i will also have a stable version of code at all times to compare my output to.I'll call my branch bec_dev.This code has the FPTYPE key word for the floating type precision. The precision can ...
+
+---
+
+#### [Sorting out addition issues in Eat](posts/sorting-out-addition-issues-in-eat.qmd)
+
+*Oct 22 - Gorton, Bec (Environment, Hobart)*
+
+ok. My plan for now is to change the Eat code to add the preyEaten values in the same order as it was originally being done. This should allow me to fix any bugs in the code. I can then go back and change the order once the bugs are all gone.The other issue that i;m having is that i'm now also loopi...
+
+---
+
+#### [Getting rid of the pred_id values.](posts/getting-rid-of-the-pred-id-values.qmd)
+
+*Oct 16 - Gorton, Bec (Environment, Hobart)*
+
+OK. To get this started i need to add another column to the functional group input file for pred.I want to get rid of these values first:#define PLpred_id 0#define DFpred_id 1#define PSpred_id 2#define ZSpred_id 3#define ZMpred_id 4#define ZLpred_id 5#define ZGpred_id 6#define CEPpred_id 7#define PW...
+
+---
+
+#### [jPWN continues](posts/jpwn-continues.qmd)
+
+*Oct 03 - Gorton, Bec (Environment, Hobart)*
+
+OK. Having issues with the outcomes of Avail_Fish. I think this might be due to the bm->pSPVERTeat values.I think what is happening is because i'm now calling Avail_Fish with a guilcase of 35 and cohort of 0 when i want to calculate the fish avaliable for juv ceps - this is picking up the values in ...
+
+---
+
+#### [Getting rid of jCEP](posts/getting-rid-of-jcep.qmd)
+
+*Oct 02 - Gorton, Bec (Environment, Hobart)*
+
+how exciting. Lots of work to do to get this done.Need to change the species properties structure to store values per cohort for the age structured biomass groups.This is the biggest change. I'll also need to rewrite some of the input file parsing to do this.Also one strangeness. In epibenthicBox th...
+
+---
+
+#### [vert properties](posts/vert-properties.qmd)
+
+*Sep 29 - Gorton, Bec (Environment, Hobart)*
+
+Moving the vert properties into the processProps array. This has been changed to a two D array to store values for each cohort.  Also changed the code in atfluxbreakdown to loop over the functional groups instead of doing them each.OK. Have got rid of VERTdead, VERTgrow. These values are now stored ...
+
+---
+
+#### [EPI Tracers](posts/epi-tracers.qmd)
+
+*Sep 17 - Gorton, Bec (Environment, Hobart)*
+
+I now want to automate the building of the epi tracer arrays similar to how the other tracers are built. As there is already an iscover variable in the input file this should be nice and easy.Changed the diagtol values from 0  to 1 for the following groups:FilterShallowFilterOtherFilterDeepOK. this ...
+
+---
+
+#### [CSoap talking to .NET webservice](posts/csoap-talking-to-net-webservice.qmd)
+
+*Sep 16 - Gorton, Bec (Environment, Hobart)*
+
+OK. This time it is definitely work under linux.Code to connect to .NET is:static char *url = "http://140.79.22.193/WebService1/Service1.asmx";static char *urn = "http://tempuri.org/WebService1/Service1";static char *method = "HelloWorld";and thenif ((err = soap_client_invoke(request, &response, url...
+
+---
+
+#### [invertProps](posts/invertprops.qmd)
+
+*Sep 15 - Gorton, Bec (Environment, Hobart)*
+
+OK. I need to change the invertProps array to be 2D so that i can store values for each cohort of the age structured biomass groups. Better to do this now instead of later. Ideally i want to get rid of the jPWN and jCEP groups. If they are treated as seperate groups then they can be, but there isn't...
+
+---
+
+#### [Atlantis and EwE coupling](posts/atlantis-and-ewe-coupling.qmd)
+
+*Sep 12 - Gorton, Bec (Environment, Hobart)*
+
+We are currently working to get Atlantis to talk to EwE with SOAP.csoap under linux:Need the following libraries:libxml2libxml2-devthen download libcsoap and follow the instructions to installok. I have got a soap client and server talking to each other under linux. Need to try to get it to talk to ...
+
+---
+
+#### [GeoTools](posts/geotools.qmd)
+
+*Sep 09 - Gorton, Bec (Environment, Hobart)*
+
+Doing some work to help Mike with geotools libraries to make his spatial processing more streamlined.To use the geotools java libraries i have had to install the following:http://www.vividsolutions.com/jts/jtshome.htmhttp://geotools.codehaus.org/Oracle JDBC jarand the oracle client - runtime develop...
+
+---
+
+#### [Atlantis Future Vision](posts/atlantis-future-vision.qmd)
+
+*Aug 22 - Gorton, Bec (Environment, Hobart)*
+
+As part of the Data Management Review process i have been thinking about the future vision for Atlantis. I've been thinking about the model config issues. In the perfect world we would be able to setup the model runs using a nice big database - the data would then be sucked in via either web service...
+
+---
+
+#### [Ecological Process Changes](posts/ecological-process-changes.qmd)
+
+*Aug 21 - Gorton, Bec (Environment, Hobart)*
+
+I have slowly been redeveloping the ecology process code to support generic functional groups. Of course the model is more complicated that i thought and things have to be updated based on the food web. So things that are eaten need to be updated before anything that eats that functional group.Befor...
+
+---
+

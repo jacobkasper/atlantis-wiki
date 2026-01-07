@@ -1,0 +1,57 @@
+---
+title: "Larval Dispersion"
+author: "Unknown User (hep016)"
+---
+
+## Larval Dispersion in Atlantis
+
+### Current State:
+
+to be written...
+
+### Proposed functionality:
+
+As noted on the Atlantis User future functionality page this larval dispersal option has reached the discussion and "fleshing out stage". Multiple options of varying degrees of complexity should be included (so that a range of questions can be addressed)
+
+#### Option 1:
+
+Atlantis setup loads a series of 2D contribution matrices for each species of interest. These can be loaded for each year of the run or a single matrix for the run duration.
+
+#### Option 2:
+
+Additional dependencies can also be turned on. eg:
+- percent cover of rock - habitat preferences
+- presence of predators
+- food availability
+- presence of suitable habitat (e.g. seagrass, crustose coralline algae etc)
+- temperature, ph and salinity
+
+Some of these features will be linear and others will be more complex. For example the effect of temperature on the larval survival will be non-linear - above or below critical temperatures the survival rate would be zero.
+
+The matrix loaded in Option 1 could already take these factors into account (possible true in Cams input data). If this is the case then these additional options could be turned off.
+
+A final contribution matrix would then be a product of the dependencies and the original contribution matrix.
+
+#### Option 3 - Connectivity with CONNIE:
+
+Based on powerpoint from Scott [Atlantis larval recruitment strategy.ppt](attachments/43156625.ppt)
+
+Option 3 would use output of calls to CONNIE to get the initial contribution matrix instead of using matrix loaded at the start of the model run.  
+Atlantis will call CONNIE to estimate larval probability distribution from known spawning time/area, larval phase duration and depth preference.
+
+This probability distribution will be projected onto the Atlantis grid.
+
+Estimate a larval survival index for each box based on other dependencies provided (option 2).
+
+Recruitment to the next larval stage is a product of the probability distribution from CONNIE and the Atlantis variable.
+- No need to calculate or store large connectivity matices provided original current files are available.
+- Use actual years where currents available. Otherwise select from available years randomly (possible mismatch with other physical conditions) or with selection influenced by broader environmental indices known to influence the system (e.g. SOI).
+- Use the same approach for contaminants with chemical degradation phases.
+
+At present CONNIE uses data stored in databases to calculate the distribution but current development will allow it to simply point at data sources such as Bluelink (<http://www.cmar.csiro.au/bluelink/>). This data will only cover the Australia region but its hoped that additional data sources could be used to provide this functionality for other regions of interest.
+
+##### Comments and Issues:
+- The current CONNIE2 implementation is grid-based for efficiency; it would need to be mapped to and from the Atlantis box-model.  I don't think this should be too hard though, especially since there is already preliminary code for integrating with the EwE grid model.
+- It has already been suggested that CONNIE be exposed as a service (so advanced users can have more fine-grained control than provided by the web interface), so this would fit in nicely with that use-case.
+- I'm not sure what vertical behaviours Atlantis assumes, but currently all particles are fixed-depth in CONNIE.  I suspect this is the only real complication, assuming Atlantis does have vertical behaviours.
+  - **Update**: Connie does now support both vertical and horizontal behaviours. Horizontal means you can give particles a velocity, or a random-walk speed. The web interface currently allows you to specify diurnal migratory behaviours (ie, depths for day and night time, where the migration time is derived from the average latitude and date), but input to the connie process itself allows arbitrary numbers of migrations I think.

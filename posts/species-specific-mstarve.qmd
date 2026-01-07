@@ -1,0 +1,120 @@
+---
+title: "Species specific mStarve"
+date: "2011-03-27"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+The following species specific entry format has replaced the generic mStarve in biol.prm
+
+# Invertebrate - for completeness, not actual as yet can't starve a biomass pool
+
+  
+mStarve_ZG        0.0       Starvation mortality rate of gelatin. zoopl            d-1              0.0
+  
+mStarve_ZL        0.0       Starvation mortality rate of large zoopl               d-1              0.0
+  
+mStarve_ZM        0.0       Starvation mortality rate of meso-zoopl                d-1              0.0
+  
+mStarve_ZS        0.0       Starvation mortality rate of microzoopl                d-1              0.0
+  
+mStarve_BC        0.0       Starvation mortality rate of inf carniv                d-1              0.0
+  
+mStarve_BD        0.0       Starvation mortality rate of deposit feeder            d-1              0.0
+  
+mStarve_BO        0.0       Starvation mortality rate of meiobenthos               d-1              0.0
+  
+mStarve_BFS       0.0       Starvation mortality rate of shallow ff                d-1              0.0
+  
+mStarve_BFF       0.0       Starvation mortality rate of other ff                  d-1              0.0
+  
+mStarve_BFD       0.0       Starvation mortality rate of deep filt feed            d-1              0.0
+  
+mStarve_BMS       0.0       Starvation mort. rate of shallow macrozooben           d-1              0.0
+  
+mStarve_BML       0.0       Starvation mortality rate of megazoobenthos            d-1              0.0
+  
+mStarve_BMD       0.0       Starvation mort. rate of deep macrozooben.             d-1              0.0
+  
+mStarve_BG        0.0       Starvation mortality rate of benthic grazer            d-1              0.0
+  
+mStarve_CEP       0.0       Starvation mortality rate of cephalopods               d-1              0.0
+  
+mStarve_PWN       0.0       Starvation mortality rate of prawns                    d-1              0.0
+  
+# Adult vertebrates
+
+  
+mStarve_FPL       0.0001    Starvation mortality rate of large planktiv.           d-1              0.0 - 0.01
+  
+mStarve_FPS       0.0001    Starvation mortality rate of small planktiv.           d-1              0.0 - 0.01
+  
+mStarve_FPO       0.0001    Starvation mortality rate of other planktiv.           d-1              0.0 - 0.01
+  
+mStarve_FVD       0.0001    Starvation mortality rate of deep pisciv.              d-1              0.0 - 0.01
+  
+mStarve_FVV       0.0001    Starvation mortality rate of vulner. pisciv.           d-1              0.0 - 0.01
+  
+mStarve_FVS       0.0001    Starvation mortality rate of shallow pisciv            d-1              0.0 - 0.01
+  
+mStarve_FVT       0.0001    Starvation mortality rate of tropical pisciv           d-1              0.0 - 0.01
+  
+mStarve_FVO       0.0001    Starvation mortality rate of other tuna                d-1              0.0 - 0.01
+  
+mStarve_FVB       0.0001    Starvation mortality rate of other pisciv.             d-1              0.0 - 0.01
+  
+mStarve_FMM       0.0001    Starvation mortality rate of mig mesopelagic           d-1              0.0 - 0.01
+  
+mStarve_FMN       0.0001    Starvation mortality rate of non-mig mesopel           d-1              0.0 - 0.01
+  
+mStarve_FBP       0.0001    Starvation mortality rate of large planktiv.           d-1              0.0 - 0.01
+  
+mStarve_FDD       0.0001    Starvation mortality rate of deep demersal             d-1              0.0 - 0.01
+  
+mStarve_FDS       0.0001    Starvation mort. rate of shallow demersal              d-1              0.0 - 0.01
+  
+mStarve_FDB       0.0001     Starvation mortality rate of other shal dem            d-1              0.0 - 0.01
+  
+mStarve_FDC       0.0001    Starvation mortality rate of other deep dem            d-1              0.0 - 0.01
+  
+mStarve_FDO       0.0001     Starvation mortality rate of longlived dem             d-1              0.0 - 0.01
+  
+mStarve_FDE       0.0001    Starvation mortality rate of herbiv demersal           d-1              0.0 - 0.01
+  
+mStarve_FDF       0.0001    Starvation mortality rate of flat deep dem             d-1              0.0 - 0.01
+  
+mStarve_FDM       0.001     Starvation mortality rate of misc demersal             d-1              0.0 - 0.01
+  
+mStarve_FDP       0.0001    Starvation mortality rate of protected dem             d-1              0.0 - 0.01
+  
+mStarve_SHD       0.0001    Starvation mortality rate of demersal sharks           d-1              0.0 - 0.01
+  
+mStarve_SHB       0.0001       Starvation mortality rate of other sharks              d-1              0.0 - 0.01
+  
+mStarve_SHC       0.0001    Starvation mortality rate of dogfish                   d-1              0.0 - 0.01
+  
+mStarve_SHR       0.005     Starvation mortality rate of reef sharks               d-1              0.0 - 0.01
+  
+mStarve_SHP       0.0001    Starvation mortality rate of pelagic sharks            d-1              0.0 - 0.01
+  
+mStarve_SSK       0.0001    Starvation mortality rate of skates and rays           d-1              0.0 - 0.01
+  
+mStarve_SB        0.0001    Starvation mortality rate of seabirds                  d-1              0.0 - 0.01
+  
+mStarve_SP        0.0001    Starvation mortality rate of penguins                  d-1              0.0 - 0.01
+  
+mStarve_REP       0.0001    Starvation mortality rate of reptiles                  d-1              0.0 - 0.01
+  
+mStarve_WDG       0.0001    Starvation mortality rate of dugongs                   d-1              0.0 - 0.01
+  
+mStarve_PIN       0.0001    Starvation mortality rate of pinnipeds                 d-1              0.0 - 0.01
+  
+mStarve_WHB       0.0001     Starvation mortality rate of baleen whales             d-1              0.0 - 0.01
+  
+mStarve_WHS       0.0001    Starvation mortality rate of sm tooth whales           d-1              0.0 - 0.01
+  
+mStarve_WHT       0.0001    Starvation mortality rate of toothed whales            d-1              0.0 - 0.01
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

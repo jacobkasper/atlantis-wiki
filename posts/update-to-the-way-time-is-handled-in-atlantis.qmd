@@ -1,0 +1,22 @@
+---
+title: "Update to the way time is handled in Atlantis"
+date: "2017-11-26"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+Until the September 2017 version of Atlantis, the model worked out the timing of each coming year's calendar at the stroke of midnight December 31 in each simulated year - planning what would occur in the next 365 days in terms of when each group would age, spawn, settle etc. However, to allow for multiple spawnings in a year this has now changed so that the calendar for every year of the simulation is now worked out before the model even begins.
+
+We also updated how the environment can effect recruits and we updated how the number of larvae in the water column at the time the model starts (i.e. those that would have been spawned the year before the model run begins) is more consistent with how it is calculated in all subsequent years. In the past we had a bit of a simple relationship, but it caused discontinuities so we are trying to retire that code. All of this is covered in the manual so please check there for extra flags and text on how things are done.
+
+We went to great lengths to make sure this didn't break existing models. However, there are so many odd life history combinations out there things may go wrong. Please let us know if they do so we can fix it. However, to maximise the ability to reproduce the old way of doing things we have added to additional flags to run.prm
+
+**flag_replicate_old_calendar**
+- This flag specifically allows for legacy models and the influence of environment on the distribution of recruits to be replicated in the newer code. It is recommended that all new models have this set to 0.
+
+**flag_old_embryo_init**
+-  This flag is to allow legacy models to have the same starting conditions under the new code as they did in older version. In the past, rather than use the stock-recruit relationship for a species to dictate the larvae already in the water column at the start of the model run a simpler linear relationship with spawning stock was used. This has now been replaced by the use of the stock-recruit relationship (for improved consistency). All new models should set this parameter to 0, but legacy models trying to reproduce past model runs should set this value to 1.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

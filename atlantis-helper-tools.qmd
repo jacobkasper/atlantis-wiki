@@ -1,0 +1,48 @@
+---
+title: "Atlantis Helper Tools"
+author: "Porobic Garate, Javier (Environment, Hobart)"
+---
+
+These pages are a collection of Atlantis tools - often written in R and other scripting languages.
+
+They have often been written to help an individual build their own model and have been shared here in case they help someone else.
+
+We are also trying to get a community set of R packages together to help make using Atlantis and reporting the output easier - lookup [r4atlantis on github.](https://github.com/r4atlantis/)  
+This github group also includes links to other R packages on github that have functionality for Atlantis.  
+These other packages (many listed below) will not necessarily speak well to functions that reside within packages created and owned by r4atlantis, but represent additional tools and code that are available.
+
+##### Model Construction Tools
+- [CDFDistiller](cdfdistiller.qmd) - A tool to generate Atlantis initial condition netcdf files from Atlantis output netcdf file.
+- [AtlantisNCGen](atlantisncgen.qmd) - A tool to generate netCDF input files for Atlantis
+- [HydroConst](hydroconstruct.qmd) - A tool to generate Atlantis hydrodynamic files (look under forcing files in (look under the forcing file section of [Parameterising Atlantis](parameterising-atlantis.qmd) under the [Atlantis Parameter Files](atlantis-parameter-files.qmd) page)
+- [Output Splitter](output-splitter.qmd) - A tool to manipulate Atlantis output files - including diet and TL values.
+- [BGMEditor](bgmeditor.qmd) - A tool to transform a shapefile to a bgm file (also known as the BGMeriser).
+- [Donut Model for Diets](donut-diet-model.qmd)- for helping create Atlantis diet matrix from diet data
+- [Availability Calculator](availability-calculator.qmd) - Creates diet matrices from diet data (can be used as is or with Donut Model etc)
+- [Excel diet spreadsheet](excel-diet-spreadsheet-for-atlantis-diets.qmd) - Useful tool for seeing which predator is putting pressure on prey (useful during calibration) - updated version is in the handy excel spreadsheets page below
+- [Excel CDF and PRM generator macros](attachments/43155839.zip)- Useful for helping shape key parts of the cdf and prm input file.
+- [BGM Mapper](attachments/43157541.zip)- (produces coloured maps of vector data on Atlantis map) - useful for visualising initial biomass distributions
+- CDF checker -- checks for typos in cdf input file; checks that each header has matching data of correct dimensions.
+- [BGM2SHP](bgm2shp.qmd) -- Create a non-projected shapefile from a BGM file.
+- [Handy excel spreadsheets](handy-excel-spreadsheets.qmd) for viewing Atlantis output - for output stored in .txt files
+- [Checkwinding](https://confluence.csiro.au/display/Atlantis/Checkwinding) -- Check directionality of faces in BGM file, after using BGMeriser to create BGM from Arc shape files.
+- [R Script to duplicate group values in prm file](r-script-to-duplicate-group-values-in-prm-file.qmd) - useful for updating SETas model files to match your model groups.
+- [rlantis](rlantis.qmd) - R package to help construct, manipulate, and visualize Atlantis input and output files.
+- [FunctionalResponseDemo.xls](attachments/238256136.xls) Demo for Atlantis Holling Type II functional response, in Excel. Useful for understanding your parameterization of MUM and C_ if you use this option.
+- [shinyrAtlantis](https://github.com/Atlantis-Ecosystem-Model/shinyrAtlantis) A package to help users of Atlantis investigate the parameters that are spread across multiple files (.csv, .nc) when constructing their ecosystem model.
+
+##### Model Output Analysis Tools
+- [R scripts for taking output and plotting it up](attachments/43156191.zip)- useful during calibration and visualisation of overall output for reports
+- [Excel output spreadsheets](attachments/43156987.zip) - useful for seeing overall time series plots of biomass, catch and effort (useful during calibration)
+- JAVA plotters of Atlantis output - useful for creating indicator plots
+- [vat](https://github.com/cddesja/vat) - Shiny tool for visualising Atlantis output. [demo here](http://130.208.71.121:3838/iceland_vat).
+- [Plotting tools for OutBiomIndx.txt and OutCatch.txt](attachments/43156537.zip)- Useful plots of catch and biomass, originally intended for MSC Lower Trophic Level Project. Matlab code.
+- [Output Splitter - tool to split output into biomass per box](output-splitter.qmd)
+- [Python script to extract biomass data from the log file](https://wiki.csiro.au/display/Atlantis/Python+script+to+extract+biomass+data+from+the+log+file) - useful for reducing the log file to something more manageable
+- [R functions and scripts](r-code-spatial-analysis-atlantisneus.qmd) for spatial analysis of biomass and catches (NEUS model)
+- [ReactiveAtlantis](https://github.com/Atlantis-Ecosystem-Model/ReactiveAtlantis) has several tools that were created to help in the tuning, parameterization and analysis of the processes and parameters most often modified during the calibration of Atlantis
+
+## Useful Third Party Tools
+- [NetCDF windows tools](netcdf-library-old-3.6.1.qmd)
+- [Textpad](http://www.textpad.com/) - great windows text editor.
+- [QGIS](http://www.qgis.org/) - open source GIS tool

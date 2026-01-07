@@ -1,0 +1,69 @@
+---
+title: "Yearly income set to zero after 365 days"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+YearlyIncome in EconSubIndx.txt is just a print statement of "tot_cash_id".
+
+So Find all "tot_cash_id", Subfolders, Find Results 1, Entire Solution, "**.**"
+
+THIS SEEMS RELEVANT, IN INDICATOR CALCULATION:   
+C:\Documents and Settings\kaplanis\My Documents\Atlantis\AtlantisCode\atlantis\ateconomic\ateconindicator.c(488): bm->SUBFLEET_ECONprms[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[ns](/pages/createpage.action?spaceKey=EBFM&title=ns)[tot_cash_id](/pages/createpage.action?spaceKey=EBFM&title=tot_cash_id) += revenue;
+
+I IGNORE THE FOLLOWING 4 SEARCH RESULTS, WHICH DON'T SEEM RELEVANT:
+
+1. IGNORE THIS, BECAUSE NOT CALLED,BECAUSE FLAGECONIND IN ECON.PRM IS 1, NOT 2: C:\Documents and Settings\kaplanis\My Documents\Atlantis\AtlantisCode\atlantis\ateconomic\ateconindicator.c(544): bm->SUBFLEET_ECONprms[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[ns](/pages/createpage.action?spaceKey=EBFM&title=ns)[tot_cash_id](/pages/createpage.action?spaceKey=EBFM&title=tot_cash_id) += bm->SUBFLEET_ECONprms[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[ns](/pages/createpage.action?spaceKey=EBFM&title=ns)[boat_cash_ind_id](/pages/createpage.action?spaceKey=EBFM&title=boat_cash_ind_id);
+
+2. ECONOMIC – THIS IS MY HACK TO RESET TOT_CASH TO 0, IGNORE FOR NOW  
+C:\Documents and Settings\kaplanis\My Documents\Atlantis\AtlantisCode\atlantis\ateconomic\ateconomic.c(66): bm->SUBFLEET_ECONprms[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[ns](/pages/createpage.action?spaceKey=EBFM&title=ns)[tot_cash_id](/pages/createpage.action?spaceKey=EBFM&title=tot_cash_id)=0; /* Isaac HACK*/
+
+3. SETUP-- IGNORE THIS  
+C:\Documents and Settings\kaplanis\My Documents\Atlantis\AtlantisCode\atlantis\ateconomic\ateconomicsetup.c(756): sprintf(bm->SUBFLEETeconindxNAME[tot_cash_id](/pages/createpage.action?spaceKey=EBFM&title=tot_cash_id), "%s", "YearlyIncome");  
+C:\Documents and Settings\kaplanis\My Documents\Atlantis\AtlantisCode\atlantis\ateconomic\ateconomicsetup.c(804): bm->SUBFLEET_ECONprms[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[ns](/pages/createpage.action?spaceKey=EBFM&title=ns)[tot_cash_id](/pages/createpage.action?spaceKey=EBFM&title=tot_cash_id) = tot_cash;
+
+4. RESPONSE – IGNORE THIS, SINCE IT DOESNT' GET CALLED IN DAN'S CODE (BECAUSE MULTIPLAN IS 0)  
+C:\Documents and Settings\kaplanis\My Documents\Atlantis\AtlantisCode\atlantis\ateconomic\ateconresponse.c(209): bm->SUBFLEET_ECONprms[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[ns](/pages/createpage.action?spaceKey=EBFM&title=ns)[lasttot_cash_id](/pages/createpage.action?spaceKey=EBFM&title=lasttot_cash_id) = bm->SUBFLEET_ECONprms[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[ns](/pages/createpage.action?spaceKey=EBFM&title=ns)[tot_cash_id](/pages/createpage.action?spaceKey=EBFM&title=tot_cash_id);  
+C:\Documents and Settings\kaplanis\My Documents\Atlantis\AtlantisCode\atlantis\ateconomic\ateconresponse.c(210): bm->SUBFLEET_ECONprms[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[ns](/pages/createpage.action?spaceKey=EBFM&title=ns)[tot_cash_id](/pages/createpage.action?spaceKey=EBFM&title=tot_cash_id) = 0;
+
+OK, NOW LOOK AT HOW REVENUE IS CALCULATED:
+
+/* Revenue per day */  
+lease_cost = bm->SUBFLEET_ECONprms[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[ns](/pages/createpage.action?spaceKey=EBFM&title=ns)[leased_Q_val_ind_id](/pages/createpage.action?spaceKey=EBFM&title=leased_Q_val_ind_id);  
+revenue = gvp - lease_cost - cost;
+
+bm->SUBFLEET_ECONprms[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[ns](/pages/createpage.action?spaceKey=EBFM&title=ns)[tot_cash_id](/pages/createpage.action?spaceKey=EBFM&title=tot_cash_id) += revenue;
+
+So YearlyIncome appears to be per fleet and subfleet, and to represent summed annual daily revenue,   
+which is gvp-leaseprice - costs.
+
+I look closer at gvp:
+
+"Gvp" seems to be a function of "cumcatch" (which is just bm->QuotaAlloc[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[ns](/pages/createpage.action?spaceKey=EBFM&title=ns)[sp](/pages/createpage.action?spaceKey=EBFM&title=sp)[cummonthcatch_id](/pages/createpage.action?spaceKey=EBFM&title=cummonthcatch_id) ).   
+I don't understand why bm->QuotaAlloc[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[ns](/pages/createpage.action?spaceKey=EBFM&title=ns)[sp](/pages/createpage.action?spaceKey=EBFM&title=sp)[cummonthcatch_id](/pages/createpage.action?spaceKey=EBFM&title=cummonthcatch_id) ) is 0.
+
+What I mean is in ateconindicator.c, around line 406:
+
+gvp += bm->ECONexprice[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[ns](/pages/createpage.action?spaceKey=EBFM&title=ns)[sp](/pages/createpage.action?spaceKey=EBFM&title=sp)[ij](/pages/createpage.action?spaceKey=EBFM&title=ij)[hist_id](/pages/createpage.action?spaceKey=EBFM&title=hist_id) * bm->SpatialBlackBook[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[ns](/pages/createpage.action?spaceKey=EBFM&title=ns)[bm->MofY](/pages/createpage.action?spaceKey=EBFM&title=bm-%3EMofY)[ij](/pages/createpage.action?spaceKey=EBFM&title=ij)[current_id](/pages/createpage.action?spaceKey=EBFM&title=current_id)
+- bm->QuotaAlloc[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[ns](/pages/createpage.action?spaceKey=EBFM&title=ns)[sp](/pages/createpage.action?spaceKey=EBFM&title=sp)[cummonthcatch_id](/pages/createpage.action?spaceKey=EBFM&title=cummonthcatch_id) / (bm->FISHERYprms[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[nsubfleets_id](/pages/createpage.action?spaceKey=EBFM&title=nsubfleets_id) + small);
+
+Now I'll go look around and see what the deal is with bm->QuotaAlloc[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[ns](/pages/createpage.action?spaceKey=EBFM&title=ns)[sp](/pages/createpage.action?spaceKey=EBFM&title=sp)[cummonthcatch_id](/pages/createpage.action?spaceKey=EBFM&title=cummonthcatch_id)
+
+bm->QuotaAlloc[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[ns](/pages/createpage.action?spaceKey=EBFM&title=ns)[sp](/pages/createpage.action?spaceKey=EBFM&title=sp)[cummonthcatch_id](/pages/createpage.action?spaceKey=EBFM&title=cummonthcatch_id) is set in ateconresponse as += totthisspcatch which is basically the FishingRes[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[Catch_result_id](/pages/createpage.action?spaceKey=EBFM&title=Catch_result_id) value calculated in Fishing_And_Bycatch in atharvest.c.  
+in atecology the catch values for vertebrates are set as   
+bm->Catch[bm->current_box](/pages/createpage.action?spaceKey=EBFM&title=bm-%3Ecurrent_box)[guildcat](/pages/createpage.action?spaceKey=EBFM&title=guildcat)[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[bm->current_layer](/pages/createpage.action?spaceKey=EBFM&title=bm-%3Ecurrent_layer) += bm->FishingResults[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[Catch_result_id](/pages/createpage.action?spaceKey=EBFM&title=Catch_result_id) * bm->cell_vol;
+
+and the fishing results values are set in Fishing_And_Bycatch in atharvest.c.
+
+This value is dependant on loadDetFC which is being set to 1 as the catch has exceeded the allowed catch. From what i can see the catch allowed values is 0 for t > 0 in the emocc model.
+
+bm->SP_FISHERYprms[sppid](/pages/createpage.action?spaceKey=EBFM&title=sppid)[nf](/pages/createpage.action?spaceKey=EBFM&title=nf)[catch_allowed](/pages/createpage.action?spaceKey=EBFM&title=catch_allowed) = max_quota_left; is being set in Allocate_Final_Effort in ateconEffort.c and max_quota_left is 0.
+
+max_quota is based on RegCatch.  
+This is set in allocate_catch correctly - these values are non-zero. So not sure why they are zero in Allocate_Final_Effort. Need to trace this.
+
+Allocate_Final_Effort is called by economics which is called by main.  
+Allocate_Catch is also called by economics which is called by main.
+
+Which comes first as the Regcatch values are non-zero in Allocate_Catch but zero in Allocate_Final_Effort when they are used. Allocate Catch comes first so not sure why the RegCatch values are 0 in Allocate_Final_Effort.
+
+Not sure about the code in ateconresponse.c around line 1770.

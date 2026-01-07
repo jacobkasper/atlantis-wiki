@@ -1,0 +1,22 @@
+---
+title: "Learn now to navigate the Linux Terminal"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+You can open a linux terminal my clicking on the Terminal icon at the bottom of the graphical interface or use the Applications menu.
+
+All you need to do is to learn how to go one level up or down and go to the right directory.
+
+To go one level up type
+
+cd .. (make sure there is a space between cd and ..)
+
+To go down type (e.g.) cd OA_Gladstone_mr/
+
+cd /OSM/MEL/OA_ALANTIS/input/AltantisModelFiles/GAB/
+
+./runGAB.sh
+
+There are heaps of really good tutorials on the web about using a terminal.
+
+<https://www.howtogeek.com/140679/beginner-geek-how-to-start-using-the-linux-terminal/>

@@ -1,0 +1,18 @@
+---
+title: "NetCDF input files"
+date: "2008-11-18"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+There is an issue with ncopen. If the netcdf file is not found its spitting the dummy.
+  
+I have added a seperate fopen before all ncopen calls that are just going to read the file to check that the file exists. If it does not a quit message is produced, else the file is closed and ncopen is called like normal.
+
+This code has been checked into the cvs repository.
+
+I suspect this is to do with the change in runtime libs and will need to chase it down. It will be added to the list of stuff to do later.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

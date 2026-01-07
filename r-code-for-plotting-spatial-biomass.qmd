@@ -1,0 +1,14 @@
+---
+title: "R code for plotting spatial biomass"
+author: "Hem Nalini Morzaria Luna"
+---
+
+This is R code for plotting maps of spatial biomass distribution (tons/sqkm). Creates a layout of 4 rows x 3 columns of biomass maps per functional group. This is useful for tech memos or any other place you want to include a map per functional group. Easily creates a publishable layout without the need of saving individual maps (i.e. Olive) or having to resort to a GIS.
+
+Needs two data files:
+
+1. Model shapefile
+2. CSV of initial biomass per functional group per polygon (with a column matching the polygon ID in the shapefile)  
+     
+   Code with example files:  
+   [R_biomass_maps.zip](attachments/43157100.zip)

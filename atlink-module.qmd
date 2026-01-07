@@ -1,0 +1,85 @@
+---
+title: "atLink Module"
+author: "Unknown User (hep016)"
+---
+
+# Overview
+
+The atLink module performs model coupling with the EwE (Ecopath with Ecospace (with Ecosim)) model developed at UBC.  It was initially started by Beth and Bec, and is now mostly maintained and developed by Mark.  Development occurs within the "mark-dev" branch in SVN, and only sporadically tracks the trunk.
+
+Communication occurs via a SOAP interface, with the Atlantis model responsible for coordinating the interactions.  The EwE model runs headless (ie, with no GUI) as a server; in theory this could be anywhere, but for now a single server instance resides at UBC.  The execution looks roughly like this:
+
+1. Before entering the main run loop, Atlantis initialises the EwE model (by calling a single, no-args, function that loads its own model and runs Ecopath to initialise the mass-balance), and runs the initial time-zero step.  (It also calls "stop" on the EwE model before doing all of this, to force clean-up in case it was still running!  This is due to the state management strategy used by the EwE server).
+2. Then, for each Atlantis time-step, if a month has passed (there are subtleties here, see below):
+   1. push the biomass values of groups exported from Atlantis to EwE (ie, as forcing data)
+   2. run another timestep of EwE
+   3. retrieve the resulting fluxes (mortality and detritus), and import into Atlantis.
+
+[This page](interaction-with-atecology.qmd) documents the interface on the import side between the data from the atlink module and the rest of Atlantis.
+
+[This page](setting-up-an-eweservice-instance.qmd) has notes on how to set up a local version of the EwE services for testing against.
+
+# Building
+
+For everyone other than Ubuntu users, the normal build process should suffice.  As of Ubuntu 9.10 though the nanohttp library contains a bug that manifests itself in high data-volume transfers.  This comes from a maintainer (debian) patch, since apparently csoap itself (of which nanohttp is a part) hasn't been touched upstream since 2006.  In response to a bug report about the performance, [the debian maintainer created a patch to do block-IO](http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=521362) .  This [resulted in a bug](http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=537517) , which affects us (specifically, it results in a memcpy attempting to copy a negative number of bytes).
+
+So, in order to fix this for now after having installed all dependencies you will need to install the patched debian packages located in the `externalLibs` directory:
+
+```
+cd externalLibs
+sudo dpkg -i libnanohttp*.deb
+cd ..
+make clean
+make install
+```
+
+(the last 3 lines will change back to the main directory and do a fresh build).
+
+## Building the patched library
+
+Note: this is mainly for my reference, but if you need to build a fresh copy of the debian packages, this is the procedure:
+
+1. Install all build dependencies (dev versions of libraries the build depends on, and any build tools): `apt-get build-deps libnanohttp1`
+2. Get the source archive and all debian/ubuntu patches: `apt-get source libnanohttp1`
+3. This will download 3 archives; the original source archive `...orig.tar.gz`, the debian diffs `...diff.gz`, and the debian source control file `....dsc`.  Note that the name of the archive is actually libcsoap; both libnanohttp and libcsoap come from the same archive.  It will also have unpacked and applied all patches in the `diff.gz` file.  This won't (yet) have applied anything to the original source files though; instead, inside the unpacked directory is a `debian` directory, and inside that among other contents is a `patches` directory containing a number of `.diff` patches.  The one we are interested in is `debian/patches/bigger-reads.diff`; fix that as described in [the link above](http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=537517).
+4. Now you will need to build it; for that you will need the `debuild` utility, which you can install by `apt-get install devscripts`.  Make sure you are in the archive directory (ie, `libcsoap-1.1.0` — exact version number may be different, but hopefully if it is then there's no longer any need for this), and type `debuild` (you can ignore the error at the end about being unable to find a gpg secret key).  This will have created `.deb` packages in the parent directory, for both libcsoap and libnanohttp, for dev/dbg/plain library versions.  Ignore the libcsoap archives if you have already installed those, and install the nanohttp archives with `dpkg` as above.
+
+Note: if, for some reason, you mess up the extracted archive and want to start again, instead of downloading the source packages again you simply need to do
+
+```
+dpkg-source \-x libcsoap_1.1.0-16.1.dsc
+```
+
+(This assumes that all three parts of the original download — `tar.gz`/`.dsc`/`.diff.gz` — are all still present and in the same directory)
+
+# Issues
+
+The most obvious difficulties are around the differences in spatial and temporal resolution and representation between the two models:
+- EwE uses a fixed rectangular grid, where-as Atlantis uses arbitrary polygons (the box model)
+- EwE uses a fixed timestep of 30 days, while Atlantis uses an adaptive timestep of up to half a day.
+
+## Approach (spatial-temporal mapping)
+
+Currently there is just the one approach to spatial mapping between the models; a weighted average.  In other words, when exporting the contents of a box are divided according to the area of each cell it overlaps, meaning that in a regular grid each cell that is completely overlapped will receive the same proportion, while those that are partially overlapped will receive an amount proportional to the fraction of overlap.  When importing from EwE the reverse occurs; cell contents are aggregated into Atlantis boxes, with partially-overlapped boxes supplying the a proportion equivalent to the proportion of overlap.
+
+There are still some subtleties to be aware of in the implementation here; mainly, that an Atlantis model typically will only overlap a part of the corresponding EwE model.  Since when we force EwE values on export as a single grid, this means that we need to make sure not to corrupt the cells that Atlantis doesn't cover: when calculating the proportions we need to do an accumulation (because a single cell could be overlapped by more than one box) which means initialising to 0, but we need to only zero-out those that will be overlapped in the first place, and initialise all others to the original EwE value.
+
+# Configuration
+
+Configuration of the atLink module is done in an XML file, specified on the command line with the "-l" (for "linkage") argument (this also signifies to the module that linkage will be performed; otherwise all calls involving the linkage module are skipped).  There is a sample in the repository called "integrationConfiguration.xml".
+
+At this time the configuration (and much of the implementation) is fairly closely coupled to EwE, but the original design of the configuration file assumed that coupling to other models, and other types of models, would occur in the future.  Hence the top-level elements are AtlantisLinkage > ExternalModels > GridModel[name="EwE"] (ie, EwE is just one type of grid-based model we may want to link to).  For now the configuration parser only parses for EwE; for the generic case it is probably better too look at the ongoing work on Model Linkage involving multiple parties: [model linkage wiki](https://confluence.csiro.au/display/ML/Model+Integration+and+Linkage) .
+
+Most parameters should be reasonably self-explanatory, and the template is fairly well commented.  Because the EwE model exports no geographic information this must be specified in the configuration, so the correct overlaps can be calculated between EwE grid cells and Atlantis boxes; these are the parameters such as numRows and numCols, cellWidth and cellHeight, and the projection.  Note also that the *top* left coordinates are specified for the EwE grid; their grid is indexed from the top left, rather than the bottom-left as in Atlantis coordinates.
+
+The other main configuration elements are the mappings between input and output groups.  Initially we were simply importing and exporting biomass values, but this then means that double-counting ensues where mortality is counted twice, for example (in EwE and Atlantis), hence we now import fluxes (note: this code is still under development).  There are a number of options for the type of mapping here; "injection" specifies a one-to-one mapping, while "aggregation" is a many-to-one (for example, where one model has a greater granularity of groups, such as a types of plankton, than the other), and "split" is the reverse.  The "description" attribute is ignored by the code, but is recommended for documentation!  **Note:** the IDs used when specifying mappings are the native ids on both ends, for example if EwE uses 1-based ids (as it does) then the first functional group will have id 1 when referring to EwE.  On the Atlantis side, the id is the index into the FunctionalGroup array, in other words will be 0-based.
+
+Related to this, skippedInputGroups specifies the groups we wish to manage in Atlantis rather than EwE (to avoid double-counting as mentioned above).  As a specific example, when considering predation mortality on phytoplankton we wish to use the mortality from higher-trophic groups as calculated by EwE, but ignore that due to zooplankton which is already calculated in Atlantis.  (Since these are groups we wish to ignore when importing information, these are the IDs of EwE groups).
+
+There are also two parameters to specify how the differences in temporal resolution are mitigated: if Atlantis has executed 30 timesteps on its own without receiving EwE data then major discrepancies could easily cause ringing-type artifacts.  To mitigate this we offer a choice of strategies to play with such doing a running-average and gradually applying the updates across the 30-day period, instead of all in one hit.  These are the importWindowingStrategy and exportWindowingStrategy options; see the comments for available options.
+
+# Random Issues
+
+(issues that don't fit anywhere in particular, but that you need to be aware of)
+
+Due to the nature of the web services implementation used by the EwE server it is currently single-user only.  Rather more dangerously, it doesn't actually lock any users out, but everyone will share the same state!  (I believe this is because under the current implementation scheme making it multi-user would involve serialising the entire model state, which was rather unfeasable).

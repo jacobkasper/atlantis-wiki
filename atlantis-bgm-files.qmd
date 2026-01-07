@@ -1,0 +1,203 @@
+---
+title: "Atlantis BGM Files"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+#### Background
+
+The bgm file defines the polygons that create the map for the Atlantis model. A full documentation of this file is coming and various support programs exist to help draw this box. The single most important rule is that
+
+Box 0 MUST be a BOUNDARY box (i.e. sit outside the active model domain).  
+ Box 1 MUST be a dynamic or (INTERNAL) box (i.e. be a dynamic box in the model).
+
+#### Generating
+
+You can use the [bgmeriser](bgmeditor.qmd) to generate your bgm file for you from a shapefile.
+
+#### File Structure
+
+The .bgm file defines the geography used in the Atlantis model to define the bathymetry of the model system, but also used by DIVE for display of the model. The model is cast in x-y terms (rather than latitude-longitude), using an equal area projection.  
+ The area in the bgm file is in the units of the bgm file, so if the bgm file is in x-y co-ord then the area is in m^2.
+
+The structure of the bgm file is as follows
+
+# box model geometry comment  
+
+ # number of boxes in horizontal plane  
+ nbox nb
+
+# number of faces dynamic in horizontal plane  
+
+ nface nf
+
+# Maximum bottom depth (m) if botz > this reset botz  
+
+ # to be this as far as model is concerned  
+ maxwcbotz -20
+
+# vertices of polygon defining the boundary of the dynamic model spaces, polygons outside this are treated as boundary boxes  
+
+ bnd_vert 4846663.054 2672181.026  
+ bnd_vert 4846577.624 2671694.641  
+ bnd_vert 4846769.65 2671316.256  
+ bnd_vert 4846620.269 2670658.417  
+ bnd_vert 4846647.232 2670053.268  
+ bnd_vert 4846896.231 2669701.554  
+ bnd_vert 4846895.551 2668853.126  
+ bnd_vert 4846480.926 2668328.515  
+ bnd_vert 4846068.874 2668006.796  
+ bnd_vert 4846040.837 2667847.55
+
+# Data for box number 0  
+
+ box0.label box0  
+ box0.inside 4850502.794 2660539.214 // midpoint of polygon  
+ box0.nconn 1 // number of neighbouring dynamic boxes  
+ box0.iface 0 // face numbers connecting box with dynamic neighbouring boxes  
+ box0.ibox 1 // box-id numbers of dynamic neighbouring boxes  
+ box0.botz -7.58 // depth of the box  
+ box0.area 4.96E+05 // area of the box  
+ box0.vertmix 0.000001 // vertical mixing scalar for the polygon  
+ box0.horizmix 1 // horizontal transport scalar for the polygon  
+ box0.vert 4850016.494 2660989.963 // vertices of polygon  
+ box0.vert 4850411.21 2660812.231  
+ box0.vert 4851009.235 2660650.395  
+ box0.vert 4850843.256 2660162.581  
+ box0.vert 4850087.844 2660321.401  
+ box0.vert 4850016.494 2660989.963
+
+AND SO ON FOR nb BOXES
+
+# Data for face number 0  
+
+ face0.p1 4850016.494 2660989.963 // one endpoint of face  
+ face0.p2 4850087.844 2660321.401 // other endpoint of face  
+ face0.length 672.3586014 // length of face  
+ face0.cs -0.106119971 0.994353333 // cosine and sine of this vs (0,0)  
+ face0.lr 0 1 // box to left and right of face standing at p1 looking at p2
+
+AND SO ON FOR nf faces
+
+#### Projections
+
+The Atlantis BGM files now take a projection string that can be used by DIVE (the netcdf visualisation tool) to project the box locations. The projection string is also used by Atlantis to calculate the number of daylight hours when lim_sum_hours is turned on in the biology input file.
+
+**Format**
+
+Atlantis expects the format to be in [PROJ4](http://trac.osgeo.org/proj/) format. These look like:
+
+projection proj=aea lat_1=-18 lat_2=-36 lat_0=0 lon_0=134 x_0=3000000 y_0=6000000 ellps=GRS80 towgs84=0,0,0,0,0,0,0 units=m no_defs
+
+The parameters should be space seperated - there should not be a '+' between the strings (ignore this in the examples below)
+
+To find the projection of your BGM file the [Spatial Reference List](http://spatialreference.org/ref/) is a good place to look.
+
+Here are some more examples from Mike.
+
++++++++++++++++++++
+
+Mikes notes for BGMEditor PROJ4 implementation  
+ ESRI WKT implementation  
+ PROJ4 equivalent  
+ EPSG where available
+
++++++++++++++++++++  
+ +++++++++++++++++++
+
+Convert to decimal degrees  
+ -f '%.8f'
+
+proj -I -f '%.8f' +proj=lcc +lat_1=17.5 +lat_2=29.5 +lat_0=0 +lon_0=-102.0 +x_0=2000000.0 +y_0=0 +ellps=clrk66 +datum=NAD27 +units=m +no_defs goc2_testproj.txt
+
++++++++++++++++++++  
+ D:\AMS\BoxModels\Californiyay  
+ PROJCS["North_America_Albers_Equal_Area_Conic",GEOGCS["GCS_North_American_1983",DATUM["D_North_American_1983",SPHEROID["GRS_1980",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Albers"],PARAMETER["False_Easting",700000.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",-117.0],PARAMETER["Standard_Parallel_1",43.0],PARAMETER["Standard_Parallel_2",48.0],PARAMETER["Latitude_Of_Origin",41.0],UNIT["Meter",1.0]]
+
+#### Chesapeake
+
+D:\AMS\BoxModels\Chesapeake  
+ PROJCS["NAD_1983_UTM_Zone_18N",GEOGCS["GCS_North_American_1983",DATUM["D_North_American_1983",SPHEROID["GRS_1980",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Mercator"],PARAMETER["False_Easting",500000.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",-75.0],PARAMETER["Scale_Factor",0.9996],PARAMETER["Latitude_Of_Origin",0.0],UNIT["Meter",1.0]]
+
+EPSG:26918<http://spatialreference.org/ref/epsg/26918/esriwkt/>  
+ PROJCS["NAD_1983_UTM_Zone_18N",GEOGCS["GCS_North_American_1983",DATUM["D_North_American_1983",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",-75],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",500000],PARAMETER["false_northing",0],UNIT["Meter",1]]
+
+PROJ4  
+ +proj=utm +zone=18 +ellps=GRS80 +datum=NAD83 +units=m +no_defs
+
++++++++++++++++++++
+
+#### GOC
+
+D:\AMS\BoxModels\GulfofC  
+ PROJCS["GoC",GEOGCS["GCS_North_American_1927",DATUM["D_North_American_1927",SPHEROID["Clarke_1866",6378206.4,294.9786982]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Lambert_Conformal_Conic"],PARAMETER["False_Easting",2000000.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",-102.0],PARAMETER["Standard_Parallel_1",17.5],PARAMETER["Standard_Parallel_2",29.5],PARAMETER["Scale_Factor",1.0],PARAMETER["Latitude_Of_Origin",0.0],UNIT["Meter",1.0]]
+
++proj=lcc +lat_1=17.5 +lat_2=29.5 +lat_0=0 +lon_0=-102.0 +x_0=2000000.0 +y_0=0 +ellps=clrk66 +datum=NAD27 +units=m +no_defs
+
++to_meter=0.3048006096012192
+
+Nearest:  
+ PROJCS["NAD27 / California zone VII",GEOGCS["GCS_North_American_1927",DATUM["D_North_American_1927",SPHEROID["Clarke_1866",6378206.4,294.9786982138982]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Lambert_Conformal_Conic"],PARAMETER["standard_parallel_1",34.41666666666666],PARAMETER["standard_parallel_2",33.86666666666667],PARAMETER["latitude_of_origin",34.13333333333333],PARAMETER["central_meridian",-118.3333333333333],PARAMETER["false_easting",4186692.58],PARAMETER["false_northing",4160926.74],UNIT["Foot_US",0.30480060960121924]]
+
+<http://spatialreference.org/ref/epsg/26799/>
+
++++++++++++++++++++
+
+#### ECCAL
+
+D:\AMS\BoxModels\Californiyay  
+ ESRI:102008
+
+PROJCS["North_America_Albers_Equal_Area_Conic",GEOGCS["GCS_North_American_1983",DATUM["D_North_American_1983",SPHEROID["GRS_1980",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Albers"],PARAMETER["False_Easting",700000.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",-117.0],PARAMETER["Standard_Parallel_1",43.0],PARAMETER["Standard_Parallel_2",48.0],PARAMETER["Latitude_Of_Origin",41.0],UNIT["Meter",1.0]]
+
++proj=aea +lat_1=43 +lat_2=48 +lat_0=41 +lon_0=-117 +x_0=700000 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs
+
+<http://spatialreference.org/ref/esri/102008/esriwkt/>  
+ Different parameters to above  
+ PROJCS["North_America_Albers_Equal_Area_Conic",GEOGCS["GCS_North_American_1983",DATUM["D_North_American_1983",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Albers"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["central_meridian",-96],PARAMETER["Standard_Parallel_1",20],PARAMETER["Standard_Parallel_2",60],PARAMETER["latitude_of_origin",40],UNIT["Meter",1]]
+
++++++++++++++++++++
+
+#### Clarence, VicMPA, AMS
+
+Mikes Albers_3 projection  
+ PROJCS["Albers_3",GEOGCS["GCS_GDA_1994",DATUM["D_GDA_1994",SPHEROID["GRS_1980",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Albers"],PARAMETER["False_Easting",3000000.0],PARAMETER["False_Northing",6000000.0],PARAMETER["Central_Meridian",134.0],PARAMETER["Standard_Parallel_1",-36.0],PARAMETER["Standard_Parallel_2",-18.0],PARAMETER["Latitude_Of_Origin",0.0],UNIT["Meter",1.0]]
+
++proj=aea +lat_1=-18 +lat_2=-36 +lat_0=0 +lon_0=134 +x_0=3000000.0 +y_0=6000000.0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs
+
+Closest - No false easting or northing, and different +lon_0  
+ GDA94 / Australian Albers  
+ ESPG:3577  
+ +proj=aea +lat_1=-18 +lat_2=-36 +lat_0=0 +lon_0=132 +x_0=0 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs  
+ PROJCS["Australia Albers Equal Area (134)",GEOGCS["GDA94",DATUM["D_GDA_1994",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Albers"],PARAMETER["standard_parallel_1",-18],PARAMETER["standard_parallel_2",-36],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",134],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["Meter",1]]
+
+#### NSW
+
+The albers_3 projection without the false eastings and northings.
+
+#### Storm Bay, Port Phillip Bay (PPB)
+
+BGM Projection String:  
+ projection proj=utm zone=55 south ellps=GRS80 towgs84=0,0,0,0,0,0,0 units=m no_defs
+
+ArcMap:
+
+Projected coordinate system name: GDA_1994_MGA_Zone_55  
+ Geographic coordinate system name: GCS_GDA_1994
+
+Reference: <http://spatialreference.org/ref/epsg/28355/>
+
+#### TasCERF
+
+BGM projection string:
+
+proj=laea +lat_0=-41.1 +lon_0=146.5 +x_0=0 +y_0=0 +ellps=WGS84  
+ ++datum=WGS84 +units=m +no_defs
+
+ESRI WKT String is  
+ GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563](/pages/createpage.action?spaceKey=Atlantis&title=%22WGS_1984%22%2C6378137.0%2C298.257223563&linkCreation=true&fromPageId=43155680)],PRIMEM["Greenwich",0.0](/pages/createpage.action?spaceKey=Atlantis&title=%22Greenwich%22%2C0.0&linkCreation=true&fromPageId=43155680),UNIT["Degree",0.0174532925199433](/pages/createpage.action?spaceKey=Atlantis&title=%22Degree%22%2C0.0174532925199433&linkCreation=true&fromPageId=43155680)],PROJECTION["Lambert_Azimuthal_Equal_Area"](/pages/createpage.action?spaceKey=Atlantis&title=%22Lambert_Azimuthal_Equal_Area%22&linkCreation=true&fromPageId=43155680),PARAMETER["False_Easting",0.0](/pages/createpage.action?spaceKey=Atlantis&title=%22False_Easting%22%2C0.0&linkCreation=true&fromPageId=43155680),PARAMETER["False_Northing",0.0](/pages/createpage.action?spaceKey=Atlantis&title=%22False_Northing%22%2C0.0&linkCreation=true&fromPageId=43155680),PARAMETER["Central_Meridian",146.5](/pages/createpage.action?spaceKey=Atlantis&title=%22Central_Meridian%22%2C146.5&linkCreation=true&fromPageId=43155680),PARAMETER["Latitude_Of_Origin",-41.1](/pages/createpage.action?spaceKey=Atlantis&title=%22Latitude_Of_Origin%22%2C-41.1&linkCreation=true&fromPageId=43155680),UNIT["Meter",1.0](/pages/createpage.action?spaceKey=Atlantis&title=%22Meter%22%2C1.0&linkCreation=true&fromPageId=43155680)]
+
+#### Norway
+
+##### Useful links:
+
+<http://qgis.spatialthoughts.com/2012/01/importing-spreadsheets-or-csv-files-to.html>

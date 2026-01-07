@@ -1,0 +1,93 @@
+---
+title: "AtlantisGroupTypes"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+#### Group Types:
+
+The type of the group determines many things, its habitat, the processes it carries out and what parameters are read in.
+
+##### Vertebrate Groups
+
+The vertebrate groups are:
+
+FISH  
+BIRD  
+MAMMAL  
+SHARK
+
+These should be set based on the old values in your biology.prm file isbird, ishark and ismammal. If the group is not a bird, shark or a mammal then it is assumed to be a fish.
+
+##### Invertebrate Groups
+
+The invertebrate group types are the following:
+
+| Group Type | Description | Location | Large Groups -  Processed Once per timestep |
+| --- | --- | --- | --- |
+| LG_PHY | Large Phytoplankton | inWC:1  inSed:1 | False |
+| SM_PHY | Small Phytoplankton | inWC:1  inSed:1 | False |
+| SM_ZOO | Small Zooplankton | inWC:1  inSed:0 | False |
+| MED_ZOO | Medium Zooplankton | inWC:1  inSed:0 | False |
+| LG_ZOO | Large Zooplankton | inWC:1  inSed:0 | True |
+| CEP | Cephalopod | inWC:1  inSed:0 | True |
+| PWN | Prawns | inWC:1  inSed:0 | True |
+| PL_BACT | Pelagic Bacteria | inWC:1  inSed:0 | False |
+| SED_BACT | Sediment Bacteria | inWC:0  inSed:1 | False |
+| SM_INF | Small Infauna | inWC:0  inSed:1 | False |
+| LG_INF | Large Infauna | inWC:0  inSed:1 | True |
+| SED_EP_FF | Sediment epibenthic filter feeders | Epi | False |
+| SED_EP_OTHER | Benthic grazers | Epi | True |
+| MOB_EP_OTHER | Mobile epibenthic | Epi | True |
+| PHYTOBEN | Phytoben | Epi | False |
+| TURF | Turf algae | Epi | False |
+| LAB_DET | Labile detritus | inWC:1  inSed:1 | False |
+| REF_DET | Refractory detritus | inWC:1  inSed:1 | False |
+| CARRION | Carrion | inWC:1  inSed:1 | False |
+| MICROPHTYBENTHOS | Microphtybenthos | inWC:1  inSed:1 | False |
+| DINOFLAG | Dinoflagellates | inWC:1  inSed:1 | False |
+| SEAGRASS | Seagrass | Epi | False |
+| FISH | Fish | inWC:0  inSed:1 | True |
+| FISH_INVERT | Fished invertebrate | inWC:0  inSed:1 | True |
+| MAMMAL | Mammal | inWC:0  inSed:1 | True |
+| SHARK | Shark | inWC:0  inSed:1 | True |
+
+There can only be a single instance of the following groups:
+
+LAB_DET - Labile detritus  
+REF_DET - Refractory detritus  
+CARRION - Carrion  
+PL_BACT - Pelagic Bacteria  
+SED_BACT - Sediment Bacteria
+
+The old codes used in Atlantis hard coded the groups in the following manner:
+
+|  |  |
+| --- | --- |
+| Old Code | Invertebrate Type |
+| CEP | CEP |
+| BFS | SED_EP_FF |
+| BFF | SED_EP_FF |
+| BFD | SED_EP_FF |
+| BG | SED_EP_OTHER |
+| BMD | MOB_EP_OTHER |
+| BML | MOB_EP_OTHER |
+| BMS | MOB_EP_OTHER |
+| PWN | PWN |
+| ZL | LG_ZOO |
+| BD | LG_INF |
+| MA | PHYTOBEN |
+| MB | MICROPHTYBENTHOS |
+| SG | SEAGRASS |
+| BC | LG_INF |
+| ZG | LG_ZOO |
+| PL | LG_PHY |
+| DF | DINOFLAG |
+| PS | SM_PHY |
+| ZM | LG_ZOO |
+| ZS | SM_ZOO |
+| PB | PL_BACT |
+| BB | SED_BACT |
+| BO | SM_INF |
+| DL | LAB_DET |
+| DR | REF_DET |
+| DC | CARRION |

@@ -1,0 +1,6 @@
+---
+title: "Checkwinding"
+author: "Cam Ainsworth"
+---
+
+Checkwinding.exe reads a BGM file and tells you the directionality of winding for each of your polygons. It also looks at the bottom section of the BGM to see if the polygons on the left and right sides of your faces actually match what's written in the BGM or are reversed. [ainsworth@usf.edu](mailto:ainsworth@usf.edu)

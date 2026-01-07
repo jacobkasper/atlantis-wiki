@@ -1,0 +1,28 @@
+---
+title: "Atlantis memory"
+date: "2008-12-18"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Trying to clean up the atlantis memory allocation/freeing using valgrind.
+  
+This mostly done - but one issue that i haven't solved yet are all the static variables in functions. I can understand why these are like this but it means these files are not closed and the arrays are not freed. I need to move these files and arrays into structures for each lib.
+  
+That way i can free them and clean up at the end of the model run.
+  
+So a new structure is created and added to the box model structure.
+
+OK. This has been done for the eoclogy, economic, assessment and management modules. All files that we defined as static in functions are now in these modules and thses files are closed at the end of the model run.
+
+Got atlantis running through valgrind with no errors so the memory leaks seem to be fixed. I'm just checking model output to make sure that these changes have had no effect on the model output (they shouldn't).
+  
+If this is cool i'll check the updated code in a try running it under windows with VPA connected.
+  
+Doing a 380 day run to check the annual output files are still the same. These were the same.
+  
+Doing a 4500 day run to check the diff. Diff is taking a while.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

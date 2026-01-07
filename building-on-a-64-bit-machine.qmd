@@ -1,0 +1,23 @@
+---
+title: "Building on a 64-bit machine"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+#### Changes that were required to build Atlantis on 64 bit ubuntu
+
+Useful articles:
+
+<http://www.viva64.com/content/articles/64-bit-development/?f=20_issues_of_porting_C++_code_on_the_64-bit_platform.html&lang=en&content=64-bit-development>
+
+1. hash.c
+
+In void * hash_remove(hash *h, const char *key)  
+Changed:
+
+value = (void *)recs[ind](/pages/createpage.action?spaceKey=Atlantis&title=ind&linkCreation=true&fromPageId=43155643).value;
+
+to
+
+value = (void *)&recs[ind](/pages/createpage.action?spaceKey=Atlantis&title=ind&linkCreation=true&fromPageId=43155643).value;
+
+2. Memset

@@ -1,0 +1,439 @@
+---
+title: "Biology File - minDepth"
+date: "2010-01-27"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Add the following to the biology input file. The actual values should via per model:
+
+## Parameters to use with home range movement
+
+  
+# Minimum depth (m) for each group
+
+  
+FPS_mindepth     0
+  
+FPL_mindepth     0
+  
+FPO_mindepth     0
+  
+FVD_mindepth     0
+  
+FVV_mindepth     0
+  
+FVS_mindepth     0
+  
+FVT_mindepth     0
+  
+FVO_mindepth     0
+  
+FVB_mindepth     0
+  
+FMM_mindepth     0
+  
+FMN_mindepth     0
+  
+FBP_mindepth     0
+  
+FDD_mindepth     0
+  
+FDS_mindepth     0
+  
+FDB_mindepth     0
+  
+FDC_mindepth     0
+  
+FDO_mindepth     300
+  
+FDE_mindepth     300
+  
+FDF_mindepth     300
+  
+FDM_mindepth     0
+  
+FDP_mindepth     0
+  
+SHD_mindepth     0
+  
+SHC_mindepth     300
+  
+SHP_mindepth     0
+  
+SHB_mindepth     0
+  
+SHR_mindepth     0
+  
+SSK_mindepth     0
+  
+SB_mindepth      0
+  
+SP_mindepth      0
+  
+PIN_mindepth     0
+  
+REP_mindepth     300
+  
+WDG_mindepth     0
+  
+WHB_mindepth     0
+  
+WHS_mindepth     0
+  
+WHT_mindepth     0
+  
+CEP_mindepth     0
+  
+PWN_mindepth     0
+  
+BML_mindepth     0
+  
+BMS_mindepth     0
+  
+BMD_mindepth     0
+  
+ZL_mindepth      0
+  
+ZM_mindepth      0
+  
+ZS_mindepth      0
+  
+DF_mindepth      0
+  
+BD_mindepth      0
+  
+BO_mindepth      0
+  
+BC_mindepth      0
+  
+BFF_mindepth     0
+  
+BFS_mindepth     0
+  
+BFD_mindepth     0
+  
+BG_mindepth      0
+  
+ZG_mindepth      0
+  
+# Maximum depth (m) for each group
+
+  
+FPS_maxdepth     5000
+  
+FPL_maxdepth     5000
+  
+FPO_maxdepth     1900
+  
+FVD_maxdepth     5000
+  
+FVV_maxdepth     5000
+  
+FVS_maxdepth     1900
+  
+FVT_maxdepth     5000
+  
+FVO_maxdepth     255
+  
+FVB_maxdepth     1900
+  
+FMM_maxdepth     5000
+  
+FMN_maxdepth     5000
+  
+FBP_maxdepth     5000
+  
+FDD_maxdepth     5000
+  
+FDS_maxdepth     1900
+  
+FDB_maxdepth     1900
+  
+FDC_maxdepth     1900
+  
+FDO_maxdepth     5000
+  
+FDE_maxdepth     1900
+  
+FDF_maxdepth     1900
+  
+FDM_maxdepth     1900
+  
+FDP_maxdepth     5000
+  
+SHD_maxdepth     1900
+  
+SHC_maxdepth     1900
+  
+SHP_maxdepth     5000
+  
+SHB_maxdepth     5000
+  
+SHR_maxdepth     5000
+  
+SSK_maxdepth     1900
+  
+SB_maxdepth      5000
+  
+SP_maxdepth      1900
+  
+PIN_maxdepth     255
+  
+REP_maxdepth     1900
+  
+WDG_maxdepth     255
+  
+WHB_maxdepth     5000
+  
+WHS_maxdepth     5000
+  
+WHT_maxdepth     5000
+  
+CEP_maxdepth     5000
+  
+PWN_maxdepth     1900
+  
+BML_maxdepth     255
+  
+BMS_maxdepth     5000
+  
+BMD_maxdepth     5000
+  
+ZL_maxdepth      5000
+  
+ZM_maxdepth      5000
+  
+ZS_maxdepth      5000
+  
+ZG_maxdepth      5000
+  
+DF_maxdepth      5000
+  
+BD_maxdepth      5000
+  
+BO_maxdepth      5000
+  
+BC_maxdepth      5000
+  
+BFF_maxdepth     5000
+  
+BFS_maxdepth     5000
+  
+BFD_maxdepth     5000
+  
+BG_maxdepth      5000
+  
+# Home range radius (m) for each group
+
+  
+FPS_homerangerad     1
+  
+FPL_homerangerad     1
+  
+FPO_homerangerad     1
+  
+FVD_homerangerad     1
+  
+FVV_homerangerad     1
+  
+FVS_homerangerad     1
+  
+FVT_homerangerad     1
+  
+FVO_homerangerad     1
+  
+FVB_homerangerad     1
+  
+FMM_homerangerad     1
+  
+FMN_homerangerad     1
+  
+FBP_homerangerad     1
+  
+FDD_homerangerad     1
+  
+FDS_homerangerad     1
+  
+FDB_homerangerad     1
+  
+FDC_homerangerad     1
+  
+FDO_homerangerad     1
+  
+FDE_homerangerad     1
+  
+FDF_homerangerad     1
+  
+FDM_homerangerad     1
+  
+FDP_homerangerad     1
+  
+SHD_homerangerad     1
+  
+SHC_homerangerad     1
+  
+SHP_homerangerad     1
+  
+SHB_homerangerad     1
+  
+SHR_homerangerad     1
+  
+SSK_homerangerad     1
+  
+SB_homerangerad      1
+  
+SP_homerangerad      1
+  
+PIN_homerangerad     1
+  
+REP_homerangerad     600000
+  
+WDG_homerangerad     1
+  
+WHB_homerangerad     1
+  
+WHS_homerangerad     1
+  
+WHT_homerangerad     1
+  
+CEP_homerangerad     1
+  
+PWN_homerangerad     1
+  
+BML_homerangerad     1
+  
+BMS_homerangerad     1
+  
+BMD_homerangerad     1
+  
+ZL_homerangerad      1
+  
+ZM_homerangerad      1
+  
+ZS_homerangerad      1
+  
+DF_homerangerad      1
+  
+BD_homerangerad      1
+  
+BO_homerangerad      1
+  
+BC_homerangerad      1
+  
+BFF_homerangerad     1
+  
+BFS_homerangerad     1
+  
+BFD_homerangerad     1
+  
+BG_homerangerad      1
+  
+# Whether home ranges overlap for each group
+
+  
+FPS_overlap     0
+  
+FPL_overlap     0
+  
+FPO_overlap     0
+  
+FVD_overlap     0
+  
+FVV_overlap     0
+  
+FVS_overlap     0
+  
+FVT_overlap     0
+  
+FVO_overlap     0
+  
+FVB_overlap     0
+  
+FMM_overlap     0
+  
+FMN_overlap     0
+  
+FBP_overlap     0
+  
+FDD_overlap     0
+  
+FDS_overlap     0
+  
+FDB_overlap     0
+  
+FDC_overlap     0
+  
+FDO_overlap     0
+  
+FDE_overlap     0
+  
+FDF_overlap     0
+  
+FDM_overlap     0
+  
+FDP_overlap     0
+  
+SHD_overlap     0
+  
+SHC_overlap     0
+  
+SHP_overlap     0
+  
+SHB_overlap     0
+  
+SHR_overlap     0
+  
+SSK_overlap     0
+  
+SB_overlap      0
+  
+SP_overlap      0
+  
+PIN_overlap     0
+  
+REP_overlap     0
+  
+WDG_overlap     0
+  
+WHB_overlap     0
+  
+WHS_overlap     0
+  
+WHT_overlap     0
+  
+CEP_overlap     0
+  
+PWN_overlap     0
+  
+BML_overlap     0
+  
+BMS_overlap     0
+  
+BMD_overlap     0
+  
+ZL_overlap      0
+  
+ZM_overlap      0
+  
+ZS_overlap      0
+  
+DF_overlap      0
+  
+BD_overlap      0
+  
+BO_overlap      0
+  
+BC_overlap      0
+  
+BFF_overlap     0
+  
+BFS_overlap     0
+  
+BFD_overlap     0
+  
+BG_overlap      0
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

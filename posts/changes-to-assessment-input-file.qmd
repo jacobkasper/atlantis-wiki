@@ -1,0 +1,42 @@
+---
+title: "Changes to assessment input file"
+date: "2009-07-28"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+These variables were added a while ago but they were not compulsory. This resulted in some memory problems in atlantis. So its perhaps better for people to have then in the input files.
+
+The following values are those used for the AMS model.
+
+Add the following between teatassessinc and nfzones
+
+flaggen 1 # Whether to generate random numbers (1) or read them in (0)
+  
+flagpatchy 0 # Whether want patchy temporal sampling (1) or monitoring at a regular frequency (0)
+  
+flagcont 0 # Whether want to have within year continuous sampling (1) or vertebrate surveys only annual (0) even if physical properties collected more frequently
+  
+flagareacorrect 0 # Whether to average sampling totals over space and time (1) or just number of sampling trips in the year (0)
+  
+minfreq 364 # Minimum frequency of sampling
+  
+maxfreq 738 # Maximum frequency of sampling
+  
+flagecosysassess 0 # Whether assessing ecosystem as well as specific species
+  
+flagobsdata 1 # Whether using on board observers to collect catch information (for size distributions of catch etc)
+
+replace
+
+nsbox 1 # Number of sampling boxes
+
+with
+
+nsbox_i 1 # Number of sampling boxes (intensive sampling - or only sampling if only one design used)
+  
+nsbox_o 0 # Number of sampling boxes (less intensive sampling)
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

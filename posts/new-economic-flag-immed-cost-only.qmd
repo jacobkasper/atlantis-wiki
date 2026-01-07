@@ -1,0 +1,16 @@
+---
+title: "New economic flag - immed_cost_only"
+date: "2010-06-07"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+# New economic flag - immed_cost_only
+
+In the economic.prm file a new flag has been added
+
+immed_cost_only  0   Use only variable (immediate) costs in effort allocation calculations (1) or use all costs (including fixed and capital costs) when determining effort levels (0)
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

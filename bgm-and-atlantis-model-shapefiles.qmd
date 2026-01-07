@@ -1,0 +1,24 @@
+---
+title: "BGM and Atlantis model shapefiles"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+Atlantis was originally built prior to the development of shp files so it uses a home grown bgm format detailed on the [Atlantis BGM Files](atlantis-bgm-files.qmd)page. There a few tools people have developed to aid in bgm creation and use
+- [BGM2SHP](bgm2shp.qmd)
+- [BGMEditor](bgmeditor.qmd) (our recommended tool).
+- [BGM Mapper](bgm-mapper.qmd)
+
+### Shapefiles
+
+Shapefiles have been generated for most atlantis models.
+
+These have been checked into the atlantis subversion repository at:
+
+CSIRO users: <https://svnserv.csiro.au/svn/atlantis/GISData>  
+ External Partners: <https://svnserv.csiro.au/svn/ext/atlantis/GISData>
+
+These have been generated using the new BGM2SHP tool.
+
+For information about projections etc please contact Bec and she will attempt to answer you with her very questionable GIS ability.
+
+If you think the shapefiles are out of date please update them or contact Bec.

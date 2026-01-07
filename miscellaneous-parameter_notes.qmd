@@ -1,0 +1,24 @@
+---
+title: "Miscellaneous Parameter_Notes"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+## Migration Parameters:
+
+MigrateIO[EBFM:sp][EBFM:cohort][EBFM:migrate_id][EBFM:variable]
+
+migrate_id is used if the group migrates out of the model more than once during a year. Normally this does not happen.
+
+| Variable Name | Variable | Description |
+| --- | --- | --- |
+| Migrate_Time | Time_id | Specifies the day on which a group leaves the model if they migrate. Multiple values if the group does multiple migrations per year. |
+| Migrate_Return | Return_id | Specifies the day on which a group re-enters the model. Multiple values if the group does multiple migrations per year |
+| Period | Period_id | Specifies the length of time over which the species leave and enter the system |
+| ReturnStock | returnstock_id | The stock_id of the stock that the immigrating individuals enter. If 0 then individuals are spread across all stocks |
+| FSMG | FSMG_id | Specifies growth in weight of individuals while they are outside the model region |
+| FSM | FSM_id | external/migration survivorship - proportion of migrating biomass that return to the model domain |
+
+Mirgation
+
+Migration[sp](/pages/createpage.action?spaceKey=EBFM&title=sp)[mig_group](/pages/createpage.action?spaceKey=EBFM&title=mig_group)[cohort](/pages/createpage.action?spaceKey=EBFM&title=cohort)[DEN_id](/pages/createpage.action?spaceKey=EBFM&title=DEN_id)  
+ This array is used to keep track of the biomass that is outside of the model due to migration. This array needs to be considered when aging the rest of the model population.

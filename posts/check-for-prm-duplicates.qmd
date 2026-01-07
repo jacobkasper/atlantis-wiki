@@ -1,0 +1,22 @@
+---
+title: "Check for PRM Duplicates"
+date: "2016-02-08"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Change to run.prm file:
+
+check_dups 1
+
+When this is set to true Atlantis will check for duplicate values in your prm files. This will make the file read in code very very slow so only turn this on every once in a while to make sure your prm files are free from duplicates.
+
+When a duplicate entry is found Atlantis will produce an error message and quit. You will know when no duplicates are found as Atlantis will finish the file read in and start running through model time. Once this happens you should turn check_dups off.
+
+**How to deal with duplicate values:**
+
+Atlantis uses the last instance of a parameter that is found so that is probably the one that you want to keep.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

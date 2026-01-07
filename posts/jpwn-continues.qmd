@@ -1,0 +1,76 @@
+---
+title: "jPWN continues"
+date: "2008-10-03"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+OK. Having issues with the outcomes of Avail_Fish. I think this might be due to the bm->pSPVERTeat values.
+
+I think what is happening is because i'm now calling Avail_Fish with a guilcase of 35 and cohort of 0 when i want to calculate the fish avaliable for juv ceps - this is picking up the values in bm->pSPVERTeat
+[CEPguild_id](/pages/createpage.action?spaceKey=Atlantis&title=CEPguild_id)
+when it previously wasn't. I wonder is this was a bug. Need to bakc and check the original code to see if the jCEP values in bm->pSPVERTeat where ever set. I don't think they were. So it was basically always saying that juv CEP and PWN never ate fish regardless of what was read in from the input file. I have sent beth a question about this.
+  
+OK. This was a bug. I have changed the original code to copy the PWN and CEP value in the bm->pSPVERTeat into the jPWN and jCEP slots.
+
+I have also changed my new code to use a display name so that i can easily compare the output log files without getting heaps of differences due to the jCEP and jPWN no longer being displayed.
+
+OK. There are differences in the .GrazeLive value for jPWN when invert_activites are called. Tracing this. This is set in EAT. I wonder why this different isn't being picked up. OK the values at the end of EAT for this guild/cohort is correct. Where else is it being set? It might be due to the diagTol value. Will check to see if these are different for jPWN and PWN. I think the spGRAZEInfo array set in Eat will be the different and this is causing the issues. I need to check the values for this array. OK. That issue is sorted. addGrazeInfo was being set to jPWN when it should have been. I'm now checking the cohort value before setting this in ZooPlanktonProcess.
+
+Now the next diff is:
+
+< Mesozooplankton N flux: 4.378681e-07
+  
+—
+  
+> Mesozooplankton N flux: 4.376013e-07
+
+so the ZM flux values are different in watercolumn box. I suspect this is because something is eating a bit more than they should. Yep bm->INVERT_PREYeaten is a bit high for ZM. So what eats ZM. OK - pretty sure that that was due to bm->INVERT_PREYeatenGlobal being updated when it shouldn't - i was checking that invert_types == CEP - needed to add and && cohort == adult_id. I have checked code for all other instances of these types of checks and they are all now also checking the cohort value.
+
+The issue is in the scaling of the spGRAZEinfo values in Eat. Not sure if this is a bug or not. The jCEP and jPWN values will be scaled by smLayerThick. I suspect that this was never an issue when juv CEP and PWN didn't eat much. It might be good to add another flag in the input file for predator - this would make this code much easier to follow and will potentially allow me to get rid of the pred_id nastiness. Will add it to the list.
+
+ok. i have added a new check in there - i'll ask beth about this 'feature' when i talk to her next.
+
+Moving on from that. I now have different eat outcomes for PIN. Issue is with the availcatch_id value for PIN. I have added debugging info to Avail_Catch to try to work this out. I suspect that this is due to something trying to eat PWN or CEP.
+
+ok. I'm not going to worry about debuging this too much. I need to get rid of the rest of the references to jPWN and jCEP.
+
+Not sure what bm->PREYid is used for. Once we have got rid of the prey_id values this can be removed. god i have to get rid of these values before i can get rid of jCEP and jPWN. This is all so broken...
+
+I think that perhaps i need to get rid of these values and get that working and then go back to getting rid of jCEP and jPWN.
+
+I'll have to put the other code on hold and work on the 'original' version.
+
+OK. This was a bug. I have changed the original code to copy the PWN and CEP value in the bm->pSPVERTeat into the jPWN and jCEP slots.
+
+I have also changed my new code to use a display name so that i can easily compare the output log files without getting heaps of differences due to the jCEP and jPWN no longer being displayed.
+
+OK. There are differences in the .GrazeLive value for jPWN when invert_activites are called. Tracing this. This is set in EAT. I wonder why this different isn't being picked up. OK the values at the end of EAT for this guild/cohort is correct. Where else is it being set? It might be due to the diagTol value. Will check to see if these are different for jPWN and PWN. I think the spGRAZEInfo array set in Eat will be the different and this is causing the issues. I need to check the values for this array. OK. That issue is sorted. addGrazeInfo was being set to jPWN when it should have been. I'm now checking the cohort value before setting this in ZooPlanktonProcess.
+
+Now the next diff is:
+
+< Mesozooplankton N flux: 4.378681e-07
+  
+—
+  
+> Mesozooplankton N flux: 4.376013e-07
+
+so the ZM flux values are different in watercolumn box. I suspect this is because something is eating a bit more than they should. Yep bm->INVERT_PREYeaten is a bit high for ZM. So what eats ZM. OK - pretty sure that that was due to bm->INVERT_PREYeatenGlobal being updated when it shouldn't - i was checking that invert_types == CEP - needed to add and && cohort == adult_id. I have checked code for all other instances of these types of checks and they are all now also checking the cohort value.
+
+The issue is in the scaling of the spGRAZEinfo values in Eat. Not sure if this is a bug or not. The jCEP and jPWN values will be scaled by smLayerThick. I suspect that this was never an issue when juv CEP and PWN didn't eat much. It might be good to add another flag in the input file for predator - this would make this code much easier to follow and will potentially allow me to get rid of the pred_id nastiness. Will add it to the list.
+
+ok. i have added a new check in there - i'll ask beth about this 'feature' when i talk to her next.
+
+Moving on from that. I now have different eat outcomes for PIN. Issue is with the availcatch_id value for PIN. I have added debugging info to Avail_Catch to try to work this out. I suspect that this is due to something trying to eat PWN or CEP.
+
+ok. I'm not going to worry about debuging this too much. I need to get rid of the rest of the references to jPWN and jCEP.
+
+Not sure what bm->PREYid is used for. Once we have got rid of the prey_id values this can be removed. god i have to get rid of these values before i can get rid of jCEP and jPWN. This is all so broken...
+
+I think that perhaps i need to get rid of these values and get that working and then go back to getting rid of jCEP and jPWN.
+
+I'll have to put the other code on hold and work on the 'original' version.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

@@ -1,0 +1,12 @@
+---
+title: "Modifying & Extending Atlantis"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+This part of the wiki discusses how to modify Atlantis.
+
+It explains how to get extra functionality added to Atlantis and a list of desired modifications
+
+## Future Directions
+
+There are some existing i[deas on where Atlantis functionality could go into the future](future-functionality.qmd) (some of which have already been done). Feel free to add more ideas.

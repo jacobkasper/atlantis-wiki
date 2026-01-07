@@ -1,0 +1,24 @@
+---
+title: "Fishing"
+date: "2008-11-07"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Beth has asked me to look into the fishing stuff. The guys on the west coast of the states are having issues with the fishing output. Beth thinks this is due to the code in atecology being hard coded.
+
+What do we want long term:
+
+for each fishery we want the ability to catch each fish.
+
+So we want an array of booleans for each fishery/fish combination. For each fish/fishery combination we want a tracer.
+
+So we would need to resize stuff again. So for example the em->localFish array would need to have space to store each fish/fishery combination tracer and bm->Catch would need to be able to store values for each fish that could potentially be fished - for teh sack of ease (not space) we would want this array to be the big enough to store values for any functional group.
+
+What arrays are bm->K_num_fished_sp size:
+
+I would also want to change the FishingResults to be a structure instead of an array.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

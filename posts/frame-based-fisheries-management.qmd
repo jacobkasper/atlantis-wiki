@@ -1,0 +1,22 @@
+---
+title: "Frame-based fisheries management"
+date: "2018-05-12"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+We've added frame based fisheries management. At the present moment that is only for F based fishing, but if you need it for other modes of fishing please let us know. This option allows fishing if biomass is greater than a threshold level.
+
+To use this form of management
+
+1. Set the species to be a TAC managed in the
+   *functional_group.csv*
+   file
+2. Set YYY_flag_framebased to 1 for the fishery in the harvest.prm file.
+3. Set up the period for which this form of management should apply for the fishery - using the YYY_start_manage and YYY_end_manage parameters (in days of the simulation run).
+4. Set the allowed level of fishing for when the fishery is active. To do this set the TAC_XXX parameter for each species in that fishery.
+5. To set the biomass level at which fishing is allowed for the fishery set the value for FC_high_thresh_XXX for each species in the fishery. This scalar will be applied to the initial biomass to give the threshold biomass. Above this threshold fishing will be allowed.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

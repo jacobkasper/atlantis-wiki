@@ -1,0 +1,12 @@
+---
+title: "AMS - SE Atlantis Model"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+# Alternative Management Strategies
+
+The Alternative Management Strategies for Australia's commonwealth fisheries in southeast Australia is one of the first big whole of system management strategy evaluations done using Atlantis (it was one of the first in the world regardless). To date it is probably still the most complete example of an Atlantis model implementation. The report on this project can be found [here](attachments/43156986.pdf) .
+
+A more user friendly paper on the MSE is available [here.](attachments/192578018.pdf)
+
+[Fig_S1_smaller.tif](/download/attachments/43155606/Fig_S1_smaller.tif?version=1&modificationDate=1449790345920&api=v2)

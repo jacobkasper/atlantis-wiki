@@ -1,0 +1,16 @@
+---
+title: "R Script to duplicate group values in prm file"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+The R script attached to this page is intended to help new Atlantis users update the SETas model prm files. The SETas model prm files have functional groups as defined in the SETasGroups.csv file.
+
+The first stage of creating your new Atlantis model is to define your functional groups. Once you have done this you need to start thinking about creating your prm files. The best way to do this is grab a copy of the [SETas Atlantis model files](https://wiki.csiro.au/display/Atlantis/Sample+input+files) as per the wiki instructions.
+
+If you have a 1:1 matching of the SETas groups to your groups then updating the files to match your groupCodes is a simple exercise using your favorite Find and Replace tool such as textpad.
+
+If you want to use one of the SETas model groups as the basis for one of your new functional groups then its a good idea to duplicate the values in a prm files using the attached R file.
+
+Read the notes at the top of the R script for what to change and make sure you back up your files before making any changes in case it all goes very very wrong (let me know if it does)
+
+[updateFile.r](attachments/43156382.r).

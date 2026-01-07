@@ -1,0 +1,73 @@
+---
+title: "Building under CentOS"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+## CentOS 6.0
+
+This is not a recommended operating system. One of the clusters in the US runs this so these notes are here to help modellers get things running on that cluster. If you want to use linux then we recommend Ubuntu or OpenSUSE.
+
+#### Packages installed
+
+These were installed using the 'Add/Remove Software' option in the admin menu.
+
+**SVN**
+
+subversion-devel
+
+**GCC**
+
+gcc  
+ gcc-c++
+
+**Automake**
+
+automake
+
+**libxml**
+
+libxml2
+
+libxml2-devel
+
+##### From Source Code
+
+The following were download as source and built using the normal process of:
+
+./configure  
+ make  
+ su  
+ make install
+
+**If you don't have root access**
+
+You might not have su rights - if this is the case install the following packages to /usr/local by using the following
+
+configure --prefix=/usr/local
+
+when you build each package. This will tell to compiler to install things to /usr/local instead of /usr.
+
+Then when you go to build Atlantis you will need to tell it to look in /usr/local to find the headers so update the configure_centos script to something like the following:
+
+./configure \  
+ CFLAGS='-I/usr/local/include' \  
+ CXXFLAGS='-I/usr/local/include' \  
+ CPPFLAGS='-I/usr/local/include' \  
+ LDFLAGS='-L/usr/local/lib '
+
+**NetCDF-dev**
+
+Download the latest netcdf and built from source. (<http://www.unidata.ucar.edu/downloads/netcdf/netcdf-4_1_3/index.jsp>)
+
+Used --disable-netcdf4 so we don't have to install the HDF libs.
+
+**Proj4**
+
+Downloaded from <http://trac.osgeo.org/proj/> and built from source.
+
+##### Building Atlantis
+
+I have added an new configure_centos script that worked for me.  
+ The standard makefiles use pkg-config to grab the paths to the libcsoap library. This doesn't work in CentOS so the additional configure parameters just tell it where to find the headers for this library.
+
+I ran a quick test using the AMS model and it ran fine.

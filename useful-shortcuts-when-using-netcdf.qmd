@@ -1,0 +1,10 @@
+---
+title: "Useful shortcuts when using netCDF"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+These are a collection of commands that have been useful when playing with netcdf. While it is not a familiar format for many biologists, but there is a large community of users out there who have developed many tools for interacting with netcdf (such as "netcdf kitchen sink"). If you have found a particular shortcut useful list it here
+- Splitting a netcdf file
+
+% ncks -d time,0,729 hgt.2006.nc hgt.2006-01.nc  
+ % ncks -d time,730,1459 hgt.2006.nc hgt.2006-02.nc

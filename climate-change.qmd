@@ -1,0 +1,14 @@
+---
+title: "Climate Change"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+This area is for discussion of the modelling of ecosystems under climate change
+
+## [Ecopath with Ecosim](ewe-climate-workshop.qmd)
+
+ A workshop was held in Hobart - hosted by Chris Brown - that looked at climate change impacts on Australian ecosystems. Further discussion of this work can be found [here](ewe-climate-workshop.qmd).
+
+## Atlantis
+
+ Discussion of the handling of climate change in Atlantis can be found here (well soon, still under construction).

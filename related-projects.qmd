@@ -1,0 +1,19 @@
+---
+title: "Related Projects"
+author: "Unknown User (hep016)"
+---
+
+This section of the Atlantis wiki contains information on Atlantis relation project work.
+
+## Integration with other models
+- This information has been moved to the [Model Linkage](http://wiki.csiro.au/confluence/display/ML/Model+Integration+and+Linkage) page.
+
+## Atlantis integration with MINI and the geodatabase
+- [Mini Development](mini2-atlantis-configuration-gui.qmd)
+
+Notes from chats with Brian and Mike
+- [Bec and Brian 2nd Jul 2008](bec-and-brian-2nd-jul-2008.qmd)
+- [Bec, Mike and Brian 3rd Jul 2008](43155687.qmd)
+
+## VicMPA Plotting
+- [VicMPA](vicmpa.qmd)

@@ -1,0 +1,40 @@
+---
+title: "Updated Diet Input Matrix"
+date: "2013-02-27"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+The old Atlantis code read in the diet matrix parameters (pPREY) assuming the following order:
+
+FPL FPO FPS FVD FVV FVS FVB FVT FVO FMM FMN FBP FDD FDE FDS FDM FDP FDB FDC FDO FDF SHB SHD SHC SHP SHR SSK SB SP PIN REP WHB WHS WHT WDG CEP BFS BFF BFD BG PWN BMD BML BMS ZL MA ZG BD SG BC PL DF PS ZM ZS MB PB BB BO DL DR DC DLsed DRsed DCsed CEPj PWNj
+
+Which is the order that groups are defined, then a value for each detritus group in the sediment, then a value for CEPj and PWNj.
+
+The last two values (CEPj and PWNj) were included to allow for people using these are separate slots if they had too many groups.
+
+Atlantis2 doesn't have any restrictions on the number of groups you can have so there is no need to have the last two values in the diet matrix.
+
+Atlantis2 requires each pPREY diet parameter to contain a value for each group defined in your functional group definition file and a sediment value for each detritus group.
+
+So the length of your array should be K_num_tot_sp + K_num_detritus - these are set in your run.prm file.
+
+So for the SETas model the order of the values in the pPREY parameters is now:
+
+FPL FPO FPS FVD FVV FVS FVB FVT FVO FMM FMN FBP FDD FDE FDS FDM FDP FDB FDC FDO FDF SHB SHD SHC SHP SHR SSK SB SP PIN REP WHB WHS WHT WDG CEP BFS BFF BFD BG PWN BMD BML BMS ZL MA ZG BD SG BC PL DF PS ZM ZS MB PB BB BO DL DR DC DLsed DRsed DCsed
+
+eg:
+
+pPREY1FPL1 65
+  
+0 0 0.005 0 0 0 0 0 0 0.01 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.002 0 0 0 0 0 0 0 0 0.01 0 0 0 0 0 0 0 0 0 0 0
+
+Ideally you should edit any existing diet matrix values so it doesn't have the last two values on the end of each pPREY input parameter but Atlantis2 will just ignore them and you will get a warning like the following:
+
+WARNING: Length of attribute pPREY1FPL1 (67) in file VMPA_setas_biol_fishing_New.prm is not the required length 65 in file VMPA_setas_biol_fishing_New.prm
+  
+WARNING: Parse_Into_Array: Additional values in parameter pPREY1FPL1. Array length should be 65.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

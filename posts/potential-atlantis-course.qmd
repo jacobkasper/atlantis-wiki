@@ -1,0 +1,32 @@
+---
+title: "Potential Atlantis course"
+date: "2010-09-02"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+# News
+
+###### Atlantis course - February 7-11 2010. No charge to attend, but will need to cover own airfares, accommodation and other expenses. To see if any spots are left email [Beth Fulton](mailto:beth.fulton@csiro.au?subject=Atlantis%20Course%20Query)
+
+We are in the process of organising a training workshop on the use of the Atlantis end-to-end (ecosystem) modelling framework. Many of you will know what about the model (at least a little), but for those who don't you can find some more info up at
+<http://atlantis.cmar.csiro.au/>
+.
+  
+I'm writing to you because you have already expressed interest in such a course or are associated with people who might be interested. The workshop will be for less experienced users (including complete novices) and provide an introduction to the different components of Atlantis, including physics and biochemical processes, flora and fauna, fisheries and socioeconomics, with special emphasis on the latter two components.
+  
+It will be based on a combination of lecture and hands-on sessions during which participants will be provided with the opportunity to experiment with parameterization, scenario definition, model calibration, model running, output and exploring the code. Time will also be provided to workshop participants to explore the potential for developing their own applications of the model (it will be impossible to develop a model in tat time, this is really a chance to talk over with more experienced users all the issues and time demands associated with building an Atlantis model).
+  
+The workshop will take place in Hobart, Tasmania. Tentative dates have been set to 7-11 February 2011.
+  
+The number of participants will be limited to about 20, in order to maximize the potential for interactions with the Atlantis development team during the workshop.
+  
+Attendance of the workshop is free, but participants will have to provide for the costs of travel and subsistence etc.
+  
+If you do know of anyone who is interested please pass this not to them, or if you are interested in attending it would be really helpful if you could let me know if you are interested in attending this workshop. To help us tailor the workshops to those attending it would also be very helpful if you could also let me know the type of application of Atlantis you are thinking of potentially developing (and any context around that you feel comfortable sharing).
+  
+Based on responses to this initial quick survey, we will get back to you with more details on the workshop.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

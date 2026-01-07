@@ -1,0 +1,41 @@
+---
+title: "Upgrading to new Visual Studio Version"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+These notes are for Atlantis developers to follow when Microsoft releases a new version of Visual Studio.
+
+1. Which version to download?  
+   Download the version that talks about including the C++ compilers. Originally this would have been a separate C++ version but as of 2012 this seems to be a Windows Desktop version. Follow usual steps to install.
+2. Check out a clean copy of Atlantis into a temporary folder. This ensures we can revert converted files later.
+3. Open the atlantis.sln that is the most recent. Ie if you are creating a solution for VS 2012 then open the VS 2010 version.   
+   ![](attachments/43156338.png)
+4. Make sure it all builds.
+5. The next thing is to rename all the old projects that have been updated to the new version. So if you have opened the 2010 version you will see that each of these projects have changed, Rename these to 2012.   
+   ![](attachments/43156337.png)
+6. Then you want to remove all of the old projects from the solution in Visual Studio. Then add the newly named 2012 version. File->Add->Existing Project  
+     
+     
+   ![](attachments/43156336.png)  
+     
+   ![](attachments/43156335.png)
+7. Make sure you set the atlantismain project as the StartUp Project.   
+   ![](attachments/43156334.png)
+8. Again check that it builds.
+9. Now have a look in Windows Explorer. You will see all the folders that have changed. Don't worry about the atlink, atCLAMLink or atbrokerlink folders. These will be updated are they are needed and these are not included in the normal Atlantis compile.  
+   ![](attachments/43156331.png)
+10. Now you need to add these new project files to SVN. First do an update. This will replace the 2012 project files that you had updated. ![](attachments/43156330.png)
+11. Then add each new project file:  
+      
+    ![](attachments/43156327.png)
+12. Save the solution as a 2012 version and add it to the repository,  
+      
+    ![](attachments/43156329.png)
+13. Revert the old 2010 solution file.
+14. Before you check in the new files make sure you do a compare to make sure you are not changing any of the exiting files in the repository. Looking at the image below you can see that the atlantis_VS2010.suo file has changed. Don't check this change in as it might stuff up people who are still using 2010.
+
+![](attachments/43156326.png)
+
+![](attachments/43156324.png)
+
+Make sure you test to make sure the newly compiled version runs and generates the same results as the previous version. Best to create two different executables, do two runs with different output folder destinations (-d OutputFolder) and compare the results that way.

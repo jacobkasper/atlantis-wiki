@@ -1,0 +1,117 @@
+---
+title: "Force box eddy values using netCDF file"
+date: "2017-04-19"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Atlantis trunk code now allows users to set the eddy values associated with a box from a netcdf file similar to the forcing temperature values.
+
+If you do not want to use this functionality then
+no change is required to your files and your model output will not change
+.
+
+### **Changes required if you do want to use this functionality:**
+
+***Force.prm file***
+
+use_force_tracers 1
+  
+use_weighted_assim 0
+
+# The number of tracers to search for in the files and the names of those tracers.
+
+  
+nforceTracers 1
+  
+tracerNames 1
+  
+eddy
+
+# Now the actual files. Can have more than one tracer in a file.
+
+  
+eddy_nFiles 1
+  
+[eddy_File0.name](http://eddy_File0.name)
+inputs/forcisets/
+[Eddy.nc](http://Eddy.nc)
+  
+eddy_rewind 0
+
+**NOTE: the word 'eddy' is case sensitive. It must not contain any capitals.**
+
+**Structure of the Eddy.cdf file**
+
+```
+netcdf Eddy {
+dimensions:
+	t = UNLIMITED ; // (2 currently)
+	b = 11 ;
+	z = 7 ;
+variables:
+	double t(t) ;
+		t:units = "seconds since 1983-01-01 00:00:00 +10" ;
+		t:dt = 86400. ;
+	double eddy(t, b) ;
+		eddy:_FillValue = 0. ;
+		eddy:missing_value = -999. ;
+		eddy:valid_min = 0. ;
+		eddy:valid_max = 100. ;
+		eddy:units = "" ;
+// global attributes:
+		:title = "trivial" ;
+		:geometry = "VMPA_setas.bgm" ;
+		:parameters = "" ;
+data:
+ t = 0, 86400 ;
+
+ eddy =
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 ;
+}
+```
+
+**AGAIN - the variable name must be 'eddy'.**
+
+If eddy_rewind is set to 1 the eddy value in box 2 will be:
+
+```
+bec@bec-Precision-WorkStation-T5400:/data/Atlantis/SVNRunFiles/SETas_model_New_trunk_Pristine/SETas_model_New_Trunk/outputFolderPristineEddy$ ncks -C -d b,2 -v eddy outputSETAS.nc
+eddy: type NC_DOUBLE, 2 dimensions, 3 attributes, compressed? no, chunked? no, packed? no
+eddy size (RAM) = 6*1*sizeof(NC_DOUBLE) = 6*8 = 48 bytes
+eddy dimension 0: t, size = 6 NC_DOUBLE (Record coordinate is t)
+eddy dimension 1: b, size = 1 (Non-coordinate dimension)
+eddy attribute 0: bmtype, size = 5 NC_CHAR, value = phys
+eddy attribute 1: units, size = 2 NC_CHAR, value = 1
+eddy attribute 2: long_name, size = 14 NC_CHAR, value = Eddy strength
+t[0]=0 b[2] eddy[2]=0.8 1
+t[1]=86400 b[2] eddy[13]=2 1
+t[2]=172800 b[2] eddy[24]=3 1
+t[3]=259200 b[2] eddy[35]=2 1
+t[4]=345600 b[2] eddy[46]=3 1
+t[5]=432000 b[2] eddy[57]=2 1
+```
+
+If eddy_rewind is 0 the values will be:
+
+```
+bec@bec-Precision-WorkStation-T5400:/data/Atlantis/SVNRunFiles/SETas_model_New_trunk_Pristine/SETas_model_New_Trunk/outputFolderPristineEddy$ ncks -C -d b,2 -v eddy outputSETAS.nc
+eddy: type NC_DOUBLE, 2 dimensions, 3 attributes, compressed? no, chunked? no, packed? no
+eddy size (RAM) = 6*1*sizeof(NC_DOUBLE) = 6*8 = 48 bytes
+eddy dimension 0: t, size = 6 NC_DOUBLE (Record coordinate is t)
+eddy dimension 1: b, size = 1 (Non-coordinate dimension)
+eddy attribute 0: bmtype, size = 5 NC_CHAR, value = phys
+eddy attribute 1: units, size = 2 NC_CHAR, value = 1
+eddy attribute 2: long_name, size = 14 NC_CHAR, value = Eddy strength
+t[0]=0 b[2] eddy[2]=0.8 1
+t[1]=86400 b[2] eddy[13]=2 1
+t[2]=172800 b[2] eddy[24]=3 1
+t[3]=259200 b[2] eddy[35]=3 1
+t[4]=345600 b[2] eddy[46]=3 1
+t[5]=432000 b[2] eddy[57]=3 1
+```
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

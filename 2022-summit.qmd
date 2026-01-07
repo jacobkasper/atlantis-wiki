@@ -1,0 +1,71 @@
+---
+title: "2022 Summit"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+**Date:**  
+Second Atlantis Summit May 2-6 2022
+
+Post-Summit training workshop to follow the main meeting (9-11 May)
+
+**Location:**
+
+As with much over the past two years (2022-2022) the Atlantis Summit was moved online rather than postponed any further.
+
+The Summit is probably different than any other meeting on earth! We are an avid group of ecosystem modelling enthusiasts who want to show what we are working on, share tips, and ask each other for help.  Since we have rapidly shifted to an online format due to the pandemic, think of this as an informal conversation (with a bit of chaos thrown in – *it is Atlantis after all*) rather than a series of perfectly polished talks. Feedback, both live and via Slack channels keep the meeting very lively.
+
+***There were hubs*** **in Norway (Bergen), Australia (Hobart) and the*US.***That way everyone should have some friendly time slots for presentations and discussions.
+
+The hope is for hubs to overlap in a relay with at least 2 hubs online at any one time with a hand-off of topics between locations to progress discussions from one round to the next.
+
+If you have a critical mass of folk interested in Atlantis in one spot and one like to create a hub/mini-symposium of you own please [email us](mailto:atlantis@csiro.au?subject=Atlantis%20Summit) so we can discuss what is possible.
+
+**Keynotes:**
+
+The key notes speakers were:
+
+**[Julia Blanchard](https://www.utas.edu.au/profiles/staff/imas/julia-blanchard):** On the general theme of ***advancing long term climate projections with ecosystem models***
+
+**[Sarah Gaichas](https://www.fisheries.noaa.gov/news/meet-sarah-gaichas-research-fishery-biologist-ecosystems-assessments-and-dynamics):** On the general theme of ***linking Atlantis ‘operating models’ with fishery stock assessments***
+
+A panel will be held on the general theme of ***using artificial Intelligence and machine learning to calibrate complex models***
+
+**Background to the Second Atlantis Summit**
+
+Marine resource management agencies worldwide have committed to applying Ecosystem-based management (EBM). The path from creation to implementation and use of EBM is slowly emerging. Ecosystem models which incorporate all aspects of the ecosystem, such as end-to-end models, can be useful tools in (1) synthesising existing data streams and ecosystem feedback dynamics and identify research gaps, (2) linking the different components in an ecosystem dynamically (oceanography, ecology, habitat, economy, human use); (3) visualising (and communicating) trade-offs (e.g. between ecological and human wellbeing); and (4) projecting future ecosystem trends based on climate change trajectories or changes in management.
+
+One such end-to-end model is Atlantis, developed by CSIRO Australia (<https://research.csiro.au/atlantis/>), which has now been applied from polar to tropical systems across the world. Because of its modular structure, different components can be more or less detailed to focus on various issues with direct and indirect emerging impacts to the ecosystem (e.g. climate change effect on habitat and indirectly on habitat-dependent species and its predators; impacts of fishery regulations on fishers and indirectly on the local economy). Therefore, Atlantis is a highly effective tool to use to gain understanding of coming environmental change and to explore options before the implementation phase of actual management changes as it can evaluate if desired outcomes are likely to be met by those changes, for example, by using the built in Management Strategy Evaluation functionality. 
+
+In December of 2015, the global Atlantis community convened the first Atlantis Summit (<https://research.csiro.au/atlantis/atlantis-summit/>).  This included training sessions, tool development, and discussions of best practices (e.g. for handling climate change, fleet dynamics, and ecological processes). Among the outputs were three peer reviewed papers, outputs to support modellers (a User Manual, an Atlantis Google group), and improvements to the CSIRO Atlantis wiki. Since 2015, Atlantis has further matured and a second Atlantis Summit is being organised. At the Atlantis Summit 2,  our objectives include advancing long term climate projections by linking Atlantis to global and regional models, applications of Artificial Intelligence and machine learning for model calibration and validation,  and linking Atlantis ‘operating models’ to fishery stock assessments to assess their ecosystem performance. 
+
+**Need**
+
+The Atlantis ecosystem model framework has been broadly shared by CSIRO across the globe. The success of this framework has been facilitated by distributed code, international partnerships, and the modeller support mechanisms put in place after the first Atlantis Summit five years ago.
+
+Despite these successes, the modelling teams are distributed across many time zones and institutions, and there are innovations and challenges from particular regions that should be shared with the international Atlantis community.  At the Atlantis Summit 2, we aim to compare approaches across nations, share technical aspects of this, and also discuss how the results have been brought into the management of living marine resources. 
+
+Atlantis also has a “living” code base, which changes through time as new functionality is requested. It is difficult for any one individual to remain knowledgeable on all these options, and the Summit presents an excellent opportunity to help people familiarise themselves with the new options, which may be relevant for questions in their region (for example, expanded estuarine and land-based components, sea-ice communities, representation of contaminant uptake and dispersal, noise). There is also the desire to use the Summit to facilitate discussions of the next steps concerning expanding, refining and strengthening what can be done with Atlantis.
+
+**Structure of the meeting**
+
+All aspects of the meeting were conducted online (e.g. training, keynote speaker seminars, round-robin presentation of developed/in-development models).
+
+The approach during the five days of Atlantis Summit 2 was to replicate five key aspects from the first Atlantis Summit:  
+
+1. **Hands-on workshops for new users**.  We aim for 1.5 days of introductory material for new users, based on previous courses taught by CSIRO and NOAA staff.
+2. **Hands-on group assistance with models in progress**.  These will be small informal presentations given by those working through new model development, with assistance and tools offered by other users.
+3. **Presentations regarding key modelling decisions, challenges, and tools.**The aims are to update a collective understanding of best practices, and new tools developed to implement those. To keep the program as interactive as possible these presentations will be presented as pre-recorded talks, with synchronous Q&A sessions during the meeting.
+4. **Collaborative manuscripts:** Three invited international experts will motivate these collaborative manuscripts with in meeting work sessions held to advance the manuscripts. The idea is to follow the format of Olsen et al. (2018, Frontiers in Marine Science, 5, 64), bringing ensembles of regional Atlantis models to bear on international marine management challenges, including:
+- **Climate change effects on marine systems**
+- **Identifying robust stock assessment and management practices**
+- **Applying techniques such as AI/machine learning to new regions/models,  e.g. to improve model calibration and validation.**
+
+Throughout the Summit the aim was to bolster user support (e.g. via the wiki, Google group [live chat session throughout the week], living User Manual, or new mechanisms) and to facilitate social events on site, on line and at distributed events around the globe where Atlantis modellers can come together in Europe, USA, Australia etc.
+
+**Accessing the talks**
+
+Talks form the summit can be accessed in two ways. The first way is to look at the powerpoints in the attachments of this page. The second is via the [AtlantisE2Emodel](https://www.youtube.com/channel/UCnoUeiv_7jURCegxQGWP29Q/featured) youtube channel.
+
+**Scientific Steering Committee (SC):** Holly Perryman, Vidette McGregor, Mariska Weijerman, Howard Townsend, Gavin Fay, Ingrid van Putten, Isaac Kaplan, Marie Savina Rolland, Javier Porobic, Myron Peck, Beth Fulton
+
+##

@@ -1,0 +1,43 @@
+---
+title: "End age for the application of fishing mortality"
+date: "2022-09-27"
+author: "Fulton, Beth (Environment, Hobart)"
+version: "6650"
+---
+
+**Version: 6650**
+
+We have added XXX_mFC_endage as a mirror for XXX_mFC_startage
+
+Whereas XXX_mFC_startage is the first age class (counting from 0) of species XXX for which the fishing mortality should be applied, XXX_mFC_endage is the age class of species XXX where mFC is set back to zero. The the same fishing mortality rate is the applied to all age groups that are older than startage and younger than endage
+
+For example if there are 5 fleets then for species FAB (which has 10 age classes, numbered 0 to 9) if we have:
+
+FAB_mFC_startage   5
+  
+0 0 3 0 1
+
+FAB_mFC_endage    5
+  
+10 7 8 10 10
+
+mFC_FAB     5
+  
+0.1 0.3 0.1 0.2 0.05
+
+This means that for:
+
+Fleet1 - fishing mortality rate of 0.1 for age classes 1 to 9
+
+Fleet2 - fishing mortality rate of 0.3 for age classes 1 to 6
+
+Fleet3 - fishing mortality rate of 0.1 for age classes 4 to 7
+
+Fleet4 - fishing mortality rate of 0.2 for age classes 1 to 9
+
+Fleet5 - fishing mortality rate of 0.05 for age classes 2 to 9
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

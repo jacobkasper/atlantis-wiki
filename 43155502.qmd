@@ -1,0 +1,45 @@
+---
+title: "Atlantis_TODO - Bec's task list"
+author: "Pouliquen, Nathan (IFREMER)"
+---
+
+See below for more information on tasks.
+
+## Bec to do list
+
+###### 100% of the tasks completed
+
+|  |  |  |
+| --- | --- | --- |
+|  | Flexible fisheries | Medium |
+|  | Move the assessment data structures into the atAssessModule | Medium |
+|  | Move the management data structures into the atManageModule | Medium |
+|  | Move the physics data structures into the atPhysicsModule | Medium |
+|  | Simpilfy the diet availability code. At present there are two arrays bm->pSPageeat and FunctGroupArray[sp_id].pSPEat. It would be good to make these into a single array that is calculated at the start of the run. This would simplify the getPreyAvail function. | Medium |
+
+## Small Tasks
+
+Comment the new input code and explain how it all works and how to add new parameters.  
+ Change all atlantis comments to doxygen format  
+ Get all error messages to stdout or stderr
+
+Change the migration code to not loop over 1 ->3 for the migration groups but to loop over 1 - K_max_num_mig.
+
+### get trelib linking as a static lib not a dll.
+
+This is done. Had to create a seperate static library visual studio project to build from there. Now all that is required is the tre.lib and the tre-config.h and regex.h files.  
+ In doing this I have also built the atlantis visual studio project in such a way that it can be given to another developer - they can then just open it and the code will build. The original complex set of instructions needed to build atlantis are no longer needed.
+
+### Data restructure - move the species params into the function group array. Move the funct group array into the bm.
+
+To resolve post species param restructure:
+- Will need to check that all of the parameters are read in for the different cohorts in  
+   ecol_readCohortSpeciesParam().
+- Need to look into the limits on number of time a group can migrate in/out of the model domain. Want these restriction to be removed.
+- Need to get rid of spNAME and use the code read in.
+- Need to merge the Spawn_Now and Inv_Spawn_Now arrays.
+- Any models that are using jPWN or jCEP are seperate groups will now need to be rewritten.
+- The jmL_id and mL_id species parameters really need to be sorted. A nicer was of doing this would be to have a single parameter and store a value for each cohort. For the verts i could  
+   check the maturity age when the model is started and set the juv cohorts to the juv value and the adults cohorts to the adult value.
+- fisheater_id and catcheater_id could potentially be a cohort dependant species parameter. It is based on the values in the pSPEat array. Need to check into this later. I think they are but these values are only used for the vert groups so i'll ignore this issue. Perhaps in the future we might want to look into changing this.
+- That bm->DebugInfo does not need to have cohort level data. Should it be a sum of the cohort data? At present it is not in the inverts but it is for the verts.

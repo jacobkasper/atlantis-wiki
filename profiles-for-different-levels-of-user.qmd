@@ -1,0 +1,117 @@
+---
+title: "Profiles for different levels of user"
+author: "Unknown User (hep016)"
+---
+
+# Introduction
+
+The current text-file configuration contains a large number of parameters, many of which are for advanced users only, which is a barrier to entry for beginning users who should only be concerned with a basic set. The GUI will mitigate some issues by documenting each option (as well as a slightly friendlier interface than a large text file), but the issue of large numbers of unneeded parameters remains.
+
+So, an additional feature of the GUI is that as a first step users must specify whether they are beginner, intermediate, or advanced (ie, only if they're Beth. Later versions may require users to prove that they are indeed Beth if they select this option) (or not).
+
+We nailed Beth down for 10 minutes and recorded her opinion of what profile each parameter belonged in.
+
+# Functional Groups
+
+| Attribute | Profile Level (+ notes) |
+| --- | --- |
+| GroupCode | Beginner |
+| Name | Beginner |
+| DiagName | Probably good for beginner to tailor as can come out in some of the error messages - its a hang over of requirements from the netcdf header. Default to the same as "Name" |
+| LongName | (ditto DiagName) |
+| DiagTol | Beth (default to 2 for any living group except for primary producers and plankton which should be 1; non-living are also 1) |
+| numcohorts | Beth - Until new version of the code is out this is Beth only, when the new version is released by Bec then go intermediate (default to 10) |
+| VerticallyMigrates | Intermediate (default to off) |
+| HorizontallyMigrates | Intermediate (default to off) |
+| HabitatPreference | Beginner (no default; must be selected) |
+| foundinwc | Beginner (default to 1 for want of something better - or use info from other settings like inwc = 1 if plankton, insed =1 if benthic invertebrate etc) |
+| foundinsed | ditto foundinwc |
+| foundinepi | ditto foundinwc |
+| isFish | ditto foundinwc |
+| isImpacted | Intermediate (It really does depend on what the groups are defined to be so safest to default to zero) |
+| isTAC | Intermediate (It really does depend on what the groups are defined to be so safest to default to zero) |
+| GroupType | Beginner (no default) |
+| ispredator | Beginner (default to 1 for everything except primary producers) |
+| isgrazer | Beginner (default to 1 for everything except primary producers) |
+| iscover | Intermediate (default to 1 for epibenthos) |
+| issilicondep | intermediate (default to 0) |
+| isassessed | intermediate (default to 0) |
+
+*Notes about related attributes not (yet) in the functional groups panel):*  
+Yes should assume (i) holling-ii predation, (ii) prescribed movement and (iii) either constant babies per mother or beverton-holt reproduction
+
+*Mark default-values implementation notes:* I think I'll implement this in 2 phases for now: default values in the template where it's a single value, and where things are conditional these will be set in the FunctionalGroup instance constructor iff the attribute is null. Otherwise, there's UI issues raised such as requiring the user to specify functional group first, etc (it could get fancy, eg set the default when they select functional group, unless they've already set a value in which case... but that's going to get messy in a hurry and probably doesn't buy a huge amount right now). Most null checks in validation will be removed because of this, as well. Every element which can be hidden (ie, not "beginner" level) may either be null, and set in the constructor, or will have a default. A null value is only invalid if it is visible; and most will have defaults. This will only apply to ones they must select, such as group code and possibly group type.
+
+# Beginner Parameters
+- functional groups:  
+  nothing except groups functioning  
+  pelagic or demersal  
+  holling2 predation, prescribed movement  
+  planktonic fish
+- what type of animal, function/process is hidden
+- mum_, c_, growth rates
+- diet matrix
+- some form of recruitment
+- vertical, horiz distribution  
+  s3, etc, vert day/night,
+- habitat, if habitat dependence is selected
+- mortality (quadratic/linear/etc)  
+  ml,mq at least, others maybe intermediate (ms, oxygen dependent  
+  maybe intermediate)
+- primary producers  
+  light, nitrogen parameters
+- (prescribed movement, holling2 predation)
+- what time of day animal is active  
+  suggested default: active all the time
+- clearance rates  
+  c_, m_
+- length-weight relationships
+- age-class size
+- age-maturity
+- time of spawning
+- time of recruitment
+- KSPA / FSPA  
+  But warn! Tricky
+- FSPB - proportion spawning
+- recruit distribution, vert + hori
+- KDENr, bhbeta/alpha (recruitment parameters — all the rest for intermediate)
+
+# Intermediate User Parameters
+- kdep
+- what kind of light, salt, etc
+- live young, stay with mothers, feed while spawning, temperature sensitivity, habitat dependencies, movement options
+- efficiencies
+- migration  
+  including KIMGa, etc
+- predation
+- different movement cases
+- q10, tchange, schange, etc ("directed changes")
+- primary producer nutrient requirements  
+  micronutrients, silica
+- bacteria
+- habitat maximums and associations
+  - min, max depths
+  - home ranges + overlaps
+  - changes in those habitats
+- movement options  
+  cruising speed, rate of change, default thresholds
+- stocks
+- age-structured ontogenetics diet stuff
+- gape limitation
+- respiration
+- FDG (detrital contributions from eating)
+- spawning options
+- rebuild reserves over structure
+- recovery parameters, options around spawning
+- popratio stock
+
+# Advanced-Users-Only Parameters
+- invading species
+- anything to do with stocks  
+  vertical stock structure, etc
+- vertebrate body form  
+  kthres, khtd
+- phys/chem parameters
+- temperature effects
+- relative tolerance + boundaries info
+- tidal channel

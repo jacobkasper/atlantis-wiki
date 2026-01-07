@@ -1,0 +1,229 @@
+---
+title: "Using CSIRO High Performance Comping (HPC) for Atlantis"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+All of the information provided about the HPC can be found on the Scientific Computing pages:
+
+[Scientific Computing Homepage](https://confluence.csiro.au/display/SC/Scientific+Computing+Homepage)
+
+### Basic Information:
+
+All of the CSIRO HPC resources available are located in Canberra. If you don't have any Bowen storage located in Canberra you can use the default storage available to you. Once you need more than this you will have to request some dedicated Bowen storage in Canberra.
+
+See - [SC filesystem conventions](https://confluence.csiro.au/display/SC/SC+filesystem+conventions) - for information.
+
+I would recommend using the scratch1 as a starting point as this is persistent and won't be flushed.
+
+### How do i copy data to these locations?
+
+There is information on how to get files to each of these storage locations on [CSIRO SC Shared Cluster - Pearcey](https://confluence.csiro.au/display/SC/CSIRO+SC+Shared+Cluster+-+Pearcey)
+
+|  |  |
+| --- | --- |
+| Data storage name | pearcey share (NEXUS) |
+| $FLUSH2DIR | \\[pearceyflush2.csiro.au](http://pearceyflush2.csiro.au)\flush2\yourident |
+| $FLUSH3DIR | \\[pearceyflush3.csiro.au](http://pearceyflush3.csiro.au)\flush3\yourident |
+| $FLUSH4DIR | \\[pearceyflush4.csiro.au](http://pearceyflush4.csiro.au)\flush4\yourident |
+| $HOME | \\[pearceyhome.csiro.au](http://pearceyhome.csiro.au)\home_intel\yourident |
+| $SCRATCH1DIR | \\[pearceyscratch1.csiro.au](http://pearceyscratch1.csiro.au)\scratch1\yourident |
+| $STOREDIR | ``` \\ruby.hpc.csiro.au\yourident ``` |
+
+You should be able to mount the above locations from windows and copy across.
+
+### Running Atlantis:
+
+There are two options, both which can use the same code and access the same model files.
+
+1 - using the HPC interactive nodes:
+
+These are a three shared nodes with 20 CPUS each. These are used by people all around CSIRO.
+
+2 - Using the batch system
+
+This gives you the ability to run a lot *(>10) of model runs at once but this doesn't have a graphical interface. You need to request a specific amount of memory and time when submitting the job to the queue.
+
+There is lots of information on using the batch system at [Running jobs on a Linux system](https://confluence.csiro.au/display/SC/Running+jobs+on+a+Linux+system).
+
+I recommend using a combination of the two. Use the interactive nodes to get your runs set up and make any changes required to the model files/code and then use the batch system if/when you are ready to do a large number of scenario runs.
+
+### Steps to get a vnc session on pearcey interactive nodes:
+
+There are 3 interactive nodes on pearcey:
+
+pearcey-i1.hpc.csiro.au
+
+[pearcey-i2.hpc.csiro.au](http://pearcey-i1.hpc.csiro.au)
+
+[pearcey-i3.hpc.csiro.au](http://pearcey-i1.hpc.csiro.au)
+
+You can ssh to these nodes using your csiro ident/password.
+
+**How do you choose which one to use:**
+
+Log in to each and see how high the usage is by using the 'top' command. Each of these nodes have 20 cores, so a load average of near 20 means that node is being hit and you should try one of the other nodes.
+
+Remember these load averages change over time so one day one node might be good but the next it might be heavily used.
+
+Start a vnc session the same way you do when you are using the bowen - so ssh (or putty ) in. Then start a session using:
+
+```
+vnc -s -geometry 1900x1000
+```
+
+For example:
+
+```
+bec@bec-Precision-WorkStation-T5400:~$ ssh gor171@pearcey-i2.hpc.csiro.au
+Warning: the ECDSA host key for 'pearcey-i2.hpc.csiro.au' differs from the key for the IP address '152.83.81.91'
+Offending key for IP in /home/bec/.ssh/known_hosts:67
+Matching host key in /home/bec/.ssh/known_hosts:70
+Are you sure you want to continue connecting (yes/no)? yes
+Password: 
+Last login: Tue Jun 19 09:26:18 2018 from 140.79.21.205
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gor171@pearcey-i2:~> vnc -s -geometry 1900x1000
+
+New VNC server is pearcey-i2.hpc.csiro.au:14
+```
+
+So you would then connect to pearcey-i2-hpc.csiro.au:14 like you would connect to the Bowen using vnc viewer.
+
+### Compiling Atlantis:
+
+The code should be checked out using svn the same as you would do on the any other machine. There is now a build_hpc script in the AtlantisTrunk repository that will load the required modules and compile the code.
+
+```
+cd /scratch1/gor171
+mkdir -p atlantis/atlantisCode/
+cd atlantis/atlantisCode/
+svn co https://svnserv.csiro.au/svn/atlantis/Atlantis/trunk/atlantis .
+./build_hpc
+```
+
+This should build the atlantisMerged exe in /scratch1/gor171/atlantis/atlantisCode/atlantismain.
+
+The build_hpc script contains the following:
+
+```
+module load proj
+module load netcdf
+aclocal
+autoheader
+autoconf
+automake -a
+
+./configure \
+CC='gcc' \
+CFLAGS='-I$NETCDF_ROOT/include ' \
+CXXFLAGS='-I$NETCDF_ROOT/include ' \
+CPPFLAGS='-I$NETCDF_ROOT/include ' \
+LDFLAGS='-L$NETCDF_ROOT/lib -lcurl'
+make
+```
+
+### Running Atlantis - 2 options:
+
+As mentioned above there are two ways to run Atlantis, using your interactive node or by submitting jobs to the queue. In the first instance get things running using the first option.
+
+### 1. Using pearcey interactive nodes:
+
+### Edit scripts to use full path when running on a pearcey interactive node (pearcey-i1 etc)
+
+These VMs are shared resources so you will not be able to run sudo make install. To run Atlantis you need to use the full path to the atlantisMerged exe created:
+
+```
+#!/bin/bash
+
+
+/scratch1/gor171/atlantis/atlantisCode/atlantis/atlantismain/atlantisMerged -i CEP_init4.nc 0 -o CEP.nc -r CEP_run_50yrs_fishedCEP_bec.prm -f CEP_force_pH45.prm -p CEP_physics.prm -b CEP_biol_61e.prm -h CEP_harvest_fishedCEP.prm -s CEP_Groups.csv -q CEPFisheries_FishedCEP.csv -d CEP_61e
+```
+
+### 2. Using the batch queue system:
+
+### Edit scripts to request resources when running Atlantis using the queue system:
+
+You will need to work out how long your Atlantis runs take to complete and how much memory you need. I would be surprised if any Atlantis runs required more than 5G so go with that to start. Regarding run time, its very important that you over estimate, once you get to the amount of time you have requested your run will be killed if it hasn't finished. So try initially doubling the time you think and you can always reduce it later.
+
+See [Requesting resources in Slurm](https://confluence.csiro.au/display/SC/Requesting+resources+in+Slurm) for more detailed information.
+
+Example:
+
+```
+#!/bin/bash
+#SBATCH --time=10:00:00
+#SBATCH --mem=5g
+
+
+/home/gor171/data/AtlantisCode/AtlantisSEAPupdate/atlantis/atlantismain/atlantisMerged -i CEP_init4.nc 0 -o CEP.nc -r CEP_run_50yrs_fishedCEP_bec.prm -f CEP_force_pH45.prm -p CEP_physics.prm -b CEP_biol_61e.prm -h CEP_harvest_fishedCEP.prm -s CEP_Groups.csv -q CEPFisheries_FishedCEP.csv -d CEP_61e
+```
+
+Here i have asked for 10 hours to run time and 5 G of memory.
+
+Then to actually start this run use the following:
+
+```
+$sbatch runCEP_50yrs_61e_bec.sh
+$submitted batch job 16409774
+```
+
+You can submit a number of job request at once by creating a script that does it for you (not atlantis runs, but you get the idea)
+
+```
+$ cat Eva_sched.sh
+sbatch BatchRun_June2018_PCBay_19June_release_0.sh
+sbatch BatchRun_June2018_PCBay_19June_release_1.sh
+sbatch BatchRun_June2018_yuleIsland_19June_release_0.sh
+sbatch BatchRun_June2018_yuleIsland_19June_release_1.sh
+sbatch BatchRun_June2018_PCBay_16October_release_0.sh
+sbatch BatchRun_June2018_PCBay_16October_release_1.sh
+sbatch BatchRun_June2018_yuleIsland_16October_release_0.sh
+sbatch BatchRun_June2018_yuleIsland_16October_release_1.sh
+
+
+$./Eva_sched.sh
+Submitted batch job 16409779
+Submitted batch job 16409780
+Submitted batch job 16409781
+Submitted batch job 16409782
+Submitted batch job 16409783
+Submitted batch job 16409784
+Submitted batch job 16409785
+Submitted batch job 16409786
+```
+
+Here you can see we have submitted a job to the queue.  Now we need to know if its running?
+
+```
+$sacct
+       JobID    JobName  Partition      User  AllocCPUS   NNodes    Elapsed   TotalCPU      State  MaxVMSize     MaxRSS     ReqMem        NodeList 
+------------ ---------- ---------- --------- ---------- -------- ---------- ---------- ---------- ---------- ---------- ---------- --------------- 
+16409774     runCEP_50+        h24    gor171          1        1   00:00:07   00:00:00    RUNNING                              5Gn            c036
+```
+
+Here we can see the job i had requested has started. We can check the progress of the job by looking at the slurm output created for this job. All standard output will go to this file.
+
+```
+$cat slurm-16409774.out
+```
+
+or you can also open this file using a text editor.
+
+Checking your job once it finishes.
+
+Its a good idea to check how long your job took and how much memory you actually used.
+
+```
+$sacct
+       JobID    JobName  Partition      User  AllocCPUS   NNodes    Elapsed   TotalCPU      State  MaxVMSize     MaxRSS     ReqMem        NodeList 
+------------ ---------- ---------- --------- ---------- -------- ---------- ---------- ---------- ---------- ---------- ---------- --------------- 
+16409774     runCEP_50+        h24    gor171          1        1   00:01:52  01:51.181  COMPLETED                              5Gn            c036 
+16409774.ba+      batch                               1        1   00:01:52  01:51.181  COMPLETED    507192K    342944K        5Gn            c036
+```
+
+Here we can see the job successfully completed and only took 2 minutes (10 day run) and only used 342944K of memory, so only 342M. So in this instance we can see that asking for 5G of memory is too much, i would reduce this to 1G. Always over estimate! But not too much. If you request too much time/memory it will take a long time for your job to start. See [Scheduling jobs](https://confluence.csiro.au/display/SC/Scheduling+jobs) for information about how jobs are scheduled.
+
+**Good practices:**
+
+1. Clean up after yourself. - remove old slurm output files.
+2. Copy your model results to somewhere else. Your laptop etc

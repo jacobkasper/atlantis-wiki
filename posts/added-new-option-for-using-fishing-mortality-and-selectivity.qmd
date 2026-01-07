@@ -1,0 +1,18 @@
+---
+title: "Added new option for using fishing mortality and selectivity"
+date: "2011-07-04"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+# Using mFC (fishing mortality) and selectivity
+
+Previously when driving a fishery via fishing mortality (using flagF) you could only quarantine some ages where the mortality didn't apply by setting a minimum age of effect (using mFC_start_age). Now its possible to use a selectivity curve instead. To do this set
+
+flag_sel_with_mFC      1        # This flag indicates whether using selectivity with fishing mortality (mFC) or simple age of first effect (using mFC_start_age)
+
+The set selcurve to be the shape of the selectivity curve and use the relevant slectivity curve parameters as normal for fully dynamic fishing models.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

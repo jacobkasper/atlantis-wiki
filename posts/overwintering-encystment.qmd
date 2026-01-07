@@ -1,0 +1,118 @@
+---
+title: "Overwintering & Encystment"
+date: "2013-04-25"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+##### Logic behind the idea
+
+Some species encyst or go into hiatus over winter. These animals don't eat but drop to depth and effectively drop out of the system (although it is possible in some instances for predators to attack them). For the biomass pool groups the biomass drops as animals forms cysts and go dormant and then when triggered to emerge the biomass grows again as animals "hatch" after overwintering. For age structured groups the numbers grow or decline appropriately (but in a box specific way, which distinguishes it from migration where everything gets lumped together in one storage bin until they re-emerge).
+
+Triggers for overwintering are
+
+| Case | Entering | Leaving |
+| --- | --- | --- |
+| No overwintering (case 0) | - | - |
+| Date dependent (case 1) | Current date* is within the window (start_date + encyst_period) | Current date* is within the window (end_date + encyst_period) |
+| Environment dependent (case 2) | current growth_rate < trigger growth_rate | DIN < nutrient trigger OR water temperature > trigger temperature |
+- Where date means the calendar date in the year (i.e. number between 0 and 364)
+
+This was primarily based on invertebrates. If the date based case does not work for vertebrates and an environmental driver is required please notify Beth.
+
+##### To represent this in Atlantis
+
+1) set
+
+isOverWinter to 1 in the functionalGroup.csv file
+
+2) Add the following parameters to the biol.prm for each group in the model (the valuse below turn off the option) where you have set isOverWinter to 1 in your functional groups definition file.
+
+overwinterStartTofY_XX       366
+TofY start
+
+encystment     0 - 364
+
+overwinterEndTofY_XX        0
+TofY end
+
+encystment       0 - 364
+
+overwinterStartTemp_XX     0.0         Temperature to trigger start of
+overwintering
+
+period    0.0 - 10.0
+
+overwinterEndTemp_XX      0.0
+Temperature to trigger end of
+
+overwintering
+
+
+period     0.0 - 10.0
+
+crit_mum_XX    0.0
+Critical growth rate, less than this and begin
+
+encystment      0.0 - 0.5
+
+crit_nut_XX       0.0
+Critical
+
+nutrient
+
+level to trigger end of
+
+overwintering
+
+
+encystment    0.0 - 20.0
+
+crit_temp_XX     100.0
+Critical temperature to trigger end of
+
+overwintering
+
+
+encystment     0.0 - 10.0
+
+encyst_rate_XX   0.0
+Rate of
+
+encystment
+
+(as begin
+
+overwintering
+
+)   0.0 - 1.0
+
+hatch_rate_XX    1.0
+Rate of hatching (as end
+
+overwintering
+
+)             0.0 - 1.0
+
+encyst_period_XX   0
+Period of time remain
+
+encysted
+
+(if date driven)    10 - 120
+
+flagencyst_XX    0
+Flag for
+
+overwintering
+- 0 = off, 1 = date trigger, 2 = temperature trigger    0-2
+
+You also need to add the vertical distribution the species will use while overwintering (e.g. do they all dtop to depth or float at the surface etc). This thas the same format as VERTday_XX or VERTnight_XX e.g for a model with 7 watercolumn layers it would look like
+
+VERToverwinter_XX       7
+  
+0.5 0.5 0.0 0.0 0.0 0.0 0.0
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

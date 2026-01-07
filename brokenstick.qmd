@@ -1,0 +1,31 @@
+---
+title: "BrokenStick"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+##### Background
+
+This file has been created by Bec Gorton to assist Atlantis end users to tune and debug the broken stick management strategy.
+
+##### File Description
+
+Below is a sample output file:
+
+Time SpeciesName FisheryName FCurr FTARG CurrentBiomass BrokenStickScaler   
+3.650000e+02 FPS midwcFP 2.881297e-01 7.213860e-02 5.123063e+05 2.503685e-01  
+7.300000e+02 FPS midwcFP 8.565187e-02 7.213860e-02 5.678410e+05 8.422303e-01  
+1.095000e+03 FPS midwcFP 2.455630e-01 7.213860e-02 4.690811e+05 2.937682e-01  
+1.460000e+03 FPS midwcFP 9.920250e-02 7.213860e-02 4.400132e+05 7.271853e-01  
+1.825000e+03 FPS midwcFP 2.177240e-01 7.213860e-02 3.486150e+05 3.313306e-01
+
+The file can be opened using excel or similar allowing space delimiters.
+
+| ColumnName | Description | Units |
+| --- | --- | --- |
+| Time | The day of the model run | Days since the model started |
+| SpeciesName | The groupCode of the functional group | - |
+| FisheryName | The name of the fishery | - |
+| Fcurr | Annual mortality due to fishing - this is for the functional group over all fisheries | Proportion killed/yr |
+| FTARG | The target annual fishing mortality value | Proportion killed/yr |
+| CurrentBiomass | The total biomass of this functional group in the entire model | Tonnes |
+| BrokenStickScalar | The scalar to apply to the mFC value for this group in this fishery to get a fishing pressure of FTARG | - |

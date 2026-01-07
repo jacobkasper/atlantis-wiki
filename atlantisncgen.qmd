@@ -1,0 +1,79 @@
+---
+title: "AtlantisNCGen"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+### Documentation
+
+This program aims to assist modellers to generate the [initialisation netCDF file](https://wiki.csiro.au/display/Atlantis/Initial+Conditions+NetCDF+File) required to run Atlantis models. It takes an existing netCDF file as a template and loads the needed data from a series of input csv files.
+
+### Files
+
+We do not provide Atlantis or AtlantisNCGen as a pre-build program. Its too hard to keep executables up-to-date for all possible operating system configurations. Instead we provide you with the source code you need to build (or compile) an executable program on your own machine.
+
+You will need to check out a copy of the source code for AtlantisNCGen using Subversion similar to how you check out the [Atlantis source code](getting-the-source-code.qmd).
+
+The URL is:
+
+CSIRO users: <https://svnserv.csiro.au/svn/atlantis/AtlantisNCGen/trunk/atlantisNCGen/>    
+ External Partners:  [https://svnserv.csiro.au/svn/ext/atlantis/](https://svnserv.csiro.au/svn/ext/atlantis/Atlantis/branches/bec_dev)[AtlantisNCGen/trunk/atlantisNCGen/](https://svnserv.csiro.au/svn/atlantis/AtlantisNCGen/trunk/atlantisNCGen/)
+
+A Visual Studio project is included in the code repository or you can use the autolib tools if you are a linux or Mac user.
+
+You should have a read of the following page [CDFDistiller](cdfdistiller.qmd) for info about how your AtlantisNCGen code should be setup relative to your Atlantis code.
+
+Included in the source code folder is a README file that tells you how to run AtlantisNCGen. If you are a linux or Mac user please read the COMPILE text file.
+
+### Changing functional group names
+
+If you are using Atlantis-2 you will be able to use any names you like for your functional groups. These are defined in your [functional group definition file](https://wiki.csiro.au/confluence/display/Atlantis/Functional+Group+Definition+File).
+
+This means you will need to update the tracers by atlantisNCGen. Bec has scripts to do this if you provide her with a spreadsheet linking the old names and the new names you want to use.
+
+If you are a linux user this is made easier using tools such as sed. Windows users may need to do it manually.
+
+So for example if you are now calling Shark_P Polar_bear then the netcdf entry will go from:
+
+double Shark_B_N(t, b, z) ;  
+ Shark_B_N:bmtype = "tracer" ;  
+ Shark_B_N:units = "mg N m-3" ;  
+ Shark_B_N:long_name = "Other demersal shark total N" ;  
+ Shark_B_N:sumtype = 1 ;  
+ Shark_B_N:dtype = 0 ;  
+ Shark_B_N:inwc = 0 ;  
+ Shark_B_N:insed = 0 ;  
+ Shark_B_N:dissol = 1 ;  
+ Shark_B_N:partic = 0 ;  
+ Shark_B_N:decay = 0. ;  
+ Shark_B_N:_FillValue = 0. ;
+
+to
+
+double Polar_bear_N(t, b, z) ;  
+ Polar_bear_N:bmtype = "tracer" ;  
+ Polar_bear_N:units = "mg N m-3" ;  
+ Polar_bear_N:long_name = "Polar bear total N" ;  
+ Polar_bear_N:sumtype = 1 ;  
+ Polar_bear_N:dtype = 0 ;  
+ Polar_bear_N:inwc = 0 ;  
+ Polar_bear_N:insed = 0 ;  
+ Polar_bear_N:dissol = 1 ;  
+ Polar_bear_N:partic = 0 ;  
+ Polar_bear_N:decay = 0. ;  
+ Polar_bear_N:_FillValue = 0. ;
+
+### Likely Error Messages:
+
+**setTracerValue: Tracer Mesopel_Fish_N not found**
+
+This means you have a group called 'Mesopel_Fish' defined in your input box layer csv files but not in your template.cdf file. The names need to match.
+
+Solution - Make sure you have updated the cdf file to match your new functional group names.
+
+### Discussion and Bug Fixes
+
+Feel free to report any problems or extra features that are desired
+
+### Contributed By
+
+Contributed by Bec Gorton

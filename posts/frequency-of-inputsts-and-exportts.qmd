@@ -1,0 +1,26 @@
+---
+title: "Frequency of inputs.ts and export.ts"
+date: "2016-02-22"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+A new parameter has been added to the force.prm file. This will set the frequency in which data is written to the inputs.ts and export.ts output files.
+
+If you would like no change to this frequency you can use the following (assuming your model dt is 43200)
+
+# Frequency of inputs.ts and exports.ts output - write out each dt.
+
+  
+inputs_tout 43200 seconds
+
+If you would like to change the frequency Atlantis will recognise the following values:
+
+# Frequency of inputs.ts and exports.ts output. Write out every 10 days.
+
+  
+inputs_tout 10 days
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

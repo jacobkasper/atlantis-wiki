@@ -1,0 +1,20 @@
+---
+title: "Octave"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+1. Installing Octave on Ubuntu
+
+sudo apt-get install octave  
+sudo apt-get install octave-headers
+
+2. Adding netcdf support
+
+downloaded octcdf from
+<http://ocgmod1.marine.usf.edu/mediawiki/index.php/NetCDF_toolbox_for_Octave>
+
+followed instructions on the site to install - which worked fine.
+
+3. Installed gnu plot
+
+sudo apt-get install gnuplot-x11

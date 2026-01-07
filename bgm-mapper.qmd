@@ -1,0 +1,6 @@
+---
+title: "BGM Mapper"
+author: "Cam Ainsworth"
+---
+
+BGM mapper displays BGM file as a map.  Enter in a generic vector (biomass, catch, etc.) to display density values using colour scale.  Good for visualizing input/output data by polygon.  The vector of density values should be arranged in the same order as your polygons in the BGM mapper.  Contact: [ainsworth@usf.edu](mailto:ainsworth@usf.edu)

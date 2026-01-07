@@ -1,0 +1,49 @@
+---
+title: "Aquaculture"
+date: "2022-11-12"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+We have now enabled aquaculture as an explicit activity in the AtlantisDem branch of the code (contact Beth for access). The biology for these animals is as for a standard Atlantis group (i.e. pick whether its age structure or biomass pool, fill in the initial conditions and all the parameters as usual) with some additions:
+
+##### Marking it as a cultured species
+
+In the Groups.csv file you now need to add an additional column isCultured. Set this to 1 if an aquaculture species and 0 otehrwise.
+
+##### Feed rates
+
+The parameters for daily feed rations (as a proportion of body mass) are set in the biol.prm file. List them for group XX as
+
+XX_extra_feed   0.1    (where 0.1 is an example rate, was called XX_aquaculture_feed back in 2014, updated in 2020s)
+
+You only need to give this parameter for species that are marked as isCultured in the csv file (i.e. you do not need to enter a value for every group).
+
+##### Reproduction
+
+If an age structured group then reproduction is handled by setting the group to have flagrecruitXX set to 1 (i.e. constant recruitment unrelated to the adult population in the model) with KDENR set to the number of new animals added to the aquaculture farm each year. Remember to set the initial structN and resN in the initial conditions file and the KWSR and KWRR to the size of animals being added to the pens not a larval size (unless of course larvae is what is added to the pen).
+
+##### Movement
+
+Set the movement option for the group (XX_ddepend_move) to 1 so that it is a sedentary species and can't swim away.
+
+##### Harvest
+
+Give the aquaculture industry a code in the Fisheries.csv file
+
+In the harvest.prm, use q value for that aquaculture "fishery" to set the
+proportion of the stock harvested per harvest event. For instance, if I have 4 fisheries and 1 aquaculture activity defined in my Fisheries.csv file (with aquaculture as my last entry) and the aquaculture harvest rate for group XX was 1.0 (i.e. whole pen harvested at once) then the q vector would look like:
+
+q_XX 5
+  
+0 0 0 0 1
+
+The age of first harvest for an aquaculture group is also set in the harvest.prm file. List them for group XX as
+
+AQS_age_harvest 2  (where 2 is an example age, for biomass pool groups always set this to 0)
+
+You only need to give this parameter for species that are marked as isCultured in the csv file (i.e. you do not need to enter a value for every group).
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

@@ -1,0 +1,56 @@
+---
+title: "Adding noise (error) to biomass estimate used with the Broken Stick Management option"
+date: "2019-01-23"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+The broken stick case can be applied with perfect knowledge or with error (noise) added. There are three error options – set using estError (a vector with one entry per functional group): uniform (0), normal (1), lognormal (2). The specification of the error is set using estCV (the variance of the error as a proportion of the true value) and estBias (also as a proportion of the true value). Both of these parameters are entered as a vector, with one value per functional group.
+
+Set
+[Part II of the manual](https://confluence.csiro.au/display/Atlantis/Atlantis+Documentation)
+for the formulation of the error terms.
+
+The parameters are put into the harvest.prm file and look like
+
+# error type applied (per species) to "perfect knowledge biomass estimate" for broken stick management (if not using formal assessment code)
+
+  
+# uniform_err = 0
+
+  
+# normal_err = 1
+
+  
+# lognorm_err = 2
+
+  
+#
+  
+estError 53
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+# error variance applied (per species) to "perfect knowledge biomass estimate" for broken stick management (if not using formal assessment code)
+
+  
+# as proportion of the true value
+
+  
+estCV 53
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+# bias applied (per species) to "perfect knowledge biomass estimate" for broken stick management (if not using formal assessment code)
+
+  
+# as proportion of the true value
+
+  
+estBias 53
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

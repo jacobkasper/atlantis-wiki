@@ -1,0 +1,14 @@
+---
+title: "New economics parameter"
+date: "2009-12-21"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+The following needs to be added to the economics file (only if you're using economics)
+
+EconLimDemand     0   Whether to limit trading based on potential effort levels vs days left in month (1) or not (0)
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

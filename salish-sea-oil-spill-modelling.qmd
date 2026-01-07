@@ -1,0 +1,51 @@
+---
+title: "Salish Sea Oil Spill Modelling"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+The Salish Sea oil spill modelling will use functionality developed in the Gladstone suite of projects and use the CONNIE ocean connectivity modelling tools to model the potential impact area of oil spills in the region.
+
+BitBucket location - 
+
+```
+100644 blob 1f80abd53e888bf72c6b81bdd586ca90b377167b	.gitignore
+100644 blob ec6dd50d26ba6a754d95e6f903d66c3f2774a8d8	Download.R
+100644 blob 7abd261aa4cdc5f28be0e84a0fa9d2db3309ccc3	README.md
+100644 blob 17c5658e9aea32e15573f1b0c8cf82f1b0aa1b89	ReleasePoint.dbf
+100644 blob a30c00a55de19be195abf9e942f6cff93bf0a825	ReleasePoint.prj
+100644 blob 5fbc831e743348854289f8b0cacd8b553b1262cc	ReleasePoint.qpj
+100644 blob cdd98bda7a1d9379ed325ee3026f31c89759de5f	ReleasePoint.shp
+100644 blob 5a6adbe5a1cab4a9231103b08f8912dce5390e0b	ReleasePoint.shx
+100644 blob e1157b44773d620c9957fc4fd9b0436f96849f76	ReleasePointBuffer.dbf
+100644 blob a30c00a55de19be195abf9e942f6cff93bf0a825	ReleasePointBuffer.prj
+100644 blob 5fbc831e743348854289f8b0cacd8b553b1262cc	ReleasePointBuffer.qpj
+100644 blob a543cf187d37deedb55f45312256e5e1b13513c7	ReleasePointBuffer.shp
+100644 blob 1fcadc4bbd0d454fd717237b395eaec8fdab0684	ReleasePointBuffer.shx
+040000 tree 414352b3e43562d2577c0f7465fbdcc1a7c30310	SalishSea_July172019_2
+100644 blob 899cacfea888a1754bbb1c6fb56d7d9492caa6d1	conda-env_2020.txt
+100644 blob 23f6542682f211edd29eb3d16c86e8927ae9eaee	conda_env.txt
+100644 blob aac7c4739200404037b3c5a633cca3d4a2037512	create_boxes_animation.py
+100644 blob 1b8b13e3d02f6816138e6d891c69faf0712dc9e6	parse_tracks.py
+100644 blob f47e3a17a9a52220030a2d7052fc9135f01e5d56	parse_tracks_gpd.py
+100644 blob 13a648214add7111404c887962860f43f373a39a	release_locations.csv
+100644 blob 52d8d42b282db96cdb0fd52c208c1778ba71efab	salish_sea_env.txt
+100644 blob 331091708f6424540f487cf78d28849a3793d87f	test.py
+100644 blob dd11d83f5dc7d3cf826ec987a5330a746bf6be14	ubcSSg3DTracerFields1hV18-12_8103_b7e7_9128.csv
+100644 blob d1f2468018219ff3a4c2a3cfd707d0506c74204d	ubcSSnBathymetryV17-02_a29d_efc9_4047.nc
+```
+
+The Salish Sea particle tracking will be done using [OceanParcels](http://oceanparcels.org/) an open source particle tracking engine that can handle the native grid of the  NEMO model.
+
+Sample scenarios runs are being completed to allow early results to be presented to the stakeholders in September 2019.
+
+The following show the results of a single oil spill scenario in box 11 over 1 day, tracking particles for 7 days, assuming no decay (which is not realistic but helps debugging) and no wind (also not realistic).
+
+Future modelling could include decay, but there is talk of this being modelled in Atlantis, as well as wind. There is no wind data in the UBC hydro model output so we will have to use global wind data.
+
+![](attachments/997163714.png)
+
+![](attachments/997163784.gif)
+
+Mapping the particles to the Atlantis boxes - assuming no particle decay when calculating the box values.
+
+![](attachments/997164493.gif)

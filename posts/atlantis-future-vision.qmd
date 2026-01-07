@@ -1,0 +1,31 @@
+---
+title: "Atlantis Future Vision"
+date: "2008-08-22"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+As part of the Data Management Review process i have been thinking about the future vision for Atlantis. I've been thinking about the model config issues. In the perfect world we would be able to setup the model runs using a nice big database - the data would then be sucked in via either web services or via a direct database connection.
+  
+This creates issues when we want to run the model on standalone computers that aren't connected to the net.
+
+#### Interesting Stuff:
+
+Compilers and cool libraries to look into using in the future.
+- Blas
+    
+  Basic Linear Algebra Subprograms (BLAS) is a de facto application programming interface standard for publishing libraries to perform basic linear algebra operations such as vector and matrix multiplication.
+  <http://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms>
+    
+  From Ian:
+  <http://www.netlib.org/blas/>
+
+<http://www.netlib.org/blas/gemm_based/>
+- Intel
+    
+  Intel® Math Kernel Library
+  <http://www.intel.com/cd/software/products/asmo-na/eng/307757.htm>
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

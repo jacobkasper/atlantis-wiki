@@ -1,0 +1,12 @@
+---
+title: "rlantis"
+author: "Desjardins, Christopher (Liberal Arts College Vermont)"
+---
+
+An Atlantis helper package written for R is being developed at the University of Iceland. At present the package can be used to help construct the initial conditions files. This package is intended to be a one-stop shop for building, manipulating, and visualizing Atlantis input and output files. Package development is on-going and new functionality is being added to the package daily. Once the package has reached a certain level of functionality/utility it will be submitted to [CRAN](http://cran.r-project.org). Until then the package can be installed from GitHub where it is being openly developed. The repository for the GitHub website is:
+
+<https://github.com/cddesjardins/rlantis>
+
+If there are any feature requests or bugs, please report them on the GitHub website at:
+
+<https://github.com/cddesjardins/rlantis/issues>

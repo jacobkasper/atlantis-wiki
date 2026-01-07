@@ -1,0 +1,27 @@
+---
+title: "Set start date for fixed MPAs"
+date: "2015-06-03"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+It is possible to put in a time series of MPA coverage in a box to represent spatial management change through time. However, if you really just need to start/stop a static MPA once (i.e. start an MPA after a period of time or to stop an MPA after a period of time) then set
+
+flagSimpleStartStopMPAs 1
+
+and provide day to start and stop the MPAs using
+
+All_
+
+MPAstartyr   50   (or whatever year you want the run to start)
+
+All_
+
+MPAendyr 100
+(or whatever year you want the run to end)
+
+For those who read the earlier post, we need to add the All_ out the front of the parameter name to indicate that its for all MPAs (and to avoid a code read error, the code was getting confused with the read-in for the MPA vector per fishery).
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

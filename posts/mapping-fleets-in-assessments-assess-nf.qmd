@@ -1,0 +1,18 @@
+---
+title: "Mapping fleets in assessments - assess_nf"
+date: "2014-04-11"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+We are in the process of allowing Atlantis to call SS3, as part of the assessment library code. This means that the fleets in the model need to be mapped to fleets in the assessment (it can't be assumed that all the fleets will automatically be recognised in the assessment). Thus for each fished group (isFished marked in the Groups.csv file) in assess.prm you need to include an entry of the form
+
+assess_nf_XX 33
+  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+where XX is the group code. If you don't have 33 fleets in the model put in as many as you have. The entries in the vector are the ID number of that fleet in the assessment.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

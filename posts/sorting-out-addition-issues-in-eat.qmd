@@ -1,0 +1,105 @@
+---
+title: "Sorting out addition issues in Eat"
+date: "2008-10-22"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+ok. My plan for now is to change the Eat code to add the preyEaten values in the same order as it was originally being done. This should allow me to fix any bugs in the code. I can then go back and change the order once the bugs are all gone.
+
+The other issue that i;m having is that i'm now also looping over habitat as well as species. This means i again add things in a different order. I have changed this so that i always loop over the species first and then the habitat.
+
+Ha. There are now no differences. Ha. OK. Just to be sure i will go back to adding them in species order and check that there are differences. Yep it does. OK. I need to have a think about how to deal with this issue going forward. I can change the code to that groups of invert types are added in a particular order. For example the old code adds in the following order:
+
+phytoplankton,
+  
+zooplankton,
+  
+CEP,
+  
+PWN,
+  
+bacteria,
+  
+infauna
+  
+Epifauna
+  
+Phytobens
+  
+det + carrion
+
+So i could change the code to do it in this order. I will do a longer run to see the magnitude of the difference. If its only small then we might just have to wear it. OK. I have changed it so the only place that its being added in prey_id order is in eat. So this is the really critical code. I'm now getting no differences after 50 days. I wonder if i can change these intermediate variables to long double and see if this makes a difference. Doing a shorter run first with loggin on to check for intermediate differences. No thats a bad idea. Changing the precision of any variable effects the outcome to much. Its really all about the order of adding.
+  
+OK. tomorrow i will check on final time that i'm not adding anything twice or doing something silly.
+
+No these issues are just due to rounding errors in the adding code. I have done the sum on paper and neither answer is correct. But the long double value is. I guess the thing that is important is to ensure that the values for the dp of the nc files are the same. So i need to see what dp the values are printed to the nc files. 10dp.
+
+Doing another 50 day run to compare results. We really need to be able to change the order of the functional groups in the input file without it changing the output. OK. So the results are the same if i do it in the same order as teh orginal.
+
+What about if i change the intermediate variables to long double in both versions? It looks like this fixes the issue. I do have to wonder how much effect this has on the final results. Perhaps going with long double may be the way to go and we will just have to take the hit.
+
+Goodie. Under windows no matter what i do i get a different value. time to have a play with the intel compilers.
+  
+OK. gcc and icc give the same values under linux.
+
+I have to think that going with long double is going to produce more consistent results in the long term. We really don't want someone getting different results if they are changing the order of their functional group input file.
+
+OK. long double vs double
+
+Linux gcc:
+  
+long double number bytpes = 12, 50 run 191.5 secs
+  
+double num bytes = 8, 50 days, 139.5 secs
+  
+Windows:
+  
+values are the same.
+
+Bloody hell the intel compiler is much faster. Nice.
+
+OK. So the really important thing is that the results are consistent. And we will get that using long double. It is definitely slower but that will be made up by the gains using the intel compiler.
+
+I will check the results of the new code vs the old code using long double and both compliers. What i want are no differences between the old and new code.
+
+OK. New code using long double original order output is pretty much the same. There are some very small differences in the PROD and CATCH output nc files.
+
+When i change the order i still get issues. Not sure that changing to long double actually makes the result any better.
+  
+Doing a run of the double code and i will compare the two diff files to see if making it long double makes much difference.
+
+OK. There are still differences but they do seem smaller when we use double long. I need to quantify this.
+
+Right. The differences in the BiomIndex file.
+  
+Long double the max differences in group biomass after 50 days is 5.15E-003%
+  
+Double - max diff after 50 days is 8.94E-003%.
+
+| num days | Precision | Max Difference (%) | Average Difference (%) |
+| --- | --- | --- | --- |
+| 50 | long double | 5.15E-003 | 9.69E-005 |
+| 50 | double | 8.94E-003 | -3.97E-004 |
+| 50 | long double intel compiler | 4.91E-003 | 1.01E-004 |
+| 50 | double intel | 1.33E-004 | -3.28E-005 |
+| 100 | long double intel | 3.22E-003 | 8.50E-005 |
+| 100 | double intel | 2.29E-003 | 6.43E-005 |
+
+I really need the values as a percentage of the change in biomass of the group over the model run. For example if the change in biomass of the group over the model run is 1% then these changes might be quite significant.
+
+It looks like the differences due to the new code are very small. Thankfully. This means i can move on and get rid of jCEP. yeah the differences are very small. The question now is do we switch compilers and/or precision.
+
+Somewhere the biomass of BO is wrong. This was due to the preyInfo value being set for BO in epibenthoc box when the original code didn't do this. Fixed this. See what effect this has on the output. I realy think that using long double we should get no difference in output files. If there are any differences i need to track them as i think they will be similar bugs.
+
+after 50 days output is the same. Again testing when i change the order to my order. Yep different.
+  
+OK. i did a 350 day run over the night. There are issues from day 158 onwards. This is the day the day that whales will be returning to the model. I need to check this code.
+
+There is an issue with the volume values being written to the TOT nc file. OK. Thats sorted. The volume values were not being reordered to that the first water column (0) was listed first.
+
+There was also a bug in Eat. When the else if(chrt_mat == 1.0){ code was being executed the GRAZEinfo was not being reset to 0.0 correctly. So i have managed to get a run of 350 producing the correct results. This is with critical addition code being executed in the original order.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

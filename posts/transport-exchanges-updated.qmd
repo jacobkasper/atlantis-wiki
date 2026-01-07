@@ -1,0 +1,14 @@
+---
+title: "Transport exchanges updated"
+date: "2018-08-28"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+While checking the code was working for the Antarctic model I tweaked the code a little to make sure the correct scalars are used for vertical vs horizontal mixing within the transport model (it used to us horizmix even if delivering to the same box).
+
+If you don't want to feel the outcome of this tweak you need to set vertmix to the same value as horizmix in the bgm file.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

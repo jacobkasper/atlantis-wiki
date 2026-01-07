@@ -1,0 +1,12 @@
+---
+title: "Habitat dependent movement - flag_move_habdepend"
+date: "2014-06-24"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+In the AtlantisDem branch to make vertebrate movement habitat dependent set flag_move_habdepend to 1 (setting it to 0 means that habitat is not considered when doing movement, it will still be considering in feeding etc).
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

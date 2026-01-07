@@ -1,0 +1,30 @@
+---
+title: "Changes to the MFC code - flag_useOldMFC"
+date: "2015-03-05"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+These changes have been made to help the GOM model with the use of the MFC code.
+
+These changes have fixed a few bugs in the MFC code. The GOM model has an interesting migration model which meant that the fishing mortality was being over recorded and so fishing was basically never happening. These changes provide a better fishing mortality estimate for this model.
+
+A new parameter has been added to the harvest input file:
+
+flag_useOldMFC
+
+If you wish to use the old MFC code then set this value to 1, if you would like to use the new changes then set this to 0.
+
+This will impact on your model output if you are using this fishing model.
+
+Attached are plots of the differences in the SETas biomass. This plot shows the biomass for the 10 groups with the biggest difference. Blue is the original, red are the updated values.
+
+[CatchDiff.ps](/download/attachments/43155716/CatchDiff.ps?version=1&modificationDate=1425539901573&api=v2)
+
+[BiomassDiff.ps](/download/attachments/43155716/CatchDiff.ps?version=1&modificationDate=1425539901573&api=v2)
+
+GOM Output:
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

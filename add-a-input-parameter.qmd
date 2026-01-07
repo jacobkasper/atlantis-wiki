@@ -1,0 +1,29 @@
+---
+title: "Add a input parameter"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+## General Instructions
+
+In general to add a new input parameter you will need to go through two steps:
+
+1. Add code to convert the parameter to XML  
+2. read in the value from the XML file.
+
+## Adding a new species param:
+
+1. Add the param id to the SPECIES_PARAMS enum in atlantisboxmodel.h. Don;t worry where you put it, just make sure its above the 'tot_prms' value.
+
+2. Define the paramStrings for the new parameter in Util_Setup_Species_Param_Strings().
+
+3. Add a row in the speciesParamStructArray array in atUtilXML.c structure definition.
+
+4. Add the conversion function call to the code that converts the prm file in ConvertAtlantis. This will write an entry in the appropriate XML file for this species param.
+
+Example:
+
+Create_Species_ParamXML(bm, fileName, fp, groupingNode, flux_thresh_id, "Threshold BB flux level where damping starts", "mg N m-2 s-1", XML_TYPE_FLOAT, "0.1");
+
+5. Add code to read in the value from the XML file, eg:
+
+Util_XML_Read_Species_Param(bm, fileName, attributeGroupNode, flagdem_id);

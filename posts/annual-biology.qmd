@@ -1,0 +1,48 @@
+---
+title: "Annual biology"
+date: "2009-01-20"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+OK. I need to make the annual biology code more generic.
+
+The invert spawning values are per cohorts which is annoying. I've moved the Inv_Spawn_Now and Inv_Spawn_age arrays into the functional group structure as well as the INVpopratio and tempINVpopratio. These might be better in a seperate structure for the age structured biomass groups but they should be ok there for now. These are all pointers that are only allocated for the age structured biomass groups.
+
+It looks like the invertebrates can only migrate once which is a bit strange - might be good to check this.
+
+I've also changed the tot_yoy array from
+  
+tot_yoy = (FPTYPE **)alloc2d(nstock, nvertsp);
+  
+to
+  
+tot_yoy = (FPTYPE **)alloc2d(nstock, bm->K_num_tot_sp);
+
+OK passed a 50 day test with just biology.
+
+OK - fixed the biolmessage code to make it generic. Before i do any more i need to test the invert migration code. Time to create myself a model. OK in the shortRun folder there is a new biology file with invertMigration in the title. I have turned on migration for ZL, BML, CEP and PWN.
+
+OK to get the groups to migrate i had to change the BML_ddepend_move values to 0 for all four groups.
+  
+Changed the MigIO values to:
+  
+MigIOBox_ZL 71
+  
+0.0 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.0 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.0 0.0 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.0 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.0 0.0 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.3 0.0 0.3 0.3 0.3 0.3 0.3
+
+MigIOBox_BML 71
+  
+0.0 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.0 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.0 0.0 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.0 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.0 0.0 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.3 0.0 0.3 0.3 0.3 0.3 0.3
+
+OK. I have got the rest of the migration code working well. There were some bugs in the original code but these have been fixed now.
+  
+I have been getting the atcalibtools.c code to use the tot_num_sp instead of num_vert_sp and this has highlighed an issue with the DIET_check array. This originally stored information about which groups eat which groups including the DLsed and DRsed values. So i really need to change this to store habitat information like the spGRAZEInfo array.
+  
+This will mean that the output will be different to the original output. I could force it to show the same as the orginal output but i can show a finer level of detail like which sort of habitats the groups are being eaten in.
+
+OK - This has been done. A new file is created called DietCheck.txt. It contains the predator/prey match ups. This file is created in atbiolmessage.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

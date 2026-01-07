@@ -1,0 +1,20 @@
+---
+title: "Atlantis California Current Model Review"
+author: "Kaplan Issac"
+---
+
+All --
+
+Below are the final reports from a Pacific Fishery Management Council review of the California Current Atlantis model.  This was a three day panel comprised of members from the Fishery Council Scientific and Statistical Committee (SSC), with the addition of three external CIE reviewers.   
+  
+ The SSC report is attached here, along with three independent reports from the CIE reviewers. I've also attached the Terms of Reference and agenda, and then a broader set of Terms of Reference for all such Pacific Fishery Management Council (PFMC) reviews of new methodology.
+
+There are fairly concise summaries at the start of the four reports. In my opinion, the reviewers and their reports were extremely constructive and fair, and taken collectively they point toward best practices for advancing Atlantis modeling and ecosystem or multi-species models in general.
+
+The panel intentionally did not create a checklist of requirements for such models to be used for management, but we could probably discuss such a checklist (perhaps at the Atlantis summit).
+
+The Agenda and Terms of Reference inherited a lot from NEFSC Ecosystem Considerations Modeling Review ( <http://www.nefsc.noaa.gov/ecosys/modeling_review.html> ) and similar reviews at the Alaska Fisheries Science Center.
+
+[AllReport_CalCurrentAtlantisReview](attachments/43156584.pdf)
+
+[PFMC Methodology Review TOR-1.pdf](attachments/43156584.pdf)[AllReports_From_CalCurrentAtlantisReview](attachments/43156584.pdf)

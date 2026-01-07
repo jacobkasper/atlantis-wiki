@@ -1,0 +1,12 @@
+---
+title: "Initial Conditions NetCDF File"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Biology initial conditions file, specifying initial biomass and size. This is created as a text .cdf file, then packed into a .nc file. See below for instructions on packing. The biology .cdf file also specifies the box geometry file to use.
+
+There is a tool to help you build this file. [AtlantisNCGen](atlantisncgen.qmd)
+
+NetCDF structure - <https://wiki.csiro.au/display/Atlantis/Atlantis+NetCDF+Structure>
+
+Notes on variables - which can get ignored etc. [variable_meanings.xlsx](attachments/43156796.xlsx)

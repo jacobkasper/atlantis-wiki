@@ -1,0 +1,89 @@
+---
+title: "Passive tracer tracking"
+date: "2018-05-22"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+We have added a flag into the trunk code so that the SED tracer will be read into the model even if the model is not estuarine. This should allow for a passive tracer to be tracked. You might want to do this when checking to see
+if the model transports correctly capture hydrodynamic exchanges and currents.
+
+To use this option
+
+1. In run.prm add
+
+flagpassivetracer     1    # Flag indicating whether a passive tracer is needed for tracking tranpsorts or not (1 = yes, 0 = no)
+
+2. In the
+[in.nc](http://in.nc)
+file you need to add the tracer. In the header (text section at the start of the file) add the following
+
+double SED(t, b, z) ;
+
+SED:bmtype = "tracer" ;
+
+SED:units = "mg N m-3" ;
+
+SED:long_name = "Passive tracer" ;
+
+SED:sumtype = 1 ;
+
+SED:dtype = 0 ;
+
+SED:inwc = 1 ;
+
+SED:insed = 1 ;
+
+SED:dissol = 0 ;
+
+SED:decay = 0. ;
+
+SED:partic = 1 ;
+
+SED:passive = 1 ;
+
+SED:svel = 0. ;
+
+SED:xvel = 0. ;
+
+SED:psize = 1.e-06 ;
+
+SED:b_dens = 1000000000. ;
+
+SED:i_conc = 200000000. ;
+
+SED:f_conc = 200000000. ;
+
+SED:isabs = 0 ;
+
+SED:iscontam = 0 ;
+
+SED:_FillValue = 0. ;
+
+Then in the data section of the file you need to add
+
+SED =
+
+N, _, _ ;
+
+Where N is the tracer doping you want to use if you want it to be there at the start of the model. You could also introduce it later on as a point source. Let me know if you want to do that (its like adding a river inputs so really straight forward).
+
+As to the _ you need as many data entries in total as there are layers (water column + sediment layers) * number of boxes in the model (lets call that value “LxB”. Now the N needs one entry so the total number of _ you need is (LxB -1)
+
+So for a model with 3 layers in 4 boxes where N is entering in box 1 you would have
+
+SED =
+
+_, _, _,
+
+N, _, _,
+
+_, _, _,
+
+_, _, _ ;
+
+At present it really only makes sense to dope one location at a time with the N otherwise you won’t know where things have come from as you can’t have more than one SED variable at a time. If you need multiple tracers for some reason please contact us for an alternative solution.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

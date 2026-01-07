@@ -1,0 +1,52 @@
+---
+title: "Technical Information"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+### Code Repository Location
+
+The BGMEriser code is hosted in a Mercurial repository by the DIVE team. For access contact Gary Carroll or Uwe Rosebrock.
+
+The location of the repository is:
+
+<http://blue-cis.hba.marine.csiro.au/hg/repos_svn>
+
+You will get some warnings about the certificates - ignore these.
+
+### Using Mercurial
+
+If you are a new Mercurial user then the following links are useful
+
+<http://mercurial.selenic.com/wiki/QuickStart>
+
+### Getting started
+
+Before cloning the code you might need to add the following to your hg config file (~/.hgrc - it might not exist yet - this is fine)
+
+[web]  
+cacerts=
+
+Then start cloning each of the following projects:
+
+hg clone <http://blue-cis.hba.marine.csiro.au/hg/repos_svn>/BGMeriser
+
+hg clone <http://blue-cis.hba.marine.csiro.au/hg/repos_svn>/dmpl
+
+hg clone <http://blue-cis.hba.marine.csiro.au/hg/repos_svn>/lib
+
+hg clone <http://blue-cis.hba.marine.csiro.au/hg/repos_svn>/libui
+
+hg clone <http://blue-cis.hba.marine.csiro.au/hg/repos_svn>[/javaproj4](https://blue-master.hba.marine.csiro.au/hg/repos_svn/javaproj4)
+
+### Building in Eclipse
+
+There is a plugin for Mercurial for Eclipse. Look in the Eclipse Market Place for 'MercurialEclipse' and install.
+
+Create a new Java project and point it at the top level directory with the following contents:
+
+bec@bec-Precision-M6500:~/BackedUp/Code/atlantis/BGMEriser$ ls  
+BGMeriser bin dmpl javaproj4 lib libui
+
+Load the BGMeriser build.xml file into ant. You might need to build some of the project dependancies such as dmpl.
+
+To create the jar file build the 'dist' target. This will build a large (~27M) jar file. If you use the 'compress' target it will strip unused code out and build a file called 'bgmeriser-stripped.jar' which is around 6M.

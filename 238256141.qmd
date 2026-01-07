@@ -1,0 +1,8 @@
+---
+title: "R code, add climate trends to Hydro.NC"
+author: "Kaplan Issac"
+---
+
+[RCode_addTempROMS.zip](attachments/238256143.zip) R code provided by Hem Nalini Morzaria Luna.
+
+Takes NC hydro files (already formatted as Atlantis inputs), then adds trends or anomalies to simulate climate change in temperature, salinity, or flux. Then repacks into Atlantis NC formats.

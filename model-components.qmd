@@ -1,0 +1,34 @@
+---
+title: "Model Components"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+## **Geophysical**
+- Bathymetry
+- Currents
+- Nutrients (N, Si and Fe)
+- pH
+- Light
+- Temperature
+- Salinity
+- Sea ice (Platelet ice , Hard ice, Snow)
+
+## **Biological**
+
+###### *Biomass pools*
+- Detritus: carrion, labile, refractory (water, sediments, ice)
+- Bacteria (water, sediments, ice)
+- Primary producers: Ice algae (diatoms and mixotrophs), picophytoplankton, coccolithophores, pelagic diatoms, pelagic mixotrophs
+- Zooplankton: ice biota, microzooplankton, copepods, macrozooplankton, salps
+- Benthic invertebrates: infauna, deposit feeders, macrobenthos
+
+###### *Age/Size structure*
+- Benthic filter feeders
+- Krill
+- Squid
+- Fish: pelagic, mesopelagic, bathypelagic, demersal fish, toothfish, icefish
+- Rays (?)
+- Seals: Antarctic fur seals, Elephant seals, Crabeater seals, Leopard seals, Other seals *(or do these need to be resolved to species?)*
+- Penguins: Adelie, Emperor, Other penguins *(or do these need to be resolved to species?)*
+- Flying birds: albatross, predatory birds (skuas), other
+- Whales: minke, other baleen whales, orcas, other toothed whales

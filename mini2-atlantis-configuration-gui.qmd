@@ -1,0 +1,83 @@
+---
+title: "MINI2 - Atlantis Configuration GUI"
+author: "Unknown User (hep016)"
+---
+
+# Introduction
+
+This is the home page for a project to develop a GUI interface to configure Atlantis, replacing the large numbers of text files. It is initially being developed for NOAA under a grant from the Moore foundation; the main GUI developer is ![](plugins/servlet/confluence/placeholder/error "Not an unresolved user"), and the corresponding changes to the atlantis codebase are being handled by ![](plugins/servlet/confluence/placeholder/error "Not an unresolved user"). As part of this process, Atlantis itself will move towards using XML for its configuration files; for modelers using the GUI this change should be essentially transparent.
+
+# Aims
+
+The interface should be self-documenting (variables include help-text and more descriptive or "human-readable" names), as robust as possible (minimising configuration errors such as groups of values that must sum to 1.0 not doing so, for example), and support a range of profiles corresponding to user experience or expertise (by hiding advanced options in the beginner profile)
+
+# Obtaining and Running
+
+**NOTE: THIS IS STILL BETA SOFTWARE!!**
+
+A snapshot can be downloaded [here](attachments/43156243.jar).
+
+This is a self-contained java archive (.jar file). You will need Java 1.6 or greater in order to run it (to find out version you have, type `java -version`). To run it, from the same directory, type
+
+```
+java -jar mini.jar
+```
+
+Alternatively, you may just be able to double-click on the mini.jar file.
+
+At the bottom of the application you will see "next" and "previous" buttons, which you can use to navigate between the different stages of the GUI. These won't always be enabled; if there are no further stages available you won't be able to go forward, for example. Also, sometimes errors must be corrected before you can progress: your functional groups must always be valid, for example, since these affect the biology options.
+
+## 1. Set-up Panel
+
+In this panel you initialise or restart a configuration. The only requirement is a valid box-model (.bgm) file; the others you may create from scratch. For both the functional-groups file and the biology configuration you may choose to create from scratch (the default), or use an existing one, in which case you will need to select it before you can move on.
+
+The other concept is of *Profiles*. There is a huge amount of complexity in Atlantis, and this is our way of giving you a balance between creating a useful model and not being exposed to details you don't need. The default profile is Basic. And Advanced profile is also available, which exposes extra options. The Expert profile enables all options; you should think very carefully about choosing this if you are not Beth!
+
+## 2. Functional Groups Configuration
+
+The number of options (columns) is affected by the Profile you selected in the set-up.
+
+This is a table display; each row represents one functional group. You can create a new group with the "New Group" button, and delete the selected row with the "Delete Group" button. It strives to be self-documenting, so if you hover your mouse over a column heading or cell you may get more information (or just an easier-to read display, if text has been truncated).
+
+## 3. Biology Configuration
+
+This is the most complicated stage! It is broken up into tabs, corresponding to the different sections and options of Atlantis, such as general Functional-Group Flags, Diet, etc. The exact number of tabs and their contents depends on the Profile you selected earlier in set-up.
+
+Each option is self-documenting; if you hover your mouse over a name you should see a description of what it is for. If there is no documentation this is a bug; it just means we haven't entered documentation about it, but please tell us!
+
+Some entries will also have additional buttons: these bring up "calculators" that may help, such as a map of your box-model so you can remind yourself which box is which by number, or investigate how changing parameters to a function affect it.
+
+## General
+
+At any time you can exit by selecting Quit from the File menu. You can also choose Save to save your work; this will offer to save all the sections you have worked on so far, in other words probably both functional-groups setup and biology.
+
+Under the Help menu there is an option to view the log. This is unlikely to be of interest to you, however if you come across a bug we may ask you to please send us the contents!
+
+# Implementation
+
+## Interface
+
+The interface is built around a "wizard" style interaction, where the user navigates back and forth between different stages or sections. Currently, these are:
+- initial setup (select new or existing configuration files, etc)
+- functional groups setup
+- biology setup  
+  Dependencies are also catered for; because many biology parameters depend on functional groups, the user can't advance to biology configuration until they have a valid functional groups configuration, and if they change the functional groups the biology will be refreshed.
+
+The biology panel is broken down into separate tabs.
+
+Users can select how advanced they are; this controls [what/how many options will be available to them](profiles-for-different-levels-of-user.qmd).
+
+### Technical notes
+
+For maximum flexibility, the GUI interface is built from a template configuration file, meaning if new options have to be added this may be simple as editing the template. The template includes additional meta-data, including documentation, dependencies, etc.
+
+Some notes from an early discussion are [archived here](mini-development-initial-notes.qmd).
+
+# Development
+
+The source code is hosted in subversion under <https://svnserv.csiro.au/svn/atlantis/GUI>
+
+|
+|  |
+| type | key | summary | assignee | reporter | priority | status | resolution | created | updated | due |
+| Unable to locate Jira server for this macro. It may be due to Application Link configuration. | | | | | | | | | | |

@@ -1,0 +1,68 @@
+---
+title: "Shot by shot CPUE generation"
+date: "2014-07-28"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+So that the properties of CPUE data (and CPUE standardisation methods) can be tested in a multi-species environment an extra routine has been added to Atlantis to allow for generation of shot-by-shot level catch and effort data. This takes the per time step catch in each box by each fishery and creates CPUE data form that. At present it assumes a negative binomial distribution for shot size. It also differentiates between catch by "poor" and "top" (or "gun") skippers - with the later having a higher average catch.
+
+At present this is only available in AtlantisDem and only with the full socioeconomically driven effort allocation model, but let me Beth know if you would like it made available for other effort models too.
+
+The following parameter(s) needs to be added to harvest.prm
+
+flagStoreShotCPUE 0 Flag indicating whether or not shot level CPUE data to be generated and stored: 1=store shot level CPUE, 0=off
+
+If flagStoreShotCPUE is set to 1 then the following parameters are also needed
+
+# Whether want CPUE per shot generated for a fishery - and if yes which fisheries
+
+flagPerShotCPUE_FXX 33
+
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+Where FXX is the group code and 33 is the number of fisheries... so if you have 20 fisheries then you need 20 entries in this vector (etc).
+
+This vector is required for all groups marked as isImpacted in your groups.csv file
+
+In addition a number of other flags and parameters are required as follows:
+
+flagfullCPUEreport 0    Whether want final entry for each fishery per day to be the unallocated catch (for record keeping) = 1 or not = 0
+  
+PerShotCDFtype 3      Shape of cdf distribution for generating CPUE: 3 = negative binomial (if want something else ask Beth, uniformal, normal, lognormal, binomial and more possible)
+  
+CPUEshotfdis 2          Flag indicating what error type to use for discards when generating shot-by-shot CPUE data: 0 = uniform, 1 = normal, 2 = lognormal
+  
+CPUEshotavgdis 0.8   Bias (as proportion pf true value) parameter for discards when generating shot-by-shot CPUE data
+  
+CPUEshotvartdis 0.2   Variance (as proportion of the mean) parameter for discards when generating shot-by-shot CPUE data
+
+CPUEshotfeff 2           Flag indicating what error type] to use for effort when generating shot-by-shot CPUE data: 0 = uniform, 1 = normal, 2 = lognormal
+  
+CPUEshotavgeff 1.0    Bias (as proportion pf true value) parameter for effort when generating shot-by-shot CPUE data
+  
+CPUEshotvareff 0.1     Variance (as proportion of the mean) parameter for effort when generating shot-by-shot CPUE data
+
+gun_flexthresh 0.2          Flex weight valiue that marks threshold from mediocre to "gun" (very effective) skippers
+  
+K_min_shotlength 0.25   Minimum length of a shot (in hours)
+  
+K_num_catchbin 42       Number of bins in catch size dstribution (i.e. size of catch taken not the size of individuals in the catch)
+  
+size_catchbin 50.0        Size of catch bins used to create catch distribution (e.g. 50kg)
+
+min_effort_coefft 0.02653   Coefficient in linear relationship between atch taken and effort spent to obtain it
+  
+min_effort_const -0.1283    Constant in linear relationship between atch taken and effort spent to obtain it
+
+cpue_cdf_poor_r 2         Number of events for negative binomial cdf for poorer skippers
+  
+cpue_cdf_poor_p 0.6     Probability of an event for negative binomial cdf for poorer skippers
+  
+cpue_cdf_top_r 3          Number of events for negative binomial cdf for "gun" skippers
+  
+cpue_cdf_top_p 0.6      Probability of an event for negative binomial cdf for "gun" skippers
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

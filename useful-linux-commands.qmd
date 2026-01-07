@@ -1,0 +1,40 @@
+---
+title: "Useful Linux Commands"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+**man - an interface to the on-line reference manuals**
+
+Man - show the documentation on any other commands.  
+For example man top will give you documentation for the 'top' command. Use the space bar to scroll down.
+
+**top - display Linux processes**
+
+top - this will show the current list of processes running on a machine and show the CPU usage. This is good to see who else has things running on a machine. After typing top and enter you can then type the number 1 to get the % CPU for each core.
+
+**df - report file system disk space usage**
+
+df -h will show disk usage in human readable format.
+
+gor171@oa-22-mel:~$ df -h
+
+Filesystem Size Used Avail Use% Mounted on  
+......
+
+172.20.106.[37:/OSM/MEL/OA_ALANTIS/output](http://37/OSM/MEL/OA_ALANTIS/output)  254G 35G   209G 15%   /OSM/MEL/OA_ALANTIS/output  
+172.20.106.[37:/OSM/MEL/OA_ALANTIS/input](http://37/OSM/MEL/OA_ALANTIS/input)    1.2T   7.9G  1.1T   1%    /OSM/MEL/OA_ALANTIS/input  
+172.20.106.[37:/OSM/MEL/OA_ALANTIS/archive](http://37/OSM/MEL/OA_ALANTIS/archive) 382G 265G 101G 73%  /OSM/MEL/OA_ALANTIS/archive
+
+Its important to remember that the Bowen storage will grow over time up to the requested storage size. They don't allocate the requested amount from the start as many people over request.
+
+If you have run out of storage - empty your trash via the File Manager. If you still have no space contact Bec or the SC help desk.
+
+**Start multiple Atlantis runs from a single shell script:**
+
+You can start multiple runs by creating an xterm for each using the following example:
+
+xterm -hold -e atlantisMerged -i [INIT_VMPA_Jan2015.nc](http://INIT_VMPA_Jan2015.nc) 0 -o [outputSETAS.nc](http://outputSETAS.nc) -r VMPA_setas_run_fishing_F_Trunk.prm -f VMPA_setas_force_fish_Trunk.prm -p VMPA_setas_physics.prm -b VMPA_setas_biol_fishing_Trunk.prm -h VMPA_setas_harvest_F_Trunk.prm -s SETasGroupsDem_NoCep.csv -q SETasFisheries.csv -d outputFolderRun1 &
+
+xterm -hold -e atlantisMerged -i [INIT_VMPA_Jan2015.nc](http://INIT_VMPA_Jan2015.nc) 0 -o [outputSETAS.nc](http://outputSETAS.nc) -r VMPA_setas_run_fishing_F_Trunk.prm -f VMPA_setas_force_fish_Trunk.prm -p VMPA_setas_physics.prm -b VMPA_setas_biol_fishing_Trunk.prm -h VMPA_setas_harvest_F_Trunk.prm -s SETasGroupsDem_NoCep.csv -q SETasFisheries.csv -d outputFolderRun2 &
+
+This will start two runs in separate terminals and they will stay open when they are done (-hold option)

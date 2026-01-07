@@ -1,0 +1,17 @@
+---
+title: "Discard TAC"
+date: "2021-01-26"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+In the harvest.prm there is a new parameter.
+
+**discardTAC**
+can be applied once B < Blim for TAC managed groups.
+
+This is currently only used for tiered management options.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

@@ -1,0 +1,94 @@
+---
+title: "Running Atlantis on the Bowen"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+### **Make sure the latest version of Atlantis is installed on the Bowen machine**
+
+### **Update the code:**
+
+The code will initially be checked out and compiled and installed by Bec.
+
+You may need to update the code, go to the directory where the code is stored
+
+In my case it is OSM/MEL/OA_Gladstone_mr/work/AtlantisCode/EvolTrunk
+
+Then in the terminal window write *svn update*
+
+This might ask for your password at first time
+
+**Change code owner**
+
+If the code has been checked out by someone else you can do an update using your username:
+
+svn update --username=ful083
+
+This would change the 'owner' of the working copy to Beth.
+
+**Compile the code**
+
+Then type *make* an this will compile the code
+
+If it does not install type all of these commands one at a time (of course)
+
+aclocal
+
+autoheader
+
+autoconf
+
+automake -a
+
+./configure
+
+make
+
+### **Change all .prm and .nc files into Linux File Format**
+
+Windows and Linux files systems handle end of line characters differently. If you have copied your files from windows to the bowen (linux) you will need to change the file format.
+
+All .prm and .ts files must flipped from Windows to Linux using the following command:
+
+**Flip –uv ***
+
+You will need to make sure you convert all files used by your model including the contents of any folders. You will need to 'cd' into any folders (eg inputs or catchts) and do the flip -uv  * command in that folder.
+
+### **Then prepare your .bat file, which in Linux is called .sh file**
+
+All .bat files must be saved as .sh files to operate.
+
+An example script file (*MyAtlantisExecutable*.sh) would look like:
+
+*/OSM/MEL/OA_GLADSTONE_MR/work/AtlantisCode/EvolTrunk/atlantismain/atlantisEvol -i [initBalticEvo5groups.nc](http://initBalticEvo5groups.nc) 0 -o [Star2RSpropNoEvoNoFish.nc](http://Star2RSpropNoEvoNoFish.nc) -r Baltic_run2015noF.prm -f Baltic_force2015.prm -p Baltic_physics2015.prm -b Baltic_BIOLnoEvo_RSprop.prm -s BalticGroups_Atlantis2015lessEvo.csv -d Star2RSpropNoEvoNoFish -t runparams2015*
+
+The first line refers to the place where your code is sitting, so that when the code is updated your runs automatically use the latest version and you don’t have to move any executable.
+
+### **Change the script file to have executable permission.**
+
+This is a different thing in Unix, but all you need to do, is to go to the directory where your .sh files are sitting and type.
+
+***chmod +x *MyAtlantisExecutable*.sh***
+
+chmod means that you modified file access and execution rights
+
++x means that you give execution rights to the user (yourself)
+
++r is read rights, +w is write rights, but you will have them already
+
+For more information about this have a read of:
+
+<http://linuxcommand.org/lts0070.php>
+
+### Now run your script:
+
+Navigate to the directory (using cd) where the executable (.sh) files are and type
+
+*./MyAtlantisExecutable.sh*
+
+./ means 'from this directory'.
+
+You could run it by specifying the full path. For example:
+
+/OSM/MEL/OA_ALANTIS/input/AtlantisModelFiles/SETas_Model_trunk/runTrunk.sh
+
+This should hopefully start your atlantis run.

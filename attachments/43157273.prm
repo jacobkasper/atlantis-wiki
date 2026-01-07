@@ -1,0 +1,261 @@
+# PC Version (created by Beth Fulton and Adam Davidson)
+#
+# Hydrodynamic files - this is for 1991 to 1994, but 1991 and 1992 are
+# faked from 1993 data.
+# input directories  
+nhdfiles 5
+hd0.name ../../../AMS/inputs/forcisets/AMShydroA.nc
+hd1.name ../../../AMS/inputs/forcisets/AMShydroB.nc
+hd2.name ../../../AMS/inputs/forcisets/AMShydroC.nc
+hd3.name ../../../AMS/inputs/forcisets/AMShydroD.nc
+hd4.name ../../../AMS/inputs/forcisets/AMShydroE.nc
+
+# Bottom stress
+# BottomStress ../../../AMS/inputs/stress/stress.nc
+# BottomStress ../../../AMS/inputs/stress/nxstress.nc
+
+#############################################
+# Point source\sink lists
+npointss 30
+
+pss0.name Yarra
+# position and depth
+# if should use this file for all eternally - 0 = don't 1 = rewind the data
+# if 0 then it may use the last value in the file - this depends on the type of value read in.
+pss0.location 3951091.318 1789202.772 -1
+pss0.data ../../../AMS/inputs/flows/yarraflow.ts
+pss0.rewind 0
+
+pss1.name Derwent
+pss1.location 4128352.691 1189741.205 -1
+pss1.data ../../../AMS/inputs/flows/derwentflow.ts
+pss1.rewind 0
+
+pss2.name Sydney
+pss2.location 4580111.242 2141351.272 -1
+pss2.data ../../../AMS/inputs/flows/sydneyflow.ts
+pss2.rewind 0
+
+pss3.name Adelaide
+pss3.location 3334677.322 2140681.637 -1
+pss3.data ../../../AMS/inputs/flows/adelaideflow.ts
+pss3.rewind 0
+
+pss4.name Brisbane
+pss4.location 4874859.979 2904871.007 -1
+pss4.data ../../../AMS/inputs/flows/brisbaneflow.ts
+pss4.rewind 0
+
+## nutrient forcing             
+pss5.name Melbourne
+pss5.location 3951091.318 1789202.772 -1
+pss5.data ../../../AMS/inputs/forcisets/yarranut.ts
+pss5.rewind 0
+
+pss6.name Hobart
+pss6.location 4128352.691 1189741.205 -1
+pss6.data ../../../AMS/inputs/forcisets/derwentnut.ts
+pss6.rewind 0
+
+pss7.name Sydney
+pss7.location 4580111.242 2141351.272 -1
+pss7.data ../../../AMS/inputs/forcisets/sydneynut.ts
+pss7.rewind 0
+
+pss8.name Adelaide
+pss8.location 3334677.322 2140681.637 -1
+pss8.data ../../../AMS/inputs/forcisets/adelaidenut.ts
+pss8.rewind 0
+
+pss9.name Brisbane
+pss9.location 4874859.979 2904871.007 -1 
+pss9.data ../../../AMS/inputs/forcisets/brisbanenut.ts
+pss9.rewind 0
+
+pss10.name Murray
+pss10.location 3367597.914 2017187.332 -1
+pss10.data ../../../AMS/inputs/forcisets/murraynut.ts
+pss10.rewind 0
+
+pss11.name Darling
+pss11.location 3367597.914 2017187.332 -1
+pss11.data ../../../AMS/inputs/forcisets/darlingnut.ts
+pss11.rewind 0
+
+pss12.name Snowy
+pss12.location 4309280.417 1770622.364 -1
+pss12.data ../../../AMS/inputs/forcisets/snowynut.ts
+pss12.rewind 0
+
+pss13.name Shoalhaven
+pss13.location 4580111.242 2141351.272 -1
+pss13.data ../../../AMS/inputs/forcisets/shoalhavennut.ts
+pss13.rewind 0
+
+pss14.name Newcastle
+pss14.location 4580111.242 2141351.272  -1 
+pss14.data ../../../AMS/inputs/forcisets/newcastlenut.ts
+pss14.rewind 0
+
+pss15.name Wollongong
+pss15.location 4580111.242 2141351.272 -1 
+pss15.data ../../../AMS/inputs/forcisets/wollongongnut.ts
+pss15.rewind 0
+
+pss16.name Kempsey
+pss16.location 4748990.366 2369327.983 -1 
+pss16.data ../../../AMS/inputs/forcisets/kempseynut.ts
+pss16.rewind 0
+
+pss17.name Grafton
+pss17.location 4748990.366 2369327.983 -1 
+pss17.data ../../../AMS/inputs/forcisets/graftonnut.ts
+pss17.rewind 0
+
+pss18.name Werribee
+pss18.location 3951091.318 1789202.772 -1
+pss18.data ../../../AMS/inputs/forcisets/yarranut.ts
+pss18.rewind 0
+
+pss19.name Northern
+pss19.location 4905493.418 2875519.678 -1 
+pss19.data ../../../AMS/inputs/forcisets/brisbanenut.ts
+pss19.rewind 0
+
+pss20.name Bonnie
+pss20.location 3571038.35 1860595.056 -160 
+pss20.data ../../../AMS/inputs/forcisets/majorupwellnut.ts
+pss20.rewind 0
+
+pss21.name Strachan
+pss21.location 3944058.33 1286884.306 -160 
+pss21.data ../../../AMS/inputs/forcisets/upwellnut.ts
+pss21.rewind 0
+
+pss22.name Lakes
+pss22.location 4309280.417 1770622.364 -160 
+pss22.data ../../../AMS/inputs/forcisets/majorupwellnut.ts
+pss22.rewind 0
+
+pss23.name StHelens
+pss23.location 4220739.702 1357902.444 -160 
+pss23.data ../../../AMS/inputs/forcisets/upwellnut.ts
+pss23.rewind 0
+
+pss24.name Canyons
+pss24.location 4220739.702 1357902.444 -160 
+pss24.data ../../../AMS/inputs/forcisets/upwellnut.ts
+pss24.rewind 0
+
+pss25.name SeaMount
+pss25.location 4985037.12 1824142.527 -500 
+pss25.data ../../../AMS/inputs/forcisets/upwellnut.ts
+pss25.rewind 0
+
+pss26.name SouthTasmanid
+pss26.location 5045962.18 2220041.02 -500 
+pss26.data ../../../AMS/inputs/forcisets/seamountnut.ts
+pss26.rewind 0
+
+pss27.name CentralTasmanid
+pss27.location 5100821.354 2457950.125 -500 
+pss27.data ../../../AMS/inputs/forcisets/seamountnut.ts
+pss27.rewind 0
+
+pss28.name NorthTasmanid
+pss28.location 5078396.267 2750899.949 -500 
+pss28.data ../../../AMS/inputs/forcisets/seamountnut.ts
+pss28.rewind 0
+
+pss29.name TasmanRise
+pss29.location 4293791.933 1095648.918 -500 
+pss29.data ../../../AMS/inputs/forcisets/majorupwellnut.ts
+pss29.rewind 0
+
+##########################################
+# Rain and evaporation
+Precipitation ../../../AMS/inputs/meteor/times1.6.nc
+Evaporation ../../../AMS/inputs/meteor/84-95.nc
+
+# Solar time series data file
+Solar_radiation ../../../AMS/inputs/forcisets/solar9195.ts
+Solar_radiation_rewind 1
+
+# Temperature time series data file
+use_tempfiles 1
+
+# number of temperature files
+ntempfiles 1
+
+# The names of the temperature files
+Temperature0.name ../../../AMS/inputs/forcisets/AMStemp.nc
+
+# Salinity time series data file
+use_saltfiles 1
+
+# Number of salinity files
+nsaltfiles 1
+
+# The names of the salinity input files
+Salinity0.name ../../../AMS/inputs/forcisets/AMSsalt.nc
+
+# Recruitment_time_series
+
+# Recruitment_enviro_forcing
+
+#Larval dispersion data
+use_larvalfiles 0
+larval_rewind 1
+Larval0.name ../../../AMS/inputs/larval/LarvalDispersal.nc
+
+
+#############################################
+# Historical catch lists - nCatchts is the number of time series to be loaded and
+# typeCatchts is whether or not the data is to be interpolated (0) by the model
+# or just use previous record (1)
+nCatchts 0
+typeCatchts 0
+
+#############################################
+# Historical discard lists
+nDiscardts 0
+typeDiscardts 0
+
+#############################################
+# Historical effort lists - nEffortts is the number of time series to be loaded and
+# typeEffortts is whether or not the data is to be interpolated (0) by the model
+# or just use previous record (1)
+nEffortts 0
+typeEffortts 1
+
+#############################################
+# Residual lists - on market fish prices
+nResidualsts 2
+typeResidualsts 0
+
+Residualsts0.name Sydney_market
+Residualsts0.location 4580111.242 2141351.272 18
+Residualsts0.data ../../../AMS/economicts/Sydney_price_residuals.ts
+Residualsts0.rewind 0
+
+Residualsts1.name Melbourne_market
+Residualsts1.location 3951091.318 1789202.772 10
+Residualsts1.data ../../../AMS/economicts/Melbourne_price_residuals.ts
+Residualsts1.rewind 0
+
+#############################################
+# Economic statistics - GDP and fuel costs
+nEconts 1
+typeEconts 0
+
+Econts0.name Econ_GDP
+Econts0.location 4580111.242 2141351.272 18
+Econts0.data ../../../AMS/economicts/gdp_fuel.ts
+Econts0.rewind 0
+
+##############################################
+# MPA (spatial management) files for cases where change through time
+# Same format as Catchts above
+nMPAts 0
+typeMPAts 0
+

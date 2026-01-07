@@ -1,0 +1,12 @@
+---
+title: "Code changes that effect model output."
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+**3rd September 2012**
+
+Fixed a bug in the vert mixing code. The eddy scale value wasn't being used. Changes tracer values.
+
+**19th September 2012**
+
+Fixed two bugs. One in invert migration and one in invert spawning. Will have significant effects on model output.

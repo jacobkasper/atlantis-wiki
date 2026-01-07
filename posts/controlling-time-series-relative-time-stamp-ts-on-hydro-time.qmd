@@ -1,0 +1,14 @@
+---
+title: "Controlling time series relative time stamp - ts_on_hydro_time"
+date: "2014-06-27"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+Originally Atlantis assumed all the physical environmental forcing time series would be in synch with the time stamp set in the first hydro.nc file listed in force.prm file. This can be confusing if you are generating the timeseries by hand and you may want to set it relative to the time in the initial conditions file (in.nc) instead. So in the AtlantisDem version you can now take control. If you want to use the hydro time set ts_on_hydro_time to 1, but if you want to use the time from in.nc use ts_on_hydro_time 0. More details can be found
+[here](/display/Atlantis/Force+Input+File)
+.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

@@ -1,0 +1,13 @@
+---
+title: "California-Current ECCAL"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+This model is for the coast of California. It was the first Atlantis model [formally reviewed](atlantis-california-current-model-review.qmd).
+
+An example of how this model used is to explore
+- [alternative management strategies for the groundfish fisheries](attachments/193889596.pdf) in the region (and [supplementary materials](attachments/193889597.docx) with detail)
+- the [depletion of forage fish](attachments/193889598.pdf)
+- the [effects of ocean acidification](attachments/193889595.pdf)
+
+[ECCAL_map.tif](/download/attachments/43155501/ECCAL_map.tif?version=1&modificationDate=1449790138717&api=v2)

@@ -1,0 +1,22 @@
+---
+title: "Availability Calculator"
+author: "Robert Gamble"
+---
+
+### Documentation
+
+This program takes diet data, growth (mum) and consumption (c) parameters and calculates the Atlantis availabilities (diet connection matrix) for the parameter file. Further documentation can be found in the zip file.
+
+### Files
+
+The zip file containing all files needed to run and install the Availability calculator is available [here](attachments/43156982.zip). Also contains associated documentation.
+
+### Discussion and Bug Fixes
+
+This only seems to work now on Windows XP machines, so you will need to download an emulator.
+
+Feel free to report any problems or extra features that are desired
+
+### Contributed By
+
+Robert Gamble and Jason Link

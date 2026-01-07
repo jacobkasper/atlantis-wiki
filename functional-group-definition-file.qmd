@@ -1,0 +1,59 @@
+---
+title: "Functional Group Definition File"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+## Group Definition help page:
+
+You can define as many functional groups as you like in your Atlantis model. The number of groups defined must match the 'K_num_tot_sp' value in your run.prm file.   
+The detritus groups (CARRION, LAB_DET, REF_DET) must be defined last in this file.
+
+The input file can be in two formats a CSV or an XML file. If you provide a csv file Atlantis will convert it to XML before reading it in. Once you are happy with your model groups definition you can just pass Atlantis the XML version   
+of your group definition so it doesn't have to do the conversion just to save a tiny bit of time.
+
+Attached is a sample file in each format (note these are old examples so the columns are a bit out of date, it is to show you the format only, **please use the table below to guide you on required columns**).
+
+[AMSGroups_23Aug2011.xml](attachments/43156949.xml)  
+[AMSGroups_23Aug2011.csv](attachments/43156950.csv)
+
+A more recent csv example showing some of the extra columns can be found [here](attachments/1688181372.csv).
+
+### Note that order of the columns is important and as you turn on some flags in your run.prm additional columns may be required (as noted below in the table)
+
+| Parameter Name | Description |
+| --- | --- |
+| GroupCode | The group code must be a 2 or 3 letter code of upper case letters used to identify each functional group in the input files read into Atlantis.  Example of valid codes:  FPL SB PIG  Examples of non-valid codes:  PIGLET W2  Atlantis will display an error message and quit if the group codes are not the correct format.   This code is used to identify parameters in the various input files. |
+| Index | The index of the group. Atlantis doesn't actually read this in but its helpful for modellers to see. |
+| IsTurnedOn | A boolean value (either 0 (false) or 1 (true)) to indicate if the group is active in the current model run.  If the group is not active it will not be available for consumption by other groups or fishing. |
+| Name | The name of your group. This must match the tracer names in the initial conditions input file. |
+| Long Name | The long name written to the NetCDF output files. This is also used to find the tracers in the initial conditions input file. |
+| NumCohorts | The number of cohorts in your functional group. If the value is greater than 1 then the groups is assumed to be an age structure group and values are required for reproduction and aging. This determines the [groupAgeType](groupagetype.qmd) in the Atlantis code. |
+| NumGeneTypes | Number of genotypes being used in the model - typically only 1 but multiple are possible. If you are doing this you will need to allow for NumCohorts * NumGeneTypes entries in your initial conditions (and thus output nc) files. So for example while a group with a single genotype and 3 cohorts would have age class 1, 2, 3 in the iniital conditions nc file, a group with 2 genotypes and 3 cohort would have  1, 2, 3, 4, 5, 6 (with 1, 2 being age class 1; 3, 4, being age class 2; and 5, 6 being age class 3). |
+| NumStages | Number of stages being used for parameters - typically 2 (juvenile and addult) for age structured groups and 1 for biomass pools |
+| NumSpawns | Number of spawning events per year |
+| NumAgeClassSize | Number of years per cohort. Max age of group is numCohorts * AgeClassSize |
+| VerticallyMigrates | If true then the group can move vertically through the water column in its movement time step by time step |
+| HorizontallyMigrates | If true then the group can move horizontally throughout the model in its movement time step by time step |
+| NumMigrations | Number if migrations per year out of the model domain |
+| MultiYrMigrations | Whether any migrations see individuals leave the model for multiple years before returning. **While this column is always required in the groups definition file the associated code will not function unless flag_multiyr_migs is also set to 1 in the run.prm file** |
+| ExternalReproduction | Whether the group reproduces (spawns) outside the model domain. 1 = yes, 0 = no |
+| RecruitType | What recruitment assumptions to use: 0 = independent distribution (use recruit_hdistrib), 1 = at parental locations, 2 = external (into Migration Array), 3 = using a forced larval dispersal matrix |
+| IsFished | True if the group can be fished. |
+| IsImpacted | If true then the group can be impacted by fishing. This means there must be values in the harvest and economics files for this group.  These are typically the bycatch groups. All groups with isFished set to 1 must also have IsImpacted set to 1. |
+| IsTAC | Could probably just use isImpacted here. The values are the same. |
+| GroupType | The type of species group. This is documented in more detail [here](atlantisgrouptypes.qmd) |
+| IsPredator | If true then the group can eat other groups. |
+| IsCover | If true the group is classified as a habitat. This means there must be a value in the habitat related variables in the input file. The habitat values are assumed to be in the order in which they are defined in the functional group input file with the following habitats on the end of the array:  reef, flat, soft, canyon |
+| IsSiliconDep | If true then its assumed this groups has a tracer for silicon as well as Nitrogen.  Atlantis will attempt to read in a second tracer from the initial conditions netcdf file in the format 'name_S' where name is the name specified in the functional group input file. At present most models have this set to true for MB and DF |
+| isAssessed | If true then this group will be assessed in the assessment code. |
+| IsCatchGrazer | If true then this group grazes on catch and catch availability data will be read in. |
+| OverWinters | If true then this group will go into hiatus over winter. |
+| isCultured | True if the group is an aquaculture species |
+| isHabDepend | True if the group is habitat dependent |
+| numMoveEntries | The number of movement time periods you would like the group to have. Historically this has been fixed at 4 to allow for seasonal movement. |
+| isSupplemented | Set to 1 if the animal receives food material from outside the model. If this is set >0, the group will be assumed to be eating insects or pellets or something from outside the model domain. The proportion of their diet gained in this way (per box) must be set using the Supp_XXX in the *biology.prm* file. |
+| isBioEroder | If the organism bioerodes other species (e.g. sponges that erode corals) |
+| isExternal | If the group uses the external population code. **Only required if external_populations is set to 1 in the run.prm file.** |
+| isLandActive | Marks the group as able to be on land (for models with land and sea). **Only required if flagAllowLand is set to 1 in the run.prm file.** |
+| isLightEffected | Marks the group as susceptible to light pollution. ****Only required if** flag_pollutant_impacts is set to 1 in the run.prm file.** |
+| isNoiseEffected | Marks the group as susceptible to noise pollution. **Only required if flag_pollutant_impacts is set to 1 in the run.prm file.** |

@@ -1,0 +1,14 @@
+---
+title: "Writing new functionality in Atlantis"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+Option 1: Pseudo Code or Spreadsheet
+- Write up the new functionality that you want as Pseudo code, pass us a spreadsheet or give us code in other languages etc
+- We will then add this new functionality to Atlantis and do some simple testing.
+- Generally good for you to test it properly as you know what it should be doing.
+
+Option 2: You add the functionality to Atlantis
+- We can create you a special branch in the code repository to use. Then you can play without impacting on others and we can help you merge it all back in later.
+- Large learning curve due to complexity of Atlantis code.
+- We need to write up some doco to assist this but its always hard to find the time.

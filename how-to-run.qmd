@@ -1,0 +1,145 @@
+---
+title: "How to run"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+#### Running Atlantis
+
+Run from dos prompt (or equivalent in linux). For simplicity a bat file is used with the following file name structure:
+
+atlantis -i in.nc 0 -o output.nc -r run.prm -f force.prm -p physics.prm -b biol.prm -h harvest.prm -a assess.prm -e economics.prm -s functionalGroups.csv -d outputFolder
+
+For information on how to use the command prompt have a look at [Windows Command Prompt](windows-command-prompt.qmd).
+
+**Parameter files**   
+ *Physics -p*   
+ physics parameters (coefficients) stored in physics.prm - apart from setting some flags (e.g. turning resuspension on/off), point-source scaling and quarterly eddy strength distribution these parameters are not typically changed.  
+ *Forcing -f*   
+Forcing file pathways and details are laid out in force.prm - the time series are read in from ts-files. The forcing files are for hydrodynamics, point sources, climate time series (precipitation, irradiance, temperature and salinity), historical catch, fuel prices, GDP and complex spatial zonation  
+ *Ecology and biology -b*   
+ ecological parameters, submodel selection, network connection definitions and quarterly distributions are given in biol.prm. All flags are at the top of the file, with parameters in the lower half. The model checks parameters are in the correct form when read-in (i.e. checks if integer read-in for switches, binaries for flags etc)  
+ *Assessment -a*   
+ The sample design, sampling error structures and basic assessment model parameters are given in assess.prm  
+ *Fisheries and management -h*   
+ Fisheries and management parameters and submodel definitions are given in harvest.prm. As in the biol.prm file flags are defined first and then the parameters are group by topic in the lower half of the file.  
+ *Economics -e*   
+ The socio-economics parameters (for the market model, trading model, and black-book based effort allocation model) are in econ.prm.  
+ *Run -r*   
+ Parameters defining the run setup (timestep, run and stop times, degree of notes in log.txt) are defined in run.prm   
+ *Functional Groups -s*  
+A csv file containing information about the functional groups in the model.
+
+#### BGM file
+
+The file defines the geography used in the Atlantis model to define the bathymetry of the model system, but also used by OLIVE for display of the model. The model is cast in x-y terms (rather than latitude-longitude), typically created using an Albers projection. The structure of the bgm file is as follows  
+ # box model geometry comment  
+ # number of boxes in horizontal plane  
+ nbox nb  
+ # number of faces in horizontal plane  
+ nface nf  
+ # Maximum bottom depth (m) if botz > this reset botz  
+ # to be this as far as model is concerned  
+ maxwcbotz -20  
+ # vertices of polygon defining the boundary of the dynamic model spaces, polygons outside this are treated as boundary boxes  
+ bnd_vert 4846663.054 2672181.026  
+ bnd_vert 4846577.624 2671694.641  
+ bnd_vert 4846769.65 2671316.256  
+ bnd_vert 4846620.269 2670658.417  
+ bnd_vert 4846647.232 2670053.268  
+ bnd_vert 4846896.231 2669701.554  
+ bnd_vert 4846895.551 2668853.126  
+ bnd_vert 4846480.926 2668328.515  
+ bnd_vert 4846068.874 2668006.796  
+ bnd_vert 4846040.837 2667847.55  
+ # Data for box number 0  
+ box0.label box0  
+ box0.inside 4850502.794 2660539.214                      // midpoint of polygon  
+ box0.nconn 1                                                  // number of neighbouring dynamic boxes  
+ box0.iface 0                 // face numbers connecting box with dynamic neighbouring boxes  
+ box0.ibox 1                  // box-id numbers of dynamic neighbouring boxes  
+ box0.botz -7.58                                                           // depth of the box  
+ box0.area 4.96E+05                                       // area of the box  
+ box0.vertmix 0.000001                                                // vertical mixing scalar for the polygon  
+ box0.horizmix 1                                               // horizontal transport scalar for the polygon  
+ box0.vert 4850016.494 2660989.963                         // vertices of polygon  
+ box0.vert 4850411.21 2660812.231  
+ box0.vert 4851009.235 2660650.395  
+ box0.vert 4850843.256 2660162.581  
+ box0.vert 4850087.844 2660321.401  
+ box0.vert 4850016.494 2660989.963  
+ AND SO ON FOR nb BOXES  
+ # Data for face number 0  
+ face0.p1 4850016.494 2660989.963              // one endpoint of face  
+ face0.p2 4850087.844 2660321.401              // other endpoint of face  
+ face0.length 672.3586014                              // length of face  
+ face0.cs -0.106119971 0.994353333                         // cosine and sine of this vs (0,0)  
+ face0.lr 0 1                                          // box to left and right of face standing at p1 looking at p2  
+ AND SO ON FOR nf faces
+
+#### Time-series files
+
+These time series files used to force the model follow the standard CMAR ts format, which is as follows for a time series files with N data columns and a reference year of 1951  
+ # Comments  
+ #   
+ ## COLUMNS N  
+ ##  
+ ## COLUMN1.name Time  
+ ## COLUMN1.long_name Time  
+ ## COLUMN1.units days since 1951-01-08 0:00:00 +10  
+ ## COLUMN1.missing_value -999  
+ ##  
+ ## COLUMN2.name variable_name  
+ ## COLUMN2.long_name Variable  
+ ## COLUMN2.units mg/s  
+ ## COLUMN2.missing_value -999  
+ ##  
+ ## And so on until all N columns defined  
+ 1 0.045292995 0.226464977 and so on upto N columns
+
+#### Netcdf files
+
+In the run line command the -i switch indicates the initial conditions file. The initial biomass and size values (i.e. initial conditions) is given in the netcdf file in.nc. Netcdf files are laid out in the following fashion
+
+filename {  
+ dimensions  
+   t =  UNLIMITED ; // (x currently)  
+   b =  
+   z =  
+ variables:  
+             double t(t) ;  
+                         t:units = "seconds since 1951-01-01 00:00:00 +10" ;  
+             double variable_name(t, b, z) ;  
+                         variable_name:characteristic =  
+ // global attributes:  
+                         :title = "npz" ;  
+                         :global parameters  
+ data:  
+  t = 0;  
+ variable_name =  
+    _, _ ;
+
+}
+
+where 1951 is the reference year and the data array for variable name is laid out so that there are z entries per line, with b lines. This is then repeated for each of the t steps.  
+ Once a flat ascii cdf version of the file has been created it must be packed using pack.bat or the dos command  
+ C:\netcdf\bin\ncgen -o init_npz.nc init_npz.cdf  
+ The intended output filename is indicated by the switch -o  
+ In addition to these files in the command line there are two other netcdf files that Atlantis automatically loads: fstatistic_blank.nc and diagnostic_blank.nc. To create these files take the cdf versions of these files from an existing run and modify them so that for each variable in the data section of the file there is one _ entry for each box in the new model. If cdf versions do not exist already use the unpack.bat or the following dos command  
+ c:\netcdf\bin\ncdump fstatistic_blank.nc > fstatistic_blank.cdf  
+ c:\netcdf\bin\ncdump diagnostic_blank.nc > diagnostic_blank.cdf
+
+### Output Files
+
+Structuring of output also matches the major topic divisions, such that:  
+ Physical variables are reported in out.nc; ecological output is spread across out.nc, outTOT.nc, outPROD.nc, biol.txt, YOY.txt (out.nc covers the full 3D snapshots whereas the others represented aggregated or diagnostic output). Assessment and indicator values are given in topic specific indicator files (i.e. a long list of files grouped by indicator type). The fisheries and management output is given in outF.nc, outFTOT.nc, catch.txt, effort.txt, catch_per_fishery.txt. The socioeconomics are also given in a short list of aggregated files.
+
+#### Looking at the output
+
+The main software tools used to consider output are: the JAVA stand alone Olive, excel files which use lookup tables to compare model output with observations and assessments (as appropriate). The relative values reported in log.txt are key to successfully calibrating the model, particularly the growth of vertebrates (as it allows for tracking of growth relative to initial conditions, avoid fixation on non-spatial output and worrying over fine match in decimal points, once with 20% of target calibration value then typically acceptable).  
+ To diagnose the invertebrates look at the relative current biomass / initial biomass (currently called virgin, but this is a misnomer that will be corrected as it is really initial biomass). When calibrating vertebrates attempt to get relative SN and RN values to about 1.0 before worrying about numbers (den results). Note though that if numbers are too high (by an order of magnitude or more) the group maybe starving itself so you may need to reduce recruitment or increase predation to get numbers under control before you will make any headway with the growth of the group.  
+ The use of the supporting xls files (biomass_trajectories.xls, diets.xls etc) is recommended as they do facilitate the calibration process.
+
+#### Calibration vs MSE evaluation
+
+When calibrating attention is focused on the relative values reported in the log.txt as well as the overall total biomass and the distribution of biomass in space (if data on this is available). During calibration tuning typically focuses primarily on c_XX, mum_XX, mL_XX, mQ_XX, pPREYXX, and BHalphaXX.  
+ When evaluating an MSE the biomass values as well as the diagnostics reported in the txt and TOT.nc files are typically used, as these match the performance measures typically used to judge MSEs.

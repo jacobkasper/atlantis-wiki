@@ -1,0 +1,18 @@
+---
+title: "SVN & Using Code Repository"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+The Atlantis code is stored on an SVN repository - see getting the code.
+
+SVN is a commonly used repository system. Git is another. Googling SVN will give you an idea of what SVN can do. But the basic concept is that it keeps a history of the code base and the changes that have been made to it so we can recall past code versions for reproducibility. It also allows for multiple people to work on the code and files and for those to be merged back together with relative ease.
+
+TortoiseSVN is a common SVN tool for Windows - a guide on its use with Atlantis can be found [here](tortoisesvn.qmd).
+
+Linux and mac users can get an app like Versions or use the command line svn tools.
+
+For those users who want to add functionality to the Atlantis code its useful to know things like
+
+##### Merging Trunk into Branch
+
+<http://svnbook.red-bean.com/en/1.5/svn.branchmerge.basicmerging.html>

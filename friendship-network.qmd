@@ -1,0 +1,47 @@
+---
+title: "FriendShip Network"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+## Friendship network.
+
+The economics model can use a friendship network to influence if two fishing fleets trade.
+
+The friendship network can be loaded from a csv file specified in the economics file:
+
+friendship_network_file friendship.csv
+
+This is not a compulsory parameter. If this parameter is not specified no network will be loaded and the default value will be 1.0.
+
+To debug this functionality set the debug option to debug_quota(9) in your run.prm file.
+
+#### What value should i use?
+
+The final trade match value between two fleets is a function of species targeting preference (sp_wgt)the amount available (and how close it is to what's desired) and a friendship measure. As this match is to be sorted based on minimisation of difference between desired and available then any weighting should be inverse to strength of desire or friendship network (so more desirable get smaller scalar so picked out preferentially in the minimisation).
+
+**So the higher the friendship value between two fleets the more likely they are to trade.**
+
+The program will print an warning if your try to set the friendship index to less than 1.0 for any fleets and the value for that linkage will default back to 1.0. There is no limit on how large the index can be.
+
+#### File structure
+
+[Sample Input File](attachments/43156767.csv)
+
+The friendship network input file is a 2D array of size ( K_num_fisheries * K_num_subfleets) * ( K_num_fisheries * K_num_subfleets) in the following structure:
+
+|  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | midwcCEP0 | midwcCEP1 | midwcCEP2 | midwcCEP3 | midwcCEP4 | jigCEP0 | jigCEP1 | jigCEP2 | jigCEP3 | jigCEP4 |
+| midwcCEP0 | 2.0 | - | - | - | - | - | - | - | - | - |
+| midwcCEP1 | - | - | - | - | - | - | - | - | - | - |
+| midwcCEP2 | - | - | - | - | - | - | - | - | - | - |
+| midwcCEP3 | - | - | - | - | - | - | - | - | - | - |
+| midwcCEP4 | - | - | - | - | - | - | - | - | - | - |
+| jigCEP0 | - | - | - | - | - | - | - | - | - | - |
+| jigCEP1 | - | - | - | - | - | - | - | - | - | - |
+| jigCEP2 | - | - | - | - | - | - | - | - | - | - |
+| jigCEP3 | - | - | - | - | - | - | - | - | - | - |
+
+The string 'midwcCEP0' indicates the first subfleet in the 'midwcCEP' fishery.
+
+**The first row represents the data for the 'midwcCEP0' seller with each of the possible buyers.**

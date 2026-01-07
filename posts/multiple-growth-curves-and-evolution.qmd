@@ -1,0 +1,70 @@
+---
+title: "Multiple growth curves and Evolution"
+date: "2015-09-05"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+In the trunk code it is possible to have multiple growth curves per age class per functional group (typically for age structured groups) and evolution. The following parameters are needed in biol.prm. Values given is the default values to use if you do not want evolution or multiple growth curves active.
+
+Full documentation of the equations is under development by Asta Audzijonyte and Beth Fulton.
+
+#### Flags
+
+flag_do_evolution 0                        Flag indicating whether do evolution (1) or not (0)
+  
+flag_do_var_express 0                   Flag indicating whether do variable phenotypic evolution (1) or not (0)
+  
+flag_mult_grow_curves 0               Whether using mutiple growth curves (multiple parameterisations per age class) but not evolution per se (1) or not (0)
+  
+flag_bound_change 0                     Whether evolution is effecting bound (1) or impact (0) for temperature, pH and salinity effects
+  
+flag_inheritance 1                           Flag indicating whether complex (0), simple (1) or straight (2) inheritance model used
+  
+flag_evolvar_capped 0                   Whether the variability in the trait has a minimum threshold (1) or not (0)
+
+#### Overall Parameters
+
+evol_stdev_range 2.0                     Range of genotypes in terms of standard deviations
+  
+max_rate_evol 0.0                          Maximum evolutionary shift at any one point in time
+
+#### Functional Group Parameters
+
+For all the following parameters an entry must be included for each function group
+
+# Max proportional shift in phenotypes with aging
+
+  
+max_prop_shift_FXX 0.0
+
+# Level of inheritance
+
+  
+inheritance_FXX 0.0
+
+# Level of trait variance
+
+  
+trait_variance_FPS 0.0
+
+# Minimum level of trait variance (i.e. what the variance can decline to as evolution occurs dynamically)
+
+  
+min_trait_variance_FXX 0.0
+
+# Flag indicating which traits can evolve (or has multiple parameterisations) -
+
+assumed trait order is: growth rate (mum), clearance rate (C), size at maturity (
+
+min_li_mat), reproductive investment (
+
+FSP), temperature effects, pH effects, salinity effects
+
+trait_active_FXX 7
+  
+0 0 0 0 0 0 0
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

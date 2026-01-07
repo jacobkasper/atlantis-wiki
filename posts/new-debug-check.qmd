@@ -1,0 +1,18 @@
+---
+title: "New debug check"
+date: "2012-10-28"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+# Extra debug check added to run.prm (original code base only)
+
+To facilitate doing some runs consistent with older code versions flagasta has been added to run.prm
+
+If you set it to 0 then you have the more correct code version
+
+If you set it to 1 then it reverses a bug fix - it makes the predators super aggressive in effect (more than intended from the parameterisation). I do not recommend using this setting and it will be discontinued in the new code base.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

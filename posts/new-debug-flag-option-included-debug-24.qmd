@@ -1,0 +1,40 @@
+---
+title: "New debug flag option included - debug = 24"
+date: "2015-10-10"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+# New debug flag option included - debug = 24
+
+So can "debug" mortality scaling forcing added the option 23 for debug so the full list is now
+
+| Debug option | Debug value in run.prm | Topic being covered |
+| --- | --- | --- |
+| debug_fishing | 1 | debug fishing |
+| debug_discard | 2 | debug discards |
+| debug_histfishing | 3 | debug histfishing |
+| debug_assess | 4 | debug assessments |
+| debug_mpa | 5 | debug mpas |
+| debug_effort | 6 | debug effort |
+| debug_econeffort | 7 | debug econ effort |
+| debug_econ | 8 | debug econ |
+| debug_quota | 9 | debug quota |
+| debug_age | 10 | debug aging |
+| debug_recruit | 11 | debug recruitment |
+| debug_spawn | 12 | debug_spawning |
+| debug_migrate | 13 | debug migration |
+| debug_move | 14 | debug movement |
+| debug_stock | 15 | debug stocks |
+| debug_biom | 16 | debug biomass calcs |
+| debug_eat | 17 | debug feeding |
+| debug_general | 18 | debug everything |
+| debug_biology_process | 20 | print the biology process function parameters |
+| debug_prey_biology_process | 21 | print the biology process function parameter |
+| clam_debug | 22 |  |
+| debug_deposit | 23 | debug deposition |
+| debug_mL | 24 | debug mortality scalar |
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

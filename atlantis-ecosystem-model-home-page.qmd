@@ -1,0 +1,131 @@
+---
+title: "Atlantis Ecosystem Model Home Page"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+# LEGAL BIT: Sorry, but it's required by CSIRO.
+
+# Atlantis is under a royalty free licence. A copy of the licence can be found [here](csiro-licence-and-repository-request.qmd) (please sign and send me a copy if you'd like access to the code base).
+
+# What this all means is that you can have it all for free and we're happy to help you, but you can't charge for it and we can't promise you its 100% bug free (if you find something odd let us know and we'll check it out ASAP). Apart from that have fun.
+
+---
+
+## For those looking for the manual start [here](atlantis-documentation.qmd) on the documentation page. Otherwise start by reading the notes below and then exploring using the links below, the expandable directory tree on the left of the page and the [blog entries](https://confluence.csiro.au/pages/viewrecentblogposts.action?key=Atlantis) (for new parameters that have been added). For those who want a quick cheat sheet on what has recently changed in Atlantis you can access the repository summary [here](https://confluence.csiro.au/display/Atlantis/Atlantis+Updates) on the Atlantis updates page.
+
+---
+
+Also **don't be afraid to add your comments - the more the merrier, everyone is allowed to edit the wiki, its the whole idea**. While it would be terrific for Atlantis to be easy to use, in reality it never will be so the best bet is not to be afraid of the code and asking questions, lots of questions. And noting the answers in the FAQ or creating pages in the sensible spot for others to find (or on the blog pages).
+
+**For brand [new users please see the Atlantis workflow page](new-user-atlantis-workflow.qmd) for an idea of how to start this adventure. For those chasing up on specific questions different parts of the wiki can be accessed using the wiki branch lists (click on them below or in the panel that is on the left hand side of some screens).**
+
+For those who have been kicking around the wiki for a while you might notice a bit of a reorganisation. We hope it makes things easier to find. If not or if you have further suggestions that will help let us know or dive right in and give us a hand. The old Atlantis Developers branch of the wiki has been split up. The true developers hard core stuff has moved to the [Developers Area](developers-area.qmd) - it mainly contains information that will be relevant to programming types who are interested in Atlantis. . While the section on how to download and compile the code is now in its own section on [Set-up - Software & Code](43155693.qmd) and a new section has been created for those who want to help develop Atlantis modules or make suggestions about what new things they'd like to see - [Modifying & Extending Atlantis](193889298.qmd).
+
+End users can now find sections on [Documentation](atlantis-documentation.qmd), [Parameterisation](parameterising-atlantis.qmd), [Output](atlantis-output-files.qmd), [Helpful Tools](getting-help.qmd) and example [Applications](applications.qmd). These will grow in content with time (as documentation accumulates), but there should be some useful stuff there and in the Blog section already (all new parameters are discussed in the blogs). If you can't see what you want try asking on the [google group](https://groups.google.com/forum/#!forum/atlantis-ecosystem-model) or if that fails then try the pages on [asking for help](getting-help.qmd). If you have any trouble accessing the google group please email atlantis@[csiro.au](http://csiro.au) and we will add you to the group manually.
+
+An [Atlantis webpage](http://atlantis.cmar.csiro.au/index.qmd) now also exists (though it is more just a public face for this wiki).
+
+|  |
+| --- |
+|  |
+
+# Google group for discussing Atlantis modelling problems
+
+If you don't find the answer to your Atlantis questions (should I say woe?) here then try asking on the google group
+
+<https://groups.google.com/forum/#!forum/atlantis-ecosystem-model>
+
+This forum is so users can help each other (as Beth is now so far behind on email her response may be less than fast, sorry).
+
+If you have any trouble accessing the google group please email atlantis@[csiro.au](http://csiro.au) and we will add you to the group manually.
+
+# Following Changes In Parameter Files - see News
+
+**To see** what **changes** have been made **to the parameter files** as new features are added please refer to the Blog pages - some example entries are shown below, but **always** **check the** actual **[Blogposts](https://confluence.csiro.au/pages/viewrecentblogposts.action?key=Atlantis)** because not all changes will be capture in this short list below. The link will take you to the latest entries, if what you want isn't immediately obvious try paging back through previous blog entries (you can go per month by clicking the link in the small table on the right side of each blog page) or use the site search function.
+
+# Training Sessions
+
+No new training workshops are planned for 2021 - anyone wanting training should contact Beth.
+
+News:
+
+[![User icon: gor171](attachments/906264751 "gor171")](    /display/~gor171
+) 
+
+[Atlantis SVN Repository is ready for use!](/pages/viewpage.action?pageId=43155488)
+
+[Gorton, Bec (Environment, Hobart)](    /display/~gor171
+) posted on Feb 03, 2009
+
+Atlantis code repository is now ready for use. It provides access for CSIRO and non-CSIRO staff. If you would like access to this repository please contact Bec. For more information see
+https://wiki.csiro.au/confluence/display/Atlantis/Getting+the+source+code https://wiki.csiro.au/confluence/display/Atlantis/Getting+the+source+code
+
+[Edit](/pages/editblogpost.action?pageId=43155488)
+ ·
+- [generalnews](/label/Atlantis/generalnews)
+
+# Changes made to input files:
+
+These changes will be required to your input files when you do a code update - which you should be doing every week or so. If you can't find what you are after in the blogs please check the manual.
+
+[![User icon: gor171](attachments/906264751 "gor171")](    /display/~gor171
+) 
+
+[Change to prescribed movement - flexible number of time periods per year.](/pages/viewpage.action?pageId=346916326)
+
+[Gorton, Bec (Environment, Hobart)](    /display/~gor171
+) posted on Jul 18, 2016
+
+Historically Atlantis has had prescribed spatial distribution assuming that there are a fixed 4 time periods or seasons per year. The Trunk code from revision 6049 now forces modellers to specify the number of time periods that each year is split into.  
+ 
+How do you specify the number of entries?
+You must now provide the 'numMovePeriods' value for each group. This must now be added as a column in the Groups definition input file.…
+
+[Edit](/pages/editblogpost.action?pageId=346916326)
+ ·
+- [inputchanges](/label/Atlantis/inputchanges)
+
+[![User icon: gor171](attachments/906264751 "gor171")](    /display/~gor171
+) 
+
+[Invertebrate size calculations for use in size based selectivity](/pages/viewpage.action?pageId=337316712)
+
+[Gorton, Bec (Environment, Hobart)](    /display/~gor171
+) posted on Jun 02, 2016
+
+Previously the size of inverts was assumed to be 1.0 when calculating selectivity. The updated code reads in two new values from the biology.prm file.
+li_a_invert 0.01
+li_b_invert 3.0
+ 
+These values are used for all inverts much the same way the li_a and li_b values are set for all vertebrates.
+For invertebrates the code is now:
+ 
+if (FunctGroupArray[guildcase].sn[chrt] > 0) {
+    Wgt = X_RS * FunctGroupArray[guildcase].…
+
+[Edit](/pages/editblogpost.action?pageId=337316712)
+ ·
+- [inputchanges](/label/Atlantis/inputchanges)
+
+[![User icon: gor171](attachments/906264751 "gor171")](    /display/~gor171
+) 
+
+[Frequency of inputs.ts and export.ts](/pages/viewpage.action?pageId=254214694)
+
+[Gorton, Bec (Environment, Hobart)](    /display/~gor171
+) posted on Feb 22, 2016
+
+A new parameter has been added to the force.prm file. This will set the frequency in which data is written to the inputs.ts and export.ts output files. 
+ 
+If you would like no change to this frequency you can use the following (assuming your model dt is 43200)
+# Frequency of inputs.ts and exports.ts output - write out each dt.
+
+inputs_tout 43200 seconds
+ 
+If you would like to change the frequency Atlantis will recognise the following values:
+ 
+# Frequency of inputs.ts and exports.ts output.…
+
+[Edit](/pages/editblogpost.action?pageId=254214694)
+ ·
+- [inputchanges](/label/Atlantis/inputchanges)

@@ -1,0 +1,14 @@
+Course material, including handouts and presentation and demos, are 
+ordered sequentially based on the order taught in the Sept 2009 workshop 
+in Seattle. 
+
+These are essentially Beth and Bec's slides, repackaged, plus case study
+material from the US and Mexico. And some slides stolen from Jason Link. 
+
+The lab material for the 3rd day involved running 'broken' versions of Peters ECCAL/ CCAM
+model, which was a very successful learning experience. 
+
+See the AtlantisEcosystemModelCourseSept2009.doc for the schedule. 
+
+
+isaac.kaplan@noaa.gov

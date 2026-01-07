@@ -1,0 +1,14 @@
+---
+title: "Added max_available_habitat value to biology file."
+date: "2014-10-30"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+The max_available_habitat value has been added to the biology prm file. This will only be used and read in if the flag_competing_epiff flags is set to true.
+
+The max_available_habitat default value should be 1.0 - this implies that the maximum available habitat is 100%. If you have habitat groups that can growth over each other then you might want to increase this.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

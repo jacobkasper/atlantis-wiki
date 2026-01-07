@@ -1,0 +1,10 @@
+---
+title: "Getting Help"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+There are a few options for getting help
+
+1. Try asking on the [Google Group](atlantis-google-group.qmd)
+2. Look in the [documentation](atlantis-documentation.qmd) and [FAQ](atlantis-faq.qmd) or use the search function (search bar to the top right of the page) to look around the wiki. Most of the changes (and new parameters in particular are listed in the Blog entries). If you are searching for part of a word make sure you add a '*' to your search parameter. For example 'intersp_depend*' will find the applicable wiki page but 'intersp_depend' will not.
+3. If 1 and 2 have failed you can ask Beth, Bec and the other experienced code users. If you do that follow the [guide on how to make that process as painless as possible](asking-for-help-with-your-atlantis-model.qmd).

@@ -1,0 +1,52 @@
+---
+title: "Summit Participants"
+author: "Sinerchia, Matteo (Istituto per l'Ambiente Marino Costiero)"
+---
+
+This is the list of people who participated in the summit and their contact email.
+
+| Name | Institution | Email |
+| --- | --- | --- |
+| Aigo Takeshige | Atmosphere and Ocean Research Institute, The University of Tokyo | [a-takeshige@aori.u-tokyo.ac.jp](mailto:a-takeshige@aori.u-tokyo.ac.jp) |
+| Alexander Keth | Institute for Hydrobiology and Fisheries Science | [alexander.keth@uni-hamburg.de](mailto:alexander.keth@uni-hamburg.de) |
+| Ane Lopez De Gamiz | FUNDACION AZTI | [alopez@azti.es](mailto:alopez@azti.es) |
+| Asta Audzijonyte | University of Helsinki | [asta.audzijonyte@helsinki.fi](mailto:asta.audzijonyte@helsinki.fi) |
+| Bec Gorton | CSIRO | [bec.gorton@csiro.au](mailto:bec.gorton@csiro.au) |
+| Cameron Ainsworth | University of South Florida | [ainsworth@usf.edu](mailto:ainsworth@usf.edu) |
+| Cecilie Hansen | Institute of marine research | [cecilie.hansen@imr.no](mailto:cecilie.hansen@imr.no) |
+| Derek Tittensor | UNEP-WCMC - Invitational | [Derek.Tittensor@unep-wcmc.org](mailto:Derek.Tittensor@unep-wcmc.org) |
+| Eider Andonegi | FUNDACION AZTI | [eandonegi@azti.es](mailto:eandonegi@azti.es) |
+| Beth Fulton | CSIRO | [beth.fulton@csiro.au](mailto:beth.fulton@csiro.au) |
+| Emma Hodgson | University of Washington | [hodgsone@uw.edu](mailto:hodgsone@uw.edu) |
+| Erik Olsen | Havforskningsinstituttet | [eriko@imr.no](mailto:eriko@imr.no) |
+| Erla Sturludottir | University of Iceland | [erlasturl@gmail.com](mailto:erlasturl@gmail.com) |
+| Hector Lozano-Montes | CSIRO | [Hector.Lozano-Montes@csiro.au](mailto:Hector.Lozano-Montes@csiro.au) |
+| Hem Morzaria-Luna | CEDO Intercultural | [hemnalini.morzarialuna@noaa.gov](mailto:hemnalini.morzarialuna@noaa.gov) |
+| Hiroto Murase | National Research Institute of Far Seas Fisheries | [muraseh@affrc.go.jp](mailto:muraseh@affrc.go.jp) |
+| Holly Perryman | University of Miami - RSMAS | [hperryman@rsmas.miami.edu](mailto:hperryman@rsmas.miami.edu) |
+| Howard Townsend | NOAA Fisheries | [howard.townsend@noaa.gov](mailto:howard.townsend@noaa.gov) |
+| Isaac Kaplan | NOAA Fisheries Northwest Fisheries Science Center | [isaac.kaplan@noaa.gov](mailto:isaac.kaplan@noaa.gov) |
+| Jason Link | NOAA Fisheries | [jason.link@noaa.gov](mailto:jason.link@noaa.gov) |
+| Javier Porobic | University of Tasmania, CSIRO | [Javier.Porobic@utas.edu.au](mailto:Javier.Porobic@utas.edu.au) |
+| Jess Melbourne-Thomas | Australian Antarctic Division | [jess.melbourne-thomas@aad.gov.au](mailto:jess.melbourne-thomas@aad.gov.au) |
+| Joel Ortega Ortiz |  |  |
+| Kelli Johnson | University of Washington | [kfjohns@uw.edu](mailto:kfjohns@uw.edu) |
+| Kirsten Larsen | NOAA Fisheries | [kirsten.larsen@noaa.gov](mailto:kirsten.larsen@noaa.gov) |
+| Manuel Barange | Plymouth Marine Lab, UK | [MABA@pml.ac.uk](mailto:MABA@pml.ac.uk) |
+| Marie Savina | IFREMER | [msavinar@ifremer.fr](mailto:msavinar@ifremer.fr) |
+| Mariska Weijerman | JIMAR / NOAA Fisheries Pacific Islands Fisheries Science Center | [mariska.weijerman@noaa.gov](mailto:mariska.weijerman@noaa.gov) |
+| Matteo Sinerchia | CNR-IAMC | matteo.sinerchia@iamc.cnr.it |
+| Mette Skern-Mauritzen | Institute of Marine Research | [mettem@imr.no](mailto:mettem@imr.no) |
+| Michael Drexler | The Ocean Conservancy | [mdrexler@oceanconservancy.org](mailto:mdrexler@oceanconservancy.org) |
+| Robert Wildermuth | University of Massachusetts Dartmouth | [rwildermuth@umassd.edu](mailto:rwildermuth@umassd.edu) |
+| Robert Gamble | NOAA Fisheries Northeast Fisheries Science Center | [robert.gamble@noaa.gov](mailto:robert.gamble@noaa.gov) |
+| Russell (Rusty) Brainard | NOAA Fisheries Pacific Islands Fisheries Science Center | [rusty.brainard@noaa.gov](mailto:rusty.brainard@noaa.gov) |
+| Sarah Gaichas | NOAA Fisheries Northeast Fisheries Science Center | [sarah.gaichas@noaa.gov](mailto:sarah.gaichas@noaa.gov) |
+| Sean Lucey | NOAA Fisheries Northeast Fisheries Science Center | [sean.lucey@noaa.gov](mailto:sean.lucey@noaa.gov) |
+| Stephen Gosnell | Baruch College, City University of New York | [stephen.gosnell@baruch.cuny.edu](mailto:stephen.gosnell@baruch.cuny.edu) |
+| Takehiro Okuda | National Research Institute of Far Seas Fisheries, FRA | [okudy@affrc.go.jp](mailto:okudy@affrc.go.jp) |
+| Thibaut Houitte de la Chesnais | University of Tasmania, CSIRO | [thibaut.houittedelachesnais@utas.edu.au](mailto:thibaut.houittedelachesnais@utas.edu.au) |
+| Tom Ihde | ERT, Inc for NOAA Fisheries | [tom.ihde@noaa.gov](mailto:tom.ihde@noaa.gov) |
+| Trevor Hutton | CSIRO | [trevor.hutton@csiro.au](mailto:trevor.hutton@csiro.au) |
+| Vidette McGregor | NIWA | [vidette.mcgregor@niwa.co.nz](mailto:vidette.mcgregor@niwa.co.nz) |
+| Xinhua Zhu | Fisheries and Oceans canada | [xinhua.zhu@dfo-mpo.gc.ca](mailto:xinhua.zhu@dfo-mpo.gc.ca) |

@@ -1,0 +1,129 @@
+---
+title: "Adding a new group"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+If you need to add a new group to your model you need to make sure you update the following files.
+
+### 1. Add the group to your functional group file. Pay attention to the notes on the wiki [﻿group definite file](https://wiki.csiro.au/display/Atlantis/Functional+Group+Definition+File)
+
+### 2. Update your initial conditions netcdf file.
+
+The tracer names should match the 'Long Name' value in your functional group definition file.
+
+**Vertebrates**
+
+If your group PolarBear is a vertebrate (FISH, MAMMAL, BIRD or SHARK) then the following tracers should be present:
+
+double PolarBear_N(t, b, z) ;  
+PolarBear_N:bmtype = "tracer" ;  
+PolarBear_N:units = "mg N m-3" ;  
+PolarBear_N:long_name = "Polar bears total N" ;  
+PolarBear_N:sumtype = 1 ;  
+PolarBear_N:dtype = 0 ;  
+PolarBear_N:inwc = 0 ;  
+PolarBear_N:insed = 0 ;  
+PolarBear_N:dissol = 1 ;  
+PolarBear_N:partic = 0 ;  
+PolarBear_N:decay = 0. ;  
+PolarBearh_N:_FillValue = 0. ;
+
+Then for each cohort:
+
+double PolarBear1_StructN(t, b, z) ;  
+PolarBear1_StructN:bmtype = "tracer" ;  
+PolarBear1_StructN:units = "mg N" ;  
+PolarBear1_StructN:long_name = "Individ structural N for polar bears cohort 1" ;  
+PolarBear1_StructN:sumtype = 0 ;  
+PolarBear1_StructN:dtype = 0 ;  
+PolarBear1_StructN:inwc = 0 ;  
+PolarBear1_StructN:insed = 0 ;  
+PolarBear1_StructN:dissol = 0 ;  
+PolarBear1_StructN:decay = 0. ;  
+PolarBear1_StructN:partic = 1 ;  
+PolarBear1_StructN:passive = 0 ;  
+PolarBear1_StructN:svel = 0. ;  
+PolarBear1_StructN:xvel = 0. ;  
+PolarBear1_StructN:psize = 10. ;  
+PolarBear1_StructN:b_dens = 1000000000. ;  
+PolarBear1_StructN:i_conc = 200000000. ;  
+PolarBear1_StructN:f_conc = 200000000. ;  
+PolarBear1_StructN:_FillValue = 815.8 ;
+
+double PolarBear1_ResN(t, b, z) ;  
+PolarBear1_ResN:bmtype = "tracer" ;  
+PolarBear1_ResN:units = "mg N" ;  
+PolarBear1_ResN:long_name = "Individ reserve N for polar bears cohort 1" ;  
+PolarBear1_ResN:sumtype = 0 ;  
+PolarBear1_ResN:dtype = 0 ;  
+PolarBear1_ResN:inwc = 0 ;  
+PolarBear1_ResN:insed = 0 ;  
+PolarBear1_ResN:dissol = 0 ;  
+PolarBear1_ResN:decay = 0. ;  
+PolarBear1_ResN:partic = 1 ;  
+PolarBear1_ResN:passive = 0 ;  
+PolarBear1_ResN:svel = 0. ;  
+PolarBear1_ResN:xvel = 0. ;  
+PolarBear1_ResN:psize = 10. ;  
+PolarBear1_ResN:b_dens = 1000000000. ;  
+PolarBear1_ResN:i_conc = 200000000. ;  
+PolarBear1_ResN:f_conc = 200000000. ;  
+PolarBear1_ResN:_FillValue = 2161.8 ;
+
+double PolarBear1_Nums(t, b, z) ;  
+PolarBear1_Nums:bmtype = "tracer" ;  
+PolarBear1_Nums:units = "1" ;  
+PolarBear1_Nums:long_name = "Numbers of polar bears cohort 1" ;  
+PolarBear1_Nums:sumtype = 0 ;  
+PolarBear1_Nums:dtype = 0 ;  
+PolarBear1_Nums:inwc = 0 ;  
+PolarBear1_Nums:insed = 0 ;  
+PolarBear1_Nums:dissol = 0 ;  
+PolarBear1_Nums:decay = 0. ;  
+PolarBear1_Nums:partic = 1 ;  
+PolarBear1_Nums:passive = 0 ;  
+PolarBear1_Nums:svel = 0. ;  
+PolarBear1_Nums:xvel = 0. ;  
+PolarBear1_Nums:psize = 10. ;  
+PolarBear1_Nums:b_dens = 1000000000. ;  
+PolarBear1_Nums:i_conc = 200000000. ;  
+PolarBear1_Nums:f_conc = 200000000. ;  
+PolarBear1_Nums:_FillValue = 0. ;
+
+**Invertebrates**
+
+Add the following tracers to your initial conditions netcdf file:
+
+If the group is an age structured biomass pool then add a tracer similar to the following for each cohort:  
+double Abalone_N1(t, b, z) ;  
+Abalone_N1:bmtype = "tracer" ;  
+Abalone_N1:units = "mg N m-3" ;  
+Abalone_N1:long_name = "Abalone1 Nitrogen" ;  
+Abalone_N1:sumtype = 1 ;  
+Abalone_N1:dtype = 0 ;  
+Abalone_N1:inwc = 1 ;  
+Abalone_N1:insed = 0 ;  
+Abalone_N1:dissol = 0 ;  
+Abalone_N1:decay = 0. ;  
+Abalone_N1:partic = 1 ;  
+Abalone_N1:passive = 0 ;  
+Abalone_N1:svel = 0. ;  
+Abalone_N1:xvel = 0. ;  
+Abalone_N1:psize = 10. ;  
+Abalone_N1:b_dens = 1000000000. ;  
+Abalone_N1:i_conc = 200000000. ;  
+Abalone_N1:f_conc = 200000000. ;  
+Abalone_N1:_FillValue = 0. ;
+
+### Update your biology prm file.
+
+Probably the best thing is to find a group with the same groupType and add a value for the new group for each parameter that the other similar group has.  
+You will need to update your diet matrix. The order of the prey values in these arrays are the same as the order you define your groups in your functional group definition file.
+
+### Update the run.prm file:
+
+The K_num_tot_sp value must equal the number of groups in your functional group prm file. This is just a check.
+
+### Update the other prm files
+
+If you have economics, fishing or assessment turned on then you will have to update these files. Remember any arrays where there is a value per group the order is determined by the order of groups in your functional group definition file.

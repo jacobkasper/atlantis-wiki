@@ -1,0 +1,54 @@
+---
+title: "Allowing for more sensitive habitat dependency"
+date: "2013-09-03"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+Age structured groups can be sensitive to the level of habitat (and the refuge that provides from predators). These equations have been slightly tweaked to allow for more sensitive habitat responses.
+
+This calculation is done for adults and juveniles separately and
+
+the equation is now
+
+refuge_status
+= Acov * (
+exp
+( -Kcov * cover_amt + Bcov) + 1.0 / Kcov)
+
+Where cover_amt is either
+
+1. the cumulative cover of the biogenic and abiotic habitats
+2. the average cover of the biogenic and abiotic habitats (i.e. cumulative amount divided by the number of habitats they are dependent on)
+
+To indicate what kind of cover_amt you're using set
+
+flag_rel_cover 1 if you want to use the average cover option (more sensitive)
+
+flag_rel_cover 0 if you want to use the base cumulative habitat version (old standard version)
+
+To indicate habitat dependency for group XX
+
+1. set habdepend_XX to 1
+2. set the values of the vector habitat_XX
+   where the list of habitats are biogenic habitat groups (iscover in csv) in the same order as in csv file, reef, flat, soft, canyon
+
+   e.g.
+
+   habitat_XX 10
+     
+   1 1 1 0 0 0 1 1 1 1
+
+Note that the values in habitat_XX no longer need to be 0 or 1, they can now be any number >= 0. A 0 indicates that the habitat is not used whereas a value >0 indicates habitat use with the value indicating the weighting for the importance of that habitat.
+
+Then set
+
+Kcov_juv_XX and Kcov_ad_XX (both typically about 3.0 in an ancient meta-analysis Beth did)
+
+Bcov_juv_XX and Bcov_ad_XX (both typically about 0.6 in an ancient meta-analysis Beth did)
+
+Acov_juv_XX and Acov_ad_XX (both typically about 1.0 in an ancient meta-analysis Beth did)
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

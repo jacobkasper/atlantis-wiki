@@ -1,0 +1,8 @@
+---
+title: "VicMPA"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+#### Plotting
+
+Penny needs a program that can generate plot for her. She is currently using excel to manipulate the data and its then copied and pasted into Sigma plot. Now SigmaPlot has a scripting language that should be able to automate some of this stuff. The other aspect that is time consuming is the copying and pasting of the original data into excel. This can definitely be automated.

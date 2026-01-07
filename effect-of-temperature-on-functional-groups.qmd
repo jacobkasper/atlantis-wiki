@@ -1,0 +1,54 @@
+---
+title: "Effect of temperature on functional groups"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+### Parameters effected
+
+The temperature in the current box-layer effects the following functional group attributes:
+
+KI - Light Saturation  
+C - Clearance Rates  
+mL- linear mortality  
+mQ - quadratic mortality  
+mS - Extra macrophyte mortality (based on physical environment)
+
+Each of these attributes is in the biology input file. These values typically have the name similar to KI_PL_T15 which indicates that its the value of the attribute at 15 degrees C.  
+These parameters are then corrected based on the difference between the current temperature and 15 deg C.
+
+So the value that is actually used for each of these attributes is:
+
+value = T15_value * Tcorr.
+
+### Calculating the TCorr value for each functional group
+
+There are a number of options for calculating the TCorr value for each functional group. Temperature correction will only occur if the 'flagq10' flag is 'on' in your biology input file.
+
+There are two methods for calculating the TCorr value for each functional group and the method is specified in the q10_method_ value for each functional group.
+
+##### Method 1:
+
+This is used if the q10_method_ value for the functional group is not set (default value is 0) or is set to 0 in the input file.
+
+current_corr = (current_temp - 15.0)/10.0  
+Tcorr = Group_Q10^current_corr;
+
+Where the Group_Q10 value is the FLAG_Q10 value read in from the biology input file. If you don't specify a value for a functional group the default Q10 value is used.
+
+##### Method 2:
+
+The Gary Griffith method (Griffith et al (2010) )
+
+Warning: This is still being tested and is pretty hypothetical.
+
+Tcorr=log(2)*0.851*(1.066.^T_i).*exp(-((abs(T_i-T_opt)).^3)./Tcorrection);
+
+Where:  
+T_opt = the q10_optional_temp_ value read in from the biology functional group for this functional group.  
+Tcorrection = q10_correction_ read in from the biology input file for this functional group.
+
+T_i = current tempertaure
+
+Note if the q10_method_ is 0 (or not specified) for a functional group then the q10_optional_temp_ and q10_correction_ values are not read in from the biology input file.
+
+The attached [spreadsheet](attachments/43157409.ods) shows the results of this method on the ZG functional group.

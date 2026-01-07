@@ -1,0 +1,98 @@
+---
+title: "Migration Upgrade"
+date: "2023-03-05"
+author: "Fulton, Beth (Environment, Hobart)"
+version: "6673"
+---
+
+**Version: 6673**
+
+(latest version of migration updates - Feb 2023)
+
+It is possible to allow a part or all of an age cohort or biomass pool to leave the model domain for a set period of time. This is used to imitate seasonal migrations to areas outside the model domain. This option is typically used for large mammals such as whales, which only spend a specific period of time within the model domain, but it can be applied to any group. For age-structured groups separate migration parameters are given for juveniles and adults, and one parameter is needed for biomass pools. Migration is handled by the
+*Ecology_Invert_Migration()*
+and E
+*cology_Total_Verts_And_ Migration()*
+routines in
+**atmovement.c**
+
+The relevant parameters defining the migration are detailed in the
+*functional_groups.csv*
+and
+*migrations.csv*
+files. The
+*migrations.csv*
+file is a new file to include. The addition of this parameter file means you need to update the run command to
+
+***atlantismain.exe -i
+[MySea_inital.nc](http://MySea_inital.nc)
+0 -o
+[simulationOutput1.nc](http://simulationOutput1.nc)
+-r MySea_run.prm -p MySea_physics.prm -f MySea_force.prm -b MySea_biol.prm -m MySea_migration.csv -s MyBiologyGroups.csv -h MySea_harvest.prm -q MyFisheries.csv –a MySea_assess.prm –e MySea_econ.prm -d OutputFolder1 -t C:\AtlantisRuns\parameters***
+
+In
+*functional_groups.csv*
+
+set whether a group is migrating by setting: NumMigrations > 1. This is the number of migrations initiated per calendar year. Also set whether those migrations are multiyear or not (MultiYrMigrations = 1 means at least one of the migrations started per year can last for many years).
+
+An example of the format of
+*migrations.csv is shown below*
+, but for each migration you must
+set each of the following parameters. Note that if multiple stages migrate at the same time please provide an entry for each stage for that migration. If an animal matures into another stage while it has migrated away that is fine without an additional entry as it is covered by the original StartStage. If a biomass pool there is simply one entry for each migration for the group.
+- **StartStage**
+  for each migration.
+- **MigID**
+  is the ID number for each migration per year for that stage and group. The order is based on the StartTofY (i.e. in order of the migrations based on when individuals leave the model domain). This ID starts with 0 and then increments from there (so if there were 3 migrations per year for example these would have IDs 0, 1, 2). The numbering resets for each stage.
+- **StartTofY**
+  for each migration. This is the day of the year (calendar day) when that stage of the group migrates out of the model.
+- **EndTofY**
+  for each migration. This is the day of the year (calendar day) when migration ends and the individuals return to the model domain.
+- **Leave_Period**
+  is the number of days over which individuals leave the system as they migrate away
+- **Return_Period**
+  is the number of days over which individuals return to the system
+- **IsAnnualMigration**
+  is whether this particular migration happens annually (1) or stretches for multiple years (0)
+- **MinTimeAway**
+  while a value is required for all migrations, the value is really only used for multi-year migrations. It is the minimum number of years that migrants stay out of the model.
+- **MaxTimeAway**
+  while a value is required for all migrations, the value is really only used for multi-year migrations. It is the maximum number of years that migrants stay out of the model.
+- **MigrateStockReturn**
+  specifies which stock the migrants return to. In most models there is only one stock so simply set it to 0 here.
+- **MigPropSizeInc**
+  indicates whether the species has grown while outside the model domain. For age structured groups this indicates the proportional increase in both SN and RN while outside the model domain, for biomass groups it is straight biomass change. Growth outside the model domain adds nitrogen into the system.
+- **MigPropSurvive**
+  is the survivorship of migrants (proportion of biomass or numbers returning back into the model domain). The remaining nitrogen (1-FSM) is lost from the model.
+- **PartialExit**
+  is whether for the multi-year migrations only some of the age group leaves and for those that don’t leave they remain resident rather than attempt to leave in subsequent years.
+- **MinAgeLeave**
+  if your model has a mix of leaving and resident in multi-year migrations (i.e. PartialExit = 1) this is the youngest cohort leaving. If only the youngest age group migrating set this to 0.
+- **MaxAgeLeave**
+  if your model has a mix of leaving and resident in multi-year migrations (i.e. PartialExit = 1) this is the oldest cohort leaving. If only the youngest age group migrating set this to 0 (or other juvenile residents will leave in subsequent years).
+
+In the biology.prm file you also need to set
+**k_migslow**
+to indicate if the species migrates all at once or gradually.  If k_migslow is set to 1 then there will be gradual migration using the
+**Leave_Period**
+and
+**Return_Period**
+(if it is set to 0 then the migrants leave or return in 1 time step). If k_migslow=1 and  Leave_Period and Return_Period must be >0 or else Atlantis will quit with an error message.
+
+Within the model, when it is a migration time, the code checks what proportion of the age class migrates out of each box and take that number (biomass) out of the model. This value set in the vector
+**MigIOBox_XXX**
+(with a value given per box in the model) in the
+*biology.prm*
+file. Separate vectors are required juveniles and adults in age-structured groups. The amount removed from the model is stored in the MIGRATION array.
+
+To trigger multi-year migrations set MultiYrMigrations to 1 for the group in the
+*functional_groups.csv*
+file. The time of year when the group leaves, returns and the periods of time over which migration occur are set as for annual migrations, as is the MigIOBox_XXX.  The number of years spent away – set using MinTimeAway and MaxTimeAway is important for specifying how long these multi-year migrations last and whether there are any staggered returns or the entire set of migrants return together. In the example shown below only part of the population of juvenile FCC will migrate. Any who do not will not try to migrate out in subsequent years while juvenile. but when they become adults they will follow those migrations.
+
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **Example of the migrations.csv file**    |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | | GroupCode | StartStage | MigID | StartTofY | EndTofY | Leave_Period | Return_Period | isAnnualMigration | MinTimeAway | MaxTimeAway | MigrateStock  Return | MigProp  SizeInc | MigPropSurvive | PartialExit | MinAgeLeave | MaxAgeLeave | | FAA | 0 | 0 | 182 | 258 | 15 | 15 | 1 | 0 | 0 | 0 | 2.7 | 0.72 | 0 | 0 | 0 | | FAA | 1 | 0 | 182 | 258 | 15 | 15 | 1 | 0 | 0 | 0 | 0 | 0.67 | 0 | 0 | 0 | | FBB | 0 | 0 | 227 | 90 | 12 | 5 | 1 | 0 | 0 | 0 | 0.05 | 1 | 0 | 0 | 0 | | FCC | 0 | 0 | 213 | 67 | 24 | 18 | 0 | 3 | 6 | 0 | 1.5 | 0.9 | 1 | 0 | 0 | | FCC | 1 | 0 | 120 | 160 | 12 | 12 | 1 | 0 | 0 | 0 | 0 | 0.98 | 0 | 0 | 0 | | FCC | 1 | 1 | 200 | 250 | 12 | 12 | 1 | 0 | 0 | 0 | 0.05 | 0.95 | 0 | 0 | 0 | | FCC | 1 | 2 | 280 | 330 | 17 | 10 | 1 | 0 | 0 | 0 | 0 | 0.9 | 0 | 0 | 0 | | FXX | 0 | 0 | 30 | 151 | 10 | 15 | 1 | 0 | 0 | 0 | 0.1 | 0.75 | 0 | 0 | 0 | | FXX | 1 | 0 | 60 | 107 | 12 | 12 | 1 | 0 | 0 | 0 | 0.05 | 0.93 | 0 | 0 | 0 | | FXX | 0 | 1 | 190 | 240 | 15 | 15 | 1 | 0 | 0 | 0 | 0.1 | 0.755 | 0 | 0 | 0 | | FXX | 1 | 1 | 250 | 324 | 12 | 12 | 1 | 0 | 0 | 0 | 0.05 | 1 | 0 | 0 | 0 | |
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

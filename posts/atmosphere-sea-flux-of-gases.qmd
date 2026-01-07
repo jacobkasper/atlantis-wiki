@@ -1,0 +1,70 @@
+---
+title: "Atmosphere-sea flux of gases"
+date: "2014-07-10"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+#### Nutrient atmosphere-sea flux
+
+Atlantis has always allowed for atmospheric deposition of NH and NO. We've now made that explicit (i.e. parameters in physics.prm) and added the capacity to have P, CO2, Si and micronutrients flux too.
+
+This sees the following parameters added to physics.prm
+
+# Atmospheric concentrations of gases or dust based inputs (mg m-3)
+
+  
+atmospheric_NH 0.017
+  
+atmospheric_NO 0.025
+  
+atmospheric_F 0.0
+  
+atmospheric_CO2 0.0
+  
+atmospheric_P 0.0
+  
+atmospheric_Si 0.0
+
+In the code all of these fluxes are implemented as follows:
+
+If it is a surface layer then
+
+localWCFlux_nutrient += (atmospheric_XX / layer_depth) / 86400      (with the last bit to make sure its per second so in correct units for the integrator)
+
+#### Oxygen atmosphere-sea flux
+
+We've added explicit temperature-dependent atmosphere-sea flux for oxygen too.
+This uses a relationship
+
+calculated off Figure 1 in Gruber et al Global Biogeochemical Cycles paper "Air-sea flux of oxygen estimated from bulk data:
+
+Implications for the marine and atmospheric oxygen cycles"
+
+If it is a surface layer then
+
+localWCFlux_o2 += ((atmospheric_O2 - 0.0008 * H2Otemp^4 + 0.0594 * H2Otemp^3 - 1.1908 * H2Otemp^2 + 0.613 * H2Otemp) / layer_depth) / 86400
+
+if
+(bm->current_layer == (bm->boxes[bm->current_box].nz - 1)) {
+
+dzz = bm->boxes[bm->current_box].dz[bm->current_layer];
+
+temp_sq = H2Otemp * H2Otemp;
+
+added_o2 = bm->atmospheric_O2 - 0.0008 * temp_sq * temp_sq + 0.0594 * temp_sq * H2Otemp - 1.1908 * temp_sq + 0.613 * H2Otemp;
+
+if
+(dzz != 0.0) {
+
+boxLayerInfo->localWCFlux[*PhysioChemArray[index].tracerIndex] += (added_o2 / dzz) / numsec;
+
+boxLayerInfo->DebugFluxInfo[PhysioChemArray[index].debugIndex][WC][gain_id] += (added_o2 / dzz) / numsec;
+
+}
+
+}
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

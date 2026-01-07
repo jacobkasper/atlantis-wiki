@@ -1,0 +1,28 @@
+---
+title: "Atlantis_Tags"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+# Atlantis Tags
+
+This is intended to be a list of CVS tags that are used in the Atlantis source tree. When you create a tag in the source tree add a commment here about why the source was tagged.
+
+**May_12_2008**
+
+Tagged by: Bec Gorton  
+Reason:   
+Tagged the orginal source code prior to checking in the redeveloped file input code.
+
+**Oct 27 2008**
+
+I have branched the Atlantis repository so Beth can keep working on stable code but i can go nuts and make lots of changes.
+- Oct 29 2008*
+
+Created a tag on the main trunk. trunk_29_oct_2008
+- Jan 06 2009 Bec_dev
+
+bec_dev_06_jan_2009
+
+Tagged the code that was in the RM-jCEP folder before deleting it and merging with the original atlantis_CVS\atlantis code. Just in case is stuffed up the merge.
+
+also tagged the main dev branch once i merged the code without (almost all biology done) jCEP and jPWN after it was checked in and before i merged the changes from the main truck and the dev trunch into the dev trunk.

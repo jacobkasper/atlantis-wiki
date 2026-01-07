@@ -1,0 +1,204 @@
+---
+title: "Group size scale time series input - non-compulsory change to forcing input file"
+date: "2011-03-02"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+There is a new non-compulsory parameter in the forcing input prm file. This can be used to read in a time series file containing scaling to apply to functional groups. The scaling factor is applied to the sn and rn tracers for the identified groups in each box and each layer once each year.
+
+The groups in the input file should only be vertebrates, there is no support for invertebrate groups at this stage.
+
+The following would be added to your forcing input file:
+
+#############################################
+  
+# Group size change forcing file
+
+  
+SizeChange sizeChangeSimple.ts
+
+The structure of the sizeChangeSimple.ts file is:
+
+# Changes in group size. Simple test file.
+
+  
+#
+  
+## COLUMNS 11
+
+  
+##
+  
+## COLUMN1.name Time
+
+  
+## COLUMN1.long_name Time
+
+  
+## COLUMN1.units days since 2000-01-01 00:00:00 +10
+
+  
+## COLUMN1.missing_value 0
+
+  
+##
+  
+## COLUMN2.name FPL_0
+
+  
+## COLUMN2.long_name FPL_0
+
+  
+## COLUMN2.units scalar
+
+  
+## COLUMN2.missing_value 0
+
+  
+##
+  
+## COLUMN3.name FPL_1
+
+  
+## COLUMN3.long_name FPL_1
+
+  
+## COLUMN3.units scalar
+
+  
+## COLUMN3.missing_value 0
+
+  
+##
+  
+## COLUMN4.name FPL_2
+
+  
+## COLUMN4.long_name FPL_2
+
+  
+## COLUMN4.units scalar
+
+  
+## COLUMN4.missing_value 0
+
+  
+##
+  
+## COLUMN5.name FPL_3
+
+  
+## COLUMN5.long_name FPL_3
+
+  
+## COLUMN5.units scalar
+
+  
+## COLUMN5.missing_value 0
+
+  
+##
+  
+## COLUMN6.name FPL_4
+
+  
+## COLUMN6.long_name FPL_4
+
+  
+## COLUMN6.units scalar
+
+  
+## COLUMN6.missing_value 0
+
+  
+##
+  
+## COLUMN7.name FPL_5
+
+  
+## COLUMN7.long_name FPL_5
+
+  
+## COLUMN7.units scalar
+
+  
+## COLUMN7.missing_value 0
+
+  
+##
+  
+## COLUMN8.name FPL_6
+
+  
+## COLUMN8.long_name FPL_6
+
+  
+## COLUMN8.units scalar
+
+  
+## COLUMN8.missing_value 0
+
+  
+##
+  
+## COLUMN9.name FPL_7
+
+  
+## COLUMN9.long_name FPL_7
+
+  
+## COLUMN9.units scalar
+
+  
+## COLUMN9.missing_value 0
+
+  
+##
+  
+## COLUMN10.name FPL_8
+
+  
+## COLUMN10.long_name FPL_8
+
+  
+## COLUMN10.units scalar
+
+  
+## COLUMN10.missing_value 0
+
+  
+##
+  
+## COLUMN11.name FPL_9
+
+  
+## COLUMN11.long_name FPL_10
+
+  
+## COLUMN11.units scalar
+
+  
+## COLUMN11.missing_value 0
+
+  
+  
+1 1 1 1 1 1 1 1 1 1 1
+
+365 2 2 2 2 2 2 2 2 2 2
+  
+.....
+
+The Time should be in model time not hydro time so in the above example the model starts on the beginning of 2000 - this is the same as the time in the initial conditions netcdf file.
+
+One thing to note is that the values are interpolated. So the size scalar applied at day 1 will be 1.0 for all groups listed above. Any groups that are not in the file will not be scaled.
+
+The size scaling will only occur at the beginning of each year regardless of how many values you put in your input ts file.
+  
+In the above example the sn and rn tracers for all cohorts for FPL will be scaled in each layer in each box at the beginning of each year when day of year == 0.
+
+This functionality should be used with care - this is a method of replicating the effects of other situations that we don't have time to add yet.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

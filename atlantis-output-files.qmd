@@ -1,0 +1,86 @@
+---
+title: "Atlantis Output Files"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+## Atlantis Output Files
+
+### NetCDF output Files
+
+Atlantis generates a number of netCDF output files that are similar to the initial conditions netCDF output file that contain spatial information such as the biomass of functional groups in boxes and layers.
+
+The best way to view these output files is using [Dive or Olive](how-to-view.qmd).
+
+The netCDF files do not follow the normal gridded netCDF structure that people are used to as the Atlantis model is a box model, not a grid model. The normal packages such as ncview will not work with Atlantis output netCDF files.
+
+The following netcdf output files contain data that is written out during the model run to give you an indication of what is happening in the model as it runs. The following parameters in the run.prm file as used to set when the data start being written to these files and at what frequency:
+
+toutstart 0 day # netCDF output start time  
+ toutinc 365 day # Write output with this periodicity - biol.nc, biolTOT.nc, biolPROD.nc  
+ toutfinc 365 day # Write fisheries output with this periodicity - CATCH.nc, TOTCATCH.nc
+- **biol.nc**
+
+This 3D (time, box, layer) contains snapshots of the tracers in the model at given time frequencies in each box and layer.
+- **biolTOT.nc**
+
+This 2D (time, box) output file contains a sum of the tracer values in each box.
+- **biolPROD.nc**
+
+This output file is useful during the model tuning process and contains 2D data (time, box) for each box. It contains the tracers for production and grazing for invertebrate groups, growth and consumption for each age class for each vertebrate group, and a number of indices such as the diversity index.
+- **CATCH.nc**
+
+  This output files contains cumulative values. All values are zeroed after they are written out. Tracers include:
+  - Catch per species per age class (cohort) in numbers
+  - Discards per species per age class (cohort) in numbers
+  - Catch per species per fishery (in tonnes) - that is the total tonnes taken from that box
+  - Discards per species per fishery (in tonnes) - that is the total tonnes taken from that box
+
+To convert the numbers to biomass you have to multiple by individual size-at-age (form [biol.nc](http://biol.nc)) and then * X_CN * mg_2_tonne where X_CN is the Redfield ratio specified in the biol.prm file (typically 5.7) and mg_2_tonne is 0.00000002
+- **TOTCATCH.nc**
+
+  This output files also contains cumulative values in tonnes. All values are zeroed after they are written out. Tracers include:
+  - Total catch per species
+  - Total recreational catch per species
+  - Total discards per species.
+- **ANNAGEBIO.nc**
+
+  This output provides numbers in each annual age class (so mapped from Atlantis "age class" which can contain multiple years to true annual age classes). Set flag_age_output to 1 to get this output. Tracers provided are:
+- - Numbers at age per species
+- **ANNAGECATCH.nc**
+
+This output provides numbers at annual age class (so mapped from Atlantis "age class" which can contain multiple years to true annual age classes) in the catch and discards (summed over all fleets). Set flag_age_output to 1 to get this output. Tracers provided are:
+- - Numbers at age per species in the catch
+  - Numbers at age per species in the discards
+
+---
+
+### Flat Files
+
+Biologically relevant output:
+- [BiomIndx.txt](biomindx.txt.qmd) - Biomass in tonnes of each species across the entire model domain
+- [DietCheck.txt](dietcheck.txt.qmd)- Indication of diet pressure
+- DetailedDietCheck.txt - This file is only produced if flagdietcheck is set to 1. The file produced provides the total biomass consumed of each prey species per age class of each predator species per box and layer.
+- YOY.txt - This is the biomass in tonnes per spawning event summed over the total model domain. In most models for most groups this means that only one value a year is meaningful (for those with multiple spawnings per year you may see different values depending on when the model writes to the YOY.txt file versus the time of the spawning). *This file used to have a bug (fixed as of Nov/Dec 2015) where it switched from storing biomass for the first value to numbers for subsequent years (yes another Beth wasn't paying attention to diagnostic output moment). If you have legacy runs from old model code either ignore the first entry or multiple subsequent entries by (KWRR_sp + KWSR_sp), but DO NOT multiply with the bm->X_CN * mg_2_tonne step to get to tonnes as the old code already does that (like I said, my apologies for not paying attention!)*
+
+Catch and fisheries relevant output
+- [BrokenStick.txt](brokenstick.qmd) - The output file that has been created to debug the broken stick management strategy.
+- Catch.txt - The total landings per species (in tonnes) across the entire model domain (summed over fisheries)
+- [CatchPerFishery.txt](catchperfishery.txt.qmd) - the catch of each species per fishery (in tonnes) across the entire model domain (summed over fisheries)
+- Discards - The total discards per species across the entire model domain (summed over fisheries)
+- DiscardsPerFishery.txt- the discards of each species per fishery across the entire model domain (summed over fisheries)
+
+---
+
+#### Log Files
+
+### Units:
+
+Biol.nc - 3D mg/m3 snapshots + s  
+ BiolTot.nc 2D T/km2 snapshot  
+ Catch.nc mg/m3 Cumulative  
+ CatchTOT.nc T/km2 cumulative  
+ biol.txt tonnes = shapshot  
+ catch.txt T cumulative  
+ catch per fishery.txt T cumulative  
+ discards.txt T cumulative  
+ effort.txx days cumulative

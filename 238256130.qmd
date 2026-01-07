@@ -1,0 +1,11 @@
+---
+title: "Stock Recruit parameters (Beverton Holt)"
+author: "Kaplan Issac"
+---
+
+If you are using Beverton Holt stock recruitment in Atlantis, there are at least two variants. If you use flagrecruit = 3, initial guesses of the BHalpha and BHbeta parameter may be taken from stock assessments. These will need to be tuned, but the attached spreadsheet can be used as a starting point. It requires that you obtain, from stock assessments:
+
+1. Estimates of unfished # of recruits
+2. Estimates of unfished spawning stock biomass (SSBo) (total biomass of adults, both sexes)
+3. Steepness (h) , where   h  = (# Recruits when SSB = 0.2 * SSBo)/  (# Recruits when SSB =  SSBo)  
+   The sheet then translates these into BHalpha and BHbeta.  This has been used for California Current and Chesapeake Models, and any fixes or improvements are welcome. You need to calibrate a lot, even after obtaining these initial conditions. [VertRecruitment_ForChesapeake.xls](/download/attachments/238256130/VertRecruitment_ForChesapeake.xls?version=1&modificationDate=1450720024240&api=v2)

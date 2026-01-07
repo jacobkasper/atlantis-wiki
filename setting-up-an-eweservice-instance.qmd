@@ -1,0 +1,45 @@
+---
+title: "Setting up an EwEService instance"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+*These are Mark's working notes; he doesn't do Windows that well, so there's a lot of guess-work going on here...*
+
+You will need access to the Ecopath code, and Visual Studio to build it. Instructions for this are located at <http://sources.ecopath.org/trac/Ecopath/wiki/DeveloperFAQ> (you may need an account to check out sources). You will need both Ecopath and Ecopath_Internal. To build, navigate to Ecopath6_Internal/TestProjects/EwEWCFServices in the file browser, and open EwEWCFServices.sln.
+
+To publish, right-click on the EwEWCFServices solution in the solution explorer (in Visual STudio), and click "Publish...". Select a target location (click the "..." button and browse to a folder, preferably in C:\Inetpub) and click Publish. Important: the web server user account must be able to access the folder (I had a bit of strife earlier when I left the default as the source in my home directory).
+
+The web.config file should be fine, apart from the identity section: replace the section <identity impersonate="true" userName="LOFP" password="break@10pm"/> with a username and password that has access to the files you need. (**need to check what actually runs as this**)
+
+Miscellaneous setup: right-click on the solution name -> Properties -> Web and check "Use Local IIS Web server. Enter the project url (eg, <http://localhost/EwEWCFServices>) and click "create virtual directory".
+
+#### Changing the EwE Model:
+
+Change the value in :  
+ c:/ewe/ecopath6_internal/sources/ewewebserver/eweatlantiswebservice/eweatlantiswebservice/eweatlantis.config
+
+Virtual Machine on Connie has been corrupted. So need to rebuild a new machine.
+
+Have copied the EwE code and the Atlantis code and run files from the corrupted machine.
+
+When i try to open the ewe files i get an error that says '*.csproj' cannot be open because its project type is not supported. I'm installing VS 2012 express for web - wouldn't install due to operating system. Trying 2010. Thats installing. Selected IIS not IIS express in the installer options.
+
+Installed IIS by googling IIS and windows XP. Found a direct download for IIS 6.0.
+
+Setting up on a Windows 7 machine.
+
+Install the IIS stuff using the control panel.
+
+Installed SQl 2008.
+
+Installed 2010 Web Developer express.
+
+Installed 2008 VS for Atlantis.
+
+Setup an IIS service for the AtlanyisEwE web server.
+
+Open 2010 Web Developer express as admin (right click on shortcut) Convert solution to 2010 getting the following warning:
+
+ASP .NET 3.5 has not been register on the web server....
+
+<http://beyondrelational.com/modules/2/blogs/48/posts/10055/walkthrough-on-creating-wcf-40-service-and-hosting-in-iis-75.aspx>

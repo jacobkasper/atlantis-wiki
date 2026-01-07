@@ -1,0 +1,30 @@
+---
+title: "Atlantis Ecosystem Model Wiki"
+---
+
+Welcome to the Atlantis Ecosystem Model documentation.
+
+## Quick Links
+
+- [Home Page](atlantis-ecosystem-model-home-page.qmd) - Main wiki homepage
+- [Documentation](atlantis-documentation.qmd) - Technical documentation
+- [FAQ](atlantis-faq.qmd) - Frequently asked questions
+- [Getting Help](getting-help.qmd) - How to get support
+- [Changelog](changelog.qmd) - Version history and updates
+
+## About Atlantis
+
+Atlantis is a deterministic biogeochemical whole-of-ecosystem model. It is designed to support ecosystem-based management and marine spatial planning by providing a realistic representation of the marine environment.
+
+## Getting Started
+
+If you're new to Atlantis, start with:
+
+1. [New User Workflow](new-user-atlantis-workflow.qmd)
+2. [Building Atlantis](building-atlantis.qmd)
+3. [Running Atlantis](running-atlantis.qmd)
+4. [Sample Input Files](sample-input-files.qmd)
+
+## Recent Updates
+
+See the [Changelog](changelog.qmd) for the latest updates and version history.

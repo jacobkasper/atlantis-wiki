@@ -1,0 +1,22 @@
+---
+title: "Eating code."
+date: "2009-01-20"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+The plan for today is to tidy up the calculations for prey availability.
+
+So i basically want to create a new array that can be used in the getPreyAvail to get the prey availability of a group. This way we can get rid of the checks in pSPageeat and pSPEat and just use one array.
+  
+So the new array will be in the ecology structure and it will be called
+  
+spPreyAvail
+  
+This seems to work fine - doing a longer run to check the results.
+
+If this is all fine i want to finish the conversion of the biology file to XML. This will allow me to really clean up the biology setup code.
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

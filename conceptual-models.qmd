@@ -1,0 +1,17 @@
+---
+title: "Conceptual Models"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+# Ice and Ice Algae
+
+Conceptual models of Sea ice and ice algae in the Arctic and Antarctic  
+![](attachments/43156530.png)
+
+###### Extra Notes:
+- Note for light limitation there is a threshold function - less than a minimum amount and it doesn’t happen
+- Photoacclimation and photoinhibition occur
+- Temperature dependent growth rates (humped relationship) with different species with different optima (so get seasonal succession)
+- No ice = no growth (pelagic phytoplankton take over when no ice)
+- Sinking important – rate is important for getting bloom timing right and for access by zooplankton
+- May need to add P as well (so need N, Si, Fe and P) - Phil Boyd (get advice off him on whether need Fe or not, might be needed for pelagic phytoplankton)

@@ -1,0 +1,30 @@
+---
+title: "Padding out mixing"
+date: "2014-08-28"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+Given that ROMS and other hydrodynamic models don't always resolve coastlines well you may find you have the odd small box that gets no fluxes. A very
+**crude**
+fix for this has been added to the physics.prm file of AtlantisDem. If this option is activated then if a box hasn't had any flow in/out for a user specified number of days Atlantis forcibly does some mixing with the matching layer of the adjacent boxes (with the amount exchanged scaled on their relative areas).
+
+This has meant adding a couple of extra parameters to the physics.prm file
+
+**If you do want to use this feature**
+
+fill_zero_exchange 1
+
+flush_threshold n
+
+where n is the number of days of no flow before it kicks in
+
+and then you need to (i) set the existing parameter wc_kz (already in physics.prm from ancient Atlantis days but not really used much anymore) to a reasonable value (e.g. 1.48e-9 or something of that order, you can then tune this up/down to get reasonable flow rates based on observations) and (ii) set use_fill_horizmix (add this to physics.orm) to 1 if you want to use the same horizmix as in your bgm file (used to scale the transport vetcors read in from hydro files) or 0 to just have base dispersion.
+
+**If you don't want to use it**
+
+fill_zero_exchange 0
+
+
+---
+
+[← Back to Changelog](../changelog.qmd)

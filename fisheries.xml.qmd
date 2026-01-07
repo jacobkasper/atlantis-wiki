@@ -1,0 +1,20 @@
+---
+title: "Fisheries.xml"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+### Fisheries Definition file.
+
+The number of fisheries is no longer fixed.
+
+| Parameter Name | Description |
+| --- | --- |
+
+} Code | The code to give the fishery. This is used to find values in the model input files |
+
+|  |  |
+| --- | --- |
+| Index | The index of the fishery - really just to help you keep count |
+| Name | The name of the fishery. This is used to construct the variables written to the output netCDF files for this fishery |
+| IsRec | A flag (0 or 1) to indicate if the fishery is a rec fishery. At present only a single rec fishery is supported but in the future you will be able to have more than one |
+| NumSubFleets | The number of subfleets. This is only applicable is the fishery is using the economic model (flageffortmodel == 13 (econ_model_effort)) |

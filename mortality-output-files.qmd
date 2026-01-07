@@ -1,0 +1,14 @@
+---
+title: "Mortality Output files"
+author: "Gorton, Bec (Environment, Hobart)"
+---
+
+## Mortality output files:
+
+Atlantis generates two additional text files that contain functional group mortality information.
+
+For the AMS model these files are called ams71_DynoutputRulesMort.txt and DynoutputRulesMortPerPred.txt
+
+The mortality per preditor file contains the mortality of each group due to each preditor.
+
+If the flagannual_Mest flag is set to true '1' in the run.prm file then these values are written to these output files annually. Otherwise these values are written out

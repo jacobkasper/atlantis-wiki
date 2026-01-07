@@ -1,0 +1,18 @@
+---
+title: "Antarctica"
+author: "Fulton, Beth (Environment, Hobart)"
+---
+
+# Antarctic Atlantis
+
+### Geometry
+
+[Draft model geometry](antarctic-model-geometry.qmd) for the East Antarctic Atlantis model
+
+### Components
+
+A list of the [biophysical components](model-components.qmd) to be included in the models
+
+### Conceptual models
+
+Ice algae - [conceptual models](conceptual-models.qmd) of Antarctic and Arctic ice and ice algae driving factors
